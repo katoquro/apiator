@@ -1,0 +1,60 @@
+/*
+ * Copyright 2014-2015 Ainrif <ainrif@outlook.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.ainrif.apiator.provider.jaxrs
+
+import com.ainrif.apiator.api.WebServiceProvider
+import com.ainrif.apiator.core.reflection.ContextStack
+import com.ainrif.apiator.core.reflection.MethodStack
+import com.ainrif.apiator.core.reflection.RUtils
+
+import javax.ws.rs.*
+import java.lang.annotation.Annotation
+import java.lang.reflect.Modifier
+import java.util.function.Predicate
+
+class JaxRsProvider implements WebServiceProvider {
+
+    List<Class<? extends Annotation>> wsAnnotations = [POST,
+                                                       GET,
+                                                       PUT,
+                                                       DELETE,
+                                                       OPTIONS,
+                                                       HEAD,
+                                                       Produces,
+                                                       QueryParam,
+                                                       QueryParam,
+                                                       Path,
+                                                       HttpMethod,
+                                                       HeaderParam,
+                                                       FormParam,
+                                                       DefaultValue,
+                                                       CookieParam,
+                                                       Consumes,
+                                                       BeanParam]
+
+    @Override
+    ContextStack getContextStack(Class<?> apiClass) {
+        new JaxRsContextStack(RUtils.getAllSuperTypes(apiClass));
+    }
+
+    @Override
+    List<MethodStack> getMethodStacks(ContextStack contextStack) {
+        def ctxStack = contextStack.asType(JaxRsContextStack)
+        RUtils.getAllMethods(contextStack.last(), { Modifier.isPublic(it.modifiers) } as Predicate)
+                .findAll { it.value.any { method -> wsAnnotations.any { method.isAnnotationPresent(it) } } }
+                .collect { signature, methods -> new JaxRsMethodStack(methods, ctxStack) }
+    }
+}

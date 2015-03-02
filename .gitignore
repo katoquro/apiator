@@ -1,0 +1,28 @@
+### IntelliJ ###
+*.iml
+*.ipr
+*.iws
+.idea/
+out/
+
+### Gradle ###
+# Exclude Folder List #
+.gradle/
+build/
+
+### Java ###
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+### Deploy ###
+rebel.xml
+
+### Docs ###
+/wiki
+
+## Exclusions ##
+!*gradle-wrapper.jar

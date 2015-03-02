@@ -1,0 +1,104 @@
+plugins {
+    id "com.jfrog.bintray" version "1.1"
+}
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'java'
+apply plugin: 'groovy'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+group = 'com.ainrif'
+version = '0.1.0'
+
+repositories {
+    jcenter()
+
+    maven {
+        url "http://dl.bintray.com/ainrif/maven"
+    }
+}
+
+dependencies {
+
+    compile "javax.servlet:javax.servlet-api:3.1.0"
+
+    compile "org.codehaus.groovy:groovy-all:2.4.1"
+
+    compile "org.slf4j:slf4j-api:1.7.9"
+    compile "org.slf4j:jcl-over-slf4j:1.7.9"
+    compile "org.slf4j:log4j-over-slf4j:1.7.9"
+    compile "ch.qos.logback:logback-classic:1.1.2"
+
+    compile "org.apache.commons:commons-lang3:3.3.2"
+    compile "org.reflections:reflections:0.9.9"
+    compile "javax.ws.rs:javax.ws.rs-api:2.0.1"
+
+    testCompile "org.spockframework:spock-core:1.0-groovy-2.4", {
+        exclude group: 'junit', module: 'junit-dep'
+        exclude group: 'org.hamcrest'
+        exclude group: 'org.codehaus.groovy', module: 'groovy-all'
+    }
+
+    testCompile "junit:junit:4.12", {
+        exclude group: 'org.hamcrest'
+    }
+
+    testCompile "org.hamcrest:hamcrest-all:1.3"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip"
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+bintray {
+    user = bintray_api_user
+    key = bintray_api_key
+
+    publications = ['mavenJava']
+
+    dryRun = false
+    publish = true
+    pkg {
+        repo = 'maven'
+        userOrg = 'ainrif'
+        name = rootProject.name
+        desc = 'Documentation generator for rest api on java'
+        websiteUrl = 'https://bitbucket.org/katoquro/apiator'
+        issueTrackerUrl = 'https://bitbucket.org/katoquro/apiator/issues'
+        vcsUrl = 'https://bitbucket.org/katoquro/apiator'
+        licenses = ['Apache-2.0']
+        labels = ['rest', 'api', 'docs']
+        publicDownloadNumbers = true
+        version {
+            vcsTag = project.version
+        }
+    }
+}
