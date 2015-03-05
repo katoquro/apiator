@@ -53,8 +53,11 @@ final class Helper {
     }
 
     static Map<String, ApiField> getTypeFields(Class<?> type) {
-        def props = Introspector.getBeanInfo(type)
-                .propertyDescriptors
+        def beanInfo = type.isInterface() ?
+                Introspector.getBeanInfo(type) :
+                Introspector.getBeanInfo(type, Object)
+
+        def props = beanInfo.propertyDescriptors
                 .collect {
             new ApiField(
                     name: it.name,
