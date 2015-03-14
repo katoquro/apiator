@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style type="text/css"> ${css} </style>
+    <script type="text/javascript"> ${js} </script>
+    <script type="text/x-handlebars-template" id="template">
+        <header class="navbar navbar-default navbar-fixed-top" id="top">
+            <div class="container">
+                <a href="#" class="navbar-brand">Core HTML Renderer</a>
+                <nav>
+                    <ul class="nav navbar-nav">
+                        <li><a href="#">Endpoints</a></li>
+                        <li><a href="#used-api-types">Types</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="https://bitbucket.org/katoquro/apiator">Apiator</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <div class="row" style="margin-top: 50px;">
+            <nav class="col-xs-3 complementary">
+                <ul id="sidebar" class="nav nav-stacked fixed">
+                    {{#each apiContexts}}
+                        <li>
+                            <a href="#{{hashCode title}}">{{title}}</a>
+                            <ul class="nav nav-stacked">
+                                {{#each apiEndpoints}}
+                                    <li><a href="#{{hashCode ../title}}-{{hashCode name}}">{{name}}</a></li>
+                                {{/each}}
+                            </ul>
+                        </li>
+                    {{/each}}
+                    <li>
+                        <a href="#used-api-types">Used Api Types</a>
+                        <ul class="nav nav-stacked">
+                            {{#each usedApiTypes}}
+                                <li><a href="#uat-{{hashCode type}}">{{shrinkByDots type}}</a></li>
+                            {{/each}}
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <!--Main Content -->
+            <div class="col-xs-9" role="main">
+                <h2>Endpoints</h2>
+                {{#each apiContexts}}
+                    <section id="{{hashCode title}}" class="group">
+                        <h3>{{title}}</h3>
+
+                        <p>{{apiPath}}</p>
+
+                        {{#each apiEndpoints}}
+                            <div id="{{hashCode../title}}-{{hashCode name}}" class="subgroup">
+                                <h4>{{name}}</h4>
+                                {{method}} {{path}}
+                            </div>
+                        {{/each}}
+                    </section>
+                {{/each}}
+                <hr/>
+                <section id=used-api-types class="group">
+                    <h2>Types</h2>
+
+                    {{#each usedApiTypes}}
+                        <div id="uat-{{hashCode type}}" class="subgroup">
+                            <h3>{{type}}</h3>
+
+                            <p>{{modelType}}</p>
+                        </div>
+                    {{/each}}
+                </section>
+            </div>
+        </div>
+    </script>
+</head>
+<body>
+<div id="doc-container"></div>
+</body>
+<style type="text/css">
+    body {
+        overflow-x: hidden;
+    }
+
+    .group {
+    }
+
+    .group .subgroup {
+        min-height: 45px;
+    }
+
+    .fixed {
+        position: fixed;
+    }
+
+    /* sidebar */
+    .complementary {
+    }
+
+    #sidebar {
+        overflow-y: scroll;
+        overflow-x: hidden;
+        padding-bottom: 10px;
+        width: 24%;
+    }
+
+    /* all links */
+    .complementary .nav > li > a {
+        color: #999;
+        border-left: 2px solid transparent;
+        padding: 4px 20px;
+        font-size: 13px;
+        font-weight: 400;
+    }
+
+    /* nested links */
+    .complementary .nav .nav > li > a {
+        padding-top: 1px;
+        padding-bottom: 1px;
+        padding-left: 30px;
+        font-size: 12px;
+    }
+
+    /* active & hover links */
+    .complementary .nav > .active > a,
+    .complementary .nav > li > a:hover,
+    .complementary .nav > li > a:focus {
+        color: #61AF61;
+        text-decoration: none;
+        background-color: transparent;
+        border-left-color: #61AF61;
+    }
+
+    /* all active links */
+    .complementary .nav > .active > a,
+    .complementary .nav > .active:hover > a,
+    .complementary .nav > .active:focus > a {
+        font-weight: 700;
+    }
+
+    /* nested active links */
+    .complementary .nav .nav > .active > a,
+    .complementary .nav .nav > .active:hover > a,
+    .complementary .nav .nav > .active:focus > a {
+        font-weight: 500;
+    }
+
+    /* hide inactive nested list */
+    .complementary .nav ul.nav {
+        display: none;
+    }
+
+    /* show active nested list */
+    .complementary .nav > .active > ul.nav {
+        display: block;
+    }
+</style>
+<script type="text/javascript">
+    var template = jq('#template');
+    var templateSrc = template.html();
+    template.remove();
+
+    Handlebars.registerHelper('hashCode', function (str) {
+        var hash = 0;
+        if (str.length == 0) return hash;
+        for (i = 0; i < str.length; i++) {
+            char = str.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash;
+        }
+        return hash;
+    });
+
+    Handlebars.registerHelper('shrinkByDots', function (str) {
+        var splitName = str.split(".");
+        var result = '';
+        for (var i = 0; i < splitName.length - 1; i++) {
+            result += splitName[i][0] + '.';
+        }
+        result += splitName[splitName.length - 1];
+        return result
+    });
+
+    jq('#doc-container')
+            .html(Handlebars.compile(templateSrc)(${json}));
+
+    jq('body').scrollspy({
+        target: '.complementary',
+        offset: 40
+    });
+
+    var adjustSidebar = function () {
+        jq('#sidebar').outerHeight(jq(window).height() - 50);
+    };
+    adjustSidebar();
+    jq(window).resize(adjustSidebar);
+</script>
+</html>

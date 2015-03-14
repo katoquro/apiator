@@ -13,18 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.writer.core
+package com.ainrif.apiator.api
 
-import com.ainrif.apiator.api.Writer
 import com.ainrif.apiator.core.model.api.ApiScheme
-import com.ainrif.apiator.writer.core.view.ApiSchemeView
-import groovy.json.JsonBuilder
 
-class CoreJsonWriter implements Writer {
-    @Override
-    String write(ApiScheme scheme) {
-        def apiScheme = new ApiSchemeView(scheme)
-
-        new JsonBuilder(apiScheme).toPrettyString()
-    }
+public interface Renderer {
+    String render(ApiScheme scheme)
 }

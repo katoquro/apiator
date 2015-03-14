@@ -70,7 +70,7 @@ class Apiator {
     }
 
     String render() {
-        config.writer.write(getScheme())
+        config.renderer.render(getScheme())
     }
 
     protected Set<Class<?>> scanForApi() {

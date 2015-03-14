@@ -15,17 +15,18 @@
  */
 package com.ainrif.apiator.core
 
+import com.ainrif.apiator.api.Renderer
 import com.ainrif.apiator.api.WebServiceProvider
 import com.ainrif.apiator.api.annotation.Api
 import com.ainrif.apiator.provider.jaxrs.JaxRsProvider
-import com.ainrif.apiator.writer.core.CoreJsonWriter
+import com.ainrif.apiator.writer.core.CoreJsonRenderer
 
 import java.lang.annotation.Annotation
 
 class ApiatorConfig {
     String basePackage = ''
     WebServiceProvider provider = new JaxRsProvider()
-    CoreJsonWriter writer = new CoreJsonWriter()
+    Renderer renderer = new CoreJsonRenderer()
     String basePath = '/api'
     String apiVersion = '1.0.0-SNAPSHOT'
     Class<Annotation> apiClass = Api;
