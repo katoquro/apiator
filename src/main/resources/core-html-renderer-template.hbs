@@ -47,28 +47,139 @@
             <div class="col-xs-9" role="main">
                 <h2>Endpoints</h2>
                 {{#each apiContexts}}
-                    <section id="{{hashCode title}}" class="group">
+                    <div class="target-marker" id="{{hashCode title}}"></div>
+                    <section>
                         <h3>{{title}}</h3>
 
                         <p>{{apiPath}}</p>
 
                         {{#each apiEndpoints}}
-                            <div id="{{hashCode../title}}-{{hashCode name}}" class="subgroup">
-                                <h4>{{name}}</h4>
-                                {{method}} {{path}}
+                            <div class="target-marker" id="{{hashCode ../title}}-{{hashCode name}}"></div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <span class="pull-right">{{name}}</span>
+                                    <span class="label label-default">{{method}}</span> {{path}}
+                                </div>
+                                <div class="panel-body">
+                                    <div>
+                                        return:
+                                        {{#if returnType.type}}
+                                            <a href="#uat-{{hashCode returnType.type}}">
+                                                <code>{{shrinkByDots returnType.type}}</code>
+                                            </a>
+                                        {{else}}
+                                            <code>{{returnType.modelType}}</code>
+                                        {{/if}}
+
+                                        {{#if returnType.basedOn}}
+                                            based on:
+                                            {{#each returnType.basedOn}}
+                                                <a href="#uat-{{hashCode this}}">
+                                                    <code>{{shrinkByDots this}}</code>
+                                                </a>
+                                            {{/each}}
+                                        {{/if}}
+                                    </div>
+                                    {{#if params}}
+                                        <div>
+                                            params:
+                                            {{#each params}}
+                                                {{#if type}}
+                                                    <a href="#uat-{{hashCode type}}">
+                                                        <code>{{shrinkByDots type}}</code>
+                                                    </a>
+                                                {{else}}
+                                                    <code>{{modelType}}</code>
+                                                {{/if}}
+
+                                                {{#if basedOn}}
+                                                    based on:
+                                                    {{#each basedOn}}
+                                                        <a href="#uat-{{hashCode this}}">
+                                                            <code>{{shrinkByDots this}}</code>
+                                                        </a>
+                                                    {{/each}}
+                                                {{/if}}
+                                            {{/each}}
+                                        </div>
+                                    {{/if}}
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <a class="btn btn-default btn-sm"
+                                               data-toggle="collapse"
+                                               href="#raw-{{hashCode ../title}}-{{hashCode name}}"
+                                               aria-controls="#raw-{{hashCode ../title}}-{{hashCode name}}"
+                                               aria-expanded="false">
+                                                Raw View
+                                            </a>
+
+                                            <div class="collapse" id="raw-{{hashCode ../title}}-{{hashCode name}}">
+                                                <pre>{{json this}}</pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         {{/each}}
                     </section>
                 {{/each}}
-                <hr/>
-                <section id=used-api-types class="group">
+                <div class="target-marker" id="used-api-types"></div>
+                <section>
                     <h2>Types</h2>
-
                     {{#each usedApiTypes}}
-                        <div id="uat-{{hashCode type}}" class="subgroup">
-                            <h3>{{type}}</h3>
+                        <div class="target-marker" id="uat-{{hashCode type}}"></div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                {{type}}
+                            </div>
+                            <div class="panel-body">
+                                {{#each fields}}
+                                    <div>
+                                        {{#if readable}}
+                                            <span class="label label-success">get</span>
+                                        {{else}}
+                                            <span class="label label-danger">get</span>
+                                        {{/if}}
+                                        {{#if writable}}
+                                            <span class="label label-success">set</span>
+                                        {{else}}
+                                            <span class="label label-danger">set</span>
+                                        {{/if}}
+                                        {{@key}} :
+                                        {{#if type}}
+                                            <a href="#uat-{{hashCode type}}">
+                                                <code>{{shrinkByDots type}}</code>
+                                            </a>
+                                        {{else}}
+                                            <code>{{modelType}}</code>
+                                        {{/if}}
+                                        {{#if basedOn}}
+                                            based on:
+                                            {{#each basedOn}}
+                                                <a href="#uat-{{hashCode this}}">
+                                                    <code>{{shrinkByDots this}}</code>
+                                                </a>
+                                            {{/each}}
+                                        {{/if}}
+                                    </div>
 
-                            <p>{{modelType}}</p>
+                                {{/each}}
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <a class="btn btn-default btn-sm"
+                                           data-toggle="collapse"
+                                           href="#raw-{{hashCode type}}"
+                                           aria-controls="#raw-{{hashCode type}}"
+                                           aria-expanded="false">
+                                            Raw View
+                                        </a>
+
+                                        <div class="collapse" id="raw-{{hashCode type}}">
+                                            <pre>{{json this}}</pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     {{/each}}
                 </section>
@@ -84,18 +195,19 @@
         overflow-x: hidden;
     }
 
-    .group {
-    }
-
-    .group .subgroup {
-        min-height: 45px;
+    .target-marker {
+        position: relative;
+        border-top: 52px solid transparent;
+        margin: -40px 0 0;
+        -webkit-background-clip: padding-box;
+        -moz-background-clip: padding;
+        background-clip: padding-box;
     }
 
     .fixed {
         position: fixed;
     }
 
-    /* sidebar */
     .complementary {
     }
 
@@ -109,7 +221,7 @@
     /* all links */
     .complementary .nav > li > a {
         color: #999;
-        border-left: 2px solid transparent;
+        border-left: 3px solid transparent;
         padding: 4px 20px;
         font-size: 13px;
         font-weight: 400;
@@ -165,8 +277,8 @@
     Handlebars.registerHelper('hashCode', function (str) {
         var hash = 0;
         if (str.length == 0) return hash;
-        for (i = 0; i < str.length; i++) {
-            char = str.charCodeAt(i);
+        for (var i = 0; i < str.length; i++) {
+            var char = str.charCodeAt(i);
             hash = ((hash << 5) - hash) + char;
             hash = hash & hash;
         }
@@ -181,6 +293,10 @@
         }
         result += splitName[splitName.length - 1];
         return result
+    });
+
+    Handlebars.registerHelper('json', function (data) {
+        return JSON.stringify(data, null, "  ");
     });
 
     jq('#doc-container')
