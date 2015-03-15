@@ -64,6 +64,6 @@ Now it supports one _provider_ and one _writer_
 
 ## How you can help
 
-* If you find some bugs please create an issue [here](https://bitbucket.org/katoquro/apiator/issues)
+* If you find some bugs please create an issue [here](https://bitbucket.org/ainrif/apiator/issues)
 * If you want to suggest or vote for feature, visit this [trello board](http://bit.ly/apiator_fr)
 * Or make a pool request with your feature

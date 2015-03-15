@@ -91,9 +91,9 @@ bintray {
         userOrg = 'ainrif'
         name = rootProject.name
         desc = 'Documentation generator for rest api on java'
-        websiteUrl = 'https://bitbucket.org/katoquro/apiator'
-        issueTrackerUrl = 'https://bitbucket.org/katoquro/apiator/issues'
-        vcsUrl = 'https://bitbucket.org/katoquro/apiator'
+        websiteUrl = 'https://bitbucket.org/ainrif/apiator'
+        issueTrackerUrl = 'https://bitbucket.org/ainrif/apiator/issues'
+        vcsUrl = 'https://bitbucket.org/ainrif/apiator'
         licenses = ['Apache-2.0']
         labels = ['rest', 'api', 'docs']
         publicDownloadNumbers = true
