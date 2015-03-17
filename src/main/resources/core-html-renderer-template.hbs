@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style type="text/css"> ${css} </style>
+    <script type="text/javascript"> ${js} </script>
+    <script type="text/x-handlebars-template" id="template">
+        <header class="navbar navbar-default navbar-fixed-top" id="top">
+            <div class="container">
+                <a href="#" class="navbar-brand">Core HTML Renderer</a>
+                <nav>
+                    <ul class="nav navbar-nav">
+                        <li><a href="#">Endpoints</a></li>
+                        <li><a href="#used-api-types">Types</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="https://bitbucket.org/katoquro/apiator">Apiator</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <div class="row" style="margin-top: 50px;">
+            <nav class="col-xs-3 complementary">
+                <ul id="sidebar" class="nav nav-stacked fixed">
+                    {{#each apiContexts}}
+                        <li>
+                            <a href="#{{hashCode title}}">{{title}}</a>
+                            <ul class="nav nav-stacked">
+                                {{#each apiEndpoints}}
+                                    <li><a href="#{{hashCode ../title}}-{{hashCode name}}">{{name}}</a></li>
+                                {{/each}}
+                            </ul>
+                        </li>
+                    {{/each}}
+                    <li>
+                        <a href="#used-api-types">Used Api Types</a>
+                        <ul class="nav nav-stacked">
+                            {{#each usedApiTypes}}
+                                <li><a href="#uat-{{hashCode type}}">{{shrinkByDots type}}</a></li>
+                            {{/each}}
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <!--Main Content -->
+            <div class="col-xs-9" role="main">
+                <h2>Endpoints</h2>
+                {{#each apiContexts}}
+                    <div class="target-marker" id="{{hashCode title}}"></div>
+                    <section>
+                        <h3>{{title}}</h3>
+
+                        <p>{{apiPath}}</p>
+
+                        {{#each apiEndpoints}}
+                            <div class="target-marker" id="{{hashCode ../title}}-{{hashCode name}}"></div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <span class="pull-right">{{name}}</span>
+                                    <span class="label label-default">{{method}}</span> {{path}}
+                                </div>
+                                <div class="panel-body">
+                                    <div>
+                                        return:
+                                        {{#if returnType.type}}
+                                            <a href="#uat-{{hashCode returnType.type}}">
+                                                <code>{{shrinkByDots returnType.type}}</code>
+                                            </a>
+                                        {{else}}
+                                            <code>{{returnType.modelType}}</code>
+                                        {{/if}}
+
+                                        {{#if returnType.basedOn}}
+                                            based on:
+                                            {{#each returnType.basedOn}}
+                                                <a href="#uat-{{hashCode this}}">
+                                                    <code>{{shrinkByDots this}}</code>
+                                                </a>
+                                            {{/each}}
+                                        {{/if}}
+                                    </div>
+                                    {{#if params}}
+                                        <div>
+                                            params:
+                                            {{#each params}}
+                                                {{#if type}}
+                                                    <a href="#uat-{{hashCode type}}">
+                                                        <code>{{shrinkByDots type}}</code>
+                                                    </a>
+                                                {{else}}
+                                                    <code>{{modelType}}</code>
+                                                {{/if}}
+
+                                                {{#if basedOn}}
+                                                    based on:
+                                                    {{#each basedOn}}
+                                                        <a href="#uat-{{hashCode this}}">
+                                                            <code>{{shrinkByDots this}}</code>
+                                                        </a>
+                                                    {{/each}}
+                                                {{/if}}
+                                            {{/each}}
+                                        </div>
+                                    {{/if}}
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <a class="btn btn-default btn-sm"
+                                               data-toggle="collapse"
+                                               href="#raw-{{hashCode ../title}}-{{hashCode name}}"
+                                               aria-controls="#raw-{{hashCode ../title}}-{{hashCode name}}"
+                                               aria-expanded="false">
+                                                Raw View
+                                            </a>
+
+                                            <div class="collapse" id="raw-{{hashCode ../title}}-{{hashCode name}}">
+                                                <pre>{{json this}}</pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {{/each}}
+                    </section>
+                {{/each}}
+                <div class="target-marker" id="used-api-types"></div>
+                <section>
+                    <h2>Types</h2>
+                    {{#each usedApiTypes}}
+                        <div class="target-marker" id="uat-{{hashCode type}}"></div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                {{type}}
+                            </div>
+                            <div class="panel-body">
+                                {{#each fields}}
+                                    <div>
+                                        {{#if readable}}
+                                            <span class="label label-success">get</span>
+                                        {{else}}
+                                            <span class="label label-danger">get</span>
+                                        {{/if}}
+                                        {{#if writable}}
+                                            <span class="label label-success">set</span>
+                                        {{else}}
+                                            <span class="label label-danger">set</span>
+                                        {{/if}}
+                                        {{@key}} :
+                                        {{#if type}}
+                                            <a href="#uat-{{hashCode type}}">
+                                                <code>{{shrinkByDots type}}</code>
+                                            </a>
+                                        {{else}}
+                                            <code>{{modelType}}</code>
+                                        {{/if}}
+                                        {{#if basedOn}}
+                                            based on:
+                                            {{#each basedOn}}
+                                                <a href="#uat-{{hashCode this}}">
+                                                    <code>{{shrinkByDots this}}</code>
+                                                </a>
+                                            {{/each}}
+                                        {{/if}}
+                                    </div>
+
+                                {{/each}}
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <a class="btn btn-default btn-sm"
+                                           data-toggle="collapse"
+                                           href="#raw-{{hashCode type}}"
+                                           aria-controls="#raw-{{hashCode type}}"
+                                           aria-expanded="false">
+                                            Raw View
+                                        </a>
+
+                                        <div class="collapse" id="raw-{{hashCode type}}">
+                                            <pre>{{json this}}</pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                </section>
+            </div>
+        </div>
+    </script>
+</head>
+<body>
+<div id="doc-container"></div>
+</body>
+<style type="text/css">
+    body {
+        overflow-x: hidden;
+    }
+
+    .target-marker {
+        position: relative;
+        border-top: 52px solid transparent;
+        margin: -40px 0 0;
+        -webkit-background-clip: padding-box;
+        -moz-background-clip: padding;
+        background-clip: padding-box;
+    }
+
+    .fixed {
+        position: fixed;
+    }
+
+    .complementary {
+    }
+
+    #sidebar {
+        overflow-y: scroll;
+        overflow-x: hidden;
+        padding-bottom: 10px;
+        width: 24%;
+    }
+
+    /* all links */
+    .complementary .nav > li > a {
+        color: #999;
+        border-left: 3px solid transparent;
+        padding: 4px 20px;
+        font-size: 13px;
+        font-weight: 400;
+    }
+
+    /* nested links */
+    .complementary .nav .nav > li > a {
+        padding-top: 1px;
+        padding-bottom: 1px;
+        padding-left: 30px;
+        font-size: 12px;
+    }
+
+    /* active & hover links */
+    .complementary .nav > .active > a,
+    .complementary .nav > li > a:hover,
+    .complementary .nav > li > a:focus {
+        color: #61AF61;
+        text-decoration: none;
+        background-color: transparent;
+        border-left-color: #61AF61;
+    }
+
+    /* all active links */
+    .complementary .nav > .active > a,
+    .complementary .nav > .active:hover > a,
+    .complementary .nav > .active:focus > a {
+        font-weight: 700;
+    }
+
+    /* nested active links */
+    .complementary .nav .nav > .active > a,
+    .complementary .nav .nav > .active:hover > a,
+    .complementary .nav .nav > .active:focus > a {
+        font-weight: 500;
+    }
+
+    /* hide inactive nested list */
+    .complementary .nav ul.nav {
+        display: none;
+    }
+
+    /* show active nested list */
+    .complementary .nav > .active > ul.nav {
+        display: block;
+    }
+</style>
+<script type="text/javascript">
+    var template = jq('#template');
+    var templateSrc = template.html();
+    template.remove();
+
+    Handlebars.registerHelper('hashCode', function (str) {
+        var hash = 0;
+        if (str.length == 0) return hash;
+        for (var i = 0; i < str.length; i++) {
+            var char = str.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash;
+        }
+        return hash;
+    });
+
+    Handlebars.registerHelper('shrinkByDots', function (str) {
+        var splitName = str.split(".");
+        var result = '';
+        for (var i = 0; i < splitName.length - 1; i++) {
+            result += splitName[i][0] + '.';
+        }
+        result += splitName[splitName.length - 1];
+        return result
+    });
+
+    Handlebars.registerHelper('json', function (data) {
+        return JSON.stringify(data, null, "  ");
+    });
+
+    jq('#doc-container')
+            .html(Handlebars.compile(templateSrc)(${json}));
+
+    jq('body').scrollspy({
+        target: '.complementary',
+        offset: 40
+    });
+
+    var adjustSidebar = function () {
+        jq('#sidebar').outerHeight(jq(window).height() - 50);
+    };
+    adjustSidebar();
+    jq(window).resize(adjustSidebar);
+</script>
+</html>
