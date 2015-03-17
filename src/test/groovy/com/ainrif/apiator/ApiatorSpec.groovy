@@ -38,6 +38,22 @@ class ApiatorSpec extends Specification {
         expect actual, notNullValue()
     }
 
+    def "Smoke test; should produce the same result each time"() {
+        given:
+        def apiator1 = new Apiator(new ApiatorConfig())
+        def apiator2 = new Apiator(new ApiatorConfig())
+        def apiator3 = new Apiator(new ApiatorConfig())
+
+        when:
+        def render1 = apiator1.render()
+        def render2 = apiator2.render()
+        def render3 = apiator3.render()
+
+        then:
+        render1 == render2
+        render2 == render3
+    }
+
     def "Smoke test; Core HTML Renderer"() {
         given:
         Apiator apiator = new Apiator(new ApiatorConfig(renderer: new CoreHtmlRenderer()))
