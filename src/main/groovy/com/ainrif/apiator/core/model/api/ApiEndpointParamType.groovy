@@ -18,5 +18,10 @@ package com.ainrif.apiator.core.model.api
 public enum ApiEndpointParamType {
     PATH,
     QUERY,
-    BODY
+
+    HEADER,
+    COOKIE,
+    FORM,
+
+    BODY,
 }

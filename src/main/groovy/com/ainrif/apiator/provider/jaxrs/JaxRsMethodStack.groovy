@@ -17,8 +17,10 @@ package com.ainrif.apiator.provider.jaxrs
 
 import com.ainrif.apiator.core.model.api.*
 import com.ainrif.apiator.core.reflection.MethodStack
+import com.ainrif.apiator.core.reflection.ParamSignature
 
 import javax.ws.rs.*
+import java.lang.annotation.Annotation
 import java.lang.reflect.Method
 
 class JaxRsMethodStack extends MethodStack {
@@ -82,36 +84,27 @@ class JaxRsMethodStack extends MethodStack {
         def result = []
         def annotations = getParametersAnnotationsLists()
 
-        result += filterParametersAnnotationsLists(annotations, PathParam).collect {
-            def parameter = this.last().parameters[it.key.index]
-            new ApiEndpointParam(
-                    index: it.key.index,
-                    name: parameter.name,
-                    type: new ApiType(parameter.parameterizedType),
-                    httpParamType: ApiEndpointParamType.PATH
-            )
-        }
-
-        result += filterParametersAnnotationsLists(annotations, QueryParam).collect {
-            def parameter = this.last().parameters[it.key.index]
-            new ApiEndpointParam(
-                    index: it.key.index,
-                    name: parameter.name,
-                    type: new ApiType(parameter.parameterizedType),
-                    httpParamType: ApiEndpointParamType.QUERY
-            )
-        }
-
-        result += filterParametersAnnotationsLists(annotations, null).collect {
-            def parameter = this.last().parameters[it.key.index]
-            new ApiEndpointParam(
-                    index: it.key.index,
-                    name: parameter.name,
-                    type: new ApiType(parameter.parameterizedType),
-                    httpParamType: ApiEndpointParamType.BODY
-            )
-        }
+        result += processParamAnnotation(annotations, PathParam, ApiEndpointParamType.PATH)
+        result += processParamAnnotation(annotations, QueryParam, ApiEndpointParamType.QUERY)
+        result += processParamAnnotation(annotations, HeaderParam, ApiEndpointParamType.HEADER)
+        result += processParamAnnotation(annotations, CookieParam, ApiEndpointParamType.COOKIE)
+        result += processParamAnnotation(annotations, FormParam, ApiEndpointParamType.FORM)
+        result += processParamAnnotation(annotations, null, ApiEndpointParamType.BODY)
 
         result
+    }
+
+    private List<ApiEndpointParam> processParamAnnotation(Map<ParamSignature, List<? extends Annotation>> annotations,
+                                                          Class<? extends Annotation> filterAnnotation,
+                                                          ApiEndpointParamType paramType) {
+        filterParametersAnnotationsLists(annotations, filterAnnotation).collect {
+            def parameter = this.last().parameters[it.key.index]
+            new ApiEndpointParam(
+                    index: it.key.index,
+                    name: it.value ? it.value.last().value() : null,
+                    type: new ApiType(parameter.parameterizedType),
+                    httpParamType: paramType
+            )
+        }
     }
 }
