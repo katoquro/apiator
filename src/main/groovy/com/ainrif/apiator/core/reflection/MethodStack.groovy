@@ -73,7 +73,7 @@ abstract class MethodStack extends ArrayList<Method> {
     /**
      * collects annotations from method parameters from hierarchy tree
      *
-     * @return [ < param signature > :[inherited annotations]]
+     * @return [ < param signature > : [inherited annotations] ]
      */
     public Map<ParamSignature, List<? extends Annotation>> getParametersAnnotationsLists() {
         Map<ParamSignature, List<? extends Annotation>> result = new HashMap<>().withDefault { [] }

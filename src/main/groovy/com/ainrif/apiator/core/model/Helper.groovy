@@ -52,7 +52,10 @@ final class Helper {
         return ModelType.OBJECT
     }
 
-    static Map<String, ApiField> getTypeFields(Class<?> type) {
+    /**
+     * @return [ < field name > : < field type > ]
+     */
+    static Map<String, ApiField> getFieldsTypes(Class<?> type) {
         def beanInfo = type.isInterface() ?
                 Introspector.getBeanInfo(type) :
                 Introspector.getBeanInfo(type, Object)

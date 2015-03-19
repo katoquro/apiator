@@ -13,15 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.model.api
+package com.ainrif.apiator.test.model.jaxrs;
 
-public enum ApiEndpointParamType {
-    PATH,
-    QUERY,
+import javax.ws.rs.CookieParam;
+import javax.ws.rs.QueryParam;
 
-    HEADER,
-    COOKIE,
-    FORM,
-
-    BODY,
+public class ParamsWrapper {
+    @QueryParam("BP_public_query") public String queryParam;
+    @CookieParam("BP_private_query") private String cookieParam;
 }
