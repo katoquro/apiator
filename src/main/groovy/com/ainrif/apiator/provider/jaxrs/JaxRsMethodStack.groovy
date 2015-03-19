@@ -18,12 +18,20 @@ package com.ainrif.apiator.provider.jaxrs
 import com.ainrif.apiator.core.model.api.*
 import com.ainrif.apiator.core.reflection.MethodStack
 import com.ainrif.apiator.core.reflection.ParamSignature
+import com.ainrif.apiator.core.reflection.RUtils
 
 import javax.ws.rs.*
 import java.lang.annotation.Annotation
+import java.lang.reflect.Field
 import java.lang.reflect.Method
+import java.util.function.Predicate
 
 class JaxRsMethodStack extends MethodStack {
+
+    private final static def paramAnnotations = [FormParam, QueryParam, HeaderParam, CookieParam, FormParam];
+    private final static Predicate<Field> testFieldAnnotations = { field ->
+        paramAnnotations.any { field.isAnnotationPresent(it) }
+    }
 
     private JaxRsContextStack context;
 
@@ -81,30 +89,66 @@ class JaxRsMethodStack extends MethodStack {
 
     @Override
     List<ApiEndpointParam> getParams() {
-        def result = []
         def annotations = getParametersAnnotationsLists()
+        def result = []
 
-        result += processParamAnnotation(annotations, PathParam, ApiEndpointParamType.PATH)
-        result += processParamAnnotation(annotations, QueryParam, ApiEndpointParamType.QUERY)
-        result += processParamAnnotation(annotations, HeaderParam, ApiEndpointParamType.HEADER)
-        result += processParamAnnotation(annotations, CookieParam, ApiEndpointParamType.COOKIE)
-        result += processParamAnnotation(annotations, FormParam, ApiEndpointParamType.FORM)
-        result += processParamAnnotation(annotations, null, ApiEndpointParamType.BODY)
+        result += paramAnnotations.collect { processParamAnnotation(annotations, it) }.flatten()
+        result += processParamAnnotation(annotations, null)
+
+        filterParametersAnnotationsLists(annotations, BeanParam).collect {
+            def parameter = this.last().parameters[it.key.index]
+
+            result += RUtils.getAllFields(parameter.type, testFieldAnnotations).collect {
+                def annotation = it.annotations.find { paramAnnotations.contains(it.annotationType()) }
+                new ApiEndpointParam(
+                        index: -1,
+                        name: annotation.value(),
+                        type: new ApiType(it.genericType),
+                        httpParamType: httpParamTypeFor(annotation.annotationType())
+                )
+            }
+        }
 
         result
     }
 
     private List<ApiEndpointParam> processParamAnnotation(Map<ParamSignature, List<? extends Annotation>> annotations,
-                                                          Class<? extends Annotation> filterAnnotation,
-                                                          ApiEndpointParamType paramType) {
+                                                          Class<? extends Annotation> filterAnnotation) {
         filterParametersAnnotationsLists(annotations, filterAnnotation).collect {
             def parameter = this.last().parameters[it.key.index]
             new ApiEndpointParam(
                     index: it.key.index,
                     name: it.value ? it.value.last().value() : null,
                     type: new ApiType(parameter.parameterizedType),
-                    httpParamType: paramType
+                    httpParamType: httpParamTypeFor(filterAnnotation)
             )
         }
+    }
+
+    private static ApiEndpointParamType httpParamTypeFor(Class<? extends Annotation> annotation) {
+        def result
+        switch (annotation) {
+            case PathParam:
+                result = ApiEndpointParamType.PATH
+                break
+            case QueryParam:
+                result = ApiEndpointParamType.QUERY
+                break
+            case HeaderParam:
+                result = ApiEndpointParamType.HEADER
+                break
+            case CookieParam:
+                result = ApiEndpointParamType.COOKIE
+                break
+            case FormParam:
+                result = ApiEndpointParamType.FORM
+                break
+            case null:
+                result = ApiEndpointParamType.BODY
+                break
+            default: throw new RuntimeException('UNSUPPORTED HTTP ENDPOINT PARAM')
+        }
+
+        result
     }
 }
