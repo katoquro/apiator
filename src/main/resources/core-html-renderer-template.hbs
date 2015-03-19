@@ -84,6 +84,8 @@
                                         <div>
                                             params:
                                             {{#each params}}
+                                                <span class="label label-primary">@{{httpParamType}}</span>
+                                                : {{name}}
                                                 {{#if type}}
                                                     <a href="#uat-{{hashCode type}}">
                                                         <code>{{shrinkByDots type}}</code>
@@ -100,6 +102,8 @@
                                                         </a>
                                                     {{/each}}
                                                 {{/if}}
+                                                <br/>
+                                                <span style="display:inline-block; width:51px"></span>
                                             {{/each}}
                                         </div>
                                     {{/if}}
@@ -297,6 +301,13 @@
 
     Handlebars.registerHelper('json', function (data) {
         return JSON.stringify(data, null, "  ");
+    });
+
+    Handlebars.registerHelper('ifCond', function (v1, v2, options) {
+        if (v1 === v2) {
+            return options.fn(this);
+        }
+        return options.inverse(this);
     });
 
     jq('#doc-container')
