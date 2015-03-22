@@ -15,7 +15,6 @@
  */
 package com.ainrif.apiator.test.model.jaxrs;
 
-public class Dto2 {
+public class DtoNested {
     public int publicField = 42;
-    public DtoNested dtoNested;
 }

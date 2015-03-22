@@ -15,7 +15,6 @@
  */
 package com.ainrif.apiator.core.reflection
 
-import com.ainrif.apiator.core.model.ModelType
 import com.ainrif.apiator.core.model.api.ApiEndpointMethod
 import com.ainrif.apiator.core.model.api.ApiEndpointParam
 import com.ainrif.apiator.core.model.api.ApiEndpointReturnType
@@ -24,6 +23,9 @@ import com.ainrif.apiator.core.model.api.ApiType
 import javax.annotation.Nullable
 import java.lang.annotation.Annotation
 import java.lang.reflect.Method
+
+import static com.ainrif.apiator.core.model.ModelType.ENUMERATION
+import static com.ainrif.apiator.core.model.ModelType.OBJECT
 
 /**
  * List of method overrides from parent (interface/superclass) to child (implementation)
@@ -46,37 +48,24 @@ abstract class MethodStack extends ArrayList<Method> {
 
     /**
      * collects java types from params and return values
-     *
-     * @return
      */
     public Set<ApiType> getUsedApiTypes() {
-        (params.collect { it.type } << returnType.type)
-                .collect { it.generic ? it.flattenArgumentTypes() : it }
-                .flatten()
-                .collect { ApiType type -> type.array ? new ApiType(type.arrayType) : type }
-                .findAll { ApiType type -> ModelType.OBJECT == type.modelType }
-                .findAll { ApiType type -> Object.class != type.rawType }
-                .toSet()
+        collectAllUsedTypes()
+                .findAll { OBJECT == it.modelType }
     }
 
     /**
      * collects java Enums from params and return values
-     *
-     * @return
      */
     public Set<ApiType> getUsedEnumerations() {
-        (params.collect { it.type } << returnType.type)
-                .collect { it.generic ? it.flattenArgumentTypes() : it }
-                .flatten()
-                .findAll { ApiType type -> ModelType.ENUMERATION == type.modelType }
-                .toSet()
+        collectAllUsedTypes()
+                .findAll { ENUMERATION == it.modelType }
     }
 
     /**
      * collects annotations from method hierarchy tree
      *
      * @param annotationClass
-     * @return
      */
     public <T extends Annotation> List<T> getAnnotationList(Class<T> annotationClass) {
         this.findAll { it.isAnnotationPresent(annotationClass) }
@@ -100,6 +89,7 @@ abstract class MethodStack extends ArrayList<Method> {
         result
     }
 
+    protected
     static <T extends Annotation> Map<ParamSignature, List<? extends Annotation>> filterParametersAnnotationsLists(
             Map<ParamSignature, List<? extends Annotation>> annotations, @Nullable Class<T> type) {
         def result;
@@ -117,4 +107,37 @@ abstract class MethodStack extends ArrayList<Method> {
         result
     }
 
+    //todo think about optimization
+    private Set<ApiType> collectAllUsedTypes() {
+        Set<ApiType> types = []
+
+        def nextLookup = (params.collect { it.type } << returnType.type)
+        while (nextLookup) {
+            def typesToLookup = nextLookup
+                    .collect { it.generic ? it.flattenArgumentTypes() : it }
+                    .flatten()
+                    .collect { ApiType type -> type.array ? new ApiType(type.arrayType) : type }
+                    .findAll(MethodStack.testTypeIsNotPrimitive)
+
+            def typesFromFields = typesToLookup
+                    .collect({
+                it.rawType.fields
+                        .collect { new ApiType(it.type) }
+                        .findAll(MethodStack.testTypeIsNotPrimitive)
+            })
+                    .flatten()
+                    .minus(typesToLookup)
+
+            types += typesToLookup
+            types += typesFromFields
+
+            nextLookup = typesFromFields.findAll { OBJECT == it.modelType }
+        }
+
+        types
+    }
+
+    private static Closure<Boolean> testTypeIsNotPrimitive = { ApiType type ->
+        [ENUMERATION, OBJECT].any { it == type.modelType } && Object.class != type.rawType
+    }
 }
