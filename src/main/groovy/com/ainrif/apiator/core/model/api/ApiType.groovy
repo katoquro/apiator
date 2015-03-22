@@ -40,6 +40,12 @@ class ApiType {
                 false
     }
 
+    boolean isEnum() {
+        type instanceof Class ?
+                type.asType(Class).isEnum() :
+                false
+    }
+
     Class<?> getRawType() {
         if (generic) {
             return type.asType(ParameterizedType).rawType.asType(Class)

@@ -53,13 +53,19 @@ class Apiator {
                             method: it.method,
                             returnType: it.returnType,
                             params: it.params,
+                            usedEnumerations: it.usedEnumerations,
                             usedApiTypes: it.usedApiTypes)
                 }
+
+                apiCtx.usedEnumerations = apiCtx.apiEndpoints
+                        .collect { it.usedEnumerations }
+                        .flatten()
 
                 apiCtx.usedApiTypes = apiCtx.apiEndpoints
                         .collect { it.usedApiTypes }
                         .flatten()
 
+                scheme.usedEnumerations += apiCtx.usedEnumerations
                 scheme.usedApiTypes += apiCtx.usedApiTypes
 
                 scheme.apiContexts << apiCtx

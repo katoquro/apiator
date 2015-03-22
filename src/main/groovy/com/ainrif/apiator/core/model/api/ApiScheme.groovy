@@ -19,5 +19,6 @@ class ApiScheme {
     String version
     String basePath
     List<ApiContext> apiContexts = []
+    Set<ApiType> usedEnumerations = []
     Set<ApiType> usedApiTypes = []
 }

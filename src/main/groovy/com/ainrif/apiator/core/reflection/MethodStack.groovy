@@ -60,6 +60,19 @@ abstract class MethodStack extends ArrayList<Method> {
     }
 
     /**
+     * collects java Enums from params and return values
+     *
+     * @return
+     */
+    public Set<ApiType> getUsedEnumerations() {
+        (params.collect { it.type } << returnType.type)
+                .collect { it.generic ? it.flattenArgumentTypes() : it }
+                .flatten()
+                .findAll { ApiType type -> ModelType.ENUMERATION == type.modelType }
+                .toSet()
+    }
+
+    /**
      * collects annotations from method hierarchy tree
      *
      * @param annotationClass
