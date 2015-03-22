@@ -13,14 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.model.api
+package com.ainrif.apiator.test.model.jaxrs;
 
-class ApiEndpoint {
-    String name
-    String path
-    ApiEndpointMethod method
-    ApiEndpointReturnType returnType
-    List<ApiEndpointParam> params
-    Set<ApiType> usedEnumerations
-    Set<ApiType> usedApiTypes
+public class DtoNested {
+    public int publicField = 42;
 }

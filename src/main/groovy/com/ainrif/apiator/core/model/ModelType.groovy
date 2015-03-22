@@ -16,11 +16,11 @@
 package com.ainrif.apiator.core.model
 
 public enum ModelType {
-    OBJECT, DICTIONARY, VOID, BYTE,
+    OBJECT, ENUMERATION, DICTIONARY, VOID,
 
     ARRAY, SET,
 
-    BOOLEAN, INTEGER, LONG, FLOAT, DOUBLE, STRING,
+    BOOLEAN, BYTE, INTEGER, LONG, FLOAT, DOUBLE, STRING,
 
     DATE
 }

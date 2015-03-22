@@ -25,7 +25,7 @@ abstract class ModelTypeBasedView {
 
     ModelTypeBasedView(ApiType type) {
         this.modelType = type.modelType
-        this.type = ModelType.OBJECT == type.modelType ? type.rawType.name : null
+        this.type = [ModelType.OBJECT, ModelType.ENUMERATION].any { it == type.modelType } ? type.rawType.name : null
         this.basedOn = type.array ?
                 [type.arrayType.name] :
                 type.flattenArgumentTypes().collect { it.rawType.name }

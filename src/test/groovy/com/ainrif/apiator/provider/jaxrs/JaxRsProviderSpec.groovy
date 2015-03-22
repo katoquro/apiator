@@ -37,7 +37,8 @@ class JaxRsProviderSpec extends Specification {
                              'getDtoTypeValue',
                              'getDtoWildcardType',
                              'doVoidMethod',
-                             'getByteArray']
+                             'getByteArray',
+                             'setStatus']
 
         when:
         def actual = provider.getMethodStacks(contextStack)

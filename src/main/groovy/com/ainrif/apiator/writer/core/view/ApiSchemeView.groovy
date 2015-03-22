@@ -22,12 +22,15 @@ class ApiSchemeView {
     String version
     String basePath
     List<ApiContextView> apiContexts = []
+    List<ApiEnumerationView> usedEnumerations = []
     List<ApiTypeView> usedApiTypes = []
 
     ApiSchemeView(ApiScheme scheme) {
         this.version = scheme.version
         this.basePath = scheme.basePath
         this.apiContexts = scheme.apiContexts.collect { new ApiContextView(it) }
+        this.usedEnumerations = scheme.usedEnumerations.collect { new ApiEnumerationView(it) }
+
         this.usedApiTypes = scheme.usedApiTypes.collect {
             Map<String, ApiFieldView> fields = Helper
                     .getFieldsTypes(it.rawType)
