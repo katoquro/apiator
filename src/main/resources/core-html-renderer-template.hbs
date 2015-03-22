@@ -12,6 +12,7 @@
                 <nav>
                     <ul class="nav navbar-nav">
                         <li><a href="#">Endpoints</a></li>
+                        <li><a href="#used-enumerations">Enumerations</a></li>
                         <li><a href="#used-api-types">Types</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
@@ -33,6 +34,14 @@
                             </ul>
                         </li>
                     {{/each}}
+                    <li>
+                        <a href="#used-enumerations">Used Enumerations</a>
+                        <ul class="nav nav-stacked">
+                            {{#each usedEnumerations}}
+                                <li><a href="#uat-{{hashCode type}}">{{shrinkByDots type}}</a></li>
+                            {{/each}}
+                        </ul>
+                    </li>
                     <li>
                         <a href="#used-api-types">Used Api Types</a>
                         <ul class="nav nav-stacked">
@@ -127,6 +136,39 @@
                         {{/each}}
                     </section>
                 {{/each}}
+                <div class="target-marker" id="used-enumerations"></div>
+                <section>
+                    <h2>Enumerations</h2>
+                    {{#each usedEnumerations}}
+                        <div class="target-marker" id="uat-{{hashCode type}}"></div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                {{type}}
+                            </div>
+                            <div class="panel-body">
+                                possible values:
+                                {{#each values}}
+                                    <code>{{this}}</code>
+                                {{/each}}
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <a class="btn btn-default btn-sm"
+                                           data-toggle="collapse"
+                                           href="#raw-{{hashCode type}}"
+                                           aria-controls="#raw-{{hashCode type}}"
+                                           aria-expanded="false">
+                                            Raw View
+                                        </a>
+
+                                        <div class="collapse" id="raw-{{hashCode type}}">
+                                            <pre>{{json this}}</pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                </section>
                 <div class="target-marker" id="used-api-types"></div>
                 <section>
                     <h2>Types</h2>
