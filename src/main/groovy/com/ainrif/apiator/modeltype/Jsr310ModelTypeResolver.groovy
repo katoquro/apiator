@@ -13,23 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core
+package com.ainrif.apiator.modeltype
 
 import com.ainrif.apiator.api.ModelTypeResolver
-import com.ainrif.apiator.api.Renderer
-import com.ainrif.apiator.api.WebServiceProvider
-import com.ainrif.apiator.api.annotation.Api
-import com.ainrif.apiator.provider.jaxrs.JaxRsProvider
-import com.ainrif.apiator.writer.core.CoreJsonRenderer
+import com.ainrif.apiator.core.model.ModelType
 
-import java.lang.annotation.Annotation
+import java.time.temporal.Temporal
 
-class ApiatorConfig {
-    String basePackage = ''
-    WebServiceProvider provider = new JaxRsProvider()
-    Renderer renderer = new CoreJsonRenderer()
-    List<ModelTypeResolver> modelTypeResolvers
-    String basePath = '/api'
-    String apiVersion = '1.0.0-SNAPSHOT'
-    Class<Annotation> apiClass = Api;
+class Jsr310ModelTypeResolver implements ModelTypeResolver {
+    @Override
+    ModelType resolve(Class<?> type) {
+        if (Temporal.isAssignableFrom(type)) return ModelType.DATE
+
+        return null
+    }
 }

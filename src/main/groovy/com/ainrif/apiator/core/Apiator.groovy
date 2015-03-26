@@ -15,6 +15,7 @@
  */
 package com.ainrif.apiator.core
 
+import com.ainrif.apiator.core.model.Helper
 import com.ainrif.apiator.core.model.api.ApiContext
 import com.ainrif.apiator.core.model.api.ApiEndpoint
 import com.ainrif.apiator.core.model.api.ApiScheme
@@ -33,6 +34,9 @@ class Apiator {
 
     Apiator(ApiatorConfig config) {
         this.config = config
+        if (config.modelTypeResolvers) {
+            Helper.modelTypeResolverList = config.modelTypeResolvers
+        }
     }
 
     ApiScheme getScheme() {
