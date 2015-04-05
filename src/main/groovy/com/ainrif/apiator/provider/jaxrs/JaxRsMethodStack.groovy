@@ -28,9 +28,9 @@ import java.util.function.Predicate
 
 class JaxRsMethodStack extends MethodStack {
 
-    private final static def paramAnnotations = [FormParam, QueryParam, HeaderParam, CookieParam, FormParam];
+    private final static def SIMPLE_PARAM_ANNOTATIONS = [PathParam, FormParam, QueryParam, HeaderParam, CookieParam];
     private final static Predicate<Field> testFieldAnnotations = { field ->
-        paramAnnotations.any { field.isAnnotationPresent(it) }
+        SIMPLE_PARAM_ANNOTATIONS.any { field.isAnnotationPresent(it) }
     }
 
     private JaxRsContextStack context;
@@ -87,19 +87,32 @@ class JaxRsMethodStack extends MethodStack {
         )
     }
 
+    //todo tests for annotated body params
     @Override
     List<ApiEndpointParam> getParams() {
         def annotations = getParametersAnnotationsLists()
         def result = []
 
-        result += paramAnnotations.collect { processParamAnnotation(annotations, it) }.flatten()
-        result += processParamAnnotation(annotations, null)
+        // explicitly annotated params
+        result += SIMPLE_PARAM_ANNOTATIONS.collect { processParamAnnotation(annotations, it) }.flatten()
 
+        // implicit BODY param
+        result += filterOutParametersAnnotationsLists(annotations, SIMPLE_PARAM_ANNOTATIONS + BeanParam).collect {
+            def parameter = this.last().parameters[it.key.index]
+            new ApiEndpointParam(
+                    index: it.key.index,
+                    name: null,
+                    type: new ApiType(parameter.parameterizedType),
+                    httpParamType: ApiEndpointParamType.BODY
+            )
+        }
+
+        // complex BeanParams
         filterParametersAnnotationsLists(annotations, BeanParam).collect {
             def parameter = this.last().parameters[it.key.index]
 
             result += RUtils.getAllFields(parameter.type, testFieldAnnotations).collect {
-                def annotation = it.annotations.find { paramAnnotations.contains(it.annotationType()) }
+                def annotation = it.annotations.find { SIMPLE_PARAM_ANNOTATIONS.contains(it.annotationType()) }
                 new ApiEndpointParam(
                         index: -1,
                         name: annotation.value(),
@@ -142,9 +155,6 @@ class JaxRsMethodStack extends MethodStack {
                 break
             case FormParam:
                 result = ApiEndpointParamType.FORM
-                break
-            case null:
-                result = ApiEndpointParamType.BODY
                 break
             default: throw new RuntimeException('UNSUPPORTED HTTP ENDPOINT PARAM')
         }

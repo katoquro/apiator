@@ -181,12 +181,8 @@
                             <div class="panel-body">
                                 {{#each fields}}
                                     <div>
+                                        <!--inverse of access logic means ui can set/get params-->
                                         {{#if readable}}
-                                            <span class="label label-success">get</span>
-                                        {{else}}
-                                            <span class="label label-danger">get</span>
-                                        {{/if}}
-                                        {{#if writable}}
                                             <span class="label label-success">set</span>
                                         {{else}}
                                             <span class="label label-danger">set</span>

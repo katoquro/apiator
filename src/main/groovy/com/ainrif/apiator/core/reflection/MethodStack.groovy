@@ -95,9 +95,9 @@ abstract class MethodStack extends ArrayList<Method> {
         def result;
         if (type) {
             result = annotations
-            // all annotated params
+            // select all stacks which contain annotated param
                     .findAll { it.value.any { type.isAssignableFrom(it.class) } }
-            // only annotated stack items
+            // select only annotated items from stack
                     .collectEntries { k, v -> [k, v.findAll { type.isAssignableFrom(it.class) }] }
         } else {
             // find all not annotated params
@@ -105,6 +105,14 @@ abstract class MethodStack extends ArrayList<Method> {
         }
 
         result
+    }
+
+    protected
+    static <T extends Annotation> Map<ParamSignature, List<? extends Annotation>> filterOutParametersAnnotationsLists(
+            Map<ParamSignature, List<? extends Annotation>> annotations, List<Class<T>> types) {
+        annotations
+        // select all stacks which don't contain annotated param
+                .findAll { !it.value.any { at -> types.any { it.isAssignableFrom(at.class) } } }
     }
 
     //todo think about optimization
