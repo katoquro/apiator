@@ -11,6 +11,12 @@ targetCompatibility = 1.8
 group = 'com.ainrif'
 version = '0.2.0-SNAPSHOT'
 
+ext.sharedManifest = manifest {
+    attributes 'Implementation-Vendor': 'com.ainrif',
+            'Implementation-Title': 'apiator',
+            'Implementation-Version': version
+}
+
 repositories {
     jcenter()
 
@@ -59,14 +65,26 @@ task wrapper(type: Wrapper) {
     distributionUrl = "https://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip"
 }
 
+jar {
+    manifest {
+        from sharedManifest
+    }
+}
+
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
     from sourceSets.main.allSource
+    manifest {
+        from sharedManifest
+    }
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
     from javadoc.destinationDir
+    manifest {
+        from sharedManifest
+    }
 }
 
 publishing {

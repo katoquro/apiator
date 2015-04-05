@@ -29,11 +29,13 @@ import org.reflections.util.FilterBuilder
 class Apiator {
 
     private ApiatorConfig config;
+    private ApiatorInfo info;
 
     private ApiScheme scheme
 
     Apiator(ApiatorConfig config) {
         this.config = config
+        this.info = new ApiatorInfo()
         if (config.modelTypeResolvers) {
             Helper.modelTypeResolverList = config.modelTypeResolvers
         }
@@ -41,7 +43,11 @@ class Apiator {
 
     ApiScheme getScheme() {
         scheme ?: {
-            scheme = new ApiScheme(basePath: config.basePath, version: config.apiVersion)
+            scheme = new ApiScheme(
+                    apiatorInfo: info,
+                    basePath: config.basePath,
+                    version: config.apiVersion)
+
             Set<Class<?>> apiClasses = scanForApi()
 
             apiClasses.each {

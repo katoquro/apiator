@@ -13,15 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.model.api
+package com.ainrif.apiator.core
 
-import com.ainrif.apiator.core.ApiatorInfo
+final class ApiatorInfo {
+    String groupId = ApiatorInfo.package.implementationVendor ?: 'UNPACKED'
+    String artifactId = ApiatorInfo.package.implementationTitle ?: 'UNPACKED'
+    String version = ApiatorInfo.package.implementationVersion ?: 'UNPACKED'
 
-class ApiScheme {
-    ApiatorInfo apiatorInfo
-    String version
-    String basePath
-    List<ApiContext> apiContexts = []
-    Set<ApiType> usedEnumerations = []
-    Set<ApiType> usedApiTypes = []
+    public Map<String, String> toMap() {
+        def result = properties.collectEntries { key, value -> [key, value.toString()] }
+        result.remove('class')
+
+        result
+    }
 }
