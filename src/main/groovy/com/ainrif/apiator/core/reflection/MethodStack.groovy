@@ -121,7 +121,7 @@ abstract class MethodStack extends ArrayList<Method> {
 
             def typesFromFields = typesToLookup
                     .collect({
-                it.rawType.fields
+                it.rawType.declaredFields
                         .collect { new ApiType(it.type) }
                         .findAll(MethodStack.testTypeIsNotPrimitive)
             })
