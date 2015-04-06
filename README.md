@@ -21,7 +21,7 @@ To start with Apiator just add one of this to you dependencies in a test scope
     <dependency>
         <groupId>com.ainrif</groupId>
         <artifactId>apiator</artifactId>
-        <version>0.1.0</version>
+        <version>0.2.0</version>
         <scope>test</scope>
     </dependency>
 </dependencies>
@@ -38,7 +38,7 @@ repositories {
 
 dependencies {
     //...
-    testCompile "com.ainrif:apiator:0.1.0"
+    testCompile "com.ainrif:apiator:0.2.0"
 }
 ```
 
@@ -49,18 +49,21 @@ After adding you can write a test (in TestNg, jUnit, Spock ...) with such config
 ApiatorConfig config = new ApiatorConfig();
 // Path.class means you use JAX-RS and all you controllers are annotated with @Path(...)
 config.setApiClass(Path.class)
+// Replace default renderer with HTML one, write to file is optional
+config.setRenderer(new CoreHtmlRenderer("<existing_directory>/api.html"))
 // Create new instance of Apiator and getting api in Json format (json used as default in config)
-String coreJsonWriterOut = new Apiator(config).render();
+String coreHtmlRendererOut = new Apiator(config).render();
 
-System.out.println(coreJsonWriterOut)
+System.out.println(coreHtmlRendererOut)
 ```
 
 ## About source...
 
-Now it supports one _provider_ and one _writer_
+Now it supports one _provider_ and several _renderers_
 
 * _JaxRsProvider_ - allows you to document JAX-RS api
-* _CoreJsonWriter_ - allows you to see you Api in Json (Apiator core representation)
+* _CoreJsonRenderer_ - allows you to see you Api in Json (Apiator core representation)
+* _CoreHtmlRenderer_ - represent _CoreJsonRenderer_ out in HTML 
 
 ## How you can help
 
