@@ -15,10 +15,11 @@
  */
 package com.ainrif.apiator.core
 
-import com.ainrif.apiator.core.model.Helper
+import com.ainrif.apiator.core.model.ModelTypeRegister
 import com.ainrif.apiator.core.model.api.ApiContext
 import com.ainrif.apiator.core.model.api.ApiEndpoint
 import com.ainrif.apiator.core.model.api.ApiScheme
+import com.ainrif.apiator.core.model.api.ApiType
 import org.reflections.Reflections
 import org.reflections.scanners.SubTypesScanner
 import org.reflections.scanners.TypeAnnotationsScanner
@@ -36,9 +37,11 @@ class Apiator {
     Apiator(ApiatorConfig config) {
         this.config = config
         this.info = new ApiatorInfo()
-        if (config.modelTypeResolvers) {
-            Helper.modelTypeResolverList = config.modelTypeResolvers
-        }
+
+        //Injects
+        ApiType.modelTypeRegister = config.modelTypeResolvers ?
+                new ModelTypeRegister(config.modelTypeResolvers) :
+                new ModelTypeRegister()
     }
 
     ApiScheme getScheme() {

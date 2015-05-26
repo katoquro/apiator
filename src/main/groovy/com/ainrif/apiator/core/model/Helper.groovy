@@ -15,7 +15,6 @@
  */
 package com.ainrif.apiator.core.model
 
-import com.ainrif.apiator.api.ModelTypeResolver
 import com.ainrif.apiator.core.model.api.ApiField
 import com.ainrif.apiator.core.model.api.ApiType
 import com.ainrif.apiator.core.reflection.RUtils
@@ -27,40 +26,6 @@ import java.util.function.Predicate
 import static java.util.Objects.nonNull
 
 final class Helper {
-    static List<ModelTypeResolver> modelTypeResolverList = []
-
-    static ModelType getTypeByClass(Class<?> type) {
-        for (ModelTypeResolver mtr : modelTypeResolverList) {
-            def resolved = mtr.resolve(type)
-            if (resolved) return resolved
-        }
-
-        if ([CharSequence, Character, char].any { it.isAssignableFrom(type) }
-                || URL == type
-                || UUID == type) return ModelType.STRING
-
-        else if ([Void, void].any { it.isAssignableFrom(type) }) return ModelType.VOID
-        else if (type.enum) return ModelType.ENUMERATION
-
-        else if ([Boolean, boolean].any { it.isAssignableFrom(type) }) return ModelType.BOOLEAN
-        else if ([Byte, byte].any { it.isAssignableFrom(type) }) return ModelType.BYTE
-        else if ([Integer, Short, int, short].any { it.isAssignableFrom(type) }) return ModelType.INTEGER
-        else if ([Long, BigInteger, long].any { it.isAssignableFrom(type) }) return ModelType.LONG
-        else if ([Float, float].any { it.isAssignableFrom(type) }) return ModelType.FLOAT
-        else if ([Double, BigDecimal, double].any { it.isAssignableFrom(type) }) return ModelType.DOUBLE
-
-        else if ([Date, Calendar].any { it.isAssignableFrom(type) }) return ModelType.DATE
-
-        else if (Map.isAssignableFrom(type)) return ModelType.DICTIONARY
-
-        else if (Set.isAssignableFrom(type)) return ModelType.SET
-
-        else if (Iterable.isAssignableFrom(type)
-                || type.array) return ModelType.ARRAY
-
-        return ModelType.OBJECT
-    }
-
     /**
      * @return [ < field name > : < field type > ]
      */
