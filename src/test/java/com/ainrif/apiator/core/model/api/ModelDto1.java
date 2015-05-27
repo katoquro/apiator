@@ -16,14 +16,16 @@
 package com.ainrif.apiator.core.model.api;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Set;
 
-public class ModelDto<TV, TVB extends Collection> {
+public class ModelDto1<TV, TVB extends Collection> {
+    int intPrimitiveField;
     Object objectField;
+    ModelEnum enumField;
     String stringField;
-    List<String> listField;
+    Set<String> setField;
     String[] arrayField;
-    Collection<TV> collectionField;
+    Iterable<?> iterableField;
     TV typeVariableType;
     TVB typeVariableBoundedType;
 }
