@@ -16,6 +16,7 @@
 package com.ainrif.apiator.provider.jaxrs
 
 import com.ainrif.apiator.core.reflection.ContextStack
+import com.ainrif.apiator.core.reflection.RUtils
 
 import javax.ws.rs.Path
 
@@ -31,6 +32,6 @@ class JaxRsContextStack extends ContextStack {
 
     @Override
     String getApiContextPath() {
-        (this.getAnnotationList(Path) ?: null)?.last()?.value() ?: ''
+        (RUtils.getAnnotationList(this, Path) ?: null)?.last()?.value() ?: ''
     }
 }

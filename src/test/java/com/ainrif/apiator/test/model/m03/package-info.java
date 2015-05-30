@@ -15,8 +15,6 @@
  */
 
 /**
- * m02 model to tests
- *
  * @see com.ainrif.apiator.core.reflection.RUtils#getAllFields(java.lang.Class, java.util.function.Predicate[])
  */
 package com.ainrif.apiator.test.model.m03;

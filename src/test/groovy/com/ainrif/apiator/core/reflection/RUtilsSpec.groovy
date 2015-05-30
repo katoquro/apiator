@@ -19,6 +19,9 @@ import com.ainrif.apiator.test.model.m01.*
 import com.ainrif.apiator.test.model.m02.ChildClass
 import com.ainrif.apiator.test.model.m02.M02_Dto
 import com.ainrif.apiator.test.model.m03.M03_ChildType
+import com.ainrif.apiator.test.model.m04.AnnotationExample
+import com.ainrif.apiator.test.model.m04.M04_ChildType
+import com.ainrif.apiator.test.model.m04.M04_InterfaceType
 import spock.lang.Specification
 
 import java.lang.reflect.Method
@@ -88,5 +91,39 @@ class RUtilsSpec extends Specification {
 
         then:
         actual.size() == 2
+    }
+
+    def "getAnnotationList"() {
+        given:
+        def contextStack = new TestContextStack([M04_ChildType, M04_InterfaceType])
+
+        when:
+        def actual = getAnnotationList(contextStack, AnnotationExample)
+
+        then:
+        actual.size() == 2
+
+        when:
+        def actual2 = getAnnotationList([TestContextStack.getMethod("getTitle")], AnnotationExample)
+
+        then:
+        actual2.size() == 1
+    }
+
+    static class TestContextStack extends ContextStack {
+        protected TestContextStack(Collection<? extends Class> collection) {
+            super(collection)
+        }
+
+        @Override
+        @AnnotationExample
+        String getTitle() {
+            return null
+        }
+
+        @Override
+        String getApiContextPath() {
+            return null
+        }
     }
 }

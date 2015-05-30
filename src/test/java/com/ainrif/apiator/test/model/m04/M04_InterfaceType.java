@@ -13,17 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.reflection
-/**
- * List of classes from parent (interface/superclass) to child (implementation)
- */
-abstract class ContextStack extends ArrayList<Class> {
+package com.ainrif.apiator.test.model.m04;
 
-    protected ContextStack(Collection<? extends Class> collection) {
-        super(collection)
-    }
 
-    abstract String getTitle()
-
-    abstract String getApiContextPath()
+@AnnotationExample
+public interface M04_InterfaceType {
 }
