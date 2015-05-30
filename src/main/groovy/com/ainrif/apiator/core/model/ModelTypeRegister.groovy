@@ -33,7 +33,6 @@ class ModelTypeRegister {
 
     ModelTypeRegister(List<ModelTypeResolver> additionalModelTypeResolvers) {
         this()
-
         this.modelTypeResolvers = additionalModelTypeResolvers + modelTypeResolvers
     }
 
