@@ -9,7 +9,7 @@ apply plugin: 'groovy'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 group = 'com.ainrif'
-version = '0.2.0'
+version = '0.2.1-SNAPSHOT'
 
 ext.sharedManifest = manifest {
     attributes 'Implementation-Vendor': 'com.ainrif',

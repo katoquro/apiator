@@ -15,8 +15,8 @@
  */
 package com.ainrif.apiator.core.model.api
 
-import com.ainrif.apiator.core.model.Helper
 import com.ainrif.apiator.core.model.ModelType
+import com.ainrif.apiator.core.model.ModelTypeRegister
 
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
@@ -24,6 +24,10 @@ import java.lang.reflect.TypeVariable
 import java.lang.reflect.WildcardType
 
 class ApiType {
+
+    //Inject
+    static ModelTypeRegister modelTypeRegister
+
     Type type;
 
     ApiType(Type type) {
@@ -82,7 +86,7 @@ class ApiType {
     }
 
     ModelType getModelType() {
-        Helper.getTypeByClass(rawType)
+        modelTypeRegister.getTypeByClass(rawType)
     }
 
     List<ApiType> flattenArgumentTypes() {
