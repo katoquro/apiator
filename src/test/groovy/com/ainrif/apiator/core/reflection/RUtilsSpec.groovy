@@ -16,7 +16,7 @@
 package com.ainrif.apiator.core.reflection
 
 import com.ainrif.apiator.test.model.m01.*
-import com.ainrif.apiator.test.model.m02.ChildClass
+import com.ainrif.apiator.test.model.m02.M02_ChildType
 import com.ainrif.apiator.test.model.m02.M02_Dto
 import com.ainrif.apiator.test.model.m03.M03_ChildType
 import com.ainrif.apiator.test.model.m04.AnnotationExample
@@ -36,11 +36,11 @@ import static spock.util.matcher.HamcrestSupport.that
 class RUtilsSpec extends Specification {
     def "getAllMethods"() {
         given:
-        Class type = ChildClass
+        Class type = M02_ChildType
         Predicate<Method> predicate = { Modifier.isPublic(it.modifiers) }
         and:
-        def methodFromInterface = new MethodSignature(ChildClass.getMethod("inDtoOutObj", M02_Dto))
-        def publicMethodWOInheritance = new MethodSignature(ChildClass.getMethod("justPublicMethod"))
+        def methodFromInterface = new MethodSignature(M02_ChildType.getMethod("inDtoOutObj", M02_Dto))
+        def publicMethodWOInheritance = new MethodSignature(M02_ChildType.getMethod("justPublicMethod"))
 
         when:
         def map = getAllMethods(type, predicate)

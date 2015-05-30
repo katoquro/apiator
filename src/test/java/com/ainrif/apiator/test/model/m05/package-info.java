@@ -13,12 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.test.model.m02;
-
-import java.util.List;
-
-public class ChildClass extends SuperAbstractClass {
-    @Override public List<M02_Dto> outListDto() {
-        return null;
-    }
-}
+/**
+ * @see com.ainrif.apiator.core.model.Helper
+ */
+package com.ainrif.apiator.test.model.m05;
