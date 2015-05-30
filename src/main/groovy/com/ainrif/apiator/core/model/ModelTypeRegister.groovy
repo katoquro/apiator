@@ -21,7 +21,7 @@ import com.ainrif.apiator.core.modeltype.OldDateModelTypeResolver
 import com.ainrif.apiator.core.modeltype.PrimitivesModelTypeResolver
 
 class ModelTypeRegister {
-    List<ModelTypeResolver> modelTypeResolvers
+    private List<ModelTypeResolver> modelTypeResolvers
 
     ModelTypeRegister() {
         this.modelTypeResolvers = [
