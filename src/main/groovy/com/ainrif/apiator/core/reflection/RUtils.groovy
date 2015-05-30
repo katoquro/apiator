@@ -84,6 +84,11 @@ final class RUtils {
         interfaces
     }
 
+    /**
+     * @param type to scan from
+     * @param predicates
+     * @return fields from class and all parents
+     */
     public static List<Field> getAllFields(final Class<?> type,
                                            Predicate<? super Field>... predicates) {
         def _clazz = type;

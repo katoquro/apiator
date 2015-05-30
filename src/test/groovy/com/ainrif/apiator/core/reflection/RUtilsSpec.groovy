@@ -18,6 +18,7 @@ package com.ainrif.apiator.core.reflection
 import com.ainrif.apiator.test.model.m01.*
 import com.ainrif.apiator.test.model.m02.ChildClass
 import com.ainrif.apiator.test.model.m02.M02_Dto
+import com.ainrif.apiator.test.model.m03.M03_ChildType
 import spock.lang.Specification
 
 import java.lang.reflect.Method
@@ -71,5 +72,21 @@ class RUtilsSpec extends Specification {
     def "getAllSuperInterfaces"() {
         expect:
         that getAllSuperInterfaces(ChildType), contains(ChildTypeInterface, StInterface1, StI1_Interface, GstInterface1, GstInterface2)
+    }
+
+    def "getAllFields; w/o predicate"() {
+        when:
+        def actual = getAllFields(M03_ChildType)
+
+        then:
+        actual.size() == 8
+    }
+
+    def "getAllFields; w/ predicate"() {
+        when:
+        def actual = getAllFields(M03_ChildType, { Modifier.isPrivate(it.modifiers) } as Predicate)
+
+        then:
+        actual.size() == 2
     }
 }

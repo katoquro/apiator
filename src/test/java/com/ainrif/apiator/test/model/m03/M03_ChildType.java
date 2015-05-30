@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.ainrif.apiator.test.model.m03;
 
-/**
- * m02 model to tests
- *
- * @see com.ainrif.apiator.core.reflection.RUtils#getAllMethods(java.lang.Class, java.util.function.Predicate[])
- */
-package com.ainrif.apiator.test.model.m02;
+
+public class M03_ChildType extends M03_SuperAbstractClass {
+    int childPackagePrivate;
+    protected int childProtected;
+    private int childPrivate;
+    public int childPublic;
+}
