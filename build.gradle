@@ -1,5 +1,5 @@
 plugins {
-    id "com.jfrog.bintray" version "1.1"
+    id "com.jfrog.bintray" version "1.2"
 }
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
@@ -9,7 +9,7 @@ apply plugin: 'groovy'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 group = 'com.ainrif'
-version = '0.2.1-SNAPSHOT'
+version = '0.2.1'
 
 ext.sharedManifest = manifest {
     attributes 'Implementation-Vendor': 'com.ainrif',
@@ -118,7 +118,7 @@ bintray {
         desc = 'Documentation generator for rest api on java'
         websiteUrl = 'https://bitbucket.org/ainrif/apiator'
         issueTrackerUrl = 'https://bitbucket.org/ainrif/apiator/issues'
-        vcsUrl = 'https://bitbucket.org/ainrif/apiator'
+        vcsUrl = 'https://bitbucket.org/ainrif/apiator.git'
         licenses = ['Apache-2.0']
         labels = ['rest', 'api', 'docs']
         publicDownloadNumbers = true
