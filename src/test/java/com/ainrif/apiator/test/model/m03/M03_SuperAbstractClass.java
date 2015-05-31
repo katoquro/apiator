@@ -13,17 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.model.api;
+package com.ainrif.apiator.test.model.m03;
 
-import java.util.Collection;
-import java.util.List;
-
-public class ModelDto<TV, TVB extends Collection> {
-    Object objectField;
-    String stringField;
-    List<String> listField;
-    String[] arrayField;
-    Collection<TV> collectionField;
-    TV typeVariableType;
-    TVB typeVariableBoundedType;
+public abstract class M03_SuperAbstractClass {
+    int superPackagePrivate;
+    protected int superProtected;
+    private int superPrivate;
+    public int superPublic;
 }

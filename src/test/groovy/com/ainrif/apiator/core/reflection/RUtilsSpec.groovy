@@ -16,8 +16,12 @@
 package com.ainrif.apiator.core.reflection
 
 import com.ainrif.apiator.test.model.m01.*
-import com.ainrif.apiator.test.model.m02.ChildClass
+import com.ainrif.apiator.test.model.m02.M02_ChildType
 import com.ainrif.apiator.test.model.m02.M02_Dto
+import com.ainrif.apiator.test.model.m03.M03_ChildType
+import com.ainrif.apiator.test.model.m04.AnnotationExample
+import com.ainrif.apiator.test.model.m04.M04_ChildType
+import com.ainrif.apiator.test.model.m04.M04_InterfaceType
 import spock.lang.Specification
 
 import java.lang.reflect.Method
@@ -32,11 +36,11 @@ import static spock.util.matcher.HamcrestSupport.that
 class RUtilsSpec extends Specification {
     def "getAllMethods"() {
         given:
-        Class type = ChildClass
+        Class type = M02_ChildType
         Predicate<Method> predicate = { Modifier.isPublic(it.modifiers) }
         and:
-        def methodFromInterface = new MethodSignature(ChildClass.getMethod("inDtoOutObj", M02_Dto))
-        def publicMethodWOInheritance = new MethodSignature(ChildClass.getMethod("justPublicMethod"))
+        def methodFromInterface = new MethodSignature(M02_ChildType.getMethod("inDtoOutObj", M02_Dto))
+        def publicMethodWOInheritance = new MethodSignature(M02_ChildType.getMethod("justPublicMethod"))
 
         when:
         def map = getAllMethods(type, predicate)
@@ -71,5 +75,55 @@ class RUtilsSpec extends Specification {
     def "getAllSuperInterfaces"() {
         expect:
         that getAllSuperInterfaces(ChildType), contains(ChildTypeInterface, StInterface1, StI1_Interface, GstInterface1, GstInterface2)
+    }
+
+    def "getAllFields; w/o predicate"() {
+        when:
+        def actual = getAllFields(M03_ChildType)
+
+        then:
+        actual.size() == 8
+    }
+
+    def "getAllFields; w/ predicate"() {
+        when:
+        def actual = getAllFields(M03_ChildType, { Modifier.isPrivate(it.modifiers) } as Predicate)
+
+        then:
+        actual.size() == 2
+    }
+
+    def "getAnnotationList"() {
+        given:
+        def contextStack = new TestContextStack([M04_ChildType, M04_InterfaceType])
+
+        when:
+        def actual = getAnnotationList(contextStack, AnnotationExample)
+
+        then:
+        actual.size() == 2
+
+        when:
+        def actual2 = getAnnotationList([TestContextStack.getMethod("getTitle")], AnnotationExample)
+
+        then:
+        actual2.size() == 1
+    }
+
+    static class TestContextStack extends ContextStack {
+        protected TestContextStack(Collection<? extends Class> collection) {
+            super(collection)
+        }
+
+        @Override
+        @AnnotationExample
+        String getTitle() {
+            return null
+        }
+
+        @Override
+        String getApiContextPath() {
+            return null
+        }
     }
 }

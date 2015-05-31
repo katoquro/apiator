@@ -15,23 +15,6 @@
  */
 package com.ainrif.apiator.core.model.api;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-public class ModelDto2<TV, TVB extends Collection> {
-    Object objectField;
-
-    List<ModelEnum> listGEnumField;
-    List<String> listGStringField;
-    List<Set<String>> listGSetGStringField;
-    List<String[]> listGStringArray;
-    List<Iterable<TVB>> listGIterableGTVBField;
-    List<TV> listGTVField;
-    List<TVB> listGTVBField;
-
-    Map<Set<String>, TVB> mapGSetGStringAndGTVBField;
-
-//    List<String>[] ListGString_array; //additional case of GenericArrayType
+public enum ModelEnum {
+    FIRST
 }

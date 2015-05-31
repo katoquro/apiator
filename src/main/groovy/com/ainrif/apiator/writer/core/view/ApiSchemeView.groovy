@@ -35,7 +35,7 @@ class ApiSchemeView {
 
         this.usedApiTypes = scheme.usedApiTypes.collect {
             Map<String, ApiFieldView> fields = Helper
-                    .getFieldsTypes(it.rawType)
+                    .getPropertiesTypes(it.rawType)
                     .collectEntries { k, v -> [k, new ApiFieldView(v)] }
 
             new ApiTypeView(it, fields)

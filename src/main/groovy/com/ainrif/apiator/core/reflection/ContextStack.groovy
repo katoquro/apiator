@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 package com.ainrif.apiator.core.reflection
-
-import java.lang.annotation.Annotation
-
 /**
  * List of classes from parent (interface/superclass) to child (implementation)
  */
@@ -29,9 +26,4 @@ abstract class ContextStack extends ArrayList<Class> {
     abstract String getTitle()
 
     abstract String getApiContextPath()
-
-    public <T extends Annotation> List<T> getAnnotationList(Class<T> annotationClass) {
-        this.findAll { it.isAnnotationPresent(annotationClass) }
-                .collect { it.getAnnotation(annotationClass) }
-    }
 }

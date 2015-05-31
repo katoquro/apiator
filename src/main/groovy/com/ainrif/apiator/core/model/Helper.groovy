@@ -27,9 +27,17 @@ import static java.util.Objects.nonNull
 
 final class Helper {
     /**
-     * @return [ < field name > : < field type > ]
+     * tries to resolve properties and return like map of property to its {@link ApiType}
+     *
+     * Uses next resolve strategies
+     * <ol>
+     *     <li>java bean properties</li>
+     *     <li>public fields</li>
+     * </ol>
+     *
+     * @return [ < property name > : < property type > ]
      */
-    static Map<String, ApiField> getFieldsTypes(Class<?> type) {
+    static Map<String, ApiField> getPropertiesTypes(Class<?> type) {
         def beanInfo = type.interface ?
                 Introspector.getBeanInfo(type) :
                 Introspector.getBeanInfo(type, Object)

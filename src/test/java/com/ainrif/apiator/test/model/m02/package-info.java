@@ -15,7 +15,6 @@
  */
 
 /**
- * m02 model to tests:
- * {@link com.ainrif.apiator.core.reflection.RUtils#getAllMethods(java.lang.Class, java.util.function.Predicate[])}
+ * @see com.ainrif.apiator.core.reflection.RUtils#getAllMethods(java.lang.Class, java.util.function.Predicate[])
  */
 package com.ainrif.apiator.test.model.m02;

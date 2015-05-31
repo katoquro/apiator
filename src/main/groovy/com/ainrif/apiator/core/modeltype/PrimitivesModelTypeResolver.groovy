@@ -30,7 +30,7 @@ class PrimitivesModelTypeResolver implements ModelTypeResolver {
                 || UUID == type) return ModelType.STRING
 
         if ([Void, void].any { it.isAssignableFrom(type) }) return ModelType.VOID
-        else if (type.enum) return ModelType.ENUMERATION
+        else if (type.enum || Enum.isAssignableFrom(type)) return ModelType.ENUMERATION
 
         else if ([Boolean, boolean].any { it.isAssignableFrom(type) }) return ModelType.BOOLEAN
         else if ([Byte, byte].any { it.isAssignableFrom(type) }) return ModelType.BYTE

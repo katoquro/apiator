@@ -13,25 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.model.api;
+package com.ainrif.apiator.test.model.m06;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-public class ModelDto2<TV, TVB extends Collection> {
-    Object objectField;
-
-    List<ModelEnum> listGEnumField;
-    List<String> listGStringField;
-    List<Set<String>> listGSetGStringField;
-    List<String[]> listGStringArray;
-    List<Iterable<TVB>> listGIterableGTVBField;
-    List<TV> listGTVField;
-    List<TVB> listGTVBField;
-
-    Map<Set<String>, TVB> mapGSetGStringAndGTVBField;
-
-//    List<String>[] ListGString_array; //additional case of GenericArrayType
+public class M06_NotAnnotated {
 }

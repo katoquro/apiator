@@ -63,16 +63,6 @@ abstract class MethodStack extends ArrayList<Method> {
     }
 
     /**
-     * collects annotations from method hierarchy tree
-     *
-     * @param annotationClass
-     */
-    public <T extends Annotation> List<T> getAnnotationList(Class<T> annotationClass) {
-        this.findAll { it.isAnnotationPresent(annotationClass) }
-                .collect { it.getAnnotation(annotationClass) }
-    }
-
-    /**
      * collects annotations from method parameters from hierarchy tree
      *
      * @return [ < param signature > : [inherited annotations] ]

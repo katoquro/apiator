@@ -44,12 +44,6 @@ class ApiType {
                 false
     }
 
-    boolean isEnum() {
-        type instanceof Class ?
-                type.asType(Class).isEnum() :
-                false
-    }
-
     Class<?> getRawType() {
         if (generic) {
             return type.asType(ParameterizedType).rawType.asType(Class)
@@ -58,7 +52,7 @@ class ApiType {
             if (bounds) {
                 return bounds[0].asType(Class)
             } else {
-                return Object
+                return Object //fallback case; need test
             }
         } else if (type instanceof WildcardType) {
             return type.asType(WildcardType).upperBounds[0].asType(Class)
@@ -86,9 +80,15 @@ class ApiType {
     }
 
     ModelType getModelType() {
+        if (!modelTypeRegister) throw new RuntimeException('Model Type Register was not injected')
         modelTypeRegister.getTypeByClass(rawType)
     }
 
+    /**
+     * Don't rely to the item order. Bounded Generic Types are resolved by class constraints
+     *
+     * @return list which represents all generic args
+     */
     List<ApiType> flattenArgumentTypes() {
         generic ? _flattenArgumentTypes(actualTypeArguments) : []
     }

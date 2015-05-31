@@ -13,25 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.model.api;
+package com.ainrif.apiator.core
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import spock.lang.Specification
 
-public class ModelDto2<TV, TVB extends Collection> {
-    Object objectField;
+class ApiatorInfoSpec extends Specification {
+    def "toMap"() {
+        given:
+        def info = new ApiatorInfo()
 
-    List<ModelEnum> listGEnumField;
-    List<String> listGStringField;
-    List<Set<String>> listGSetGStringField;
-    List<String[]> listGStringArray;
-    List<Iterable<TVB>> listGIterableGTVBField;
-    List<TV> listGTVField;
-    List<TVB> listGTVBField;
-
-    Map<Set<String>, TVB> mapGSetGStringAndGTVBField;
-
-//    List<String>[] ListGString_array; //additional case of GenericArrayType
+        expect:
+        info.toMap().size() == 3
+    }
 }

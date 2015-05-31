@@ -47,7 +47,7 @@ class JaxRsMethodStack extends MethodStack {
 
     @Override
     String getPath() {
-        def path = (getAnnotationList(Path) ?: null)?.last()?.value()
+        def path = (RUtils.getAnnotationList(this, Path) ?: null)?.last()?.value()
 
         path ?: '/'
     }
