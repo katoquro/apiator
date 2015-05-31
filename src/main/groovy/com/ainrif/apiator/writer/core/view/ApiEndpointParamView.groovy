@@ -18,7 +18,7 @@ package com.ainrif.apiator.writer.core.view
 import com.ainrif.apiator.core.model.api.ApiEndpointParam
 import com.ainrif.apiator.core.model.api.ApiEndpointParamType
 
-class ApiEndpointParamView extends ModelTypeBasedView {
+class ApiEndpointParamView extends ModelTypeBasedView implements Comparable<ApiEndpointParamView> {
     String name
     ApiEndpointParamType httpParamType
     Integer index
@@ -29,5 +29,10 @@ class ApiEndpointParamView extends ModelTypeBasedView {
         this.httpParamType = endpointParam.httpParamType
         this.index = endpointParam.index
         this.name = endpointParam.name
+    }
+
+    @Override
+    int compareTo(ApiEndpointParamView o) {
+        Integer.compare(this.index, o.index)
     }
 }

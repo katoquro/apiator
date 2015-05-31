@@ -16,11 +16,23 @@
 package com.ainrif.apiator.core.model
 
 public enum ModelType {
-    OBJECT, ENUMERATION, DICTIONARY, VOID,
+    OBJECT, ENUMERATION,
 
-    ARRAY, SET,
+    DICTIONARY, ARRAY, SET,
 
-    BOOLEAN, BYTE, INTEGER, LONG, FLOAT, DOUBLE, STRING,
+    VOID, BOOLEAN, BYTE, INTEGER, LONG, FLOAT, DOUBLE, STRING,
 
     DATE
+
+    static Collection<ModelType> getModelObjectTypes() {
+        [OBJECT, ENUMERATION]
+    }
+
+    static Collection<ModelType> getNotPrimitiveTypes() {
+        values().minus(primitiveTypes)
+    }
+
+    static Collection<ModelType> getPrimitiveTypes() {
+        [VOID, BOOLEAN, BYTE, INTEGER, LONG, FLOAT, DOUBLE, STRING]
+    }
 }

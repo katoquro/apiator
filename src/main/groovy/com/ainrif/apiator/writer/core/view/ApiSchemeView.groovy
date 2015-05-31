@@ -30,8 +30,8 @@ class ApiSchemeView {
         this.apiatorInfo = scheme.apiatorInfo.toMap()
         this.version = scheme.version
         this.basePath = scheme.basePath
-        this.apiContexts = scheme.apiContexts.collect { new ApiContextView(it) }
-        this.usedEnumerations = scheme.usedEnumerations.collect { new ApiEnumerationView(it) }
+        this.apiContexts = scheme.apiContexts.collect { new ApiContextView(it) }.sort()
+        this.usedEnumerations = scheme.usedEnumerations.collect { new ApiEnumerationView(it) }.sort()
 
         this.usedApiTypes = scheme.usedApiTypes.collect {
             Map<String, ApiFieldView> fields = Helper
@@ -39,9 +39,6 @@ class ApiSchemeView {
                     .collectEntries { k, v -> [k, new ApiFieldView(v)] }
 
             new ApiTypeView(it, fields)
-        }
-
-        this.apiContexts.sort()
-        this.usedApiTypes.sort { t1, t2 -> t1.type.compareToIgnoreCase(t2.type) }
+        }.sort()
     }
 }

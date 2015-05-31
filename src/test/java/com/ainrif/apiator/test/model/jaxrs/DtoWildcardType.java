@@ -26,5 +26,7 @@ public class DtoWildcardType<TEC extends DtoWildcardType.GenericWildcardBound> {
 
     public void setWithSupperBound(List<? super GenericWildcardBound> supperBound) { }
 
-    public static class GenericWildcardBound {}
+    public static class GenericWildcardBound {
+        public int field;
+    }
 }

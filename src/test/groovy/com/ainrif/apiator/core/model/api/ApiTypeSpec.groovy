@@ -122,10 +122,10 @@ class ApiTypeSpec extends Specification {
     def "getActualTypeArguments; #inputType"() {
         given:
         def input = new ApiType(ModelDto2.getDeclaredField(inputType).genericType)
-        def expected = [new ApiType(ModelDto1.getDeclaredField(expectedType).genericType)]
+        def expected = [new ApiType(ModelDto1.getDeclaredField(expectedType).genericType)].collect { it.rawType }
 
         expect:
-        input.actualTypeArguments == expected
+        input.actualTypeArguments.collect { it.rawType } == expected
 
         where:
         inputType                | expectedType
@@ -162,10 +162,10 @@ class ApiTypeSpec extends Specification {
     def "_flattenArgumentTypes; #inputType"() {
         given:
         def input = [new ApiType(ModelDto2.getDeclaredField(inputType).genericType)]
-        def expected = expectedTypes.collect { equalTo(new ApiType(it)) }
+        def expected = expectedTypes.collect { equalTo(new ApiType(it).rawType) }
 
         expect:
-        that ApiType._flattenArgumentTypes(input), containsInAnyOrder(expected)
+        that ApiType._flattenArgumentTypes(input).collect { it.rawType }, containsInAnyOrder(expected)
 
         where:
         inputType                    | expectedTypes

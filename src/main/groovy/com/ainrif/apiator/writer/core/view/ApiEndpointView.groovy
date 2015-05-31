@@ -29,9 +29,9 @@ class ApiEndpointView implements Comparable<ApiEndpointView> {
         this.path = endpoint.path
         this.method = endpoint.method
         this.returnType = new ApiEndpointReturnTypeView(endpoint.returnType)
-        this.params = endpoint.params.collect { new ApiEndpointParamView(it) }
-
-        this.params.sort { p1, p2 -> p1.index.compareTo(p2.index) }
+        this.params = endpoint.params
+                .collect { new ApiEndpointParamView(it) }
+                .sort()
     }
 
     @Override

@@ -15,6 +15,7 @@
  */
 package com.ainrif.apiator.core.reflection
 
+import com.ainrif.apiator.core.model.ModelType
 import com.ainrif.apiator.core.model.api.ApiEndpointMethod
 import com.ainrif.apiator.core.model.api.ApiEndpointParam
 import com.ainrif.apiator.core.model.api.ApiEndpointReturnType
@@ -105,37 +106,59 @@ abstract class MethodStack extends ArrayList<Method> {
                 .findAll { !it.value.any { at -> types.any { it.isAssignableFrom(at.class) } } }
     }
 
-    //todo think about optimization
     private Set<ApiType> collectAllUsedTypes() {
         Set<ApiType> types = []
 
         def nextLookup = (params.collect { it.type } << returnType.type)
         while (nextLookup) {
             def typesToLookup = nextLookup
-                    .collect { it.generic ? it.flattenArgumentTypes() : it }
-                    .flatten()
-                    .collect { ApiType type -> type.array ? new ApiType(type.arrayType) : type }
-                    .findAll(MethodStack.testTypeIsNotPrimitive)
+                    .collect(collectApiTypesFromGenerics).flatten()
+                    .collect(mapArraysToItsTypeApiType)
+                    .findAll(testTypeIsNotPrimitive)
 
             def typesFromFields = typesToLookup
-                    .collect({
-                it.rawType.declaredFields
-                        .collect { new ApiType(it.type) }
-                        .findAll(MethodStack.testTypeIsNotPrimitive)
-            })
-                    .flatten()
+                    .findAll(testTypeIsModelObject)
+                    .collect(collectApiTypesFromFields).flatten()
+                    .collect(mapArraysToItsTypeApiType)
+                    .findAll(testTypeIsNotPrimitive)
                     .minus(typesToLookup)
 
             types += typesToLookup
             types += typesFromFields
 
-            nextLookup = typesFromFields.findAll { OBJECT == it.modelType }
+            nextLookup = typesFromFields.findAll { OBJECT == it.modelType || it.generic }
         }
 
         types
     }
 
-    private static Closure<Boolean> testTypeIsNotPrimitive = { ApiType type ->
-        [ENUMERATION, OBJECT].any { it == type.modelType } && Object.class != type.rawType
+    protected static Closure<List<ApiType>> collectApiTypesFromGenerics = { ApiType type ->
+        type.generic ? type.flattenArgumentTypes() : [type]
+    }
+
+    protected static Closure<List<ApiType>> collectApiTypesFromFields = { ApiType type ->
+        RUtils.getAllFields(findFirstNotArrayType(type))
+                .collect { new ApiType(it.genericType) }
+    }
+
+    protected static Class<?> findFirstNotArrayType(ApiType type) {
+        def targetType = type.array ? type.arrayType : type.rawType
+        while (targetType.array) {
+            targetType = targetType.componentType
+        }
+
+        targetType
+    }
+
+    protected static Closure<ApiType> mapArraysToItsTypeApiType = { ApiType type ->
+        type.array ? new ApiType(findFirstNotArrayType(type)) : type
+    }
+
+    protected static Closure<Boolean> testTypeIsNotPrimitive = { ApiType type ->
+        ModelType.notPrimitiveTypes.any { it == type.modelType } && Object.class != type.rawType
+    }
+
+    protected static Closure<Boolean> testTypeIsModelObject = { ApiType type ->
+        ModelType.modelObjectTypes.any { it == type.modelType } && Object.class != type.rawType
     }
 }

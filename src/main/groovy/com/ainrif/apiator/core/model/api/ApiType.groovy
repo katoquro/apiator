@@ -28,7 +28,10 @@ class ApiType {
     //Inject
     static ModelTypeRegister modelTypeRegister
 
-    Type type;
+    Type type
+    List<ApiType> flattenArgumentTypesCache
+    Class<?> rawTypeCache
+    ModelType modelTypeCache
 
     ApiType(Type type) {
         this.type = type
@@ -45,20 +48,22 @@ class ApiType {
     }
 
     Class<?> getRawType() {
-        if (generic) {
-            return type.asType(ParameterizedType).rawType.asType(Class)
-        } else if (type instanceof TypeVariable) {
-            def bounds = type.asType(TypeVariable).bounds
-            if (bounds) {
-                return bounds[0].asType(Class)
+        rawTypeCache ?: {
+            if (generic) {
+                rawTypeCache = type.asType(ParameterizedType).rawType.asType(Class)
+            } else if (type instanceof TypeVariable) {
+                def bounds = type.asType(TypeVariable).bounds
+                if (bounds) {
+                    rawTypeCache = bounds[0].asType(Class)
+                } else {
+                    rawTypeCache = Object //fallback case; need test
+                }
+            } else if (type instanceof WildcardType) {
+                rawTypeCache = type.asType(WildcardType).upperBounds[0].asType(Class)
             } else {
-                return Object //fallback case; need test
+                rawTypeCache = type.asType(Class)
             }
-        } else if (type instanceof WildcardType) {
-            return type.asType(WildcardType).upperBounds[0].asType(Class)
-        } else {
-            type.asType(Class)
-        }
+        }()
     }
 
     Class<?> getArrayType() {
@@ -80,8 +85,10 @@ class ApiType {
     }
 
     ModelType getModelType() {
-        if (!modelTypeRegister) throw new RuntimeException('Model Type Register was not injected')
-        modelTypeRegister.getTypeByClass(rawType)
+        modelTypeCache ?: {
+            if (!modelTypeRegister) throw new RuntimeException('Model Type Register was not injected')
+            modelTypeCache = modelTypeRegister.getTypeByClass(rawType)
+        }()
     }
 
     /**
@@ -90,7 +97,9 @@ class ApiType {
      * @return list which represents all generic args
      */
     List<ApiType> flattenArgumentTypes() {
-        generic ? _flattenArgumentTypes(actualTypeArguments) : []
+        flattenArgumentTypesCache ?: {
+            flattenArgumentTypesCache = generic ? _flattenArgumentTypes(actualTypeArguments) : []
+        }()
     }
 
     private static List<ApiType> _flattenArgumentTypes(List<ApiType> apiTypes) {
@@ -111,12 +120,13 @@ class ApiType {
         if (getClass() != o.class) return false
 
         ApiType apiType = (ApiType) o
+        if (rawType != apiType.rawType) return false
 
-        return rawType == apiType.rawType
+        return flattenArgumentTypes().collect { it.rawType } == apiType.flattenArgumentTypes().collect { it.rawType }
     }
 
     int hashCode() {
-        return (rawType != null ? rawType.hashCode() : 0)
+        return Objects.hash(rawType, flattenArgumentTypes())
     }
 
     @Override
