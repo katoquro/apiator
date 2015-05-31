@@ -24,7 +24,7 @@ import static org.hamcrest.Matchers.greaterThan
 import static org.hamcrest.Matchers.notNullValue
 import static spock.util.matcher.HamcrestSupport.expect
 
-class ApiatorSpec extends Specification {
+class SmokeSpec extends Specification {
 
     def "Smoke test"() {
         given:
