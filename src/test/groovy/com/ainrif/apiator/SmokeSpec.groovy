@@ -20,29 +20,33 @@ import com.ainrif.apiator.core.ApiatorConfig
 import com.ainrif.apiator.writer.core.CoreHtmlRenderer
 import spock.lang.Specification
 
+import static org.apache.commons.lang3.StringUtils.deleteWhitespace
 import static org.hamcrest.Matchers.greaterThan
-import static org.hamcrest.Matchers.notNullValue
 import static spock.util.matcher.HamcrestSupport.expect
 
 class SmokeSpec extends Specification {
 
-    def "Smoke test"() {
+    static final String smokeJson = SmokeSpec.classLoader.getResource('smoke1.json').text
+    static final String jaxrsPackage = 'com.ainrif.apiator.test.model.jaxrs'
+
+    def "Smoke test; jax-rs"() {
         given:
-        Apiator apiator = new Apiator(new ApiatorConfig())
+        Apiator apiator = new Apiator(new ApiatorConfig(basePackage: jaxrsPackage))
 
         when:
-        def actual = apiator.scheme
-        println apiator.render()
+        def actual = apiator.render()
+        println actual
 
         then:
-        expect actual, notNullValue()
+        deleteWhitespace(actual) == deleteWhitespace(smokeJson)
     }
 
     def "Smoke test; should produce the same result each time"() {
         given:
-        def apiator1 = new Apiator(new ApiatorConfig())
-        def apiator2 = new Apiator(new ApiatorConfig())
-        def apiator3 = new Apiator(new ApiatorConfig())
+
+        def apiator1 = new Apiator(new ApiatorConfig(basePackage: jaxrsPackage))
+        def apiator2 = new Apiator(new ApiatorConfig(basePackage: jaxrsPackage))
+        def apiator3 = new Apiator(new ApiatorConfig(basePackage: jaxrsPackage))
 
         when:
         def render1 = apiator1.render()
@@ -52,11 +56,12 @@ class SmokeSpec extends Specification {
         then:
         render1 == render2
         render2 == render3
+        deleteWhitespace(render3) == deleteWhitespace(smokeJson)
     }
 
     def "Smoke test; Core HTML Renderer"() {
         given:
-        Apiator apiator = new Apiator(new ApiatorConfig(renderer: new CoreHtmlRenderer()))
+        Apiator apiator = new Apiator(new ApiatorConfig(basePackage: jaxrsPackage, renderer: new CoreHtmlRenderer()))
 
         when:
         def actual = apiator.render()

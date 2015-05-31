@@ -1,0 +1,432 @@
+{
+  "apiatorInfo": {
+    "version": "UNPACKED",
+    "groupId": "UNPACKED",
+    "artifactId": "UNPACKED"
+  },
+  "usedEnumerations": [
+    {
+      "type": "com.ainrif.apiator.test.model.jaxrs.EnumApiType",
+      "values": [
+        "FIRST",
+        "SECOND"
+      ],
+      "basedOn": [
+
+      ],
+      "modelType": "ENUMERATION"
+    }
+  ],
+  "apiContexts": [
+    {
+      "title": "ServiceImpl",
+      "apiPath": "/entities",
+      "apiEndpoints": [
+        {
+          "returnType": {
+            "type": null,
+            "basedOn": [
+              "com.ainrif.apiator.test.model.jaxrs.Dto2",
+              "java.util.List"
+            ],
+            "modelType": "ARRAY"
+          },
+          "params": [
+
+          ],
+          "path": "/",
+          "name": "getAll",
+          "method": "GET"
+        },
+        {
+          "returnType": {
+            "type": null,
+            "basedOn": [
+              "byte"
+            ],
+            "modelType": "ARRAY"
+          },
+          "params": [
+            {
+              "index": -1,
+              "httpParamType": "QUERY",
+              "type": null,
+              "basedOn": [
+
+              ],
+              "modelType": "STRING",
+              "name": "BP_public_query"
+            },
+            {
+              "index": -1,
+              "httpParamType": "COOKIE",
+              "type": null,
+              "basedOn": [
+
+              ],
+              "modelType": "STRING",
+              "name": "BP_private_query"
+            }
+          ],
+          "path": "/byte-array",
+          "name": "getByteArray",
+          "method": "GET"
+        },
+        {
+          "returnType": {
+            "type": null,
+            "basedOn": [
+
+            ],
+            "modelType": "VOID"
+          },
+          "params": [
+            {
+              "index": 0,
+              "httpParamType": "QUERY",
+              "type": "com.ainrif.apiator.test.model.jaxrs.EnumApiType",
+              "basedOn": [
+
+              ],
+              "modelType": "ENUMERATION",
+              "name": "enum"
+            }
+          ],
+          "path": "/enum",
+          "name": "setStatus",
+          "method": "POST"
+        },
+        {
+          "returnType": {
+            "type": null,
+            "basedOn": [
+              "com.ainrif.apiator.test.model.jaxrs.Dto3"
+            ],
+            "modelType": "ARRAY"
+          },
+          "params": [
+
+          ],
+          "path": "/flatten",
+          "name": "getAllFlatten",
+          "method": "GET"
+        },
+        {
+          "returnType": {
+            "type": "java.lang.Object",
+            "basedOn": [
+
+            ],
+            "modelType": "OBJECT"
+          },
+          "params": [
+            {
+              "index": 0,
+              "httpParamType": "BODY",
+              "type": "com.ainrif.apiator.test.model.jaxrs.Dto1",
+              "basedOn": [
+
+              ],
+              "modelType": "OBJECT",
+              "name": null
+            }
+          ],
+          "path": "/new",
+          "name": "postDtoObject",
+          "method": "POST"
+        },
+        {
+          "returnType": {
+            "type": "com.ainrif.apiator.test.model.jaxrs.DtoTypeValue",
+            "basedOn": [
+
+            ],
+            "modelType": "OBJECT"
+          },
+          "params": [
+
+          ],
+          "path": "/type-value",
+          "name": "getDtoTypeValue",
+          "method": "GET"
+        },
+        {
+          "returnType": {
+            "type": null,
+            "basedOn": [
+
+            ],
+            "modelType": "VOID"
+          },
+          "params": [
+
+          ],
+          "path": "/void",
+          "name": "doVoidMethod",
+          "method": "GET"
+        },
+        {
+          "returnType": {
+            "type": "com.ainrif.apiator.test.model.jaxrs.DtoWildcardType",
+            "basedOn": [
+
+            ],
+            "modelType": "OBJECT"
+          },
+          "params": [
+
+          ],
+          "path": "/wildcard-type",
+          "name": "getDtoWildcardType",
+          "method": "GET"
+        },
+        {
+          "returnType": {
+            "type": "com.ainrif.apiator.test.model.jaxrs.Dto1",
+            "basedOn": [
+
+            ],
+            "modelType": "OBJECT"
+          },
+          "params": [
+            {
+              "index": 0,
+              "httpParamType": "PATH",
+              "type": null,
+              "basedOn": [
+
+              ],
+              "modelType": "STRING",
+              "name": "id"
+            }
+          ],
+          "path": "/{id}",
+          "name": "getStringDtoInImpl",
+          "method": "GET"
+        },
+        {
+          "returnType": {
+            "type": "com.ainrif.apiator.test.model.jaxrs.Dto1",
+            "basedOn": [
+
+            ],
+            "modelType": "OBJECT"
+          },
+          "params": [
+            {
+              "index": 0,
+              "httpParamType": "PATH",
+              "type": null,
+              "basedOn": [
+
+              ],
+              "modelType": "STRING",
+              "name": "id"
+            }
+          ],
+          "path": "/{id}",
+          "name": "putStringDto",
+          "method": "PUT"
+        }
+      ]
+    }
+  ],
+  "version": "1.0.0-SNAPSHOT",
+  "basePath": "/api",
+  "usedApiTypes": [
+    {
+      "type": "com.ainrif.apiator.test.model.jaxrs.Dto1",
+      "basedOn": [
+
+      ],
+      "fields": {
+        "privateFieldWithPublicGetter": {
+          "readable": true,
+          "writable": false,
+          "type": null,
+          "basedOn": [
+            "java.lang.String"
+          ],
+          "modelType": "ARRAY",
+          "name": "privateFieldWithPublicGetter"
+        },
+        "publicFieldWithPublicGetter": {
+          "readable": true,
+          "writable": true,
+          "type": null,
+          "basedOn": [
+
+          ],
+          "modelType": "STRING",
+          "name": "publicFieldWithPublicGetter"
+        },
+        "publicByteArray": {
+          "readable": true,
+          "writable": true,
+          "type": null,
+          "basedOn": [
+            "byte"
+          ],
+          "modelType": "ARRAY",
+          "name": "publicByteArray"
+        },
+        "publicObject": {
+          "readable": true,
+          "writable": true,
+          "type": "java.lang.Object",
+          "basedOn": [
+
+          ],
+          "modelType": "OBJECT",
+          "name": "publicObject"
+        },
+        "publicField": {
+          "readable": true,
+          "writable": true,
+          "type": null,
+          "basedOn": [
+
+          ],
+          "modelType": "INTEGER",
+          "name": "publicField"
+        },
+        "publicFieldWithPrivateGetter": {
+          "readable": true,
+          "writable": true,
+          "type": null,
+          "basedOn": [
+            "java.lang.String"
+          ],
+          "modelType": "ARRAY",
+          "name": "publicFieldWithPrivateGetter"
+        }
+      },
+      "modelType": "OBJECT"
+    },
+    {
+      "type": "com.ainrif.apiator.test.model.jaxrs.Dto2",
+      "basedOn": [
+
+      ],
+      "fields": {
+        "publicField": {
+          "readable": true,
+          "writable": true,
+          "type": null,
+          "basedOn": [
+
+          ],
+          "modelType": "INTEGER",
+          "name": "publicField"
+        },
+        "dtoNested": {
+          "readable": true,
+          "writable": true,
+          "type": "com.ainrif.apiator.test.model.jaxrs.DtoNested",
+          "basedOn": [
+
+          ],
+          "modelType": "OBJECT",
+          "name": "dtoNested"
+        }
+      },
+      "modelType": "OBJECT"
+    },
+    {
+      "type": "com.ainrif.apiator.test.model.jaxrs.Dto3",
+      "basedOn": [
+
+      ],
+      "fields": {
+        "publicField": {
+          "readable": true,
+          "writable": true,
+          "type": null,
+          "basedOn": [
+
+          ],
+          "modelType": "INTEGER",
+          "name": "publicField"
+        }
+      },
+      "modelType": "OBJECT"
+    },
+    {
+      "type": "com.ainrif.apiator.test.model.jaxrs.DtoNested",
+      "basedOn": [
+
+      ],
+      "fields": {
+        "publicField": {
+          "readable": true,
+          "writable": true,
+          "type": null,
+          "basedOn": [
+
+          ],
+          "modelType": "INTEGER",
+          "name": "publicField"
+        }
+      },
+      "modelType": "OBJECT"
+    },
+    {
+      "type": "com.ainrif.apiator.test.model.jaxrs.DtoTypeValue",
+      "basedOn": [
+
+      ],
+      "fields": {
+        "data": {
+          "readable": true,
+          "writable": true,
+          "type": "java.lang.Object",
+          "basedOn": [
+
+          ],
+          "modelType": "OBJECT",
+          "name": "data"
+        }
+      },
+      "modelType": "OBJECT"
+    },
+    {
+      "type": "com.ainrif.apiator.test.model.jaxrs.DtoWildcardType",
+      "basedOn": [
+
+      ],
+      "fields": {
+        "withExtendsBound": {
+          "readable": true,
+          "writable": true,
+          "type": null,
+          "basedOn": [
+            "com.ainrif.apiator.test.model.jaxrs.DtoWildcardType$GenericWildcardBound"
+          ],
+          "modelType": "ARRAY",
+          "name": "withExtendsBound"
+        },
+        "withExtendsBoundFromClass": {
+          "readable": false,
+          "writable": true,
+          "type": null,
+          "basedOn": [
+            "com.ainrif.apiator.test.model.jaxrs.DtoWildcardType$GenericWildcardBound"
+          ],
+          "modelType": "ARRAY",
+          "name": "withExtendsBoundFromClass"
+        },
+        "withSupperBound": {
+          "readable": false,
+          "writable": true,
+          "type": null,
+          "basedOn": [
+            "java.lang.Object"
+          ],
+          "modelType": "ARRAY",
+          "name": "withSupperBound"
+        }
+      },
+      "modelType": "OBJECT"
+    }
+  ]
+}
