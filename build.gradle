@@ -9,11 +9,11 @@ apply plugin: 'groovy'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 group = 'com.ainrif'
-version = '0.2.1'
+version = '0.2.2-SNAPSHOT'
 
 ext.sharedManifest = manifest {
-    attributes 'Implementation-Vendor': 'com.ainrif',
-            'Implementation-Title': 'apiator',
+    attributes 'Implementation-Vendor': group,
+            'Implementation-Title': name,
             'Implementation-Version': version
 }
 
@@ -37,6 +37,7 @@ dependencies {
     compile "ch.qos.logback:logback-classic:1.1.2"
 
     compile "org.apache.commons:commons-lang3:3.3.2"
+    compile "org.springframework:spring-core:4.1.6.RELEASE"
     compile "org.reflections:reflections:0.9.9"
     compile "javax.ws.rs:javax.ws.rs-api:2.0.1"
 

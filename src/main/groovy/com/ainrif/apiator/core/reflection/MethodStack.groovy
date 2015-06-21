@@ -21,7 +21,6 @@ import com.ainrif.apiator.core.model.api.ApiEndpointParam
 import com.ainrif.apiator.core.model.api.ApiEndpointReturnType
 import com.ainrif.apiator.core.model.api.ApiType
 
-import javax.annotation.Nullable
 import java.lang.annotation.Annotation
 import java.lang.reflect.Method
 
@@ -82,18 +81,12 @@ abstract class MethodStack extends ArrayList<Method> {
 
     protected
     static <T extends Annotation> Map<ParamSignature, List<? extends Annotation>> filterParametersAnnotationsLists(
-            Map<ParamSignature, List<? extends Annotation>> annotations, @Nullable Class<T> type) {
-        def result;
-        if (type) {
-            result = annotations
-            // select all stacks which contain annotated param
-                    .findAll { it.value.any { type.isAssignableFrom(it.class) } }
-            // select only annotated items from stack
-                    .collectEntries { k, v -> [k, v.findAll { type.isAssignableFrom(it.class) }] }
-        } else {
-            // find all not annotated params
-            result = annotations.findAll { it.value.empty }
-        }
+            Map<ParamSignature, List<? extends Annotation>> annotations, Class<T> type) {
+        def result = annotations
+        // select all stacks which contain annotated param
+                .findAll { it.value.any { type.isAssignableFrom(it.class) } }
+        // select only annotated items from stack
+                .collectEntries { k, v -> [k, v.findAll { type.isAssignableFrom(it.class) }] }
 
         result
     }

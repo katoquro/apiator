@@ -71,7 +71,7 @@ public class ServiceImpl implements Service {
         return null;
     }
 
-    @POST
+    @CustomPOST
     @Path("/enum")
     public void setStatus(@QueryParam("enum") EnumApiType status) { }
 

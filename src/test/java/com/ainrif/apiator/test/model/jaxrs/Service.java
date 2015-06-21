@@ -15,10 +15,8 @@
  */
 package com.ainrif.apiator.test.model.jaxrs;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
+import java.lang.annotation.*;
 import java.util.List;
 
 public interface Service {
@@ -32,4 +30,9 @@ public interface Service {
     @POST Dto1 putStringDto(String id);
 
     @GET List<List<Dto2>> getAll();
+
+    @Target({ElementType.METHOD})
+    @Retention(RetentionPolicy.RUNTIME)
+    @HttpMethod(HttpMethod.POST)
+    @Documented @interface CustomPOST {}
 }

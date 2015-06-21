@@ -19,6 +19,7 @@ import com.ainrif.apiator.core.model.api.*
 import com.ainrif.apiator.core.reflection.MethodStack
 import com.ainrif.apiator.core.reflection.ParamSignature
 import com.ainrif.apiator.core.reflection.RUtils
+import org.springframework.core.annotation.AnnotationUtils
 
 import javax.ws.rs.*
 import java.lang.annotation.Annotation
@@ -47,32 +48,12 @@ class JaxRsMethodStack extends MethodStack {
 
     @Override
     String getPath() {
-        def path = (RUtils.getAnnotationList(this, Path) ?: null)?.last()?.value()
-
-        path ?: '/'
+        AnnotationUtils.findAnnotation(this.last(), Path)?.value() ?: '/'
     }
 
     @Override
     ApiEndpointMethod getMethod() {
-        def method = 'GET'
-
-        this.each { Method javaMethod ->
-            def annotation = [POST, GET, PUT, DELETE, OPTIONS, HEAD].find { javaMethod.isAnnotationPresent(it) }
-
-            if (annotation) {
-                method = annotation.getAnnotation(HttpMethod).value()
-            } else if (javaMethod.isAnnotationPresent(HttpMethod)) {
-                method = javaMethod.getAnnotation(HttpMethod).value()
-            } else {
-                def annotationOpt = javaMethod.getAnnotations().find {
-                    it.annotationType().isAnnotationPresent(HttpMethod)
-                }
-
-                if (annotationOpt) {
-                    method = annotationOpt.annotationType().getAnnotation(HttpMethod).value()
-                }
-            }
-        }
+        def method = AnnotationUtils.findAnnotation(this.last(), HttpMethod)?.value() ?: 'GET'
 
         ApiEndpointMethod.valueOf(method);
     }
@@ -87,14 +68,14 @@ class JaxRsMethodStack extends MethodStack {
     //todo tests for annotated body params
     @Override
     List<ApiEndpointParam> getParams() {
-        def annotations = getParametersAnnotationsLists()
+        def paramAnnotations = getParametersAnnotationsLists()
         def result = []
 
         // explicitly annotated params
-        result += SIMPLE_PARAM_ANNOTATIONS.collect { processParamAnnotation(annotations, it) }.flatten()
+        result += SIMPLE_PARAM_ANNOTATIONS.collect { processParamAnnotation(paramAnnotations, it) }.flatten()
 
         // implicit BODY param
-        result += filterOutParametersAnnotationsLists(annotations, SIMPLE_PARAM_ANNOTATIONS + BeanParam).collect {
+        result += filterOutParametersAnnotationsLists(paramAnnotations, SIMPLE_PARAM_ANNOTATIONS + BeanParam).collect {
             def parameter = this.last().parameters[it.key.index]
             new ApiEndpointParam(
                     index: it.key.index,
@@ -105,7 +86,7 @@ class JaxRsMethodStack extends MethodStack {
         }
 
         // complex BeanParams
-        filterParametersAnnotationsLists(annotations, BeanParam).collect {
+        filterParametersAnnotationsLists(paramAnnotations, BeanParam).collect {
             def parameter = this.last().parameters[it.key.index]
 
             result += RUtils.getAllFields(parameter.type, testFieldAnnotations).collect {
@@ -124,11 +105,11 @@ class JaxRsMethodStack extends MethodStack {
 
     private List<ApiEndpointParam> processParamAnnotation(Map<ParamSignature, List<? extends Annotation>> annotations,
                                                           Class<? extends Annotation> filterAnnotation) {
-        filterParametersAnnotationsLists(annotations, filterAnnotation).collect {
-            def parameter = this.last().parameters[it.key.index]
+        filterParametersAnnotationsLists(annotations, filterAnnotation).collect { param, annList ->
+            def parameter = this.last().parameters[param.index]
             new ApiEndpointParam(
-                    index: it.key.index,
-                    name: it.value ? it.value.last().value() : null,
+                    index: param.index,
+                    name: annList ? annList.last().value() : null,
                     type: new ApiType(parameter.parameterizedType),
                     httpParamType: httpParamTypeFor(filterAnnotation)
             )

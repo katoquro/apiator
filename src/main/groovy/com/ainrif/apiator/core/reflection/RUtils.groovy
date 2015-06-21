@@ -111,7 +111,7 @@ final class RUtils {
      * @param annotationClass
      */
     public
-    static <T extends Annotation, E extends AnnotatedElement> List<T> getAnnotationList(List<E> elements, Class<T> annotationClass) {
+    static <A extends Annotation, E extends AnnotatedElement> List<A> getAnnotationList(List<E> elements, Class<A> annotationClass) {
         elements.findAll { it.isAnnotationPresent(annotationClass) }
                 .collect { it.getAnnotation(annotationClass) }
     }
