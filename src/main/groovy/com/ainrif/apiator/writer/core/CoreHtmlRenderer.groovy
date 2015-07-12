@@ -34,13 +34,13 @@ class CoreHtmlRenderer implements Renderer {
         def webJarsLocator = new WebJarAssetLocator()
 
         def jsPaths = []
-        jsPaths << webJarsLocator.getFullPath('jquery', 'jquery.js')
-        jsPaths << webJarsLocator.getFullPath('bootstrap', 'bootstrap.js')
-        jsPaths << webJarsLocator.getFullPath('handlebars', 'handlebars.js')
+        jsPaths << webJarsLocator.getFullPath('jquery', 'jquery.min.js')
+        jsPaths << webJarsLocator.getFullPath('bootstrap', 'bootstrap.min.js')
+        jsPaths << webJarsLocator.getFullPath('handlebars', 'handlebars.min.js')
         jsPaths << 'fuse.min.js'
 
         def cssPaths = []
-        cssPaths << webJarsLocator.getFullPath('bootstrap', 'bootstrap.css')
+        cssPaths << webJarsLocator.getFullPath('bootstrap', 'bootstrap.min.css')
 
         js = jsPaths
                 .collect { this.class.classLoader.getResource(it).text }
