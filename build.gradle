@@ -108,8 +108,10 @@ artifacts {
 }
 
 bintray {
-    user = bintray_api_user
-    key = bintray_api_key
+    if (hasProperty('bintray_api_user') && hasProperty('bintray_api_key')) {
+        user = bintray_api_user
+        key = bintray_api_key
+    }
 
     publications = ['mavenJava']
 
