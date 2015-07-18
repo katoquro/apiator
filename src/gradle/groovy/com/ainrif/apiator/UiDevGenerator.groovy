@@ -16,20 +16,13 @@
 package com.ainrif.apiator
 
 import com.ainrif.apiator.writer.core.CoreHtmlRenderer
-import groovy.text.GStringTemplateEngine
 
 class UiDevGenerator {
     public static void main(String[] args) {
         def json = UiDevGenerator.getResource('/stub.json').text
-        def path = args[0]
-        def renderer = new CoreHtmlRenderer("${path}/api.html");
+        def path = "${args[0]}/api.html"
 
-        def html = new GStringTemplateEngine()
-                .createTemplate(renderer.template)
-                .make([json: json, js: renderer.js, css: renderer.css])
-                .toString()
-
-        new File(renderer.toFile).write(html);
+        new CoreHtmlRenderer(path).renderTemplate(json)
     }
 }
 

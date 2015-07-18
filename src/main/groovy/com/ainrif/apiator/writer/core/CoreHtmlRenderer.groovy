@@ -62,6 +62,10 @@ class CoreHtmlRenderer implements Renderer {
     String render(ApiScheme scheme) {
         def json = new CoreJsonRenderer().render(scheme)
 
+        return renderTemplate(json)
+    }
+
+    protected String renderTemplate(String json) {
         def html = new GStringTemplateEngine()
                 .createTemplate(template)
                 .make([json: json, js: js, css: css])
