@@ -18,12 +18,15 @@ package com.ainrif.gears.gradle.uidev
 import org.gradle.api.logging.Logging
 
 import java.nio.file.*
+import java.nio.file.attribute.BasicFileAttributes
 import java.time.LocalTime
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 
 import static com.sun.nio.file.SensitivityWatchEventModifier.HIGH
+import static java.nio.file.Files.isDirectory
+import static java.nio.file.LinkOption.NOFOLLOW_LINKS
 import static java.nio.file.StandardWatchEventKinds.*
 
 class WatchServer {
@@ -32,70 +35,94 @@ class WatchServer {
     def logger = Logging.getLogger(getClass())
 
     private final AtomicBoolean running = new AtomicBoolean(false)
-    private final ExecutorService threadPool
+    private final ExecutorService threadPool = Executors.newSingleThreadExecutor()
+    private final WatchService watchService
 
-    private Map<WatchKey, WatchUnit> watched
+    private Map<WatchKey, WatchUnit> watched = new HashMap<>()
 
     public WatchServer(Map<Path, EventCallback> listeners) {
-        this.threadPool = Executors.newFixedThreadPool(listeners.size())
+        this.watchService = FileSystems.default.newWatchService()
 
-        this.watched = listeners.collectEntries { path, callback ->
-            def watchService = path.fileSystem.newWatchService()
-            def watchKey = path.register(watchService, WATCHED_EVENTS, HIGH)
-
-            def watchUnit = new WatchUnit(
-                    path: path,
-                    watchKey: watchKey,
-                    watchService: watchService,
-                    callback: callback)
-
-            [watchKey, watchUnit]
-        }
+        listeners.each(this.&registerNestedTree)
 
         logger.lifecycle "${listeners.size()} file watch listener${listeners.size() > 1 ? 's were' : ' was'} configured"
+    }
+
+    void registerNestedTree(Path root, EventCallback callback) {
+        def watchedCount = watched.size()
+
+        Files.walkFileTree(root, new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
+                def watchKey = dir.register(watchService, WATCHED_EVENTS, HIGH)
+
+                def watchUnit = new WatchUnit(
+                        path: dir,
+                        watchKey: watchKey,
+                        callback: callback)
+
+                watched.put(watchKey, watchUnit)
+
+                return FileVisitResult.CONTINUE
+            }
+        })
+
+        logger.debug("added ${watched.size() - watchedCount} new keys after scan")
     }
 
     void start() throws Exception {
         if (!running.compareAndSet(false, true)) {
             logger.warn "WatchServer is already running"
-            return;
+            return
         }
 
         try {
-            watched.each {
-                def wUnit = it.value
-                threadPool.submit({
-                    logger.info "Running file watch for ${wUnit.path}"
-                    try {
-                        while (running.get()) {
-                            WatchKey key = wUnit.watchService.take()
+            threadPool.submit({
+                logger.info "Running Watch Server thread"
+                try {
+                    while (running.get()) {
+                        WatchKey key = watchService.take()
 
-                            WatchEvent<Path> event = key.pollEvents()
-                                    .find { Path == it.kind().type() }
+                        WatchEvent<Path> event = key.pollEvents()
+                                .find { Path == it.kind().type() }
 
-                            if (event) {
-                                logger.lifecycle "[${LocalTime.now()}] File watch notification for ${event.context()}"
-                                wUnit.callback.call(event.kind())
-                            }
+                        def wUnit = watched[key]
+                        if (event) {
+                            def kind = event.kind()
+                            def eventPath = wUnit.path.resolve(event.context())
 
-                            boolean valid = key.reset()
-                            if (!valid) {
-                                logger.warn "File watch root was removed ${wUnit.path}"
+                            logger.lifecycle "[${LocalTime.now()}] File watch notification for : ${eventPath}"
+
+                            if (isDirectory(eventPath, NOFOLLOW_LINKS)) {
+                                if (ENTRY_CREATE == kind) {
+                                    registerNestedTree(eventPath, wUnit.callback)
+                                }
+                            } else {
+                                wUnit.callback.call(kind)
                             }
                         }
-                    } catch (ClosedWatchServiceException e) {
-                        logger.info "File watch stopped for ${wUnit.path}"
+
+                        boolean valid = key.reset()
+                        if (!valid) {
+                            logger.warn "File watch root was removed : ${wUnit.path}"
+                            logger.info "Evict ${wUnit.path} from Watched"
+                            watched.remove(key)
+                        }
                     }
-                } as Runnable)
-            }
+                } catch (ClosedWatchServiceException e) {
+                    logger.info "Access to Stopped Watch Server"
+                }
+            } as Runnable)
         } finally {
             threadPool.shutdown()
         }
     }
 
     void stop() throws Exception {
-        running.set(false) // todo think about lock fow auto-restart
-        watched.each { it.value.watchService.close() }
+        running.set(false) // todo think about lock for auto-restart
+
+        logger.info "Stopping Watch Server"
+        watchService.close()
     }
 
     static interface EventCallback {
@@ -105,7 +132,6 @@ class WatchServer {
     static class WatchUnit {
         Path path
         WatchKey watchKey
-        WatchService watchService
         EventCallback callback
     }
 }
