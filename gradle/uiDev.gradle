@@ -11,7 +11,7 @@ sourceSets {
 
 uiDev {
     liveReloadRoot = 'build/apiator'
-    taskTriggerRoot = 'src/main/resources'
+    taskTriggerRoots = ['src/main/resources', 'src/gradle/resources']
     taskName = 'ui_dev_generate'
     coldStart = true
 }

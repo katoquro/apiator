@@ -26,7 +26,8 @@ class UiDevTask extends DefaultTask {
     private static final int liveReloadPort = 35729
 
     String liveReloadRoot
-    String taskTriggerRoot
+
+    List<String> taskTriggerRoots
     String taskName
     boolean coldStart = true
 
@@ -34,15 +35,19 @@ class UiDevTask extends DefaultTask {
     void action() {
         Map<Path, WatchServer.EventCallback> watchServerListeners = [:]
 
-        if (taskTriggerRoot) {
+        if (taskTriggerRoots) {
+            if (!taskName) {
+                throw new RuntimeException("'taskName' is not defined")
+            }
+
             def taskRunner = new GradleTaskExecutor(project)
             if (coldStart) {
                 taskRunner.execute(taskName)
             }
 
-            def taskTriggerPath = FileSystems.default.getPath(taskTriggerRoot)
-
-            watchServerListeners.put(taskTriggerPath, { taskRunner.execute(taskName) })
+            taskTriggerRoots
+                    .collect { FileSystems.default.getPath(it) }
+                    .each { watchServerListeners.put(it, { taskRunner.execute(taskName) }) }
         }
 
         def liveReloadPath = FileSystems.default.getPath(liveReloadRoot)
