@@ -69,6 +69,11 @@ task wrapper(type: Wrapper) {
     distributionUrl = "https://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip"
 }
 
+task buildAndZipReports(type: Zip, dependsOn: build) {
+    appendix = 'tests_reports'
+    from 'build/reports/tests'
+}
+
 jar {
     manifest {
         from sharedManifest

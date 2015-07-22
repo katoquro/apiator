@@ -1,5 +1,10 @@
-# Apiator [ ![Download](https://api.bintray.com/packages/ainrif/maven/apiator/images/download.svg) ](https://bintray.com/ainrif/maven/apiator/_latestVersion)
+# Apiator [![Download][artifact_img]][artifact] [![Build Status][build_img]][build]
 
+  [artifact_img]: https://api.bintray.com/packages/ainrif/maven/apiator/images/download.svg
+  [artifact]: https://bintray.com/ainrif/maven/apiator/_latestVersion
+  [build_img]: https://drone.io/bitbucket.org/ainrif/apiator/status.png
+  [build]: https://drone.io/bitbucket.org/ainrif/apiator/latest 
+  
 Simple library for auto-documenting of you java/groovy rest-api
 
 ## Getting started
