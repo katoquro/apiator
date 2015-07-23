@@ -25,8 +25,8 @@
           "returnType": {
             "type": null,
             "basedOn": [
-              "com.ainrif.apiator.test.model.jaxrs.Dto2",
-              "java.util.List"
+              "ARRAY",
+              "com.ainrif.apiator.test.model.jaxrs.Dto2"
             ],
             "modelType": "ARRAY"
           },
@@ -225,7 +225,7 @@
           "writable": false,
           "type": null,
           "basedOn": [
-            "java.lang.String"
+            "STRING"
           ],
           "modelType": "ARRAY",
           "name": "privateFieldWithPublicGetter"

@@ -28,6 +28,10 @@ abstract class ModelTypeBasedView {
         this.type = [ModelType.OBJECT, ModelType.ENUMERATION].any { it == type.modelType } ? type.rawType.name : null
         this.basedOn = type.array ?
                 [type.arrayType.name] :
-                type.flattenArgumentTypes().collect { it.rawType.name }
+                type.flattenArgumentTypes().collect {
+                    return it.modelType == ModelType.OBJECT ?
+                            it.rawType.name :
+                            it.modelType.name()
+                }
     }
 }
