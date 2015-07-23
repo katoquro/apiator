@@ -95,9 +95,14 @@
                                         {{#if returnType.basedOn}}
                                             based on:
                                             {{#each returnType.basedOn}}
-                                                <a href="#uat-{{hashCode this}}">
-                                                    <code>{{shrinkByDots this}}</code>
-                                                </a>
+                                                <!--todo need to process nested values-->
+                                                {{#if this.type}}
+                                                    <a href="#uat-{{hashCode this.type}}">
+                                                        <code>{{shrinkByDots this.type}}</code>
+                                                    </a>
+                                                {{else}}
+                                                    <code>{{this.modelType}}</code>
+                                                {{/if}}
                                             {{/each}}
                                         {{/if}}
                                     </div>
@@ -118,9 +123,13 @@
                                                 {{#if basedOn}}
                                                     based on:
                                                     {{#each basedOn}}
-                                                        <a href="#uat-{{hashCode this}}">
-                                                            <code>{{shrinkByDots this}}</code>
-                                                        </a>
+                                                        {{#if this.type}}
+                                                            <a href="#uat-{{hashCode this.type}}">
+                                                                <code>{{shrinkByDots this.type}}</code>
+                                                            </a>
+                                                        {{else}}
+                                                            <code>{{this.modelType}}</code>
+                                                        {{/if}}
                                                     {{/each}}
                                                 {{/if}}
                                                 <br/>
@@ -210,9 +219,13 @@
                                         {{#if basedOn}}
                                             based on:
                                             {{#each basedOn}}
-                                                <a href="#uat-{{hashCode this}}">
-                                                    <code>{{shrinkByDots this}}</code>
-                                                </a>
+                                                {{#if this.type}}
+                                                    <a href="#uat-{{hashCode this.type}}">
+                                                        <code>{{shrinkByDots this.type}}</code>
+                                                    </a>
+                                                {{else}}
+                                                    <code>{{this.modelType}}</code>
+                                                {{/if}}
                                             {{/each}}
                                         {{/if}}
                                     </div>

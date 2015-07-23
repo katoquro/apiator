@@ -112,7 +112,7 @@ class ApiType {
             result << it
         }
 
-        result
+        result.reverse()
     }
 
     boolean equals(o) {

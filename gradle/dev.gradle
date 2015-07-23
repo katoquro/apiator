@@ -1,0 +1,12 @@
+task smoke_generate(type: JavaExec) {
+    def apiatorPath = 'build/apiator'
+
+    doFirst {
+        def path = file(apiatorPath)
+        path.mkdirs()
+    }
+
+    main = 'com.ainrif.apiator.SmokeSpec'
+    classpath = sourceSets.test.runtimeClasspath
+    args = [file(apiatorPath).absolutePath]
+}
