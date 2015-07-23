@@ -25,8 +25,18 @@
           "returnType": {
             "type": null,
             "basedOn": [
-              "ARRAY",
-              "com.ainrif.apiator.test.model.jaxrs.Dto2"
+              {
+                "type": null,
+                "basedOn": [
+                  {
+                    "type": "com.ainrif.apiator.test.model.jaxrs.Dto2",
+                    "basedOn": [
+                    ],
+                    "modelType": "OBJECT"
+                  }
+                ],
+                "modelType": "ARRAY"
+              }
             ],
             "modelType": "ARRAY"
           },
@@ -40,7 +50,12 @@
           "returnType": {
             "type": null,
             "basedOn": [
-              "byte"
+              {
+                "type": null,
+                "basedOn": [
+                ],
+                "modelType": "BYTE"
+              }
             ],
             "modelType": "ARRAY"
           },
@@ -94,7 +109,12 @@
           "returnType": {
             "type": null,
             "basedOn": [
-              "com.ainrif.apiator.test.model.jaxrs.Dto3"
+              {
+                "type": "com.ainrif.apiator.test.model.jaxrs.Dto3",
+                "basedOn": [
+                ],
+                "modelType": "OBJECT"
+              }
             ],
             "modelType": "ARRAY"
           },
@@ -225,7 +245,12 @@
           "writable": false,
           "type": null,
           "basedOn": [
-            "STRING"
+            {
+              "type": null,
+              "basedOn": [
+              ],
+              "modelType": "STRING"
+            }
           ],
           "modelType": "ARRAY",
           "name": "privateFieldWithPublicGetter"
@@ -244,7 +269,12 @@
           "writable": true,
           "type": null,
           "basedOn": [
-            "byte"
+            {
+              "type": null,
+              "basedOn": [
+              ],
+              "modelType": "BYTE"
+            }
           ],
           "modelType": "ARRAY",
           "name": "publicByteArray"
@@ -272,7 +302,12 @@
           "writable": true,
           "type": null,
           "basedOn": [
-            "java.lang.String"
+            {
+              "type": null,
+              "basedOn": [
+              ],
+              "modelType": "STRING"
+            }
           ],
           "modelType": "ARRAY",
           "name": "publicFieldWithPrivateGetter"
@@ -367,7 +402,12 @@
           "writable": true,
           "type": null,
           "basedOn": [
-            "com.ainrif.apiator.test.model.jaxrs.DtoWildcardType$GenericWildcardBound"
+            {
+              "type": "com.ainrif.apiator.test.model.jaxrs.DtoWildcardType$GenericWildcardBound",
+              "basedOn": [
+              ],
+              "modelType": "OBJECT"
+            }
           ],
           "modelType": "ARRAY",
           "name": "withExtendsBound"
@@ -377,7 +417,12 @@
           "writable": true,
           "type": null,
           "basedOn": [
-            "com.ainrif.apiator.test.model.jaxrs.DtoWildcardType$GenericWildcardBound"
+            {
+              "type": "com.ainrif.apiator.test.model.jaxrs.DtoWildcardType$GenericWildcardBound",
+              "basedOn": [
+              ],
+              "modelType": "OBJECT"
+            }
           ],
           "modelType": "ARRAY",
           "name": "withExtendsBoundFromClass"
@@ -387,7 +432,12 @@
           "writable": true,
           "type": null,
           "basedOn": [
-            "java.lang.Object"
+            {
+              "type": "java.lang.Object",
+              "basedOn": [
+              ],
+              "modelType": "OBJECT"
+            }
           ],
           "modelType": "ARRAY",
           "name": "withSupperBound"
