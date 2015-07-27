@@ -47,6 +47,7 @@ class ApiTypeSpec extends Specification {
         'iterableField'           | true
         'typeVariableType'        | false
         'typeVariableBoundedType' | false
+        'genericBounded'          | false //todo #generic-bound need discuss compared to prev test case
     }
 
     def "isArray; #inputType"() {
@@ -67,6 +68,7 @@ class ApiTypeSpec extends Specification {
         'iterableField'           | false
         'typeVariableType'        | false
         'typeVariableBoundedType' | false
+        'genericBounded'          | false
     }
 
     def "getRawType; #inputType"() {
@@ -87,6 +89,7 @@ class ApiTypeSpec extends Specification {
         'iterableField'           | Iterable
         'typeVariableType'        | Object
         'typeVariableBoundedType' | Collection
+        'genericBounded'          | List
     }
 
     def "getRawType; w/ wildcard type #inputType"() {
@@ -177,6 +180,7 @@ class ApiTypeSpec extends Specification {
         'listGTVBField'              | [List, Collection]
         'listGIterableGTVBField'     | [List, Iterable, Collection]
         'listGStringArray'           | [List, String[]]
+        'listGenericBounded'         | [List, List] // todo #generic-bound generic of last list
         'mapGSetGStringAndGTVBField' | [Map, Set, String, Collection]
     }
 

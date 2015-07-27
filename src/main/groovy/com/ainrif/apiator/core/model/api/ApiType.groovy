@@ -54,13 +54,16 @@ class ApiType {
             } else if (type instanceof TypeVariable) {
                 def bounds = type.asType(TypeVariable).bounds
                 if (bounds) {
-                    rawTypeCache = bounds[0].asType(Class)
+                    //todo multiple bounds
+                    rawTypeCache = new ApiType(bounds[0]).rawType
                 } else {
                     rawTypeCache = Object //fallback case; need test
                 }
             } else if (type instanceof WildcardType) {
-                rawTypeCache = type.asType(WildcardType).upperBounds[0].asType(Class)
+                def bound = type.asType(WildcardType).upperBounds[0]
+                rawTypeCache = new ApiType(bound).rawType
             } else {
+                //todo GenericArrayType
                 rawTypeCache = type.asType(Class)
             }
         }()

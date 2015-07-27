@@ -16,9 +16,10 @@
 package com.ainrif.apiator.core.model.api;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
-public class ModelDto1<TV, TVB extends Collection> {
+public class ModelDto1<TV, TVB extends Collection, GENERIC_BOUNDED extends List<String>> {
     int intPrimitiveField;
     Object objectField;
     ModelEnum enumField;
@@ -28,4 +29,5 @@ public class ModelDto1<TV, TVB extends Collection> {
     Iterable<?> iterableField;
     TV typeVariableType;
     TVB typeVariableBoundedType;
+    GENERIC_BOUNDED genericBounded;
 }
