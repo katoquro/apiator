@@ -59,7 +59,7 @@ public class ServiceImpl implements Service {
     }
 
     @Path("/wildcard-type")
-    public DtoWildcardType getDtoWildcardType() {
+    public DtoWithBounds getDtoWildcardType() {
         return null;
     }
 

@@ -174,7 +174,7 @@
         },
         {
           "returnType": {
-            "type": "com.ainrif.apiator.test.model.jaxrs.DtoWildcardType",
+            "type": "com.ainrif.apiator.test.model.jaxrs.DtoWithBounds",
             "basedOn": [
             ],
             "modelType": "OBJECT"
@@ -393,17 +393,17 @@
       "modelType": "OBJECT"
     },
     {
-      "type": "com.ainrif.apiator.test.model.jaxrs.DtoWildcardType",
+      "type": "com.ainrif.apiator.test.model.jaxrs.DtoWithBounds",
       "basedOn": [
       ],
       "fields": {
         "withExtendsBound": {
           "readable": true,
-          "writable": true,
+          "writable": false,
           "type": null,
           "basedOn": [
             {
-              "type": "com.ainrif.apiator.test.model.jaxrs.DtoWildcardType$GenericWildcardBound",
+              "type": "com.ainrif.apiator.test.model.jaxrs.DtoWithBounds$GenericWildcardBound",
               "basedOn": [
               ],
               "modelType": "OBJECT"
@@ -418,7 +418,7 @@
           "type": null,
           "basedOn": [
             {
-              "type": "com.ainrif.apiator.test.model.jaxrs.DtoWildcardType$GenericWildcardBound",
+              "type": "com.ainrif.apiator.test.model.jaxrs.DtoWithBounds$GenericWildcardBound",
               "basedOn": [
               ],
               "modelType": "OBJECT"
@@ -427,7 +427,22 @@
           "modelType": "ARRAY",
           "name": "withExtendsBoundFromClass"
         },
-        "withSupperBound": {
+        "withExtendsWildcardBound": {
+          "readable": false,
+          "writable": true,
+          "type": null,
+          "basedOn": [
+            {
+              "type": "com.ainrif.apiator.test.model.jaxrs.DtoWithBounds$GenericWildcardBound",
+              "basedOn": [
+              ],
+              "modelType": "OBJECT"
+            }
+          ],
+          "modelType": "ARRAY",
+          "name": "withExtendsWildcardBound"
+        },
+        "withSuperWildcardBound": {
           "readable": false,
           "writable": true,
           "type": null,
@@ -440,7 +455,7 @@
             }
           ],
           "modelType": "ARRAY",
-          "name": "withSupperBound"
+          "name": "withSuperWildcardBound"
         }
       },
       "modelType": "OBJECT"

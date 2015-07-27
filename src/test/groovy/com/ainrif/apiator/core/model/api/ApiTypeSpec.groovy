@@ -94,7 +94,7 @@ class ApiTypeSpec extends Specification {
 
     def "getRawType; w/ wildcard type #inputType"() {
         given:
-        def wildcardType = ModelDto1.getDeclaredField(inputType)
+        def wildcardType = ModelWithGenericBounds.WildcardDto.getDeclaredField(inputType)
                 .genericType.asType(ParameterizedType)
                 .actualTypeArguments[0]
         def input = new ApiType(wildcardType)
@@ -103,8 +103,39 @@ class ApiTypeSpec extends Specification {
         input.rawType == expected
 
         where:
-        inputType       | expected
-        'iterableField' | Object
+        inputType                       | expected
+        'fieldWithWildcard'             | Object
+        'fieldWithExtendsWildcardBound' | Collection
+        'fieldWithExtendsSuperBound'    | Object
+    }
+
+    def "getting generic bounds from method return type"() {
+        given:
+        def input = ModelWithGenericBounds.getDeclaredMethod('getWithExtendsBound')
+                .genericReturnType.asType(ParameterizedType)
+                .actualTypeArguments[0]
+                .with { new ApiType(it) }
+
+        expect:
+        input.rawType == ModelWithGenericBounds.BoundsDto2
+    }
+
+    def "getting generic bounds from method params"() {
+        given:
+        def input = ModelWithGenericBounds.getDeclaredMethod(inputType, List)
+                .parameters[0]
+                .parameterizedType.asType(ParameterizedType)
+                .actualTypeArguments[0]
+                .with { new ApiType(it) }
+
+        expect:
+        input.rawType == expected
+
+        where:
+        inputType                      | expected
+        'setWithExtendsWildcardBound'  | ModelWithGenericBounds.BoundsDto
+        'setWithExtendsBoundFromClass' | ModelWithGenericBounds.BoundsDto
+        'setWithSuperWildcardBound'    | Object
     }
 
     def "getArrayType"() {

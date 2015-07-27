@@ -17,14 +17,14 @@ package com.ainrif.apiator.test.model.jaxrs;
 
 import java.util.List;
 
-public class DtoWildcardType<TEC extends DtoWildcardType.GenericWildcardBound> {
+public class DtoWithBounds<TEC extends DtoWithBounds.GenericWildcardBound> {
     public <TE extends GenericWildcardBound> List<TE> getWithExtendsBound() { return null; }
 
-    public void setWithExtendsBound(List<? extends GenericWildcardBound> supperBound) { }
+    public void setWithExtendsWildcardBound(List<? extends GenericWildcardBound> superBound) { }
 
-    public void setWithExtendsBoundFromClass(List<TEC> supperBound) { }
+    public void setWithExtendsBoundFromClass(List<TEC> superBound) { }
 
-    public void setWithSupperBound(List<? super GenericWildcardBound> supperBound) { }
+    public void setWithSuperWildcardBound(List<? super GenericWildcardBound> superBound) { }
 
     public static class GenericWildcardBound {
         public int field;
