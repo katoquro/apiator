@@ -34,5 +34,5 @@ public class ModelDto2<TV, TVB extends Collection, GENERIC_BOUNDED extends List<
 
     Map<Set<String>, TVB> mapGSetGStringAndGTVBField;
 
-//    List<String>[] ListGString_array; //additional case of GenericArrayType
+    List<Set<String>[]> listGSetArrayField;
 }

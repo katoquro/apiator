@@ -15,7 +15,10 @@
  */
 package com.ainrif.apiator.test.model.jaxrs;
 
+import java.util.List;
+
 public class Dto2 {
     public int publicField = 42;
     public DtoNested dtoNested;
+    public List<String>[] genericArray;
 }

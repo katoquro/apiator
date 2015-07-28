@@ -18,10 +18,7 @@ package com.ainrif.apiator.core.model.api
 import com.ainrif.apiator.core.model.ModelType
 import com.ainrif.apiator.core.model.ModelTypeRegister
 
-import java.lang.reflect.ParameterizedType
-import java.lang.reflect.Type
-import java.lang.reflect.TypeVariable
-import java.lang.reflect.WildcardType
+import java.lang.reflect.*
 
 class ApiType {
 
@@ -42,9 +39,14 @@ class ApiType {
     }
 
     boolean isArray() {
-        type instanceof Class ?
-                type.asType(Class).isArray() :
-                false
+        switch (type) {
+            case { it instanceof Class }:
+                return type.asType(Class).isArray()
+            case { it instanceof GenericArrayType }:
+                return true
+            default:
+                return false
+        }
     }
 
     Class<?> getRawType() {
@@ -62,16 +64,22 @@ class ApiType {
             } else if (type instanceof WildcardType) {
                 def bound = type.asType(WildcardType).upperBounds[0]
                 rawTypeCache = new ApiType(bound).rawType
+            } else if (type instanceof GenericArrayType) {
+                rawTypeCache = type.class
             } else {
-                //todo GenericArrayType
                 rawTypeCache = type.asType(Class)
             }
         }()
     }
 
-    Class<?> getArrayType() {
+    Type getArrayType() {
         if (array) {
-            return type.asType(Class).componentType
+            switch (type) {
+                case { it instanceof Class }:
+                    return type.asType(Class).componentType
+                case { it instanceof GenericArrayType }:
+                    return type.asType(GenericArrayType).genericComponentType
+            }
         }
 
         throw new RuntimeException('TYPE IS NOT ARRAY')
@@ -111,6 +119,8 @@ class ApiType {
         apiTypes.each {
             if (it.generic) {
                 result += _flattenArgumentTypes(it.actualTypeArguments)
+            } else if (it.array) {
+                result += _flattenArgumentTypes([new ApiType(it.arrayType)])
             }
             result << it
         }

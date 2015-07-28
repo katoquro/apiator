@@ -30,4 +30,6 @@ public class ModelDto1<TV, TVB extends Collection, GENERIC_BOUNDED extends List<
     TV typeVariableType;
     TVB typeVariableBoundedType;
     GENERIC_BOUNDED genericBounded;
+
+    Set<String>[] genericSetArrayField;
 }

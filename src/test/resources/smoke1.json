@@ -337,6 +337,27 @@
           ],
           "modelType": "OBJECT",
           "name": "dtoNested"
+        },
+        "genericArray": {
+          "readable": true,
+          "writable": true,
+          "type": null,
+          "basedOn": [
+            {
+              "type": null,
+              "basedOn": [
+                {
+                  "type": null,
+                  "basedOn": [
+                  ],
+                  "modelType": "STRING"
+                }
+              ],
+              "modelType": "ARRAY"
+            }
+          ],
+          "modelType": "ARRAY",
+          "name": "genericArray"
         }
       },
       "modelType": "OBJECT"

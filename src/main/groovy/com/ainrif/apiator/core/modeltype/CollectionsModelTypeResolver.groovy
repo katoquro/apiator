@@ -18,13 +18,16 @@ package com.ainrif.apiator.core.modeltype
 import com.ainrif.apiator.api.ModelTypeResolver
 import com.ainrif.apiator.core.model.ModelType
 
+import java.lang.reflect.GenericArrayType
+
 class CollectionsModelTypeResolver implements ModelTypeResolver {
     @Override
     ModelType resolve(Class<?> type) {
         if (Map.isAssignableFrom(type)) return ModelType.DICTIONARY
         else if (Set.isAssignableFrom(type)) return ModelType.SET
-        else if (Iterable.isAssignableFrom(type)
-                || type.array) return ModelType.ARRAY
+        else if ([Iterable, GenericArrayType].any { it.isAssignableFrom(type) }
+                || type.array)
+            return ModelType.ARRAY
 
         return null
     }
