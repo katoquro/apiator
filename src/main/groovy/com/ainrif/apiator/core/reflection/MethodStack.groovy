@@ -135,7 +135,7 @@ abstract class MethodStack extends ArrayList<Method> {
     }
 
     protected static Class<?> findFirstNotArrayType(ApiType type) {
-        def targetType = type.array ? new ApiType(type.arrayType).rawType : type.rawType
+        def targetType = type.array ? type.componentApiType.rawType : type.rawType
         while (targetType.array) {
             targetType = targetType.componentType
         }

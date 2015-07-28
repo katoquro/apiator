@@ -26,9 +26,11 @@ class ApiType {
     static ModelTypeRegister modelTypeRegister
 
     Type type
+
     List<ApiType> flattenArgumentTypesCache
     Class<?> rawTypeCache
     ModelType modelTypeCache
+    ApiType componentApiTypeCache
 
     ApiType(Type type) {
         this.type = type
@@ -72,17 +74,19 @@ class ApiType {
         }()
     }
 
-    Type getArrayType() {
-        if (array) {
-            switch (type) {
-                case { it instanceof Class }:
-                    return type.asType(Class).componentType
-                case { it instanceof GenericArrayType }:
-                    return type.asType(GenericArrayType).genericComponentType
+    ApiType getComponentApiType() {
+        componentApiTypeCache ?: {
+            if (array) {
+                switch (type) {
+                    case { it instanceof Class }:
+                        return new ApiType(type.asType(Class).componentType)
+                    case { it instanceof GenericArrayType }:
+                        return new ApiType(type.asType(GenericArrayType).genericComponentType)
+                }
             }
-        }
 
-        throw new RuntimeException('TYPE IS NOT ARRAY')
+            throw new RuntimeException('TYPE IS NOT ARRAY')
+        }()
     }
 
     List<ApiType> getActualTypeArguments() {
@@ -120,7 +124,7 @@ class ApiType {
             if (it.generic) {
                 result += _flattenArgumentTypes(it.actualTypeArguments)
             } else if (it.array) {
-                result += _flattenArgumentTypes([new ApiType(it.arrayType)])
+                result += _flattenArgumentTypes([it.componentApiType])
             }
             result << it
         }

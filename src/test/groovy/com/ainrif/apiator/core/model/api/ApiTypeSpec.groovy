@@ -149,18 +149,18 @@ class ApiTypeSpec extends Specification {
         'setWithSuperWildcardBound'    | Object
     }
 
-    def "getArrayType"() {
+    def "getComponentApiType"() {
         given:
         def input_array = new ApiType(ModelDto1.getDeclaredField('arrayField').genericType)
         def input_generic_array = new ApiType(ModelDto1.getDeclaredField('genericSetArrayField').genericType)
         def input_collection = new ApiType(ModelDto1.getDeclaredField('iterableField').genericType)
 
         expect:
-        input_array.arrayType == String
-        input_generic_array.arrayType == ModelDto1.getDeclaredField('setField').genericType
+        input_array.componentApiType.rawType == String
+        input_generic_array.componentApiType.rawType == Set
 
         when:
-        input_collection.arrayType
+        input_collection.componentApiType
 
         then:
         thrown(RuntimeException)
