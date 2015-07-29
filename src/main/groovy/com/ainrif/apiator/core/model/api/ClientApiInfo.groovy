@@ -15,12 +15,14 @@
  */
 package com.ainrif.apiator.core.model.api
 
-import com.ainrif.apiator.core.ApiatorInfo
+import com.ainrif.apiator.core.ApiatorConfig
 
-class ApiScheme {
-    ApiatorInfo apiatorInfo
-    ClientApiInfo clientApiInfo
-    List<ApiContext> apiContexts = []
-    Set<ApiType> usedEnumerations = []
-    Set<ApiType> usedApiTypes = []
+class ClientApiInfo {
+    String version
+    String basePath
+
+    ClientApiInfo(ApiatorConfig config) {
+        this.version = config.apiVersion
+        this.basePath = config.basePath
+    }
 }

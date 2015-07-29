@@ -254,8 +254,6 @@
       ]
     }
   ],
-  "version": "1.0.0-SNAPSHOT",
-  "basePath": "/api",
   "usedApiTypes": [
     {
       "type": "com.ainrif.apiator.test.model.jaxrs.Dto1",
@@ -503,5 +501,9 @@
       },
       "modelType": "OBJECT"
     }
-  ]
+  ],
+  "clientApiInfo": {
+    "version": "1.0.0-SNAPSHOT",
+    "basePath": "/api"
+  }
 }

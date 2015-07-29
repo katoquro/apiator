@@ -9,7 +9,7 @@
         <header class="navbar navbar-default navbar-fixed-top" id="top">
             <div class="container">
                 <a href="#" class="navbar-brand">
-                    {{#if version}} {{basePath}} {{version}}
+                    {{#if clientApiInfo.version}} {{clientApiInfo.basePath}} {{clientApiInfo.version}}
                     {{else}}Core HTML Renderer
                     {{/if}}
                 </a>
