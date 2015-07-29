@@ -18,6 +18,8 @@ package com.ainrif.apiator.test.model.jaxrs;
 import com.ainrif.apiator.api.annotation.Api;
 
 import javax.ws.rs.*;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 @Api("description")
@@ -79,5 +81,11 @@ public class ServiceImpl implements Service {
     }
 
     private void somePrivateLogic() {
+    }
+
+    @Path("/binary")
+    @POST
+    public OutputStream getStream(@FormParam("file") InputStream fileIS) {
+        return null;
     }
 }

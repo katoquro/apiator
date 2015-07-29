@@ -19,11 +19,11 @@ import com.ainrif.apiator.core.model.ModelType
 import spock.lang.Specification
 import spock.lang.Unroll
 
-class PrimitivesModelTypeResolverSpec extends Specification {
+class CoreJavaModelTypeResolverSpec extends Specification {
     @Unroll
     def "resolve"() {
         given:
-        def resolver = new PrimitivesModelTypeResolver()
+        def resolver = new CoreJavaModelTypeResolver()
 
         expect:
         resolver.resolve(type) == expected

@@ -13,26 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.model
+package com.ainrif.apiator.core.modeltype
 
-public enum ModelType {
-    OBJECT, ENUMERATION,
+import com.ainrif.apiator.api.ModelTypeResolver
+import com.ainrif.apiator.core.model.ModelType
 
-    DICTIONARY, ARRAY, SET,
+class BinaryModelTypeResolver implements ModelTypeResolver {
+    @Override
+    ModelType resolve(Class<?> type) {
+        if ([InputStream, OutputStream].any { it.isAssignableFrom(type) }) return ModelType.BINARY
 
-    VOID, BOOLEAN, BYTE, INTEGER, LONG, FLOAT, DOUBLE, STRING,
-
-    DATE, BINARY
-
-    static Collection<ModelType> getModelObjectTypes() {
-        [OBJECT, ENUMERATION]
-    }
-
-    static Collection<ModelType> getNotPrimitiveTypes() {
-        values().minus(primitiveTypes)
-    }
-
-    static Collection<ModelType> getPrimitiveTypes() {
-        [VOID, BOOLEAN, BYTE, INTEGER, LONG, FLOAT, DOUBLE, STRING]
+        return null
     }
 }

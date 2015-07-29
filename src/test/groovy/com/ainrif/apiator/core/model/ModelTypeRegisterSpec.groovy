@@ -16,7 +16,7 @@
 package com.ainrif.apiator.core.model
 
 import com.ainrif.apiator.api.ModelTypeResolver
-import com.ainrif.apiator.core.modeltype.PrimitivesModelTypeResolver
+import com.ainrif.apiator.core.modeltype.CoreJavaModelTypeResolver
 import org.reflections.Reflections
 import org.reflections.scanners.SubTypesScanner
 import org.reflections.util.ClasspathHelper
@@ -28,7 +28,7 @@ class ModelTypeRegisterSpec extends Specification {
 
     def "default init should include all core resolvers"() {
         given:
-        def corePackage = PrimitivesModelTypeResolver.package.name
+        def corePackage = CoreJavaModelTypeResolver.package.name
         Reflections reflections = new Reflections(
                 new ConfigurationBuilder()
                         .addUrls(ClasspathHelper.forPackage(corePackage))

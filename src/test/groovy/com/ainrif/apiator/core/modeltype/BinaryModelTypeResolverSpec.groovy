@@ -13,26 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.model
+package com.ainrif.apiator.core.modeltype
 
-public enum ModelType {
-    OBJECT, ENUMERATION,
+import com.ainrif.apiator.core.model.ModelType
+import spock.lang.Specification
 
-    DICTIONARY, ARRAY, SET,
+class BinaryModelTypeResolverSpec extends Specification {
+    def "resolve"() {
+        given:
+        def resolver = new BinaryModelTypeResolver()
 
-    VOID, BOOLEAN, BYTE, INTEGER, LONG, FLOAT, DOUBLE, STRING,
+        expect:
+        resolver.resolve(type) == expected
 
-    DATE, BINARY
-
-    static Collection<ModelType> getModelObjectTypes() {
-        [OBJECT, ENUMERATION]
-    }
-
-    static Collection<ModelType> getNotPrimitiveTypes() {
-        values().minus(primitiveTypes)
-    }
-
-    static Collection<ModelType> getPrimitiveTypes() {
-        [VOID, BOOLEAN, BYTE, INTEGER, LONG, FLOAT, DOUBLE, STRING]
+        where:
+        type         || expected
+        Object       || null
+        InputStream  || ModelType.BINARY
+        OutputStream || ModelType.BINARY
     }
 }

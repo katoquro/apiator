@@ -50,6 +50,28 @@
           "returnType": {
             "type": null,
             "basedOn": [
+            ],
+            "modelType": "BINARY"
+          },
+          "params": [
+            {
+              "index": 0,
+              "httpParamType": "FORM",
+              "type": null,
+              "basedOn": [
+              ],
+              "modelType": "BINARY",
+              "name": "file"
+            }
+          ],
+          "path": "/binary",
+          "name": "getStream",
+          "method": "POST"
+        },
+        {
+          "returnType": {
+            "type": null,
+            "basedOn": [
               {
                 "type": null,
                 "basedOn": [
