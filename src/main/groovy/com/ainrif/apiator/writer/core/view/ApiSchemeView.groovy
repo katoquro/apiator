@@ -17,6 +17,7 @@ package com.ainrif.apiator.writer.core.view
 
 import com.ainrif.apiator.core.model.Helper
 import com.ainrif.apiator.core.model.api.ApiScheme
+import com.ainrif.apiator.core.reflection.RUtils
 
 class ApiSchemeView {
     Map<String, String> apiatorInfo
@@ -27,7 +28,7 @@ class ApiSchemeView {
     List<ApiTypeView> usedApiTypes = []
 
     ApiSchemeView(ApiScheme scheme) {
-        this.apiatorInfo = scheme.apiatorInfo.toMap()
+        this.apiatorInfo = RUtils.asMap(scheme.apiatorInfo)
         this.version = scheme.version
         this.basePath = scheme.basePath
         this.apiContexts = scheme.apiContexts.collect { new ApiContextView(it) }.sort()

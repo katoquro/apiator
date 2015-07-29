@@ -161,4 +161,22 @@ class RUtilsSpec extends Specification {
             return null
         }
     }
+
+    def "asMap"() {
+        given:
+        def pojo = new TestPojo()
+
+        expect:
+        asMap(pojo) == [primitiveField : '0',
+                        intField       : '42',
+                        nullField      : null,
+                        privateIntField: '42']
+    }
+
+    static class TestPojo {
+        int primitiveField
+        Integer intField = 42
+        Integer nullField = null
+        private Integer privateIntField = 42
+    }
 }

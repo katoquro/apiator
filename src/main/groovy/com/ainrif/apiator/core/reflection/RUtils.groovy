@@ -116,4 +116,16 @@ final class RUtils {
         elements.findAll { it.isAnnotationPresent(annotationClass) }
                 .collect { it.getAnnotation(annotationClass) }
     }
+
+    /**
+     * converts POJO to Map
+     *
+     * @param pojo
+     * @return for map values it calls {@link Object#toString()} if field is {@null} returns {@null}
+     */
+    public static Map<String, String> asMap(def pojo) {
+        pojo.class.declaredFields
+                .findAll { !it.synthetic }
+                .collectEntries { [(it.name), pojo."$it.name"?.toString()] }
+    }
 }

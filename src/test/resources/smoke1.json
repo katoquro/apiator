@@ -1,8 +1,8 @@
 {
   "apiatorInfo": {
-    "version": "UNPACKED",
     "groupId": "UNPACKED",
-    "artifactId": "UNPACKED"
+    "artifactId": "UNPACKED",
+    "version": "UNPACKED"
   },
   "usedEnumerations": [
     {
