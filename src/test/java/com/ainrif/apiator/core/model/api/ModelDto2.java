@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class ModelDto2<TV, TVB extends Collection> {
+public class ModelDto2<TV, TVB extends Collection, GENERIC_BOUNDED extends List<String>> {
     Object objectField;
 
     List<ModelEnum> listGEnumField;
@@ -30,8 +30,9 @@ public class ModelDto2<TV, TVB extends Collection> {
     List<Iterable<TVB>> listGIterableGTVBField;
     List<TV> listGTVField;
     List<TVB> listGTVBField;
+    List<GENERIC_BOUNDED> listGenericBounded;
 
     Map<Set<String>, TVB> mapGSetGStringAndGTVBField;
 
-//    List<String>[] ListGString_array; //additional case of GenericArrayType
+    List<Set<String>[]> listGSetArrayField;
 }

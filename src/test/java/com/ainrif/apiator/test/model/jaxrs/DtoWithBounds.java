@@ -13,23 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.model.api;
+package com.ainrif.apiator.test.model.jaxrs;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
-public class ModelDto1<TV, TVB extends Collection, GENERIC_BOUNDED extends List<String>> {
-    int intPrimitiveField;
-    Object objectField;
-    ModelEnum enumField;
-    String stringField;
-    Set<String> setField;
-    String[] arrayField;
-    Iterable<?> iterableField;
-    TV typeVariableType;
-    TVB typeVariableBoundedType;
-    GENERIC_BOUNDED genericBounded;
+public class DtoWithBounds<TEC extends DtoWithBounds.GenericWildcardBound> {
+    public <TE extends GenericWildcardBound> List<TE> getWithExtendsBound() { return null; }
 
-    Set<String>[] genericSetArrayField;
+    public void setWithExtendsWildcardBound(List<? extends GenericWildcardBound> superBound) { }
+
+    public void setWithExtendsBoundFromClass(List<TEC> superBound) { }
+
+    public void setWithSuperWildcardBound(List<? super GenericWildcardBound> superBound) { }
+
+    public static class GenericWildcardBound {
+        public int field;
+    }
 }

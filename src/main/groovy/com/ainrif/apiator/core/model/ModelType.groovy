@@ -22,7 +22,7 @@ public enum ModelType {
 
     VOID, BOOLEAN, BYTE, INTEGER, LONG, FLOAT, DOUBLE, STRING,
 
-    DATE
+    DATE, BINARY
 
     static Collection<ModelType> getModelObjectTypes() {
         [OBJECT, ENUMERATION]

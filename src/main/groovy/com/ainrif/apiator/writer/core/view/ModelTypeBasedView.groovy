@@ -28,7 +28,7 @@ abstract class ModelTypeBasedView {
         this.type = [ModelType.OBJECT, ModelType.ENUMERATION].any { it == type.modelType } ? type.rawType.name : null
 
         if (type.array) {
-            this.basedOn = [new ApiTypeGenericView(new ApiType(type.arrayType))]
+            this.basedOn = [new ApiTypeGenericView(type.componentApiType)]
         } else if (type.generic) {
             this.basedOn = type.actualTypeArguments.collect { new ApiTypeGenericView(it) }
         } else {

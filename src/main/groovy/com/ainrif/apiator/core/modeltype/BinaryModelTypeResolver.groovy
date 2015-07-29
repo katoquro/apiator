@@ -13,23 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.model.api;
+package com.ainrif.apiator.core.modeltype
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import com.ainrif.apiator.api.ModelTypeResolver
+import com.ainrif.apiator.core.model.ModelType
 
-public class ModelDto1<TV, TVB extends Collection, GENERIC_BOUNDED extends List<String>> {
-    int intPrimitiveField;
-    Object objectField;
-    ModelEnum enumField;
-    String stringField;
-    Set<String> setField;
-    String[] arrayField;
-    Iterable<?> iterableField;
-    TV typeVariableType;
-    TVB typeVariableBoundedType;
-    GENERIC_BOUNDED genericBounded;
+class BinaryModelTypeResolver implements ModelTypeResolver {
+    @Override
+    ModelType resolve(Class<?> type) {
+        if ([InputStream, OutputStream].any { it.isAssignableFrom(type) }) return ModelType.BINARY
 
-    Set<String>[] genericSetArrayField;
+        return null
+    }
 }

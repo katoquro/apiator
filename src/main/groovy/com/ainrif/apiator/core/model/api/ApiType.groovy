@@ -18,10 +18,7 @@ package com.ainrif.apiator.core.model.api
 import com.ainrif.apiator.core.model.ModelType
 import com.ainrif.apiator.core.model.ModelTypeRegister
 
-import java.lang.reflect.ParameterizedType
-import java.lang.reflect.Type
-import java.lang.reflect.TypeVariable
-import java.lang.reflect.WildcardType
+import java.lang.reflect.*
 
 class ApiType {
 
@@ -29,9 +26,11 @@ class ApiType {
     static ModelTypeRegister modelTypeRegister
 
     Type type
+
     List<ApiType> flattenArgumentTypesCache
     Class<?> rawTypeCache
     ModelType modelTypeCache
+    ApiType componentApiTypeCache
 
     ApiType(Type type) {
         this.type = type
@@ -42,9 +41,14 @@ class ApiType {
     }
 
     boolean isArray() {
-        type instanceof Class ?
-                type.asType(Class).isArray() :
-                false
+        switch (type) {
+            case { it instanceof Class }:
+                return type.asType(Class).isArray()
+            case { it instanceof GenericArrayType }:
+                return true
+            default:
+                return false
+        }
     }
 
     Class<?> getRawType() {
@@ -54,24 +58,35 @@ class ApiType {
             } else if (type instanceof TypeVariable) {
                 def bounds = type.asType(TypeVariable).bounds
                 if (bounds) {
-                    rawTypeCache = bounds[0].asType(Class)
+                    //todo multiple bounds
+                    rawTypeCache = new ApiType(bounds[0]).rawType
                 } else {
                     rawTypeCache = Object //fallback case; need test
                 }
             } else if (type instanceof WildcardType) {
-                rawTypeCache = type.asType(WildcardType).upperBounds[0].asType(Class)
+                def bound = type.asType(WildcardType).upperBounds[0]
+                rawTypeCache = new ApiType(bound).rawType
+            } else if (type instanceof GenericArrayType) {
+                rawTypeCache = type.class
             } else {
                 rawTypeCache = type.asType(Class)
             }
         }()
     }
 
-    Class<?> getArrayType() {
-        if (array) {
-            return type.asType(Class).componentType
-        }
+    ApiType getComponentApiType() {
+        componentApiTypeCache ?: {
+            if (array) {
+                switch (type) {
+                    case { it instanceof Class }:
+                        return new ApiType(type.asType(Class).componentType)
+                    case { it instanceof GenericArrayType }:
+                        return new ApiType(type.asType(GenericArrayType).genericComponentType)
+                }
+            }
 
-        throw new RuntimeException('TYPE IS NOT ARRAY')
+            throw new RuntimeException('TYPE IS NOT ARRAY')
+        }()
     }
 
     List<ApiType> getActualTypeArguments() {
@@ -108,6 +123,8 @@ class ApiType {
         apiTypes.each {
             if (it.generic) {
                 result += _flattenArgumentTypes(it.actualTypeArguments)
+            } else if (it.array) {
+                result += _flattenArgumentTypes([it.componentApiType])
             }
             result << it
         }

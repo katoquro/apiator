@@ -22,7 +22,7 @@ import com.ainrif.apiator.core.model.ModelType
  * Try to resolve types like: {@code void}, {@code enum}, {@code boolean}, {@code double}...
  * And boxed versions of them
  */
-class PrimitivesModelTypeResolver implements ModelTypeResolver {
+class CoreJavaModelTypeResolver implements ModelTypeResolver {
     @Override
     ModelType resolve(Class<?> type) {
         if ([CharSequence, Character, char].any { it.isAssignableFrom(type) }

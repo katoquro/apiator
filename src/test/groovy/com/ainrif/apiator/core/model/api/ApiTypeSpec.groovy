@@ -20,6 +20,7 @@ import com.ainrif.apiator.core.model.ModelTypeRegister
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import java.lang.reflect.GenericArrayType
 import java.lang.reflect.ParameterizedType
 
 import static org.hamcrest.Matchers.containsInAnyOrder
@@ -45,8 +46,10 @@ class ApiTypeSpec extends Specification {
         'setField'                | true
         'arrayField'              | false
         'iterableField'           | true
+        'genericSetArrayField'    | false
         'typeVariableType'        | false
         'typeVariableBoundedType' | false
+        'genericBounded'          | false //todo #generic-bound need discuss compared to prev test case
     }
 
     def "isArray; #inputType"() {
@@ -65,8 +68,10 @@ class ApiTypeSpec extends Specification {
         'setField'                | false
         'arrayField'              | true
         'iterableField'           | false
+        'genericSetArrayField'    | true
         'typeVariableType'        | false
         'typeVariableBoundedType' | false
+        'genericBounded'          | false
     }
 
     def "getRawType; #inputType"() {
@@ -87,11 +92,20 @@ class ApiTypeSpec extends Specification {
         'iterableField'           | Iterable
         'typeVariableType'        | Object
         'typeVariableBoundedType' | Collection
+        'genericBounded'          | List
+    }
+
+    def "getRawType; generic array"() {
+        given:
+        def input = new ApiType(ModelDto1.getDeclaredField('genericSetArrayField').genericType)
+
+        expect:
+        GenericArrayType.isAssignableFrom input.rawType
     }
 
     def "getRawType; w/ wildcard type #inputType"() {
         given:
-        def wildcardType = ModelDto1.getDeclaredField(inputType)
+        def wildcardType = ModelWithGenericBounds.WildcardDto.getDeclaredField(inputType)
                 .genericType.asType(ParameterizedType)
                 .actualTypeArguments[0]
         def input = new ApiType(wildcardType)
@@ -100,20 +114,53 @@ class ApiTypeSpec extends Specification {
         input.rawType == expected
 
         where:
-        inputType       | expected
-        'iterableField' | Object
+        inputType                       | expected
+        'fieldWithWildcard'             | Object
+        'fieldWithExtendsWildcardBound' | Collection
+        'fieldWithExtendsSuperBound'    | Object
     }
 
-    def "getArrayType"() {
+    def "getting generic bounds from method return type"() {
+        given:
+        def input = ModelWithGenericBounds.getDeclaredMethod('getWithExtendsBound')
+                .genericReturnType.asType(ParameterizedType)
+                .actualTypeArguments[0]
+                .with { new ApiType(it) }
+
+        expect:
+        input.rawType == ModelWithGenericBounds.BoundsDto2
+    }
+
+    def "getting generic bounds from method params"() {
+        given:
+        def input = ModelWithGenericBounds.getDeclaredMethod(inputType, List)
+                .parameters[0]
+                .parameterizedType.asType(ParameterizedType)
+                .actualTypeArguments[0]
+                .with { new ApiType(it) }
+
+        expect:
+        input.rawType == expected
+
+        where:
+        inputType                      | expected
+        'setWithExtendsWildcardBound'  | ModelWithGenericBounds.BoundsDto
+        'setWithExtendsBoundFromClass' | ModelWithGenericBounds.BoundsDto
+        'setWithSuperWildcardBound'    | Object
+    }
+
+    def "getComponentApiType"() {
         given:
         def input_array = new ApiType(ModelDto1.getDeclaredField('arrayField').genericType)
+        def input_generic_array = new ApiType(ModelDto1.getDeclaredField('genericSetArrayField').genericType)
         def input_collection = new ApiType(ModelDto1.getDeclaredField('iterableField').genericType)
 
         expect:
-        input_array.arrayType == String
+        input_array.componentApiType.rawType == String
+        input_generic_array.componentApiType.rawType == Set
 
         when:
-        input_collection.arrayType
+        input_collection.componentApiType
 
         then:
         thrown(RuntimeException)
@@ -136,6 +183,7 @@ class ApiTypeSpec extends Specification {
         'listGIterableGTVBField' | 'iterableField'
         'listGTVField'           | 'typeVariableType'
         'listGTVBField'          | 'typeVariableBoundedType'
+        'listGenericBounded'     | 'genericBounded'
     }
 
     def "getActualTypeArguments; several generics"() {
@@ -165,7 +213,8 @@ class ApiTypeSpec extends Specification {
         def expected = expectedTypes.collect { equalTo(new ApiType(it).rawType) }
 
         expect:
-        that ApiType._flattenArgumentTypes(input).collect { it.rawType }, containsInAnyOrder(expected)
+        that ApiType._flattenArgumentTypes(input).findAll { !it.array }.collect { it.rawType },
+                containsInAnyOrder(expected)
 
         where:
         inputType                    | expectedTypes
@@ -176,7 +225,9 @@ class ApiTypeSpec extends Specification {
         'listGTVField'               | [List, Object]
         'listGTVBField'              | [List, Collection]
         'listGIterableGTVBField'     | [List, Iterable, Collection]
-        'listGStringArray'           | [List, String[]]
+        'listGSetArrayField'         | [List, Set, String]
+        'listGStringArray'           | [List, String]
+        'listGenericBounded'         | [List, List] // todo #generic-bound generic of last list
         'mapGSetGStringAndGTVBField' | [Map, Set, String, Collection]
     }
 
