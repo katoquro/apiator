@@ -13,21 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.reflection
+package com.ainrif.apiator.test.model.m07;
 
-import groovy.transform.EqualsAndHashCode
-import groovy.transform.ToString
-
-import java.lang.reflect.Method
-
-@EqualsAndHashCode
-@ToString
-class MethodSignature {
-    final String name;
-    final String[] paramTypeNames;
-
-    MethodSignature(Method method) {
-        this.name = method.name;
-        this.paramTypeNames = method.parameterTypes*.typeName;
+public class M07_PlainInterfaceImpl implements M07_PlainInterface {
+    @Override
+    public M07_ChildDto getDto() {
+        return null;
     }
 }

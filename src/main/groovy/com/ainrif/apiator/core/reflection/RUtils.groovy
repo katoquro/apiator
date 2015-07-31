@@ -35,6 +35,7 @@ final class RUtils {
                 .each
                 {
                     it.declaredMethods
+                            .findAll { !it.bridge }
                             .findAll { method -> predicates.every { it.test(method) } }
                             .each { method -> map[new MethodSignature(method)] << (method) }
                 }

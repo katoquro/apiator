@@ -13,21 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.reflection
 
-import groovy.transform.EqualsAndHashCode
-import groovy.transform.ToString
-
-import java.lang.reflect.Method
-
-@EqualsAndHashCode
-@ToString
-class MethodSignature {
-    final String name;
-    final String[] paramTypeNames;
-
-    MethodSignature(Method method) {
-        this.name = method.name;
-        this.paramTypeNames = method.parameterTypes*.typeName;
-    }
-}
+/**
+ * For test case with bridge methods
+ *
+ * @see com.ainrif.apiator.core.reflection.RUtils#getAllMethods(java.lang.Class, java.util.function.Predicate[])
+ */
+package com.ainrif.apiator.test.model.m07;
