@@ -30,9 +30,9 @@ import static java.nio.file.LinkOption.NOFOLLOW_LINKS
 import static java.nio.file.StandardWatchEventKinds.*
 
 class WatchServer {
-    static final def WATCHED_EVENTS = [ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY] as WatchEvent.Kind<Path>[]
+    static final def logger = Logging.getLogger(WatchServer)
 
-    def logger = Logging.getLogger(getClass())
+    static final def WATCHED_EVENTS = [ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY] as WatchEvent.Kind<Path>[]
 
     private final AtomicBoolean running = new AtomicBoolean(false)
     private final ExecutorService threadPool = Executors.newSingleThreadExecutor()

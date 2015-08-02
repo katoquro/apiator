@@ -23,8 +23,11 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage
 import org.eclipse.jetty.websocket.api.annotations.WebSocket
 import org.eclipse.jetty.websocket.server.WebSocketHandler
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory
+import org.gradle.api.logging.Logging
 
 class LiveReloadWebSocketHandler extends WebSocketHandler {
+    static final def logger = Logging.getLogger(LiveReloadWebSocketHandler)
+
     private static final Queue<LiveReloadWebSocket> sockets = new ConcurrentArrayQueue<>()
 
     public static void broadcast(String msg) throws Exception {
@@ -33,7 +36,7 @@ class LiveReloadWebSocketHandler extends WebSocketHandler {
                 socket.session.remote.sendString(msg)
             } catch (IOException e) {
                 sockets.remove(socket)
-                e.printStackTrace()
+                logger.error('', e)
             }
         }
     }
@@ -67,8 +70,8 @@ class LiveReloadWebSocketHandler extends WebSocketHandler {
                 if (LiveReloadProtocol.isHello(data)) {
                     session.remote.sendString(LiveReloadProtocol.hello())
                 }
-            } catch (Exception exc) {
-                exc.printStackTrace()
+            } catch (Exception e) {
+                logger.error('', e)
             }
         }
     }
