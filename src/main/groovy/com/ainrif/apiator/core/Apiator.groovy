@@ -16,10 +16,7 @@
 package com.ainrif.apiator.core
 
 import com.ainrif.apiator.core.model.ModelTypeRegister
-import com.ainrif.apiator.core.model.api.ApiContext
-import com.ainrif.apiator.core.model.api.ApiEndpoint
-import com.ainrif.apiator.core.model.api.ApiScheme
-import com.ainrif.apiator.core.model.api.ApiType
+import com.ainrif.apiator.core.model.api.*
 import org.reflections.Reflections
 import org.reflections.scanners.SubTypesScanner
 import org.reflections.scanners.TypeAnnotationsScanner
@@ -46,10 +43,7 @@ class Apiator {
 
     ApiScheme getScheme() {
         scheme ?: {
-            scheme = new ApiScheme(
-                    apiatorInfo: info,
-                    basePath: config.basePath,
-                    version: config.apiVersion)
+            scheme = new ApiScheme(apiatorInfo: info, clientApiInfo: new ClientApiInfo(config))
 
             Set<Class<?>> apiClasses = scanForApi()
 

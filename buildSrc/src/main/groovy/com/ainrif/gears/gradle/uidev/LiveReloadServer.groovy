@@ -18,14 +18,16 @@ package com.ainrif.gears.gradle.uidev
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.server.handler.ResourceHandler
 import org.eclipse.jetty.util.resource.Resource
+import org.gradle.api.logging.Logging
 
 import java.nio.file.Path
 
 class LiveReloadServer {
+    static final def logger = Logging.getLogger(LiveReloadServer)
+
     private final int port
     private final Path resourceRoot
     private Server jettyServer
-
 
     public LiveReloadServer(int port, Path resourceRoot) {
         this.port = port
@@ -62,7 +64,7 @@ class LiveReloadServer {
 
             jettyServer.join()
         } catch (Throwable t) {
-            t.printStackTrace()
+            logger.error('', t)
         } finally {
             jettyServer.stop()
         }

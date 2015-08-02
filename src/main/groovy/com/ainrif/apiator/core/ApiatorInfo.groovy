@@ -19,11 +19,4 @@ final class ApiatorInfo {
     String groupId = ApiatorInfo.package.implementationVendor ?: 'UNPACKED'
     String artifactId = ApiatorInfo.package.implementationTitle ?: 'UNPACKED'
     String version = ApiatorInfo.package.implementationVersion ?: 'UNPACKED'
-
-    public Map<String, String> toMap() {
-        def result = properties.collectEntries { key, value -> [key, value.toString()] }
-        result.remove('class')
-
-        result
-    }
 }

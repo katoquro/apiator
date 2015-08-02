@@ -19,8 +19,7 @@ import com.ainrif.apiator.core.ApiatorInfo
 
 class ApiScheme {
     ApiatorInfo apiatorInfo
-    String version
-    String basePath
+    ClientApiInfo clientApiInfo
     List<ApiContext> apiContexts = []
     Set<ApiType> usedEnumerations = []
     Set<ApiType> usedApiTypes = []

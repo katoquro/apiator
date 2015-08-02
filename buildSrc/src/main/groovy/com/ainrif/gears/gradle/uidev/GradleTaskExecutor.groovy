@@ -20,7 +20,8 @@ import org.gradle.api.logging.Logging
 import org.gradle.tooling.*
 
 public class GradleTaskExecutor {
-    def logger = Logging.getLogger(getClass())
+    static final def logger = Logging.getLogger(GradleTaskExecutor)
+
     private final ProjectConnection connection
 
     public GradleTaskExecutor(Project project) {

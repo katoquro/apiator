@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core
+package com.ainrif.apiator.core.model.api
 
-import spock.lang.Specification
+import com.ainrif.apiator.core.ApiatorConfig
 
-class ApiatorInfoSpec extends Specification {
-    def "toMap"() {
-        given:
-        def info = new ApiatorInfo()
+class ClientApiInfo {
+    String version
+    String basePath
 
-        expect:
-        info.toMap().size() == 3
+    ClientApiInfo(ApiatorConfig config) {
+        this.version = config.apiVersion
+        this.basePath = config.basePath
     }
 }
