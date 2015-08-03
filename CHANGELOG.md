@@ -1,3 +1,14 @@
+v0.2.2 - generics 
+
+- update : Core Renderer Model
+- infra : CI and build statuses
+- infra : gradle plugin to HTML Renderer development with Livereload
+- add : bridge methods support
+- add : GenericArrayType support  
+- add : nested generic types for generics of generics
+- add : support of custom Jax-RS http method annotations 
+- fix : WildcardType support
+
 v0.2.1 - stability
 
 - core model refactoring
