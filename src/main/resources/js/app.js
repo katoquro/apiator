@@ -15,7 +15,7 @@ function stringHashCode(str) {
 
 Handlebars.registerHelper('hashCode', stringHashCode);
 
-Handlebars.registerHelper('shrinkByDots', function(str) {
+Handlebars.registerHelper('shrinkByDots', function (str) {
     var splitName = str.split(".");
     var result = '';
     for (var i = 0; i < splitName.length - 1; i++) {
@@ -25,11 +25,11 @@ Handlebars.registerHelper('shrinkByDots', function(str) {
     return result
 });
 
-Handlebars.registerHelper('json', function(data) {
+Handlebars.registerHelper('json', function (data) {
     return JSON.stringify(data, null, "  ");
 });
 
-Handlebars.registerHelper('ifCond', function(v1, v2, options) {
+Handlebars.registerHelper('ifCond', function (v1, v2, options) {
     if (v1 === v2) {
         return options.fn(this);
     }
@@ -44,7 +44,7 @@ $('body').scrollspy({
     offset: 40
 });
 
-var adjustSidebar = function() {
+var adjustSidebar = function () {
     $('#sidebar').outerHeight($(window).height() - 50);
 };
 adjustSidebar();
@@ -54,10 +54,10 @@ document.title = new Date();
 
 //fuzzy search
 var fuseDictionary = [];
-$.each(apiJson.apiContexts, function() {
+$.each(apiJson.apiContexts, function () {
     var _apiPath = this.apiPath;
     var _title = this.title;
-    $.each(this.apiEndpoints, function() {
+    $.each(this.apiEndpoints, function () {
         var entry = {
             fullPath: _apiPath + this.path,
             method: this.method,
@@ -74,23 +74,23 @@ var fuseOptions = {
 
 var fuse = new Fuse(fuseDictionary, fuseOptions);
 
-$('html').click(function(event) {
+$('html').click(function (event) {
     if (!$(event.target).is('#fuzzy-suggest, #fuzzy-input')) {
         $('#fuzzy-suggest').hide();
     }
 });
 
-$('#fuzzy-suggest').on('click', 'li', function() {
+$('#fuzzy-suggest').on('click', 'li', function () {
     $('#fuzzy-suggest').hide();
     $('#fuzzy-input').val('');
 });
 
-$('#fuzzy-input').on('keyup click', function() {
+$('#fuzzy-input').on('keyup click', function () {
     var that = $(this);
     if (2 > that.val().length) return;
 
     var hits = fuse.search(that.val()).slice(0, 10);
-    var suggestItems = hits.map(function(hit) {
+    var suggestItems = hits.map(function (hit) {
         return $('<li role="presentation">' +
             '<a role="menuitem" tabindex="-1" href="#' + hit.hash + '">' +
             '@' + hit.method + ' ' + hit.fullPath +

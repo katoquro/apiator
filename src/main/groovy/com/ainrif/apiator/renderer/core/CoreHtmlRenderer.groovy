@@ -31,7 +31,7 @@ class CoreHtmlRenderer implements Renderer {
     String jsLocal
 
     String mainTemplate
-    String template
+    String templateLocal
     String toFile
 
     CoreHtmlRenderer() {
@@ -55,7 +55,7 @@ class CoreHtmlRenderer implements Renderer {
                 .join('\r\n')
 
         def jsLocalPaths = []
-        jsLocalPaths << '/app.js'
+        jsLocalPaths << '/js/app.js'
 
         def cssLocalPaths = []
         cssLocalPaths << '/style.css'
@@ -65,15 +65,15 @@ class CoreHtmlRenderer implements Renderer {
                 .collect { "<script type='text/x-handlebars-template' id='${it.name}'>${it.content}</script>" }
                 .join('\r\n')
 
-        jsLocal = this.class.getResource('/app.js').text
+        def templateLocalPaths = []
+        templateLocalPaths << '/tpl/app.hbs'
 
         js = concatExternalResources(jsPaths)
         css = concatExternalResources(cssPaths)
 
         jsLocal = concatLocalResources(jsLocalPaths)
         cssLocal = concatLocalResources(cssLocalPaths)
-
-        template = this.class.getResource('/app.hbs').text
+        templateLocal = concatLocalResources(templateLocalPaths)
 
         mainTemplate = this.class.getResource('/core-html-renderer-template.hbs').text
     }
@@ -108,7 +108,7 @@ class CoreHtmlRenderer implements Renderer {
                        css     : css,
                        jsLocal : jsLocal,
                        cssLocal: cssLocal,
-                       template: template,
+                       template: templateLocal,
                        hbs     : hbs])
                 .toString()
 
