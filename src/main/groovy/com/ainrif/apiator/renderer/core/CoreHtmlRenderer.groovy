@@ -54,9 +54,11 @@ class CoreHtmlRenderer implements Renderer {
                 .collect { this.class.classLoader.getResource(it).text }
                 .join('\r\n')
 
-        css = cssPaths
-                .collect { this.class.classLoader.getResource(it).text }
-                .join('\r\n')
+        def jsLocalPaths = []
+        jsLocalPaths << '/app.js'
+
+        def cssLocalPaths = []
+        cssLocalPaths << '/style.css'
 
         hbs = hbsPath
                 .collect { [name: it, content: this.class.classLoader.getResource("hbs/${it}.hbs").text] }
@@ -65,7 +67,11 @@ class CoreHtmlRenderer implements Renderer {
 
         jsLocal = this.class.getResource('/app.js').text
 
-        cssLocal = this.class.getResource('/style.css').text
+        js = concatExternalResources(jsPaths)
+        css = concatExternalResources(cssPaths)
+
+        jsLocal = concatLocalResources(jsLocalPaths)
+        cssLocal = concatLocalResources(cssLocalPaths)
 
         template = this.class.getResource('/app.hbs').text
 
@@ -82,6 +88,16 @@ class CoreHtmlRenderer implements Renderer {
         def json = new CoreJsonRenderer().render(scheme)
 
         return renderTemplate(json)
+    }
+
+    protected String concatExternalResources(List<String> paths) {
+        paths.collect { this.class.classLoader.getResource(it).text }
+                .join('\r\n')
+    }
+
+    protected String concatLocalResources(List<String> paths) {
+        paths.collect { this.class.getResource(it).text }
+                .join('\r\n')
     }
 
     protected String renderTemplate(String json) {
