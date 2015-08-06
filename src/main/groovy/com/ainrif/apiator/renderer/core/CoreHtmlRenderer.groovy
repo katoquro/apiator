@@ -27,7 +27,10 @@ class CoreHtmlRenderer implements Renderer {
     String js
     String css
     String hbs
+    String cssLocal
+    String jsLocal
 
+    String mainTemplate
     String template
     String toFile
 
@@ -49,7 +52,7 @@ class CoreHtmlRenderer implements Renderer {
 
         js = jsPaths
                 .collect { this.class.classLoader.getResource(it).text }
-                .join('\r\n') + 'jq = jQuery'
+                .join('\r\n')
 
         css = cssPaths
                 .collect { this.class.classLoader.getResource(it).text }
@@ -60,7 +63,13 @@ class CoreHtmlRenderer implements Renderer {
                 .collect { "<script type='text/x-handlebars-template' id='${it.name}'>${it.content}</script>" }
                 .join('\r\n')
 
-        template = this.class.getResource('/core-html-renderer-template.hbs').text
+        jsLocal = this.class.getResource('/app.js').text
+
+        cssLocal = this.class.getResource('/style.css').text
+
+        template = this.class.getResource('/app.hbs').text
+
+        mainTemplate = this.class.getResource('/core-html-renderer-template.hbs').text
     }
 
     CoreHtmlRenderer(@Nullable toFile) {
@@ -77,8 +86,14 @@ class CoreHtmlRenderer implements Renderer {
 
     protected String renderTemplate(String json) {
         def html = new GStringTemplateEngine()
-                .createTemplate(template)
-                .make([json: json, js: js, css: css, hbs: hbs])
+                .createTemplate(mainTemplate)
+                .make([json    : json,
+                       js      : js,
+                       css     : css,
+                       jsLocal : jsLocal,
+                       cssLocal: cssLocal,
+                       template: template,
+                       hbs     : hbs])
                 .toString()
 
         if (toFile) {
