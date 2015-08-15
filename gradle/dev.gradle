@@ -1,4 +1,4 @@
-task smoke_generate(type: JavaExec) {
+task generate_by_smoke(type: JavaExec) {
     def apiatorPath = 'build/apiator'
 
     doFirst {
@@ -6,7 +6,20 @@ task smoke_generate(type: JavaExec) {
         path.mkdirs()
     }
 
-    main = 'com.ainrif.apiator.SmokeSpec'
+    main = 'gradle.GenerateBySmoke'
+    classpath = sourceSets.test.runtimeClasspath
+    args = [file(apiatorPath).absolutePath]
+}
+
+task update_stub(type: JavaExec) {
+    def apiatorPath = 'src/gradle/resources/stub.json'
+
+    doFirst {
+        def path = file(apiatorPath)
+        path.mkdirs()
+    }
+
+    main = 'gradle.UpdateStub'
     classpath = sourceSets.test.runtimeClasspath
     args = [file(apiatorPath).absolutePath]
 }
