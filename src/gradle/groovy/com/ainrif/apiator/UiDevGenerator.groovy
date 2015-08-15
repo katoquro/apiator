@@ -19,10 +19,12 @@ import com.ainrif.apiator.writer.core.CoreHtmlRenderer
 
 class UiDevGenerator {
     public static void main(String[] args) {
-        def json = UiDevGenerator.getResource('/stub.json').text
-        def path = "${args[0]}/api.html"
+        def htmlPath = "${args[0]}/site/api.html"
+        def jsonStubPath = "${args[0]}/resources/stub.json"
 
-        new CoreHtmlRenderer(path).renderTemplate(json)
+        def json = new File(jsonStubPath).text
+
+        new CoreHtmlRenderer(htmlPath).renderTemplate(json)
     }
 }
 

@@ -23,8 +23,9 @@ class UpdateStub {
     static final String jaxrsPackage = 'com.ainrif.apiator.test.model.jaxrs'
 
     public static void main(String[] args) {
+        def path = "${args[0]}/stub.json"
         def config = new ApiatorConfig(basePackage: jaxrsPackage, renderer: new CoreJsonRenderer())
 
-        new File(args[0]).write(new Apiator(config).render())
+        new File(path).write(new Apiator(config).render())
     }
 }

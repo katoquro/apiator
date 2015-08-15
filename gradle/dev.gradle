@@ -1,5 +1,5 @@
 task generate_by_smoke(type: JavaExec) {
-    def apiatorPath = 'build/apiator'
+    def apiatorPath = 'build/apiator/site'
 
     doFirst {
         def path = file(apiatorPath)
@@ -12,7 +12,7 @@ task generate_by_smoke(type: JavaExec) {
 }
 
 task update_stub(type: JavaExec) {
-    def apiatorPath = 'src/gradle/resources/stub.json'
+    def apiatorPath = 'build/apiator/resources'
 
     doFirst {
         def path = file(apiatorPath)

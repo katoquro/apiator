@@ -10,17 +10,19 @@ sourceSets {
 }
 
 uiDev {
-    liveReloadRoot = 'build/apiator'
-    taskTriggerRoots = ['src/main/resources', 'src/gradle/resources']
+    liveReloadRoot = 'build/apiator/site'
+    taskTriggerRoots = ['src/main/resources', 'build/apiator/resources']
     taskName = 'ui_dev_generate'
     coldStart = true
 }
+
+uiDev.dependsOn update_stub
 
 task ui_dev_generate(type: JavaExec) {
     def apiatorPath = 'build/apiator'
 
     doFirst {
-        def path = file(apiatorPath)
+        def path = file("${apiatorPath}/site")
         path.mkdirs()
     }
 
