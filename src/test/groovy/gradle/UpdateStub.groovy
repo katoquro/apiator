@@ -13,18 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator
+package gradle
 
-import com.ainrif.apiator.writer.core.CoreHtmlRenderer
+import com.ainrif.apiator.core.Apiator
+import com.ainrif.apiator.core.ApiatorConfig
+import com.ainrif.apiator.writer.core.CoreJsonRenderer
 
-class UiDevGenerator {
+class UpdateStub {
+    static final String jaxrsPackage = 'com.ainrif.apiator.test.model.jaxrs'
+
     public static void main(String[] args) {
-        def htmlPath = "${args[0]}/site/api.html"
-        def jsonStubPath = "${args[0]}/resources/stub.json"
+        def path = "${args[0]}/stub.json"
+        def config = new ApiatorConfig(basePackage: jaxrsPackage, renderer: new CoreJsonRenderer())
 
-        def json = new File(jsonStubPath).text
-
-        new CoreHtmlRenderer(htmlPath).renderTemplate(json)
+        new File(path).write(new Apiator(config).render())
     }
 }
-

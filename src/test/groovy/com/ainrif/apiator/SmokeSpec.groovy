@@ -37,7 +37,6 @@ class SmokeSpec extends Specification {
 
         when:
         def actual = apiator.render()
-        logger.debug(actual)
 
         then:
         deleteWhitespace(actual) == deleteWhitespace(smokeJson)
@@ -70,12 +69,5 @@ class SmokeSpec extends Specification {
 
         then:
         expect actual.size(), greaterThan(0)
-    }
-
-    public static void main(String[] args) {
-        def path = "${args[0]}/api.html"
-        def config = new ApiatorConfig(basePackage: jaxrsPackage, renderer: new CoreHtmlRenderer(path))
-
-        new Apiator(config).render()
     }
 }
