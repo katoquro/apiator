@@ -17,6 +17,7 @@ package com.ainrif.apiator.core.model
 
 import com.ainrif.apiator.api.ModelTypeResolver
 import com.ainrif.apiator.core.modeltype.CoreJavaModelTypeResolver
+import com.ainrif.apiator.core.modeltype.CustomUnresolvedType
 import org.reflections.Reflections
 import org.reflections.scanners.SubTypesScanner
 import org.reflections.util.ClasspathHelper
@@ -47,19 +48,16 @@ class ModelTypeRegisterSpec extends Specification {
         def register = new ModelTypeRegister()
 
         expect:
-        register.getTypeByClass(Object) == ModelType.OBJECT
-        register.getTypeByClass(EnumerationType) == ModelType.OBJECT
+        register.getTypeByClass(Object) == ModelType.ANY
+        register.getTypeByClass(CustomUnresolvedType) == ModelType.OBJECT
     }
 
     def "getTypeByClass; w/ custom resolver"() {
         given:
-        def register = new ModelTypeRegister([{ EnumerationType.isAssignableFrom(it) ? ModelType.ENUMERATION : null }])
+        def register = new ModelTypeRegister([{ CustomUnresolvedType.isAssignableFrom(it) ? ModelType.VOID : null }])
 
         expect:
-        register.getTypeByClass(Object) == ModelType.OBJECT
-        register.getTypeByClass(Object) == ModelType.OBJECT
-        register.getTypeByClass(EnumerationType) == ModelType.ENUMERATION
+        register.getTypeByClass(Object) == ModelType.ANY
+        register.getTypeByClass(CustomUnresolvedType) == ModelType.VOID
     }
-
-    static class EnumerationType {}
 }

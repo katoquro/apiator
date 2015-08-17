@@ -29,14 +29,15 @@ class CollectionsModelTypeResolverSpec extends Specification {
         resolver.resolve(type) == expected
 
         where:
-        type       || expected
-        Object     || null
-        Iterable   || ModelType.ARRAY
-        Collection || ModelType.ARRAY
-        List       || ModelType.ARRAY
-        ArrayList  || ModelType.ARRAY
-        String[]   || ModelType.ARRAY
-        Set        || ModelType.SET
-        Map        || ModelType.DICTIONARY
+        type                 || expected
+        CustomUnresolvedType || null
+        Object               || null
+        Iterable             || ModelType.ARRAY
+        Collection           || ModelType.ARRAY
+        List                 || ModelType.ARRAY
+        ArrayList            || ModelType.ARRAY
+        String[]             || ModelType.ARRAY
+        Set                  || ModelType.SET
+        Map                  || ModelType.DICTIONARY
     }
 }

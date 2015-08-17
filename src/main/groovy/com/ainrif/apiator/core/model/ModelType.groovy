@@ -16,6 +16,8 @@
 package com.ainrif.apiator.core.model
 
 public enum ModelType {
+    ANY,
+
     OBJECT, ENUMERATION,
 
     DICTIONARY, ARRAY, SET,

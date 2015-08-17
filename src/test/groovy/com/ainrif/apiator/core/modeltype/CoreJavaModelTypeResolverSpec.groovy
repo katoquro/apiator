@@ -29,34 +29,35 @@ class CoreJavaModelTypeResolverSpec extends Specification {
         resolver.resolve(type) == expected
 
         where:
-        type         || expected
-        Object       || null
-        void         || ModelType.VOID
-        Void         || ModelType.VOID
-        int          || ModelType.INTEGER
-        Integer      || ModelType.INTEGER
-        long         || ModelType.LONG
-        Long         || ModelType.LONG
-        float        || ModelType.FLOAT
-        Float        || ModelType.FLOAT
-        double       || ModelType.DOUBLE
-        Double       || ModelType.DOUBLE
-        char         || ModelType.STRING
-        Character    || ModelType.STRING
-        byte         || ModelType.BYTE
-        Byte         || ModelType.BYTE
-        short        || ModelType.INTEGER
-        Short        || ModelType.INTEGER
-        boolean      || ModelType.BOOLEAN
-        Boolean      || ModelType.BOOLEAN
-        String       || ModelType.STRING
-        CharSequence || ModelType.STRING
-        URL          || ModelType.STRING
-        UUID         || ModelType.STRING
-        BigInteger   || ModelType.LONG
-        BigDecimal   || ModelType.DOUBLE
-        EnumModel1   || ModelType.ENUMERATION
-        EnumModel2   || ModelType.ENUMERATION
+        type                 || expected
+        CustomUnresolvedType || null
+        Object               || null
+        void                 || ModelType.VOID
+        Void                 || ModelType.VOID
+        int                  || ModelType.INTEGER
+        Integer              || ModelType.INTEGER
+        long                 || ModelType.LONG
+        Long                 || ModelType.LONG
+        float                || ModelType.FLOAT
+        Float                || ModelType.FLOAT
+        double               || ModelType.DOUBLE
+        Double               || ModelType.DOUBLE
+        char                 || ModelType.STRING
+        Character            || ModelType.STRING
+        byte                 || ModelType.BYTE
+        Byte                 || ModelType.BYTE
+        short                || ModelType.INTEGER
+        Short                || ModelType.INTEGER
+        boolean              || ModelType.BOOLEAN
+        Boolean              || ModelType.BOOLEAN
+        String               || ModelType.STRING
+        CharSequence         || ModelType.STRING
+        URL                  || ModelType.STRING
+        UUID                 || ModelType.STRING
+        BigInteger           || ModelType.LONG
+        BigDecimal           || ModelType.DOUBLE
+        EnumModel1           || ModelType.ENUMERATION
+        EnumModel2           || ModelType.ENUMERATION
     }
 
     enum EnumModel1 {}

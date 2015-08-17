@@ -13,24 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.modeltype
+package com.ainrif.apiator.core.modeltype;
 
-import com.ainrif.apiator.core.model.ModelType
-import spock.lang.Specification
-
-class BinaryModelTypeResolverSpec extends Specification {
-    def "resolve"() {
-        given:
-        def resolver = new BinaryModelTypeResolver()
-
-        expect:
-        resolver.resolve(type) == expected
-
-        where:
-        type                 || expected
-        CustomUnresolvedType || null
-        Object               || null
-        InputStream          || ModelType.BINARY
-        OutputStream         || ModelType.BINARY
-    }
+public class CustomUnresolvedType {
 }

@@ -16,10 +16,7 @@
 package com.ainrif.apiator.core.model
 
 import com.ainrif.apiator.api.ModelTypeResolver
-import com.ainrif.apiator.core.modeltype.BinaryModelTypeResolver
-import com.ainrif.apiator.core.modeltype.CollectionsModelTypeResolver
-import com.ainrif.apiator.core.modeltype.CoreJavaModelTypeResolver
-import com.ainrif.apiator.core.modeltype.OldDateModelTypeResolver
+import com.ainrif.apiator.core.modeltype.*
 
 class ModelTypeRegister {
     private List<ModelTypeResolver> modelTypeResolvers
@@ -29,7 +26,8 @@ class ModelTypeRegister {
                 new CoreJavaModelTypeResolver(),
                 new OldDateModelTypeResolver(),
                 new BinaryModelTypeResolver(),
-                new CollectionsModelTypeResolver()
+                new CollectionsModelTypeResolver(),
+                new AnyModelTypeResolver()
         ]
     }
 

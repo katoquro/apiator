@@ -18,10 +18,12 @@ package com.ainrif.apiator.core.modeltype
 import com.ainrif.apiator.core.model.ModelType
 import spock.lang.Specification
 
-class BinaryModelTypeResolverSpec extends Specification {
+import javax.ws.rs.core.Response
+
+class AnyModelTypeResolverSpec extends Specification {
     def "resolve"() {
         given:
-        def resolver = new BinaryModelTypeResolver()
+        def resolver = new AnyModelTypeResolver()
 
         expect:
         resolver.resolve(type) == expected
@@ -29,8 +31,7 @@ class BinaryModelTypeResolverSpec extends Specification {
         where:
         type                 || expected
         CustomUnresolvedType || null
-        Object               || null
-        InputStream          || ModelType.BINARY
-        OutputStream         || ModelType.BINARY
+        Object               || ModelType.ANY
+        Response             || ModelType.ANY
     }
 }

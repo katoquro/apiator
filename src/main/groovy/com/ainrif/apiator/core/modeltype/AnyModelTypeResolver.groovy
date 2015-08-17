@@ -15,22 +15,17 @@
  */
 package com.ainrif.apiator.core.modeltype
 
+import com.ainrif.apiator.api.ModelTypeResolver
 import com.ainrif.apiator.core.model.ModelType
-import spock.lang.Specification
 
-class BinaryModelTypeResolverSpec extends Specification {
-    def "resolve"() {
-        given:
-        def resolver = new BinaryModelTypeResolver()
+import javax.ws.rs.core.Response
 
-        expect:
-        resolver.resolve(type) == expected
+class AnyModelTypeResolver implements ModelTypeResolver {
+    @Override
+    ModelType resolve(Class<?> type) {
+        if (Object == type) return ModelType.ANY
+        if ([Response].any { it.isAssignableFrom(type) }) return ModelType.ANY
 
-        where:
-        type                 || expected
-        CustomUnresolvedType || null
-        Object               || null
-        InputStream          || ModelType.BINARY
-        OutputStream         || ModelType.BINARY
+        return null
     }
 }

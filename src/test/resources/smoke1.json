@@ -148,10 +148,10 @@
         },
         {
           "returnType": {
-            "type": "java.lang.Object",
+            "type": null,
             "basedOn": [
             ],
-            "modelType": "OBJECT"
+            "modelType": "ANY"
           },
           "params": [
             {
@@ -302,10 +302,10 @@
         "publicObject": {
           "readable": true,
           "writable": true,
-          "type": "java.lang.Object",
+          "type": null,
           "basedOn": [
           ],
-          "modelType": "OBJECT",
+          "modelType": "ANY",
           "name": "publicObject"
         },
         "publicField": {
@@ -424,10 +424,10 @@
         "data": {
           "readable": true,
           "writable": true,
-          "type": "java.lang.Object",
+          "type": null,
           "basedOn": [
           ],
-          "modelType": "OBJECT",
+          "modelType": "ANY",
           "name": "data"
         }
       },
@@ -489,10 +489,10 @@
           "type": null,
           "basedOn": [
             {
-              "type": "java.lang.Object",
+              "type": null,
               "basedOn": [
               ],
-              "modelType": "OBJECT"
+              "modelType": "ANY"
             }
           ],
           "modelType": "ARRAY",

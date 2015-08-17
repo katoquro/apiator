@@ -32,11 +32,12 @@ class OldDateModelTypeResolverSpec extends Specification {
         resolver.resolve(type) == expected
 
         where:
-        type      || expected
-        Object    || null
-        Date      || ModelType.DATE
-        Calendar  || ModelType.DATE
-        Timestamp || ModelType.DATE
-        SQL_Date  || ModelType.DATE
+        type                 || expected
+        CustomUnresolvedType || null
+        Object               || null
+        Date                 || ModelType.DATE
+        Calendar             || ModelType.DATE
+        Timestamp            || ModelType.DATE
+        SQL_Date             || ModelType.DATE
     }
 }
