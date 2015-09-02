@@ -14,7 +14,7 @@ apply from: "$rootProject.projectDir/gradle/uiDev.gradle"
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 group = 'com.ainrif'
-version = '0.2.2-SNAPSHOT'
+version = '0.3.0-SNAPSHOT'
 
 ext.sharedManifest = manifest {
     attributes 'Implementation-Vendor': group,
@@ -103,12 +103,8 @@ task sourcesJar(type: Jar, dependsOn: classes) {
     }
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-    manifest {
-        from sharedManifest
-    }
+artifacts {
+    archives sourcesJar
 }
 
 publishing {
@@ -117,14 +113,8 @@ publishing {
             from components.java
 
             artifact sourcesJar
-            artifact javadocJar
         }
     }
-}
-
-artifacts {
-    archives sourcesJar
-    archives javadocJar
 }
 
 bintray {
