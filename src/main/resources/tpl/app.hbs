@@ -25,7 +25,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#">Api info</a></li>
                         <li><a href="#">Endpoints</a></li>
-                        <li><a href="#">Types</a></li>
+                        <li><a href="#types">Types</a></li>
                         <li><a href="#">Enumerations</a></li>
                         <li>
                             <a href="https://bitbucket.org/ainrif/apiator" target="_blank" title="Apiator v{{apiatorInfo.version}}">
@@ -38,21 +38,32 @@
         </div>
     </div>
 </nav>
-<div class="container-fluid">
-    <div class="row">
+<div class="container-fluid" data-spy="scroll">
+    <div class="row" id="endpoints">
         <div class="col-sm-3 col-md-2 sidebar">
-            <ul class="nav nav-sidebar">
+            <ul class="nav nav-sidebar complementary">
                 {{#each apiContexts}}
                     <li>
                         <a href="#{{apiPath}}"><span class="endpoint">{{apiPath}}</span></a>
                         <ul class="nav nav-sidebar">
                             {{#each apiEndpoints}}
-                                <li><a href="#{{../apiPath}}{{path}}"><span class="endpoint {{method}}">{{path}}</span></a>
+                                <li>
+                                    <a href="#_{{lower method}}_{{../apiPath}}{{path}}" data-target=""><span class="endpoint {{method}}">{{path}}</span></a>
                                 </li>
                             {{/each}}
                         </ul>
                     </li>
                 {{/each}}
+                <li>
+                    <a href="#types"><span class="endpoint">Types</span></a>
+                    <ul class="nav nav-sidebar">
+                        {{#each usedApiTypes}}
+                            <li>
+                                <a href="#{{shrinkByDots type}}" data-target=""><span class="endpoint {{lower modelType}}">{{shrinkByDots type}}</span></a>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </li>
             </ul>
         </div>
         <!--Main Content -->
@@ -61,7 +72,7 @@
                 <div class="target-marker" id="{{apiPath}}"></div>
                 <h4 class="page-header">{{apiPath}}</h4>
                 {{#each apiEndpoints}}
-                    <div class="target-marker" id="{{../apiPath}}{{path}}"></div>
+                    <div class="target-marker" id="_{{lower method}}_{{../apiPath}}{{path}}"></div>
                     <div class="panel {{panelStyle method}}">
                         <div class="panel-heading">
                             <span class="gray endpoint {{method}}">{{path}}</span>
@@ -110,7 +121,7 @@
                                             <div class="col-xs-4 col-md-4 ">
 
                                                 {{~#if returnType.type~}}
-                                                    <span class="name object-link"><a href="#" >
+                                                    <span class="name object-link"><a href="#">
                                                         {{~shrinkByDots returnType.type~}}
                                                     </a></span>
                                                 {{else}}
@@ -132,6 +143,53 @@
                     </div>
                 {{/each}}
             {{/each}}
+
+            <div class="target-marker" id="types"></div>
+            <h4 class="page-header">Types</h4>
+            {{#each usedApiTypes}}
+                <div class="target-marker" id="{{shrinkByDots type}}"></div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <span class="gray endpoint {{method}}">{{shrinkByDots type}}</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <h5>Fields</h5>
+
+                                <div class="col-xs-12 col-md-10">
+                                    {{#each fields}}
+                                        <div class="row">
+                                            <div class="col-xs-2 col-sm-2 col-md-3">
+                                                {{name}}
+                                            </div>
+                                            <div class="col-xs-2 col-sm-1 col-md-6 gap_x_r">
+                                                <span class="type object">{{modelType}}</span>
+                                                <!--{{#if name}}<span class="gray italic">{{name}}</span>{{/if}}-->
+                                                {{~#if basedOn~}}
+                                                    {{#each basedOn}}
+                                                        {{#if this.type}}
+                                                            <span>of </span>
+                                                            <a href="#{{shrinkByDots this.type}}" class=" object-link">{{shrinkByDots this.type}}</a>
+                                                        {{else}}
+                                                            <span class="lovercase">{{this.modelType}}</span>
+                                                        {{/if}}
+                                                    {{/each}}
+                                                {{~/if~}}
+                                                {{~#if type~}}
+                                                    <span>→</span>
+                                                    <span class="object-link"><a href="#{{shrinkByDots type}}">{{shrinkByDots type}}</a></span>
+                                                {{~/if~}}
+                                            </div>
+                                        </div>
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+
         </div>
     </div>
 </div>

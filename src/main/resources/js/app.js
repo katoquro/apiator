@@ -42,8 +42,19 @@ function responseTyper(responseType) {
 
 Handlebars.registerHelper('responseTyper', responseTyper);
 
+Handlebars.registerHelper('lower', function (string) {
+    return string.toLowerCase();
+});
+
 Handlebars.registerHelper('panelStyle', function (method) {
     return PANNEL_MAPPER[method] || PANNEL_MAPPER.DEFAULT;
+});
+
+Handlebars.registerHelper('skipLeadSlash', function (string) {
+    if (string.startsWith('/')) {
+        return string.slice(1);
+    }
+    return string;
 });
 
 Handlebars.registerHelper('shrinkByDots', function (str) {
@@ -63,6 +74,42 @@ Handlebars.registerHelper('ifCond', function (v1, v2, options) {
 
 $('#doc-container')
     .html(Handlebars.compile(templateSrc)(apiJson));
+
+$.fn.scrollspy.Constructor.prototype.refresh = function () {
+    var that = this;
+    var offsetMethod = 'offset';
+    var offsetBase = 0;
+
+    this.offsets = [];
+    this.targets = [];
+    this.scrollHeight = this.getScrollHeight();
+
+    if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position';
+        offsetBase = this.$scrollElement.scrollTop();
+    }
+
+    this.$body
+        .find(this.selector)
+        .map(function () {
+            var $el = $(this)
+            var href = $el.data('target') || $el.attr('href')
+            var $href = /^#./.test(href) && $(document.getElementById(href.slice(1)));
+
+            return ($href
+                && $href.length
+                && $href.is(':visible')
+                && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) {
+            return a[0] - b[0]
+        })
+        .each(function () {
+            that.offsets.push(this[0])
+            that.targets.push(this[1])
+        })
+}
+
 
 $('body').scrollspy({
     target: '.complementary',
@@ -129,4 +176,4 @@ $('#fuzzy-input').on('keyup click', function () {
         .end()
         .append(suggestItems)
         .show();
-})
+});
