@@ -139,7 +139,7 @@ class RUtilsSpec extends Specification {
         actual.size() == 2
 
         when:
-        def actual2 = getAnnotationList([TestContextStack.getMethod("getTitle")], AnnotationExample)
+        def actual2 = getAnnotationList([M04_ChildType.getMethod('getSmth')], AnnotationExample)
 
         then:
         actual2.size() == 1
@@ -151,8 +151,7 @@ class RUtilsSpec extends Specification {
         }
 
         @Override
-        @AnnotationExample
-        String getTitle() {
+        String getName() {
             return null
         }
 

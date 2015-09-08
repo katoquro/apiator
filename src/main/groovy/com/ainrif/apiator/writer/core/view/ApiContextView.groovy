@@ -18,12 +18,12 @@ package com.ainrif.apiator.writer.core.view
 import com.ainrif.apiator.core.model.api.ApiContext
 
 class ApiContextView implements Comparable<ApiContextView> {
-    String title
+    String name
     String apiPath
     List<ApiEndpointView> apiEndpoints = []
 
     ApiContextView(ApiContext context) {
-        this.title = context.title
+        this.name = context.name
         this.apiPath = context.apiPath
         this.apiEndpoints = context.apiEndpoints.collect { new ApiEndpointView(it) }
 
@@ -32,6 +32,6 @@ class ApiContextView implements Comparable<ApiContextView> {
 
     @Override
     int compareTo(ApiContextView o) {
-        return apiPath.compareToIgnoreCase(o.apiPath) ?: title.compareTo(o.title)
+        return apiPath.compareToIgnoreCase(o.apiPath) ?: name.compareTo(o.name)
     }
 }

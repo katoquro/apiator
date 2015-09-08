@@ -49,13 +49,13 @@ class Apiator {
 
             apiClasses.each {
                 def ctxStack = config.provider.getContextStack(it)
-                def apiCtx = new ApiContext(title: ctxStack.title, apiPath: ctxStack.apiContextPath)
+                def apiCtx = new ApiContext(name: ctxStack.name, apiPath: ctxStack.apiContextPath)
 
                 apiCtx.apiEndpoints += config.provider
                         .getMethodStacks(ctxStack)
                         .collect {
                     new ApiEndpoint(
-                            name: it.title,
+                            name: it.name,
                             path: it.path,
                             method: it.method,
                             returnType: it.returnType,

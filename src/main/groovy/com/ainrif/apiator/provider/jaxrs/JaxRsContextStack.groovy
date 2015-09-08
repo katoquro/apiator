@@ -26,7 +26,7 @@ class JaxRsContextStack extends ContextStack {
     }
 
     @Override
-    String getTitle() {
+    String getName() {
         this.last().getSimpleName()
     }
 

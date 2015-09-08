@@ -46,6 +46,6 @@ class JaxRsProviderSpec extends Specification {
 
         then:
         expect actual, hasSize(expected.size())
-        expect actual.collect { it.title }, containsInAnyOrder(expected)
+        expect actual.collect { it.name }, containsInAnyOrder(expected)
     }
 }

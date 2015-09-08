@@ -18,7 +18,6 @@
   ],
   "apiContexts": [
     {
-      "title": "ServiceImpl",
       "apiPath": "/entities",
       "apiEndpoints": [
         {
@@ -251,7 +250,8 @@
           "name": "putStringDto",
           "method": "PUT"
         }
-      ]
+      ],
+      "name": "ServiceImpl"
     }
   ],
   "usedApiTypes": [

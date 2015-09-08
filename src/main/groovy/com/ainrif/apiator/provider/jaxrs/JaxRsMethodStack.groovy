@@ -42,7 +42,7 @@ class JaxRsMethodStack extends MethodStack {
     }
 
     @Override
-    String getTitle() {
+    String getName() {
         this.last().name
     }
 

@@ -38,10 +38,10 @@
                 <ul id="sidebar" class="nav nav-stacked fixed">
                     {{#each apiContexts}}
                         <li>
-                            <a href="#{{hashCode title}}">{{title}}</a>
+                            <a href="#{{hashCode name}}">{{name}}</a>
                             <ul class="nav nav-stacked">
                                 {{#each apiEndpoints}}
-                                    <li><a href="#{{hashCode ../title}}-{{hashCode name}}">{{name}}</a></li>
+                                    <li><a href="#{{hashCode ../name}}-{{hashCode name}}">{{name}}</a></li>
                                 {{/each}}
                             </ul>
                         </li>
@@ -68,14 +68,14 @@
             <div class="col-xs-9" role="main">
                 <h2>Endpoints</h2>
                 {{#each apiContexts}}
-                    <div class="target-marker" id="{{hashCode title}}"></div>
+                    <div class="target-marker" id="{{hashCode name}}"></div>
                     <section>
-                        <h3>{{title}}</h3>
+                        <h3>{{name}}</h3>
 
                         <p>{{apiPath}}</p>
 
                         {{#each apiEndpoints}}
-                            <div class="target-marker" id="{{hashCode ../title}}-{{hashCode name}}"></div>
+                            <div class="target-marker" id="{{hashCode ../name}}-{{hashCode name}}"></div>
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <span class="pull-right">{{name}}</span>
@@ -141,13 +141,13 @@
                                         <div class="col-xs-12">
                                             <a class="btn btn-default btn-sm"
                                                data-toggle="collapse"
-                                               href="#raw-{{hashCode ../title}}-{{hashCode name}}"
-                                               aria-controls="#raw-{{hashCode ../title}}-{{hashCode name}}"
+                                               href="#raw-{{hashCode ../name}}-{{hashCode name}}"
+                                               aria-controls="#raw-{{hashCode ../name}}-{{hashCode name}}"
                                                aria-expanded="false">
                                                 Raw View
                                             </a>
 
-                                            <div class="collapse" id="raw-{{hashCode ../title}}-{{hashCode name}}">
+                                            <div class="collapse" id="raw-{{hashCode ../name}}-{{hashCode name}}">
                                                 <pre>{{json this}}</pre>
                                             </div>
                                         </div>
