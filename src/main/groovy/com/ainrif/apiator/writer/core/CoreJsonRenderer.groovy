@@ -18,13 +18,24 @@ package com.ainrif.apiator.writer.core
 import com.ainrif.apiator.api.Renderer
 import com.ainrif.apiator.core.model.api.ApiScheme
 import com.ainrif.apiator.writer.core.view.ApiSchemeView
-import groovy.json.JsonBuilder
+import com.fasterxml.jackson.annotation.JsonAutoDetect
+import com.fasterxml.jackson.annotation.PropertyAccessor
+import com.fasterxml.jackson.databind.MapperFeature
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
 
 class CoreJsonRenderer implements Renderer {
     @Override
     String render(ApiScheme scheme) {
         def apiScheme = new ApiSchemeView(scheme)
 
-        new JsonBuilder(apiScheme).toPrettyString()
+        def mapper = new ObjectMapper()
+        mapper.enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS)
+        mapper.enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
+
+        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
+        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+
+        mapper.writeValueAsString(apiScheme)
     }
 }
