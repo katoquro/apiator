@@ -259,8 +259,8 @@
       "type": "com.ainrif.apiator.test.model.jaxrs.Dto1",
       "basedOn": [
       ],
-      "fields": {
-        "privateFieldWithPublicGetter": {
+      "fields": [
+        {
           "readable": true,
           "writable": false,
           "type": null,
@@ -275,7 +275,7 @@
           "modelType": "ARRAY",
           "name": "privateFieldWithPublicGetter"
         },
-        "publicFieldWithPublicGetter": {
+        {
           "readable": true,
           "writable": true,
           "type": null,
@@ -284,7 +284,7 @@
           "modelType": "STRING",
           "name": "publicFieldWithPublicGetter"
         },
-        "publicByteArray": {
+        {
           "readable": true,
           "writable": true,
           "type": null,
@@ -299,7 +299,7 @@
           "modelType": "ARRAY",
           "name": "publicByteArray"
         },
-        "publicObject": {
+        {
           "readable": true,
           "writable": true,
           "type": null,
@@ -308,7 +308,7 @@
           "modelType": "ANY",
           "name": "publicObject"
         },
-        "publicField": {
+        {
           "readable": true,
           "writable": true,
           "type": null,
@@ -317,7 +317,7 @@
           "modelType": "INTEGER",
           "name": "publicField"
         },
-        "publicFieldWithPrivateGetter": {
+        {
           "readable": true,
           "writable": true,
           "type": null,
@@ -332,15 +332,15 @@
           "modelType": "ARRAY",
           "name": "publicFieldWithPrivateGetter"
         }
-      },
+      ],
       "modelType": "OBJECT"
     },
     {
       "type": "com.ainrif.apiator.test.model.jaxrs.Dto2",
       "basedOn": [
       ],
-      "fields": {
-        "publicField": {
+      "fields": [
+        {
           "readable": true,
           "writable": true,
           "type": null,
@@ -349,7 +349,7 @@
           "modelType": "INTEGER",
           "name": "publicField"
         },
-        "dtoNested": {
+        {
           "readable": true,
           "writable": true,
           "type": "com.ainrif.apiator.test.model.jaxrs.DtoNested",
@@ -358,7 +358,7 @@
           "modelType": "OBJECT",
           "name": "dtoNested"
         },
-        "genericArray": {
+        {
           "readable": true,
           "writable": true,
           "type": null,
@@ -379,15 +379,15 @@
           "modelType": "ARRAY",
           "name": "genericArray"
         }
-      },
+      ],
       "modelType": "OBJECT"
     },
     {
       "type": "com.ainrif.apiator.test.model.jaxrs.Dto3",
       "basedOn": [
       ],
-      "fields": {
-        "publicField": {
+      "fields": [
+        {
           "readable": true,
           "writable": true,
           "type": null,
@@ -396,15 +396,15 @@
           "modelType": "INTEGER",
           "name": "publicField"
         }
-      },
+      ],
       "modelType": "OBJECT"
     },
     {
       "type": "com.ainrif.apiator.test.model.jaxrs.DtoNested",
       "basedOn": [
       ],
-      "fields": {
-        "publicField": {
+      "fields": [
+        {
           "readable": true,
           "writable": true,
           "type": null,
@@ -413,15 +413,15 @@
           "modelType": "INTEGER",
           "name": "publicField"
         }
-      },
+      ],
       "modelType": "OBJECT"
     },
     {
       "type": "com.ainrif.apiator.test.model.jaxrs.DtoTypeValue",
       "basedOn": [
       ],
-      "fields": {
-        "data": {
+      "fields": [
+        {
           "readable": true,
           "writable": true,
           "type": null,
@@ -430,15 +430,15 @@
           "modelType": "ANY",
           "name": "data"
         }
-      },
+      ],
       "modelType": "OBJECT"
     },
     {
       "type": "com.ainrif.apiator.test.model.jaxrs.DtoWithBounds",
       "basedOn": [
       ],
-      "fields": {
-        "withExtendsBound": {
+      "fields": [
+        {
           "readable": true,
           "writable": false,
           "type": null,
@@ -453,7 +453,7 @@
           "modelType": "ARRAY",
           "name": "withExtendsBound"
         },
-        "withExtendsBoundFromClass": {
+        {
           "readable": false,
           "writable": true,
           "type": null,
@@ -468,7 +468,7 @@
           "modelType": "ARRAY",
           "name": "withExtendsBoundFromClass"
         },
-        "withExtendsWildcardBound": {
+        {
           "readable": false,
           "writable": true,
           "type": null,
@@ -483,7 +483,7 @@
           "modelType": "ARRAY",
           "name": "withExtendsWildcardBound"
         },
-        "withSuperWildcardBound": {
+        {
           "readable": false,
           "writable": true,
           "type": null,
@@ -498,7 +498,7 @@
           "modelType": "ARRAY",
           "name": "withSuperWildcardBound"
         }
-      },
+      ],
       "modelType": "OBJECT"
     }
   ],

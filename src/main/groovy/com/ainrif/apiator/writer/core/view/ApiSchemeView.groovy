@@ -33,9 +33,9 @@ class ApiSchemeView {
         this.usedEnumerations = scheme.usedEnumerations.collect { new ApiEnumerationView(it) }.sort()
 
         this.usedApiTypes = scheme.usedApiTypes.collect {
-            Map<String, ApiFieldView> fields = Helper
+            List<ApiFieldView> fields = Helper
                     .getPropertiesTypes(it.rawType)
-                    .collectEntries { k, v -> [k, new ApiFieldView(v)] }
+                    .collect { k, v -> new ApiFieldView(v) }
 
             new ApiTypeView(it, fields)
         }.sort()
