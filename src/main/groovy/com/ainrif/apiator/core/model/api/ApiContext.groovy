@@ -16,7 +16,7 @@
 package com.ainrif.apiator.core.model.api
 
 class ApiContext {
-    String title
+    String name
     String apiPath
     List<ApiEndpoint> apiEndpoints = []
     Set<ApiType> usedEnumerations = []

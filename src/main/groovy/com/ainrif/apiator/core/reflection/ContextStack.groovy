@@ -23,7 +23,7 @@ abstract class ContextStack extends ArrayList<Class> {
         super(collection)
     }
 
-    abstract String getTitle()
+    abstract String getName()
 
     abstract String getApiContextPath()
 }

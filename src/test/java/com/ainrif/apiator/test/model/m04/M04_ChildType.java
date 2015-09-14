@@ -17,4 +17,9 @@ package com.ainrif.apiator.test.model.m04;
 
 @AnnotationExample
 public class M04_ChildType implements M04_InterfaceType {
+
+    @AnnotationExample
+    public String getSmth() {
+        return null;
+    }
 }

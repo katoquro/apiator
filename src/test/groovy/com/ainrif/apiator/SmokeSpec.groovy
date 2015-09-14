@@ -18,6 +18,7 @@ package com.ainrif.apiator
 import com.ainrif.apiator.core.Apiator
 import com.ainrif.apiator.core.ApiatorConfig
 import com.ainrif.apiator.writer.core.CoreHtmlRenderer
+import groovy.json.JsonSlurper
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import spock.lang.Specification
@@ -39,7 +40,7 @@ class SmokeSpec extends Specification {
         def actual = apiator.render()
 
         then:
-        deleteWhitespace(actual) == deleteWhitespace(smokeJson)
+        new JsonSlurper().parseText(actual) == new JsonSlurper().parseText(smokeJson)
     }
 
     def "Smoke test; should produce the same result each time"() {

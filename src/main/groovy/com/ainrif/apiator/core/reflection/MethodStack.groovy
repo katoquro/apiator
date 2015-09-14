@@ -36,7 +36,7 @@ abstract class MethodStack extends ArrayList<Method> {
         super(collection)
     }
 
-    abstract String getTitle()
+    abstract String getName()
 
     abstract String getPath()
 
