@@ -128,12 +128,12 @@ document.title = new Date();
 var fuseDictionary = [];
 $.each(apiJson.apiContexts, function () {
     var _apiPath = this.apiPath;
-    var _title = this.title;
-    $.each(this.apiEndpoints, function () {
+    var apiName = this.name;
+    $.each(this.apiEndpoints, function (index, value) {
         var entry = {
             fullPath: _apiPath + this.path,
             method: this.method,
-            hash: String(stringHashCode(_title)).concat('-', stringHashCode(this.name))
+            hash: String(stringHashCode(apiName)).concat('-', stringHashCode(value.name))
         };
         fuseDictionary.push(entry)
     })
@@ -176,4 +176,35 @@ $('#fuzzy-input').on('keyup click', function () {
         .end()
         .append(suggestItems)
         .show();
+});
+
+
+$('.endpoints').on('activate.bs.scrollspy', function () {
+    $('.types').addClass('go-back');
+});
+
+$('.enumerations').on('activate.bs.scrollspy', function () {
+    $('.types').removeClass('go-back');
+});
+
+$('.endpoints li').on('activate.bs.scrollspy', function (e) {
+    e.stopPropagation();
+    e.preventDefault();
+    var $this = $(this),
+        position = $this.position(),
+        sidebar = $('li.endpoints');
+    if ($this.find('.active').length) {
+        return;
+    }
+    sidebar.animate({scrollTop: $this.offsetParent().position().top + position.top}, 0)
+});
+
+$('.endpoints').on('activate.bs.scrollspy', function (e) {
+    e.stopPropagation();
+    e.preventDefault();
+    var $this = $(this)
+    $this.height(window.innerHeight - 110);
+});
+$('.types').on('activate.bs.scrollspy', function (e) {
+    $('.endpoints').height(30);
 });

@@ -24,7 +24,7 @@
                     </div>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#">Api info</a></li>
-                        <li><a href="#">Endpoints</a></li>
+                        <li><a href="#endpoints">Endpoints</a></li>
                         <li><a href="#types">Types</a></li>
                         <li><a href="#enumerations">Enumerations</a></li>
                         <li>
@@ -42,20 +42,25 @@
     <div class="row" id="endpoints">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar complementary">
-                {{#each apiContexts}}
-                    <li>
-                        <a href="#{{apiPath}}"><span class="endpoint">{{apiPath}}</span></a>
-                        <ul class="nav nav-sidebar">
-                            {{#each apiEndpoints}}
-                                <li>
-                                    <a href="#_{{lower method}}_{{../apiPath}}{{path}}" data-target=""><span class="endpoint {{method}}">{{path}}</span></a>
-                                </li>
-                            {{/each}}
-                        </ul>
-                    </li>
-                {{/each}}
-                <li>
-                    <a href="#types"><span class="endpoint">Types</span></a>
+                <li class="endpoints">
+                    <a href="#endpoints"> <i class="fa fa-plug"></i> <span class="endpoint">Endpoints</span></a>
+                    <ul class="nav nav-sidebar">
+                        {{#each apiContexts}}
+                            <li>
+                                <a href="#{{apiPath}}"><span class="endpoint">{{apiPath}}</span></a>
+                                <ul class="nav nav-sidebar">
+                                    {{#each apiEndpoints}}
+                                        <li>
+                                            <a href="#_{{lower method}}_{{../apiPath}}{{path}}" data-target=""><span class="endpoint {{method}}">{{path}}</span></a>
+                                        </li>
+                                    {{/each}}
+                                </ul>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </li>
+                <li class="types">
+                    <a href="#types"> <i class="fa fa-file-text"></i> <span class="endpoint">Types</span></a>
                     <ul class="nav nav-sidebar">
                         {{#each usedApiTypes}}
                             <li>
@@ -64,8 +69,8 @@
                         {{/each}}
                     </ul>
                 </li>
-                <li>
-                    <a href="#enumerations"><span class="endpoint">Enumerations</span></a>
+                <li class="enumerations">
+                    <a href="#enumerations"> <i class="fa fa-file-text"></i> <span class="endpoint">Enumerations</span></a>
                     <ul class="nav nav-sidebar">
                         {{#each usedEnumerations}}
                             <li>
