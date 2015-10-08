@@ -13,8 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.test.model.jaxrs;
+package com.ainrif.apiator.test.model.jaxrs.smoke;
 
-public class Dto3 {
-    public int publicField = 42;
+import java.util.List;
+
+public class DtoWithBounds<TEC extends DtoWithBounds.GenericWildcardBound> {
+    public <TE extends GenericWildcardBound> List<TE> getWithExtendsBound() {
+        return null;
+    }
+
+    public void setWithExtendsWildcardBound(List<? extends GenericWildcardBound> superBound) {
+    }
+
+    public void setWithExtendsBoundFromClass(List<TEC> superBound) {
+    }
+
+    public void setWithSuperWildcardBound(List<? super GenericWildcardBound> superBound) {
+    }
+
+    public static class GenericWildcardBound {
+        public int field;
+    }
 }

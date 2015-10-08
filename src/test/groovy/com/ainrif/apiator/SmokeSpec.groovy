@@ -30,7 +30,7 @@ import static spock.util.matcher.HamcrestSupport.expect
 class SmokeSpec extends Specification {
     static final Logger logger = LoggerFactory.getLogger(SmokeSpec)
     static final String smokeJson = SmokeSpec.classLoader.getResource('smoke1.json').text
-    static final String jaxrsPackage = 'com.ainrif.apiator.test.model.jaxrs'
+    static final String jaxrsPackage = 'com.ainrif.apiator.test.model.jaxrs.smoke'
 
     def "Smoke test; jax-rs"() {
         given:

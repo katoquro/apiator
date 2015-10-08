@@ -13,26 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.test.model.jaxrs;
+package com.ainrif.apiator.test.model.jaxrs.smoke;
 
-import javax.ws.rs.*;
-import java.lang.annotation.*;
-import java.util.List;
-
-public interface Service {
-
-    @POST
-    @Path("/create") Object postDtoObject(Dto1 obj);
-
-    @GET
-    @Path("/{id}") Object getStringDtoInImpl(@PathParam("id") String id);
-
-    @POST Dto1 putStringDto(String id);
-
-    @GET List<List<Dto2>> getAll();
-
-    @Target({ElementType.METHOD})
-    @Retention(RetentionPolicy.RUNTIME)
-    @HttpMethod(HttpMethod.POST)
-    @Documented @interface CustomPOST {}
+public class DtoTypeValue<T> {
+    public T data;
 }

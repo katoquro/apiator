@@ -15,8 +15,8 @@
  */
 package com.ainrif.apiator.provider.jaxrs
 
-import com.ainrif.apiator.test.model.jaxrs.Service
-import com.ainrif.apiator.test.model.jaxrs.ServiceImpl
+import com.ainrif.apiator.test.model.jaxrs.smoke.Service
+import com.ainrif.apiator.test.model.jaxrs.smoke.ServiceImpl
 import spock.lang.Specification
 
 import static org.hamcrest.Matchers.containsInAnyOrder

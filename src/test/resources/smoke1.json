@@ -14,7 +14,7 @@
                   {
                     "basedOn": [],
                     "modelType": "OBJECT",
-                    "type": "com.ainrif.apiator.test.model.jaxrs.Dto2"
+                    "type": "com.ainrif.apiator.test.model.jaxrs.smoke.Dto2"
                   }
                 ],
                 "modelType": "ARRAY",
@@ -89,7 +89,7 @@
               "index": 0,
               "modelType": "ENUMERATION",
               "name": "enum",
-              "type": "com.ainrif.apiator.test.model.jaxrs.EnumApiType"
+              "type": "com.ainrif.apiator.test.model.jaxrs.smoke.EnumApiType"
             }
           ],
           "path": "/enum",
@@ -109,7 +109,7 @@
               {
                 "basedOn": [],
                 "modelType": "OBJECT",
-                "type": "com.ainrif.apiator.test.model.jaxrs.Dto3"
+                "type": "com.ainrif.apiator.test.model.jaxrs.smoke.Dto3"
               }
             ],
             "modelType": "ARRAY",
@@ -126,7 +126,7 @@
               "index": 0,
               "modelType": "OBJECT",
               "name": null,
-              "type": "com.ainrif.apiator.test.model.jaxrs.Dto1"
+              "type": "com.ainrif.apiator.test.model.jaxrs.smoke.Dto1"
             }
           ],
           "path": "/new",
@@ -144,7 +144,7 @@
           "returnType": {
             "basedOn": [],
             "modelType": "OBJECT",
-            "type": "com.ainrif.apiator.test.model.jaxrs.DtoTypeValue"
+            "type": "com.ainrif.apiator.test.model.jaxrs.smoke.DtoTypeValue"
           }
         },
         {
@@ -166,7 +166,7 @@
           "returnType": {
             "basedOn": [],
             "modelType": "OBJECT",
-            "type": "com.ainrif.apiator.test.model.jaxrs.DtoWithBounds"
+            "type": "com.ainrif.apiator.test.model.jaxrs.smoke.DtoWithBounds"
           }
         },
         {
@@ -186,7 +186,7 @@
           "returnType": {
             "basedOn": [],
             "modelType": "OBJECT",
-            "type": "com.ainrif.apiator.test.model.jaxrs.Dto1"
+            "type": "com.ainrif.apiator.test.model.jaxrs.smoke.Dto1"
           }
         },
         {
@@ -206,7 +206,7 @@
           "returnType": {
             "basedOn": [],
             "modelType": "OBJECT",
-            "type": "com.ainrif.apiator.test.model.jaxrs.Dto1"
+            "type": "com.ainrif.apiator.test.model.jaxrs.smoke.Dto1"
           }
         }
       ],
@@ -295,7 +295,7 @@
         }
       ],
       "modelType": "OBJECT",
-      "type": "com.ainrif.apiator.test.model.jaxrs.Dto1"
+      "type": "com.ainrif.apiator.test.model.jaxrs.smoke.Dto1"
     },
     {
       "basedOn": [],
@@ -313,7 +313,7 @@
           "modelType": "OBJECT",
           "name": "dtoNested",
           "readable": true,
-          "type": "com.ainrif.apiator.test.model.jaxrs.DtoNested",
+          "type": "com.ainrif.apiator.test.model.jaxrs.smoke.DtoNested",
           "writable": true
         },
         {
@@ -338,7 +338,7 @@
         }
       ],
       "modelType": "OBJECT",
-      "type": "com.ainrif.apiator.test.model.jaxrs.Dto2"
+      "type": "com.ainrif.apiator.test.model.jaxrs.smoke.Dto2"
     },
     {
       "basedOn": [],
@@ -353,7 +353,7 @@
         }
       ],
       "modelType": "OBJECT",
-      "type": "com.ainrif.apiator.test.model.jaxrs.Dto3"
+      "type": "com.ainrif.apiator.test.model.jaxrs.smoke.Dto3"
     },
     {
       "basedOn": [],
@@ -368,7 +368,7 @@
         }
       ],
       "modelType": "OBJECT",
-      "type": "com.ainrif.apiator.test.model.jaxrs.DtoNested"
+      "type": "com.ainrif.apiator.test.model.jaxrs.smoke.DtoNested"
     },
     {
       "basedOn": [],
@@ -383,7 +383,7 @@
         }
       ],
       "modelType": "OBJECT",
-      "type": "com.ainrif.apiator.test.model.jaxrs.DtoTypeValue"
+      "type": "com.ainrif.apiator.test.model.jaxrs.smoke.DtoTypeValue"
     },
     {
       "basedOn": [],
@@ -393,7 +393,7 @@
             {
               "basedOn": [],
               "modelType": "OBJECT",
-              "type": "com.ainrif.apiator.test.model.jaxrs.DtoWithBounds$GenericWildcardBound"
+              "type": "com.ainrif.apiator.test.model.jaxrs.smoke.DtoWithBounds$GenericWildcardBound"
             }
           ],
           "modelType": "ARRAY",
@@ -407,7 +407,7 @@
             {
               "basedOn": [],
               "modelType": "OBJECT",
-              "type": "com.ainrif.apiator.test.model.jaxrs.DtoWithBounds$GenericWildcardBound"
+              "type": "com.ainrif.apiator.test.model.jaxrs.smoke.DtoWithBounds$GenericWildcardBound"
             }
           ],
           "modelType": "ARRAY",
@@ -421,7 +421,7 @@
             {
               "basedOn": [],
               "modelType": "OBJECT",
-              "type": "com.ainrif.apiator.test.model.jaxrs.DtoWithBounds$GenericWildcardBound"
+              "type": "com.ainrif.apiator.test.model.jaxrs.smoke.DtoWithBounds$GenericWildcardBound"
             }
           ],
           "modelType": "ARRAY",
@@ -446,14 +446,14 @@
         }
       ],
       "modelType": "OBJECT",
-      "type": "com.ainrif.apiator.test.model.jaxrs.DtoWithBounds"
+      "type": "com.ainrif.apiator.test.model.jaxrs.smoke.DtoWithBounds"
     }
   ],
   "usedEnumerations": [
     {
       "basedOn": [],
       "modelType": "ENUMERATION",
-      "type": "com.ainrif.apiator.test.model.jaxrs.EnumApiType",
+      "type": "com.ainrif.apiator.test.model.jaxrs.smoke.EnumApiType",
       "values": [
         "FIRST",
         "SECOND"

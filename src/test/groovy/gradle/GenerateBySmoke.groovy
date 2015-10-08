@@ -20,7 +20,7 @@ import com.ainrif.apiator.core.ApiatorConfig
 import com.ainrif.apiator.writer.core.CoreHtmlRenderer
 
 class GenerateBySmoke {
-    static final String jaxrsPackage = 'com.ainrif.apiator.test.model.jaxrs'
+    static final String jaxrsPackage = 'com.ainrif.apiator.test.model.jaxrs.smoke'
 
     public static void main(String[] args) {
         def path = "${args[0]}/api.html"
