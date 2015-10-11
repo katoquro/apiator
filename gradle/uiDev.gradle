@@ -16,7 +16,7 @@ uiDev {
     coldStart = true
 }
 
-uiDev.dependsOn update_stub
+uiDev.dependsOn generate_stub
 
 task ui_dev_generate(type: JavaExec) {
     def apiatorPath = 'build/apiator'

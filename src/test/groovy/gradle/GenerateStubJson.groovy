@@ -17,20 +17,20 @@ package gradle
 
 import com.ainrif.apiator.core.Apiator
 import com.ainrif.apiator.core.ApiatorConfig
-import com.ainrif.apiator.writer.core.CoreHtmlRenderer
+import com.ainrif.apiator.writer.core.CoreJsonRenderer
 
 import javax.ws.rs.Path
 
-class GenerateBySmoke {
+class GenerateStubJson {
     static final String jaxrsPackage = 'com.ainrif.apiator.test.model.jaxrs'
 
     public static void main(String[] args) {
-        def path = "${args[0]}/api.html"
+        def path = "${args[0]}/stub.json"
         def config = new ApiatorConfig(
                 basePackage: jaxrsPackage,
                 apiClass: Path,
-                renderer: new CoreHtmlRenderer(path))
+                renderer: new CoreJsonRenderer())
 
-        new Apiator(config).render()
+        new File(path).write(new Apiator(config).render())
     }
 }

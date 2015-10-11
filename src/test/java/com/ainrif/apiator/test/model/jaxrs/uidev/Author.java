@@ -13,24 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package gradle
+package com.ainrif.apiator.test.model.jaxrs.uidev;
 
-import com.ainrif.apiator.core.Apiator
-import com.ainrif.apiator.core.ApiatorConfig
-import com.ainrif.apiator.writer.core.CoreHtmlRenderer
+import java.util.Set;
 
-import javax.ws.rs.Path
+public class Author {
+    private Long id;
 
-class GenerateBySmoke {
-    static final String jaxrsPackage = 'com.ainrif.apiator.test.model.jaxrs'
+    private Set<Publisher> publishers;
 
-    public static void main(String[] args) {
-        def path = "${args[0]}/api.html"
-        def config = new ApiatorConfig(
-                basePackage: jaxrsPackage,
-                apiClass: Path,
-                renderer: new CoreHtmlRenderer(path))
+    public String firstName;
+    public String lastName;
 
-        new Apiator(config).render()
+
+    public Long getId() {
+        return id;
+    }
+
+    public Set<Long> getPublishersUids() {
+        return null;
     }
 }
