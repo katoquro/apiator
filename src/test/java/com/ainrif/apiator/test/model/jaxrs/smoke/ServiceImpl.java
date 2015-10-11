@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.test.model.jaxrs;
+package com.ainrif.apiator.test.model.jaxrs.smoke;
 
 import com.ainrif.apiator.api.annotation.Api;
 
@@ -66,7 +66,8 @@ public class ServiceImpl implements Service {
     }
 
     @Path("/void")
-    public void doVoidMethod() { }
+    public void doVoidMethod() {
+    }
 
     @Path("/byte-array")
     public byte[] getByteArray(@BeanParam ParamsWrapper param) {
@@ -75,7 +76,8 @@ public class ServiceImpl implements Service {
 
     @CustomPOST
     @Path("/enum")
-    public void setStatus(@QueryParam("enum") EnumApiType status) { }
+    public void setStatus(@QueryParam("enum") EnumApiType status) {
+    }
 
     public void justPublicMethod() {
     }

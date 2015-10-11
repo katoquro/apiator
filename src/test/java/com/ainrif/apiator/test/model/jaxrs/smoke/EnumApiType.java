@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.test.model.jaxrs;
+package com.ainrif.apiator.test.model.jaxrs.smoke;
 
 public enum EnumApiType {
     FIRST, SECOND;

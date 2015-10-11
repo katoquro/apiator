@@ -13,24 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package gradle
+package com.ainrif.apiator.test.model.jaxrs.smoke;
 
-import com.ainrif.apiator.core.Apiator
-import com.ainrif.apiator.core.ApiatorConfig
-import com.ainrif.apiator.writer.core.CoreHtmlRenderer
+import java.util.List;
 
-import javax.ws.rs.Path
+public class DtoWithBounds<TEC extends DtoWithBounds.GenericWildcardBound> {
+    public <TE extends GenericWildcardBound> List<TE> getWithExtendsBound() {
+        return null;
+    }
 
-class GenerateBySmoke {
-    static final String jaxrsPackage = 'com.ainrif.apiator.test.model.jaxrs'
+    public void setWithExtendsWildcardBound(List<? extends GenericWildcardBound> superBound) {
+    }
 
-    public static void main(String[] args) {
-        def path = "${args[0]}/api.html"
-        def config = new ApiatorConfig(
-                basePackage: jaxrsPackage,
-                apiClass: Path,
-                renderer: new CoreHtmlRenderer(path))
+    public void setWithExtendsBoundFromClass(List<TEC> superBound) {
+    }
 
-        new Apiator(config).render()
+    public void setWithSuperWildcardBound(List<? super GenericWildcardBound> superBound) {
+    }
+
+    public static class GenericWildcardBound {
+        public int field;
     }
 }

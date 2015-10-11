@@ -13,8 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.test.model.jaxrs;
+package com.ainrif.apiator.test.model.jaxrs.uidev;
 
-public class DtoNested {
-    public int publicField = 42;
+import java.util.List;
+
+public class Publisher {
+    protected Long uid;
+
+    public String title;
+    public List<String> isbns;
+
+    public Long getUid() {
+        return uid;
+    }
 }

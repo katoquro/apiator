@@ -13,19 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package gradle
+package com.ainrif.apiator.test.model.jaxrs.uidev;
 
-import com.ainrif.apiator.core.Apiator
-import com.ainrif.apiator.core.ApiatorConfig
-import com.ainrif.apiator.writer.core.CoreJsonRenderer
+public class Book {
+    private Author author;
+    private Publisher publisher;
 
-class UpdateStub {
-    static final String jaxrsPackage = 'com.ainrif.apiator.test.model.jaxrs'
+    public String isbn;
+    public String title;
+    public Status status;
 
-    public static void main(String[] args) {
-        def path = "${args[0]}/stub.json"
-        def config = new ApiatorConfig(basePackage: jaxrsPackage, renderer: new CoreJsonRenderer())
+    public Long getAuthorId() {
+        return author.getId();
+    }
 
-        new File(path).write(new Apiator(config).render())
+    public Long getPublisherUid() {
+        return publisher.getUid();
+    }
+
+    public enum Status {
+        PUBLISHED, DRAFT, REPRINT
     }
 }

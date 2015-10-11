@@ -11,7 +11,7 @@ task generate_by_smoke(type: JavaExec) {
     args = [file(apiatorPath).absolutePath]
 }
 
-task update_stub(type: JavaExec) {
+task generate_stub(type: JavaExec) {
     def apiatorPath = 'build/apiator/resources'
 
     doFirst {
@@ -19,7 +19,7 @@ task update_stub(type: JavaExec) {
         path.mkdirs()
     }
 
-    main = 'gradle.UpdateStub'
+    main = 'gradle.GenerateStubJson'
     classpath = sourceSets.test.runtimeClasspath
     args = [file(apiatorPath).absolutePath]
 }

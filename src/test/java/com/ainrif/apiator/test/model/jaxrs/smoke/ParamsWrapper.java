@@ -13,8 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.ainrif.apiator.test.model.jaxrs.smoke;
 
-/**
- * Main Model for integration test of JAX-RS provider
- */
-package com.ainrif.apiator.test.model.jaxrs;
+import javax.ws.rs.CookieParam;
+import javax.ws.rs.QueryParam;
+
+public class ParamsWrapper {
+    @QueryParam("BP_public_query")
+    public String queryParam;
+
+    @CookieParam("BP_private_query")
+    private String cookieParam;
+}

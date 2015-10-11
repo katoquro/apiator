@@ -13,26 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.test.model.jaxrs;
+package com.ainrif.apiator.test.model.jaxrs.uidev;
 
 import javax.ws.rs.*;
-import java.lang.annotation.*;
 import java.util.List;
 
-public interface Service {
-
+@Path("/books")
+public class BookController {
     @POST
-    @Path("/create") Object postDtoObject(Dto1 obj);
+    public Book createBook() {
+        return null;
+    }
 
     @GET
-    @Path("/{id}") Object getStringDtoInImpl(@PathParam("id") String id);
+    public List<Book> getBooks(@QueryParam("search") String query) {
+        return null;
+    }
 
-    @POST Dto1 putStringDto(String id);
+    @GET
+    @Path("/{isbn}")
+    public Book getBook(@PathParam("isbn") String isbn) {
+        return null;
+    }
 
-    @GET List<List<Dto2>> getAll();
+    @PUT
+    @Path("/{isbn}")
+    public Book updateBook(@PathParam("isbn") String isbn, Book book) {
+        return null;
+    }
 
-    @Target({ElementType.METHOD})
-    @Retention(RetentionPolicy.RUNTIME)
-    @HttpMethod(HttpMethod.POST)
-    @Documented @interface CustomPOST {}
+    @DELETE
+    @Path("/{isbn}")
+    public Book deleteBook(@PathParam("isbn") String isbn) {
+        return null;
+    }
 }

@@ -13,8 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.test.model.jaxrs;
+package gradle
 
-public class Dto3 {
-    public int publicField = 42;
+import com.ainrif.apiator.core.Apiator
+import com.ainrif.apiator.core.ApiatorConfig
+import com.ainrif.apiator.writer.core.CoreJsonRenderer
+
+import javax.ws.rs.Path
+
+class GenerateStubJson {
+    static final String jaxrsPackage = 'com.ainrif.apiator.test.model.jaxrs'
+
+    public static void main(String[] args) {
+        def path = "${args[0]}/stub.json"
+        def config = new ApiatorConfig(
+                basePackage: jaxrsPackage,
+                apiClass: Path,
+                renderer: new CoreJsonRenderer())
+
+        new File(path).write(new Apiator(config).render())
+    }
 }
