@@ -302,6 +302,14 @@
       "fields": [
         {
           "basedOn": [],
+          "modelType": "OBJECT",
+          "name": "typeFromGetter",
+          "readable": true,
+          "type": "com.ainrif.apiator.test.model.jaxrs.smoke.Dto2$GetterType",
+          "writable": false
+        },
+        {
+          "basedOn": [],
           "modelType": "INTEGER",
           "name": "publicField",
           "readable": true,
@@ -339,6 +347,12 @@
       ],
       "modelType": "OBJECT",
       "type": "com.ainrif.apiator.test.model.jaxrs.smoke.Dto2"
+    },
+    {
+      "basedOn": [],
+      "fields": [],
+      "modelType": "OBJECT",
+      "type": "com.ainrif.apiator.test.model.jaxrs.smoke.Dto2$GetterType"
     },
     {
       "basedOn": [],
@@ -447,6 +461,21 @@
       ],
       "modelType": "OBJECT",
       "type": "com.ainrif.apiator.test.model.jaxrs.smoke.DtoWithBounds"
+    },
+    {
+      "basedOn": [],
+      "fields": [
+        {
+          "basedOn": [],
+          "modelType": "INTEGER",
+          "name": "field",
+          "readable": true,
+          "type": null,
+          "writable": true
+        }
+      ],
+      "modelType": "OBJECT",
+      "type": "com.ainrif.apiator.test.model.jaxrs.smoke.DtoWithBounds$GenericWildcardBound"
     }
   ],
   "usedEnumerations": [
@@ -456,7 +485,15 @@
       "type": "com.ainrif.apiator.test.model.jaxrs.smoke.EnumApiType",
       "values": [
         "FIRST",
-        "SECOND"
+        "SECOND",
+        "THIRD",
+        "FOURTH",
+        "FIFTH",
+        "SIXTH",
+        "SEVENTH",
+        "EIGHTH",
+        "NINTH",
+        "TENTH"
       ]
     }
   ]

@@ -108,8 +108,14 @@ class ApiType {
 
     /**
      * Don't rely to the item order. Bounded Generic Types are resolved by class constraints
+     * <br>
+     * input: <br>
+     * {@code List < Map < String , Integer > >}  <br>
+     * result: <br>
+     * set of {@code [List , Map, Integer, String]}
      *
-     * @return list which represents all generic args
+     *
+     * @return list which represents all generic args including generic type
      */
     List<ApiType> flattenArgumentTypes() {
         flattenArgumentTypesCache ?: {

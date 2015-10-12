@@ -15,6 +15,11 @@
  */
 package com.ainrif.apiator.test.model.jaxrs.smoke;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum EnumApiType {
-    FIRST, SECOND;
+    FIRST, SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, EIGHTH, NINTH, TENTH;
+
+    public static List<EnumApiType> getNotParsedStaticGetter = Arrays.asList(FIRST, THIRD);
 }

@@ -21,4 +21,11 @@ public class Dto2 {
     public int publicField = 42;
     public DtoNested dtoNested;
     public List<String>[] genericArray;
+
+    public GetterType getTypeFromGetter() {
+        return null;
+    }
+
+    public static class GetterType {
+    }
 }

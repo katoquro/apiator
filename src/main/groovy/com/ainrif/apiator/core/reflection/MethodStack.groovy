@@ -21,8 +21,12 @@ import com.ainrif.apiator.core.model.api.ApiEndpointParam
 import com.ainrif.apiator.core.model.api.ApiEndpointReturnType
 import com.ainrif.apiator.core.model.api.ApiType
 
+import java.beans.Introspector
 import java.lang.annotation.Annotation
+import java.lang.reflect.Field
 import java.lang.reflect.Method
+import java.lang.reflect.Modifier
+import java.util.function.Predicate
 
 import static com.ainrif.apiator.core.model.ModelType.ENUMERATION
 import static com.ainrif.apiator.core.model.ModelType.OBJECT
@@ -100,18 +104,20 @@ abstract class MethodStack extends ArrayList<Method> {
     }
 
     private Set<ApiType> collectAllUsedTypes() {
-        Set<ApiType> types = []
+        Set<ApiType> types = [] // result
 
+        // all types used in params and return type form input data to start BFS collecting
         def nextLookup = (params.collect { it.type } << returnType.type)
         while (nextLookup) {
             def typesToLookup = nextLookup
                     .collect(collectApiTypesFromGenerics).flatten()
-                    .collect(mapArraysToItsTypeApiType)
+                    .collect(mapArraysToItsTypeApiType).toSet()
                     .findAll(testTypeIsNotPrimitive)
 
             def typesFromFields = typesToLookup
-                    .findAll(testTypeIsModelObject)
-                    .collect(collectApiTypesFromFields).flatten()
+                    .findAll(testTypeIsCustomModelType)
+                    .collect(collectApiTypesFromFields).flatten().toSet()
+                    .collect(collectApiTypesFromGetters).flatten().toSet()
                     .collect(mapArraysToItsTypeApiType)
                     .findAll(testTypeIsNotPrimitive)
                     .minus(typesToLookup)
@@ -130,8 +136,29 @@ abstract class MethodStack extends ArrayList<Method> {
     }
 
     protected static Closure<List<ApiType>> collectApiTypesFromFields = { ApiType type ->
-        RUtils.getAllFields(findFirstNotArrayType(type))
-                .collect { new ApiType(it.genericType) }
+        RUtils.getAllFields(findFirstNotArrayType(type), testFieldIsPublicAndNotStatic)
+                .collect { new ApiType(it.genericType) } << type
+    }
+
+    protected static Closure<List<ApiType>> collectApiTypesFromGetters = { ApiType type ->
+        def rawType = findFirstNotArrayType(type)
+
+        if (!rawType.interface && !rawType.primitive && testTypeIsCustomModelType.call(new ApiType(rawType))) {
+            def beanInfo = rawType.enum ?
+                    Introspector.getBeanInfo(rawType, Enum) :
+                    Introspector.getBeanInfo(rawType, Object)
+
+            def typesFromGetters = beanInfo.propertyDescriptors
+                    .findAll { it.readMethod }
+                    .collect { it.readMethod.genericReturnType }
+                    .collect { new ApiType(it) }
+
+            typesFromGetters << type
+
+            return typesFromGetters
+        } else {
+            return [type]
+        }
     }
 
     protected static Class<?> findFirstNotArrayType(ApiType type) {
@@ -151,7 +178,11 @@ abstract class MethodStack extends ArrayList<Method> {
         ModelType.notPrimitiveTypes.any { it == type.modelType } && Object.class != type.rawType
     }
 
-    protected static Closure<Boolean> testTypeIsModelObject = { ApiType type ->
-        ModelType.modelObjectTypes.any { it == type.modelType } && Object.class != type.rawType
+    protected static Closure<Boolean> testTypeIsCustomModelType = { ApiType type ->
+        ModelType.customModelTypes.any { it == type.modelType } && Object.class != type.rawType
+    }
+
+    protected static Predicate<Field> testFieldIsPublicAndNotStatic = {
+        Modifier.isPublic(it.modifiers) && !Modifier.isStatic(it.modifiers)
     }
 }

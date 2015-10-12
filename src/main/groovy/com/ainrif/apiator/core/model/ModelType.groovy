@@ -26,7 +26,7 @@ public enum ModelType {
 
     DATE, BINARY
 
-    static Collection<ModelType> getModelObjectTypes() {
+    static Collection<ModelType> getCustomModelTypes() {
         [OBJECT, ENUMERATION]
     }
 
