@@ -73,7 +73,7 @@ body {
 .nav-sidebar {
     margin-right: -21px;
     /* 20px padding + 1px border */
-    margin-bottom: 20px;
+    /*margin-bottom: 20px;*/
     margin-left: -20px;
 }
 
@@ -297,49 +297,58 @@ span.type + span.name:before {
 @font-face {
     font-family: 'Glyphicons Halflings';
     src: url(https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.eot);
-    src: url(https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'),url(https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.woff2) format('woff2'),url(https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.woff) format('woff'),url(https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.ttf) format('truetype'),url(https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg')
+    src: url(https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'), url(https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.woff2) format('woff2'), url(https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.woff) format('woff'), url(https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.ttf) format('truetype'), url(https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg')
 }
 
-li .nav {
+.nav-sidebar li .nav {
     display: none;
 }
 
-li.active .nav {
+.nav-sidebar li.active .nav {
     display: inherit;
 }
 
 /* working on sidebar*/
 
-li.types.go-back {
-    bottom: 0;
-    position: absolute;
-}
+/*li.types.go-back {*/
+/*bottom: 0;*/
+/*position: absolute;*/
+/*}*/
 
 .col-sm-3.col-md-2.sidebar {
     top: 31px;
     overflow: hidden;
 }
 
-li.endpoints.active + li.types {
-    position: absolute;
-    bottom: 30px;
+.navbar-form {
+    overflow: hidden;
 }
 
-li.types.go-back + li.enumerations {
-    position: absolute;
-    bottom: 0px;
-}
-li.types.active + li.enumerations {
-    position: absolute;
-    bottom: 0px;
+.navbar-form .form-control {
+    width: 100%;
+    display: block;
 }
 
-li.types.active {
-    position: relative !important;
-}
-
-li.endpoints {
-    overflow-y: hidden;
+ul#fuzzy-suggest {
+    left: inherit;
 }
 
 /*working on sidebar*/
+
+.sidebar {
+    padding: 20px 20px 0 20px;
+}
+
+.nav.nav-sidebar {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+li.active {
+    flex-grow: 2;
+}
+
+li.active > a > span.endpoint:before {
+    color: white;
+}

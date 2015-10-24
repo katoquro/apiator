@@ -19,9 +19,6 @@
             </div>
             <div class="col-lg-10">
                 <div id="navbar" class="navbar-collapse collapse">
-                    <div class="navbar-form navbar-left">
-                        <input type="text" class="form-control" placeholder="Search...">
-                    </div>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#">Api info</a></li>
                         <li><a href="#endpoints">Endpoints</a></li>
@@ -33,6 +30,12 @@
                             </a>
                         </li>
                     </ul>
+                    <div class="navbar-form">
+                        <input type="text" class="form-control" id="fuzzy-input" placeholder="Search...">
+                        <ul class="dropdown-menu dropdown-menu-left" role="menu" id="fuzzy-suggest">
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">item</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

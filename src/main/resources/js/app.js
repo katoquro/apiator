@@ -108,7 +108,7 @@ $.fn.scrollspy.Constructor.prototype.refresh = function () {
             that.offsets.push(this[0])
             that.targets.push(this[1])
         })
-}
+};
 
 
 $('body').scrollspy({
@@ -125,26 +125,31 @@ $(window).resize(adjustSidebar);
 document.title = new Date();
 
 //fuzzy search
-var fuseDictionary = [];
-$.each(apiJson.apiContexts, function () {
-    var _apiPath = this.apiPath;
-    var apiName = this.name;
-    $.each(this.apiEndpoints, function (index, value) {
-        var entry = {
-            fullPath: _apiPath + this.path,
-            method: this.method,
-            hash: String(stringHashCode(apiName)).concat('-', stringHashCode(value.name))
-        };
-        fuseDictionary.push(entry)
-    })
-});
+var fuseDictionary = {};
+var urlBanger = _.compose(_.flatten, _.map);
+fuseDictionary.url = urlBanger(apiJson.apiContexts, mapApiContexts);
+
+function mapApiContexts(apiContext) {
+    return apiContext.apiEndpoints.map(mapApiEndpoints, apiContext);
+}
+
+function mapApiEndpoints(apiEndpoint) {
+    var miniApiEndpoint = _.pick(apiEndpoint, [
+        "method",
+        "name",
+        "params",
+        "path"
+    ]);
+    miniApiEndpoint.path = this.apiPath + miniApiEndpoint.path;
+    return miniApiEndpoint;
+}
 
 var fuseOptions = {
-    keys: ['fullPath'],
+    keys: ['name', 'path', 'method'],
     caseSensitive: true // keys to search in
 };
 
-var fuse = new Fuse(fuseDictionary, fuseOptions);
+var fuse = new Fuse(fuseDictionary.url, fuseOptions);
 
 $('html').click(function (event) {
     if (!$(event.target).is('#fuzzy-suggest, #fuzzy-input')) {
@@ -164,8 +169,7 @@ $('#fuzzy-input').on('keyup click', function () {
     var hits = fuse.search(that.val()).slice(0, 10);
     var suggestItems = hits.map(function (hit) {
         return $('<li role="presentation">' +
-            '<a role="menuitem" tabindex="-1" href="#' + hit.hash + '">' +
-            '@' + hit.method + ' ' + hit.fullPath +
+            '<a role="menuitem" tabindex="-1" href="#' + hit.hash + '">' + hit.path + ' ' + hit.name +
             '</a>' +
             '</li>')
     });
@@ -176,35 +180,4 @@ $('#fuzzy-input').on('keyup click', function () {
         .end()
         .append(suggestItems)
         .show();
-});
-
-
-$('.endpoints').on('activate.bs.scrollspy', function () {
-    $('.types').addClass('go-back');
-});
-
-$('.enumerations').on('activate.bs.scrollspy', function () {
-    $('.types').removeClass('go-back');
-});
-
-$('.endpoints li').on('activate.bs.scrollspy', function (e) {
-    e.stopPropagation();
-    e.preventDefault();
-    var $this = $(this),
-        position = $this.position(),
-        sidebar = $('li.endpoints');
-    if ($this.find('.active').length) {
-        return;
-    }
-    sidebar.animate({scrollTop: $this.offsetParent().position().top + position.top}, 0)
-});
-
-$('.endpoints').on('activate.bs.scrollspy', function (e) {
-    e.stopPropagation();
-    e.preventDefault();
-    var $this = $(this)
-    $this.height(window.innerHeight - 110);
-});
-$('.types').on('activate.bs.scrollspy', function (e) {
-    $('.endpoints').height(30);
 });
