@@ -85,9 +85,15 @@ public class ServiceImpl implements Service {
     private void somePrivateLogic() {
     }
 
-    @Path("/binary")
     @POST
+    @Path("/binary")
     public OutputStream getStream(@FormParam("file") InputStream fileIS) {
+        return null;
+    }
+
+    @GET
+    @Path("/system")
+    public Class<Class> getClassType() {
         return null;
     }
 }

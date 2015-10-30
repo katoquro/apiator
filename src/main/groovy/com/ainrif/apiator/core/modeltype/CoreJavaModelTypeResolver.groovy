@@ -30,14 +30,16 @@ class CoreJavaModelTypeResolver implements ModelTypeResolver {
                 || UUID == type) return ModelType.STRING
 
         if ([Void, void].any { it.isAssignableFrom(type) }) return ModelType.VOID
-        else if (type.enum || Enum.isAssignableFrom(type)) return ModelType.ENUMERATION
+        if (type.enum || Enum.isAssignableFrom(type)) return ModelType.ENUMERATION
 
-        else if ([Boolean, boolean].any { it.isAssignableFrom(type) }) return ModelType.BOOLEAN
-        else if ([Byte, byte].any { it.isAssignableFrom(type) }) return ModelType.BYTE
-        else if ([Integer, Short, int, short].any { it.isAssignableFrom(type) }) return ModelType.INTEGER
-        else if ([Long, BigInteger, long].any { it.isAssignableFrom(type) }) return ModelType.LONG
-        else if ([Float, float].any { it.isAssignableFrom(type) }) return ModelType.FLOAT
-        else if ([Double, BigDecimal, double].any { it.isAssignableFrom(type) }) return ModelType.DOUBLE
+        if ([Boolean, boolean].any { it.isAssignableFrom(type) }) return ModelType.BOOLEAN
+        if ([Byte, byte].any { it.isAssignableFrom(type) }) return ModelType.BYTE
+        if ([Integer, Short, int, short].any { it.isAssignableFrom(type) }) return ModelType.INTEGER
+        if ([Long, BigInteger, long].any { it.isAssignableFrom(type) }) return ModelType.LONG
+        if ([Float, float].any { it.isAssignableFrom(type) }) return ModelType.FLOAT
+        if ([Double, BigDecimal, double].any { it.isAssignableFrom(type) }) return ModelType.DOUBLE
+
+        if (Class.isAssignableFrom(type)) return ModelType.SYSTEM
 
         return null
     }

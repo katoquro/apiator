@@ -15,11 +15,9 @@
  */
 package com.ainrif.apiator.test.model.jaxrs.uidev;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import java.util.List;
+import java.util.Map;
 
 @Path("/library")
 public class LibraryController {
@@ -30,7 +28,6 @@ public class LibraryController {
                                   @QueryParam("title") String title) {
         return null;
     }
-
 
     @GET
     @Path("/authors/search")
@@ -47,6 +44,12 @@ public class LibraryController {
     @GET
     @Path("/publishers/{uid}")
     public Publisher searchByAuthors(@PathParam("uid") Long uid) {
+        return null;
+    }
+
+    @POST
+    @Path("/very/long/url/to/grouping/all/books/by/authors")
+    public Map<Author, List<Book>> getAllBooksByAuthors() {
         return null;
     }
 }

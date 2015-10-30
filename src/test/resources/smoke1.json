@@ -138,6 +138,23 @@
         },
         {
           "method": "GET",
+          "name": "getClassType",
+          "params": [],
+          "path": "/system",
+          "returnType": {
+            "basedOn": [
+              {
+                "basedOn": [],
+                "modelType": "SYSTEM",
+                "type": null
+              }
+            ],
+            "modelType": "SYSTEM",
+            "type": null
+          }
+        },
+        {
+          "method": "GET",
           "name": "getDtoTypeValue",
           "params": [],
           "path": "/type-value",
