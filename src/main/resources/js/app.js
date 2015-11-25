@@ -77,7 +77,13 @@ function urler(data) {
     return '#_' + lower(hash.method) + '_' + hash.apiPath + hash.path;
 }
 
+function copyUrler(data) {
+    var prefix = location.origin + location.pathname;
+    return prefix + urler(data);
+}
+
 Handlebars.registerHelper('urler', urler);
+Handlebars.registerHelper('copyUrler', copyUrler);
 
 $('#doc-container')
     .html(Handlebars.compile(templateSrc)(apiJson));
@@ -210,4 +216,4 @@ setTimeout(function () {
     });
 }, 2000);
 
-
+new Clipboard('.span-left');
