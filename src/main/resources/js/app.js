@@ -72,10 +72,12 @@ Handlebars.registerHelper('ifCond', function (v1, v2, options) {
     return options.inverse(this);
 });
 
-Handlebars.registerHelper('urler', function (data) {
+function urler(data) {
     var hash = data.hash;
     return '#_' + lower(hash.method) + '_' + hash.apiPath + hash.path;
-});
+}
+
+Handlebars.registerHelper('urler', urler);
 
 $('#doc-container')
     .html(Handlebars.compile(templateSrc)(apiJson));
@@ -97,8 +99,8 @@ $.fn.scrollspy.Constructor.prototype.refresh = function () {
     this.$body
         .find(this.selector)
         .map(function () {
-            var $el = $(this)
-            var href = $el.data('target') || $el.attr('href')
+            var $el = $(this);
+            var href = $el.data('target') || $el.attr('href');
             var $href = /^#./.test(href) && $(document.getElementById(href.slice(1)));
 
             return ($href
@@ -110,8 +112,8 @@ $.fn.scrollspy.Constructor.prototype.refresh = function () {
             return a[0] - b[0]
         })
         .each(function () {
-            that.offsets.push(this[0])
-            that.targets.push(this[1])
+            that.offsets.push(this[0]);
+            that.targets.push(this[1]);
         })
 };
 
@@ -161,16 +163,23 @@ $('#fuzzy-suggest').on('click', 'li', function () {
     $('#fuzzy-input').val('');
 });
 
+var fuzzyTemplate = Handlebars.compile($("#fuzzy-response-template").html());
+
 $('#fuzzy-input').on('keyup click', function () {
     var that = $(this);
     if (2 > that.val().length) return;
 
     var hits = fuse.search(that.val()).slice(0, 10);
     var suggestItems = hits.map(function (hit) {
-        return $('<li role="presentation">' +
-            '<a role="menuitem" tabindex="-1" href="#' + hit.hash + '">' + hit.path + ' ' + hit.name +
-            '</a>' +
-            '</li>')
+        return $(fuzzyTemplate({
+                hit: hit,
+                hash: {
+                    apiPath: '',
+                    method: hit.method,
+                    path: hit.path
+                }
+            })
+        );
     });
 
     var suggestMenu = $('#fuzzy-suggest');

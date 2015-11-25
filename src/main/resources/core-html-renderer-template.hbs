@@ -19,6 +19,15 @@
     ${css}
     ${cssLocal}
 </style>
+
+<script id="fuzzy-response-template" type="text/x-handlebars-template">
+    <li role="presentation">
+        <a role="menuitem" tabindex="-1" href='{{urler this}}'>
+            <span class="endpoint {{hit.method}}">{{hit.path}}</span>
+        </a>
+    </li>
+</script>
+
 <script type="text/javascript">
     var apiJson = ${json};
     ${jsLocal}
