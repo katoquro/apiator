@@ -60,7 +60,7 @@ body {
         z-index: 1000;
         display: block;
         padding: 20px;
-        overflow-x: hidden;
+        /*overflow-x: hidden;*/
         overflow-y: auto;
         /* Scrollable contents if viewport is shorter than content. */
         background-color: #f5f5f5;
@@ -270,7 +270,7 @@ span.type + span.name:before {
 
 /*panel methods*/
 .panel span.endpoint:before {
-    margin-right: 5px;
+    margin-right: 10px;
 }
 
 .gray {
@@ -296,8 +296,8 @@ span.type + span.name:before {
 
 @font-face {
     font-family: 'Glyphicons Halflings';
-    src: url(https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.eot);
-    src: url(https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'), url(https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.woff2) format('woff2'), url(https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.woff) format('woff'), url(https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.ttf) format('truetype'), url(https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg')
+    src: url(http://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.eot);
+    src: url(http://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'), url(http://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.woff2) format('woff2'), url(https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.woff) format('woff'), url(https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.ttf) format('truetype'), url(https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg')
 }
 
 .nav-sidebar li .nav {
@@ -317,7 +317,7 @@ span.type + span.name:before {
 
 .col-sm-3.col-md-2.sidebar {
     top: 31px;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 
 .navbar-form {
@@ -337,6 +337,7 @@ ul#fuzzy-suggest {
 
 .sidebar {
     padding: 20px 20px 0 20px;
+    width: 210px;
 }
 
 .nav.nav-sidebar {
@@ -351,4 +352,46 @@ li.active {
 
 li.active > a > span.endpoint:before {
     color: white;
+}
+
+.nav.nav-sidebar > li {
+    width: 200px;;
+}
+
+li > a[data-target] > span {
+    width: 100%;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+li > a[data-target] > span.info {
+    display: none;
+}
+
+li > a[data-target]:hover {
+    /*display: inline-block;*/
+    /*cursor: pointer;*/
+    /*width: inherit;*/
+    /*background-color: #eee;*/
+    /*padding-right: 5px;*/
+    /*border-radius: 4px;*/
+}
+
+.panel-heading .span-left:hover, .panel-heading .span-right:hover {
+    cursor: pointer;
+}
+
+.panel-heading .span-left {
+    padding: 0 10px 0;
+}
+
+.panel-heading .span-right {
+    padding: 0 15px 0;
+}
+
+.popup {
+    display: none;
+    position: absolute;
 }

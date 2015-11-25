@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Apiator</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <style type="text/css"> ${css} </style>
     <script type="text/javascript"> ${js} </script>
     ${hbs}
@@ -13,6 +13,7 @@
 </head>
 <body>
 <div id="doc-container"></div>
+<div class="popup"></div>
 </body>
 <style type="text/css">
     ${css}
@@ -26,7 +27,7 @@
 <script>
     if (apiJson.apiatorInfo.version == 'UNPACKED') {
         document.write('<script src="'
-                + 'http://localhost:35729/livereload.js"></'
+                + '//' + location.host + '/livereload.js"></'
                 + 'script>')
     }
 </script>

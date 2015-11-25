@@ -41,10 +41,10 @@ function responseTyper(responseType) {
 }
 
 Handlebars.registerHelper('responseTyper', responseTyper);
-
-Handlebars.registerHelper('lower', function (string) {
+function lower(string) {
     return string.toLowerCase();
-});
+}
+Handlebars.registerHelper('lower', lower);
 
 Handlebars.registerHelper('panelStyle', function (method) {
     return PANNEL_MAPPER[method] || PANNEL_MAPPER.DEFAULT;
@@ -70,6 +70,11 @@ Handlebars.registerHelper('ifCond', function (v1, v2, options) {
         return options.fn(this);
     }
     return options.inverse(this);
+});
+
+Handlebars.registerHelper('urler', function (data) {
+    var hash = data.hash;
+    return '#_' + lower(hash.method) + '_' + hash.apiPath + hash.path;
 });
 
 $('#doc-container')
@@ -109,12 +114,6 @@ $.fn.scrollspy.Constructor.prototype.refresh = function () {
             that.targets.push(this[1])
         })
 };
-
-
-$('body').scrollspy({
-    target: '.complementary',
-    offset: 40
-});
 
 var adjustSidebar = function () {
     $('#sidebar').outerHeight($(window).height() - 50);
@@ -181,3 +180,25 @@ $('#fuzzy-input').on('keyup click', function () {
         .append(suggestItems)
         .show();
 });
+
+
+$('.endpoints li').on('activate.bs.scrollspy', function (e) {
+    e.stopPropagation();
+    e.preventDefault();
+    var $this = $(this),
+        position = $this.position(),
+        sidebar = $('li.endpoints');
+    if ($this.find('.active').length) {
+        return;
+    }
+    sidebar.parent().parent().animate({scrollTop: $this.offsetParent().position().top + position.top}, 0)
+});
+
+setTimeout(function () {
+    $('body').scrollspy({
+        target: '.complementary',
+        offset: 40
+    });
+}, 2000);
+
+
