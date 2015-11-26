@@ -45,12 +45,12 @@
     <div class="row" id="endpoints">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar complementary">
+                <a href="#endpoints"> <i class="fa fa-plug"></i> <span class="endpoint">Endpoints</span></a>
                 <li class="endpoints">
-                    <a href="#endpoints"> <i class="fa fa-plug"></i> <span class="endpoint">Endpoints</span></a>
                     <ul class="nav nav-sidebar">
                         {{#each apiContexts}}
+                            <a class="gray" href="#{{apiPath}}"><span class="endpoint">{{apiPath}}</span></a>
                             <li>
-                                <a href="#{{apiPath}}"><span class="endpoint">{{apiPath}}</span></a>
                                 <ul class="nav nav-sidebar">
                                     {{#each apiEndpoints}}
                                         <li>
@@ -62,22 +62,23 @@
                         {{/each}}
                     </ul>
                 </li>
+                <a href="#types"> <i class="fa fa-file-text"></i> <span class="endpoint">Types</span></a>
+
                 <li class="types">
-                    <a href="#types"> <i class="fa fa-file-text"></i> <span class="endpoint">Types</span></a>
                     <ul class="nav nav-sidebar">
                         {{#each usedApiTypes}}
                             <li>
-                                <a title="{{shrinkByDots type}}" href="#{{shrinkByDots type}}" data-target=""><span class="endpoint {{lower modelType}}">{{shrinkByDots type}}</span></a>
+                                <a title="{{shrinkByDots type}}" href="#{{shrinkByDots type}}" data-target=""><span class="endpoint {{modelType}}">{{shrinkByDots type}}</span></a>
                             </li>
                         {{/each}}
                     </ul>
                 </li>
+                <a href="#enumerations"> <i class="fa fa-file-text"></i> <span class="endpoint">Enumerations</span></a>
                 <li class="enumerations">
-                    <a href="#enumerations"> <i class="fa fa-file-text"></i> <span class="endpoint">Enumerations</span></a>
                     <ul class="nav nav-sidebar">
                         {{#each usedEnumerations}}
                             <li>
-                                <a title="{{shrinkByDots type}}" href="#{{shrinkByDots type}}" data-target=""><span class="endpoint {{lower modelType}}">{{shrinkByDots type}}</span></a>
+                                <a title="{{shrinkByDots type}}" href="#{{shrinkByDots type}}" data-target=""><span class="endpoint {{modelType}}">{{shrinkByDots type}}</span></a>
                             </li>
                         {{/each}}
                     </ul>
@@ -94,8 +95,12 @@
                     <div class="panel {{panelStyle method}}">
                         <div class="panel-heading">
                             <span class="gray endpoint {{method}}">{{path}}</span>
-                            <span class="span-left" data-clipboard-text="{{copyUrler  method=method apiPath=../apiPath path=path}}"><i class="fa fa-clipboard"></i></span>
-                            <span class="navbar-right span-right" data-url="{{../name}}#{{name}}"><i class="fa fa-info-circle"></i></span>
+                            <span class="span-left" data-clipboard-text="{{copyUrler  method=method apiPath=../apiPath path=path}}"><i class="fa fa-link"></i></span>
+
+                            <div class="navbar-right link-to-java">
+                                <span class="span-info">{{../name}}.{{name}}</span>
+                                <span class="span-right"><i title="Click to copy" class="fa fa-clipboard" data-clipboard-text="{{../name}}#{{name}}"></i></span>
+                            </div>
                         </div>
                         <div class="panel-body">
                             <div class="container-fluid">

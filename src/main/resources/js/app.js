@@ -166,7 +166,6 @@ $('html').click(function (event) {
 
 $('#fuzzy-suggest').on('click', 'li', function () {
     $('#fuzzy-suggest').hide();
-    $('#fuzzy-input').val('');
 });
 
 var fuzzyTemplate = Handlebars.compile($("#fuzzy-response-template").html());
@@ -206,7 +205,7 @@ $('.endpoints li').on('activate.bs.scrollspy', function (e) {
     if ($this.find('.active').length) {
         return;
     }
-    sidebar.parent().parent().animate({scrollTop: $this.offsetParent().position().top + position.top}, 0)
+    sidebar.animate({scrollTop: $this.offsetParent().position().top + position.top}, 0)
 });
 
 setTimeout(function () {
@@ -216,4 +215,4 @@ setTimeout(function () {
     });
 }, 2000);
 
-new Clipboard('.span-left');
+new Clipboard('[data-clipboard-text]');
