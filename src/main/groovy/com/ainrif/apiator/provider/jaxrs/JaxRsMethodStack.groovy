@@ -17,7 +17,6 @@ package com.ainrif.apiator.provider.jaxrs
 
 import com.ainrif.apiator.core.model.api.*
 import com.ainrif.apiator.core.reflection.MethodStack
-import com.ainrif.apiator.core.reflection.ParamSignature
 import com.ainrif.apiator.core.reflection.RUtils
 import org.springframework.core.annotation.AnnotationUtils
 
@@ -76,9 +75,9 @@ class JaxRsMethodStack extends MethodStack {
 
         // implicit BODY param
         result += filterOutParametersAnnotationsLists(paramAnnotations, SIMPLE_PARAM_ANNOTATIONS + BeanParam).collect {
-            def parameter = this.last().parameters[it.key.index]
+            def parameter = this.last().parameters[it.key]
             new ApiEndpointParam(
-                    index: it.key.index,
+                    index: it.key,
                     name: null,
                     type: new ApiType(parameter.parameterizedType),
                     httpParamType: ApiEndpointParamType.BODY
@@ -87,7 +86,7 @@ class JaxRsMethodStack extends MethodStack {
 
         // complex BeanParams
         filterParametersAnnotationsLists(paramAnnotations, BeanParam).collect {
-            def parameter = this.last().parameters[it.key.index]
+            def parameter = this.last().parameters[it.key]
 
             result += RUtils.getAllFields(parameter.type, testFieldAnnotations).collect {
                 def annotation = it.annotations.find { SIMPLE_PARAM_ANNOTATIONS.contains(it.annotationType()) }
@@ -103,12 +102,12 @@ class JaxRsMethodStack extends MethodStack {
         result
     }
 
-    private List<ApiEndpointParam> processParamAnnotation(Map<ParamSignature, List<? extends Annotation>> annotations,
+    private List<ApiEndpointParam> processParamAnnotation(Map<Integer, List<? extends Annotation>> annotations,
                                                           Class<? extends Annotation> filterAnnotation) {
-        filterParametersAnnotationsLists(annotations, filterAnnotation).collect { param, annList ->
-            def parameter = this.last().parameters[param.index]
+        filterParametersAnnotationsLists(annotations, filterAnnotation).collect { index, annList ->
+            def parameter = this.last().parameters[index]
             new ApiEndpointParam(
-                    index: param.index,
+                    index: index,
                     name: annList ? annList.last().value() : null,
                     type: new ApiType(parameter.parameterizedType),
                     httpParamType: httpParamTypeFor(filterAnnotation)

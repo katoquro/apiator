@@ -69,14 +69,13 @@ abstract class MethodStack extends ArrayList<Method> {
     /**
      * collects annotations from method parameters from hierarchy tree
      *
-     * @return [ < param signature > : [inherited annotations] ]
+     * @return [ < param index > : [inherited annotations] ]
      */
-    public Map<ParamSignature, List<? extends Annotation>> getParametersAnnotationsLists() {
-        Map<ParamSignature, List<? extends Annotation>> result = new HashMap<>().withDefault { [] }
-        def paramTypes = this.last().parameterTypes
+    public Map<Integer, List<? extends Annotation>> getParametersAnnotationsLists() {
+        Map<Integer, List<? extends Annotation>> result = new HashMap<>().withDefault { [] }
         this.each {
             it.parameterAnnotations.eachWithIndex { Annotation[] entry, int i ->
-                result[new ParamSignature(i, paramTypes[i])] += entry as List
+                result[i] += entry as List
             }
         }
 
@@ -84,8 +83,8 @@ abstract class MethodStack extends ArrayList<Method> {
     }
 
     protected
-    static <T extends Annotation> Map<ParamSignature, List<? extends Annotation>> filterParametersAnnotationsLists(
-            Map<ParamSignature, List<? extends Annotation>> annotations, Class<T> type) {
+    static <T extends Annotation> Map<Integer, List<? extends Annotation>> filterParametersAnnotationsLists(
+            Map<Integer, List<? extends Annotation>> annotations, Class<T> type) {
         def result = annotations
         // select all stacks which contain annotated param
                 .findAll { it.value.any { type.isAssignableFrom(it.class) } }
@@ -96,8 +95,8 @@ abstract class MethodStack extends ArrayList<Method> {
     }
 
     protected
-    static <T extends Annotation> Map<ParamSignature, List<? extends Annotation>> filterOutParametersAnnotationsLists(
-            Map<ParamSignature, List<? extends Annotation>> annotations, List<Class<T>> types) {
+    static <T extends Annotation> Map<Integer, List<? extends Annotation>> filterOutParametersAnnotationsLists(
+            Map<Integer, List<? extends Annotation>> annotations, List<Class<T>> types) {
         annotations
         // select all stacks which don't contain annotated param
                 .findAll { !it.value.any { at -> types.any { it.isAssignableFrom(at.class) } } }
