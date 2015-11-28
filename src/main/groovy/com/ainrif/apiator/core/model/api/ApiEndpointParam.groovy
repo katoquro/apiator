@@ -20,4 +20,5 @@ class ApiEndpointParam {
     Integer index
     String name
     ApiType type
+    String defaultValue
 }
