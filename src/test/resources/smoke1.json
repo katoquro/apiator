@@ -31,6 +31,7 @@
           "params": [
             {
               "basedOn": [],
+              "defaultValue": null,
               "httpParamType": "FORM",
               "index": 0,
               "modelType": "BINARY",
@@ -51,6 +52,7 @@
           "params": [
             {
               "basedOn": [],
+              "defaultValue": null,
               "httpParamType": "QUERY",
               "index": -1,
               "modelType": "STRING",
@@ -59,6 +61,7 @@
             },
             {
               "basedOn": [],
+              "defaultValue": null,
               "httpParamType": "COOKIE",
               "index": -1,
               "modelType": "STRING",
@@ -85,6 +88,7 @@
           "params": [
             {
               "basedOn": [],
+              "defaultValue": "THIRD",
               "httpParamType": "QUERY",
               "index": 0,
               "modelType": "ENUMERATION",
@@ -122,6 +126,7 @@
           "params": [
             {
               "basedOn": [],
+              "defaultValue": null,
               "httpParamType": "BODY",
               "index": 0,
               "modelType": "OBJECT",
@@ -192,6 +197,7 @@
           "params": [
             {
               "basedOn": [],
+              "defaultValue": null,
               "httpParamType": "PATH",
               "index": 0,
               "modelType": "STRING",
@@ -212,6 +218,7 @@
           "params": [
             {
               "basedOn": [],
+              "defaultValue": null,
               "httpParamType": "PATH",
               "index": 0,
               "modelType": "STRING",

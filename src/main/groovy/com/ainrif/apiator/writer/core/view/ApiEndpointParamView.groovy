@@ -22,6 +22,7 @@ class ApiEndpointParamView extends ModelTypeBasedView implements Comparable<ApiE
     String name
     ApiEndpointParamType httpParamType
     Integer index
+    String defaultValue
 
     ApiEndpointParamView(ApiEndpointParam endpointParam) {
         super(endpointParam.type)
@@ -29,6 +30,7 @@ class ApiEndpointParamView extends ModelTypeBasedView implements Comparable<ApiE
         this.httpParamType = endpointParam.httpParamType
         this.index = endpointParam.index
         this.name = endpointParam.name
+        this.defaultValue = endpointParam.defaultValue
     }
 
     @Override

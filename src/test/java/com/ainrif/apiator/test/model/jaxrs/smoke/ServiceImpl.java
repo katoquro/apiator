@@ -76,7 +76,7 @@ public class ServiceImpl implements Service {
 
     @CustomPOST
     @Path("/enum")
-    public void setStatus(@QueryParam("enum") EnumApiType status) {
+    public void setStatus(@QueryParam("enum") @DefaultValue("THIRD") EnumApiType status) {
     }
 
     public void justPublicMethod() {
