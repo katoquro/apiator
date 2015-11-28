@@ -88,7 +88,7 @@
           "params": [
             {
               "basedOn": [],
-              "defaultValue": null,
+              "defaultValue": "THIRD",
               "httpParamType": "QUERY",
               "index": 0,
               "modelType": "ENUMERATION",

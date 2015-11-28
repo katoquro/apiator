@@ -67,51 +67,54 @@ class JaxRsMethodStack extends MethodStack {
     //todo tests for annotated body params
     @Override
     List<ApiEndpointParam> getParams() {
-        def paramAnnotations = getParametersAnnotationsLists()
-        def result = []
+        def methodParams = this.last().parameters
 
-        // explicitly annotated params
-        result += SIMPLE_PARAM_ANNOTATIONS.collect { processParamAnnotation(paramAnnotations, it) }.flatten()
+        return getParametersAnnotationsLists().collectMany { index, annList ->
+            def reversedAnnList = annList.reverse()
 
-        // implicit BODY param
-        result += filterOutParametersAnnotationsLists(paramAnnotations, SIMPLE_PARAM_ANNOTATIONS + BeanParam).collect {
-            def parameter = this.last().parameters[it.key]
-            new ApiEndpointParam(
-                    index: it.key,
-                    name: null,
-                    type: new ApiType(parameter.parameterizedType),
-                    httpParamType: ApiEndpointParamType.BODY
-            )
-        }
-
-        // complex BeanParams
-        filterParametersAnnotationsLists(paramAnnotations, BeanParam).collect {
-            def parameter = this.last().parameters[it.key]
-
-            result += RUtils.getAllFields(parameter.type, testFieldAnnotations).collect {
-                def annotation = it.annotations.find { SIMPLE_PARAM_ANNOTATIONS.contains(it.annotationType()) }
-                new ApiEndpointParam(
-                        index: -1,
-                        name: annotation.value(),
-                        type: new ApiType(it.genericType),
-                        httpParamType: httpParamTypeFor(annotation.annotationType())
-                )
+            // explicitly annotated params
+            def found = reversedAnnList.find { annotation ->
+                SIMPLE_PARAM_ANNOTATIONS.any { it.isAssignableFrom(annotation.annotationType()) }
             }
-        }
+            if (found) {
+                def result = new ApiEndpointParam(
+                        index: index,
+                        name: found.value(),
+                        type: new ApiType(methodParams[index].parameterizedType),
+                        httpParamType: httpParamTypeFor(found.annotationType()),
+                        defaultValue: reversedAnnList.find {
+                            DefaultValue.isAssignableFrom(it.annotationType())
+                        }?.value()
+                )
 
-        result
-    }
+                return [result]
+            }
 
-    private List<ApiEndpointParam> processParamAnnotation(Map<Integer, List<? extends Annotation>> annotations,
-                                                          Class<? extends Annotation> filterAnnotation) {
-        filterParametersAnnotationsLists(annotations, filterAnnotation).collect { index, annList ->
-            def parameter = this.last().parameters[index]
-            new ApiEndpointParam(
+            // complex BeanParams
+            found = reversedAnnList.find { annotation -> BeanParam.isAssignableFrom(annotation.annotationType()) }
+            if (found) {
+                return RUtils.getAllFields(methodParams[index].type, testFieldAnnotations).collect {
+                    def annotation = it.annotations.find { SIMPLE_PARAM_ANNOTATIONS.contains(it.annotationType()) }
+                    new ApiEndpointParam(
+                            index: -1,
+                            name: annotation.value(),
+                            type: new ApiType(it.genericType),
+                            httpParamType: httpParamTypeFor(annotation.annotationType()),
+                            defaultValue: AnnotationUtils.getAnnotation(it, DefaultValue)?.value()
+                    )
+                }
+            }
+
+            // implicit BODY param (not annotated with jax-rs param annotations)
+            def result = new ApiEndpointParam(
                     index: index,
-                    name: annList ? annList.last().value() : null,
-                    type: new ApiType(parameter.parameterizedType),
-                    httpParamType: httpParamTypeFor(filterAnnotation)
+                    name: null,
+                    type: new ApiType(methodParams[index].parameterizedType),
+                    httpParamType: ApiEndpointParamType.BODY,
+                    defaultValue: null
             )
+
+            return [result]
         }
     }
 

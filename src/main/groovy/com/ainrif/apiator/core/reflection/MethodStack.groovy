@@ -82,26 +82,6 @@ abstract class MethodStack extends ArrayList<Method> {
         result
     }
 
-    protected
-    static <T extends Annotation> Map<Integer, List<? extends Annotation>> filterParametersAnnotationsLists(
-            Map<Integer, List<? extends Annotation>> annotations, Class<T> type) {
-        def result = annotations
-        // select all stacks which contain annotated param
-                .findAll { it.value.any { type.isAssignableFrom(it.class) } }
-        // select only annotated items from stack
-                .collectEntries { k, v -> [k, v.findAll { type.isAssignableFrom(it.class) }] }
-
-        result
-    }
-
-    protected
-    static <T extends Annotation> Map<Integer, List<? extends Annotation>> filterOutParametersAnnotationsLists(
-            Map<Integer, List<? extends Annotation>> annotations, List<Class<T>> types) {
-        annotations
-        // select all stacks which don't contain annotated param
-                .findAll { !it.value.any { at -> types.any { it.isAssignableFrom(at.class) } } }
-    }
-
     private Set<ApiType> collectAllUsedTypes() {
         Set<ApiType> types = [] // result
 
