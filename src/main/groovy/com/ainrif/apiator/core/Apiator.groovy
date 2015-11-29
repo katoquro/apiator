@@ -17,14 +17,21 @@ package com.ainrif.apiator.core
 
 import com.ainrif.apiator.core.model.ModelTypeRegister
 import com.ainrif.apiator.core.model.api.*
+import com.google.common.base.Stopwatch
 import org.reflections.Reflections
 import org.reflections.scanners.SubTypesScanner
 import org.reflections.scanners.TypeAnnotationsScanner
 import org.reflections.util.ClasspathHelper
 import org.reflections.util.ConfigurationBuilder
 import org.reflections.util.FilterBuilder
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
+import java.util.concurrent.TimeUnit
 
 class Apiator {
+
+    private static final Logger logger = LoggerFactory.getLogger(Apiator)
 
     private ApiatorConfig config;
     private ApiatorInfo info;
@@ -43,6 +50,7 @@ class Apiator {
 
     ApiScheme getScheme() {
         scheme ?: {
+            def stopwatch = Stopwatch.createStarted()
             scheme = new ApiScheme(apiatorInfo: info, clientApiInfo: new ClientApiInfo(config))
 
             Set<Class<?>> apiClasses = scanForApi()
@@ -78,12 +86,19 @@ class Apiator {
                 scheme.apiContexts << apiCtx
             }
 
+            logger.info("Api Scheme generating took ${stopwatch.elapsed(TimeUnit.MILLISECONDS)}ms. ${apiClasses.size()} contexts were processed")
             scheme
         }()
     }
 
     String render() {
-        config.renderer.render(getScheme())
+        def scheme = getScheme()
+        def stopwatch = Stopwatch.createStarted()
+
+        def render = config.renderer.render(scheme)
+
+        logger.info("Scheme rendering took ${stopwatch.elapsed(TimeUnit.MILLISECONDS)}ms. ")
+        render
     }
 
     protected Set<Class<?>> scanForApi() {

@@ -19,8 +19,6 @@ import com.ainrif.apiator.core.Apiator
 import com.ainrif.apiator.core.ApiatorConfig
 import com.ainrif.apiator.writer.core.CoreHtmlRenderer
 import groovy.json.JsonSlurper
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import spock.lang.Specification
 
 import static org.apache.commons.lang3.StringUtils.deleteWhitespace
@@ -28,7 +26,6 @@ import static org.hamcrest.Matchers.greaterThan
 import static spock.util.matcher.HamcrestSupport.expect
 
 class SmokeSpec extends Specification {
-    static final Logger logger = LoggerFactory.getLogger(SmokeSpec)
     static final String smokeJson = SmokeSpec.classLoader.getResource('smoke1.json').text
     static final String jaxrsPackage = 'com.ainrif.apiator.test.model.jaxrs.smoke'
 
