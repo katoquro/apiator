@@ -116,7 +116,14 @@
                                                     </div>
                                                     <div class="col-xs-2 col-sm-1 col-md-6 gap_x_r">
                                                         <span class="type object">{{modelType}}</span>
-                                                        {{#if name}}<span class="gray italic">{{name}}</span>{{/if}}
+                                                        {{~#if name~}}
+                                                            <span class="gray italic">
+                                                                {{~name~}}
+                                                                {{~#if defaultValue~}}
+                                                                    <span class="gray span-info">={{defaultValue}}</span>
+                                                                {{~/if~}}
+                                                            </span>
+                                                        {{~/if~}}
                                                         {{~#if basedOn~}}
                                                             {{#each basedOn}}
                                                                 {{#if this.type}}
