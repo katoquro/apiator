@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>Apiator</title>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link href='https://fonts.googleapis.com/css?family=Roboto+Mono&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Mono&subset=latin,cyrillic' rel='stylesheet'
+          type='text/css'>
     <style type="text/css"> ${css} </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.3/clipboard.min.js"></script>
     <script type="text/javascript"> ${js} </script>
@@ -35,11 +36,17 @@
     ${jsLocal}
 </script>
 
+<img id="flag_counter" src="#" style="visibility: hidden"/>
+
 <script>
     if (apiJson.apiatorInfo.version == 'UNPACKED') {
         document.write('<script src="'
                 + '//' + location.host + '/livereload.js"></'
                 + 'script>')
+    } else {
+        var flag = "http://s05.flagcounter.com/count/m2fq/bg_FFFFFF/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_3/labels_1/pageviews_1/flags_0/percent_0/";
+        jQuery("#flag_counter").attr('src', flag);
     }
 </script>
+
 </html>
