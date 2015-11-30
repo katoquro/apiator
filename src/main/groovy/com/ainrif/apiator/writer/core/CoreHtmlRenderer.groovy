@@ -26,6 +26,7 @@ class CoreHtmlRenderer implements Renderer {
 
     String js
     String css
+    String hbs
 
     String template
     String toFile
@@ -42,12 +43,21 @@ class CoreHtmlRenderer implements Renderer {
         def cssPaths = []
         cssPaths << webJarsLocator.getFullPath('bootstrap', 'bootstrap.min.css')
 
+        def hbsPath = []
+        hbsPath << 'first'
+        hbsPath << 'second'
+
         js = jsPaths
                 .collect { this.class.classLoader.getResource(it).text }
                 .join('\r\n') + 'jq = jQuery'
 
         css = cssPaths
                 .collect { this.class.classLoader.getResource(it).text }
+                .join('\r\n')
+
+        hbs = hbsPath
+                .collect { [name: it, content: this.class.classLoader.getResource("hbs/${it}.hbs").text] }
+                .collect { "<script type='text/x-handlebars-template' id='${it.name}'>${it.content}</script>" }
                 .join('\r\n')
 
         template = this.class.getResource('/core-html-renderer-template.hbs').text
@@ -68,7 +78,7 @@ class CoreHtmlRenderer implements Renderer {
     protected String renderTemplate(String json) {
         def html = new GStringTemplateEngine()
                 .createTemplate(template)
-                .make([json: json, js: js, css: css])
+                .make([json: json, js: js, css: css, hbs: hbs])
                 .toString()
 
         if (toFile) {
