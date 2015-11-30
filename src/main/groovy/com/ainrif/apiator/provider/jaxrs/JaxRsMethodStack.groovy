@@ -21,10 +21,14 @@ import com.ainrif.apiator.core.reflection.RUtils
 import org.springframework.core.annotation.AnnotationUtils
 
 import javax.ws.rs.*
+import javax.ws.rs.core.Context
 import java.lang.annotation.Annotation
 import java.lang.reflect.Field
 import java.lang.reflect.Method
 import java.util.function.Predicate
+
+import static java.util.Collections.emptyList
+import static java.util.Collections.singletonList
 
 class JaxRsMethodStack extends MethodStack {
 
@@ -72,8 +76,13 @@ class JaxRsMethodStack extends MethodStack {
         return getParametersAnnotationsLists().collectMany { index, annList ->
             def reversedAnnList = annList.reverse()
 
+            def found = reversedAnnList.find { annotation -> Context.isAssignableFrom(annotation.annotationType()) }
+            if (found) {
+                return emptyList()
+            }
+
             // explicitly annotated params
-            def found = reversedAnnList.find { annotation ->
+            found = reversedAnnList.find { annotation ->
                 SIMPLE_PARAM_ANNOTATIONS.any { it.isAssignableFrom(annotation.annotationType()) }
             }
             if (found) {
@@ -87,7 +96,7 @@ class JaxRsMethodStack extends MethodStack {
                         }?.value()
                 )
 
-                return [result]
+                return singletonList(result)
             }
 
             // complex BeanParams
@@ -114,7 +123,7 @@ class JaxRsMethodStack extends MethodStack {
                     defaultValue: null
             )
 
-            return [result]
+            return singletonList(result)
         }
     }
 

@@ -21,29 +21,31 @@ import com.ainrif.apiator.core.reflection.MethodStack
 import com.ainrif.apiator.core.reflection.RUtils
 
 import javax.ws.rs.*
+import javax.ws.rs.core.Context
 import java.lang.annotation.Annotation
 import java.lang.reflect.Modifier
 import java.util.function.Predicate
 
 class JaxRsProvider implements WebServiceProvider {
 
-    List<Class<? extends Annotation>> wsAnnotations = [POST,
+    List<Class<? extends Annotation>> wsAnnotations = [HttpMethod,
+                                                       POST,
                                                        GET,
                                                        PUT,
                                                        DELETE,
                                                        OPTIONS,
                                                        HEAD,
                                                        Produces,
-                                                       QueryParam,
-                                                       QueryParam,
+                                                       Consumes,
                                                        Path,
-                                                       HttpMethod,
+                                                       PathParam,
+                                                       QueryParam,
                                                        HeaderParam,
+                                                       CookieParam,
                                                        FormParam,
                                                        DefaultValue,
-                                                       CookieParam,
-                                                       Consumes,
-                                                       BeanParam]
+                                                       BeanParam,
+                                                       Context]
 
     @Override
     ContextStack getContextStack(Class<?> apiClass) {
