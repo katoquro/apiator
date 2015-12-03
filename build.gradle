@@ -1,26 +1,26 @@
 import java.time.Instant
 
-plugins {
-    id "com.jfrog.bintray" version "1.2"
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.ajoberstar:gradle-git:1.3.2'
+    }
 }
 
-apply plugin: 'maven'
-apply plugin: 'maven-publish'
+plugins {
+    id 'com.jfrog.bintray' version '1.5'
+}
+
 apply plugin: 'java'
 apply plugin: 'groovy'
-apply from: "$rootProject.projectDir/gradle/dev.gradle"
-apply from: "$rootProject.projectDir/gradle/uiDev.gradle"
+apply plugin: 'maven-publish'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 group = 'com.ainrif'
 version = '0.3.0-SNAPSHOT'
-
-ext.sharedManifest = manifest {
-    attributes 'Implementation-Vendor': group,
-            'Implementation-Title': name,
-            'Implementation-Version': version
-}
 
 repositories {
     mavenLocal()
@@ -68,14 +68,9 @@ dependencies {
     testCompile "ch.qos.logback:logback-classic:1.1.2"
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.5'
-    distributionUrl = "https://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip"
-}
-
 task archiveReports(type: Zip) {
-    appendix = 'tests_reports'
     from 'build/reports/tests'
+    appendix = 'tests_reports'
     version = "${project.version}_${Instant.now()}"
     onlyIf {
         test.state.failure
@@ -90,57 +85,11 @@ test {
     }
 }
 
-jar {
-    manifest {
-        from sharedManifest
-    }
-}
+apply from: "$rootProject.projectDir/gradle/dev.gradle"
+apply from: "$rootProject.projectDir/gradle/uiDev.gradle"
+apply from: "$rootProject.projectDir/gradle/deploy.gradle"
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-    manifest {
-        from sharedManifest
-    }
-}
-
-artifacts {
-    archives sourcesJar
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-
-            artifact sourcesJar
-        }
-    }
-}
-
-bintray {
-    if (project.hasProperty('bintray_api_user') && project.hasProperty('bintray_api_key')) {
-        user = bintray_api_user
-        key = bintray_api_key
-    }
-
-    publications = ['mavenJava']
-
-    dryRun = false
-    publish = true
-    pkg {
-        repo = 'maven'
-        userOrg = 'ainrif'
-        name = rootProject.name
-        desc = 'Documentation generator for rest api on java'
-        websiteUrl = 'https://bitbucket.org/ainrif/apiator'
-        issueTrackerUrl = 'https://bitbucket.org/ainrif/apiator/issues'
-        vcsUrl = 'https://bitbucket.org/ainrif/apiator.git'
-        licenses = ['Apache-2.0']
-        labels = ['rest', 'api', 'docs']
-        publicDownloadNumbers = true
-        version {
-            vcsTag = project.version
-        }
-    }
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.9'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-${gradleVersion}-bin.zip"
 }
