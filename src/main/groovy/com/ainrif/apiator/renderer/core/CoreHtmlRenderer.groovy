@@ -51,8 +51,11 @@ class CoreHtmlRenderer implements Renderer {
         cssPaths << webJarsLocator.getFullPath('bootstrap', 'bootstrap.min.css')
 
         def hbsPath = []
-        hbsPath << 'first'
-        hbsPath << 'second'
+        hbsPath << 'app'
+        hbsPath << 'nav'
+        hbsPath << 'content'
+        hbsPath << 'sidebar'
+        hbsPath << 'main'
 
         js = jsPaths
                 .collect { this.class.classLoader.getResource(it).text }
@@ -71,7 +74,7 @@ class CoreHtmlRenderer implements Renderer {
                 .join('\r\n')
 
         def templateLocalPaths = []
-        templateLocalPaths << '/tpl/app.hbs'
+        templateLocalPaths << '/hbs/app.hbs'
 
         js = concatExternalResources(jsPaths)
         css = concatExternalResources(cssPaths)
@@ -80,7 +83,7 @@ class CoreHtmlRenderer implements Renderer {
         cssLocal = concatLocalResources(cssLocalPaths)
         templateLocal = concatLocalResources(templateLocalPaths)
 
-        mainTemplate = this.class.getResource('/core-html-renderer-template.hbs').text
+        mainTemplate = this.class.getResource('/index.html').text
     }
 
     CoreHtmlRenderer(@Nullable toFile) {

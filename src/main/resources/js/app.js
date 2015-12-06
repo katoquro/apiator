@@ -1,4 +1,4 @@
-var template = $('#template');
+var template = $('#app');
 var templateSrc = template.html();
 template.remove();
 
@@ -44,6 +44,12 @@ Handlebars.registerHelper('responseTyper', responseTyper);
 function lower(string) {
     return string.toLowerCase();
 }
+
+Handlebars.registerHelper('templater', function (selector, data) {
+    var tpl = $('#' + selector);
+    return Handlebars.compile(tpl.html())(data.hash.data);
+});
+
 Handlebars.registerHelper('lower', lower);
 
 Handlebars.registerHelper('panelStyle', function (method) {
