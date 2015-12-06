@@ -432,3 +432,35 @@ li > a[data-target] > span.info {
     overflow: auto;
     height: 100%;
 }
+
+@media (min-width: 768px) {
+    a.navbar-brand {
+        width: 100%;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .navbar-header {
+        width: 100%;
+    }
+}
+
+@keyframes copy-animation {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+[data-clipboard-text].copying {
+    animation: copy-animation 0.25s linear 0s;
+}

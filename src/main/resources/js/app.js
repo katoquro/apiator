@@ -222,3 +222,9 @@ setTimeout(function () {
 }, 2000);
 
 new Clipboard('[data-clipboard-text]');
+
+$('[data-clipboard-text]').click(function () {
+    $this = $(this);
+    $this.addClass('copying');
+    window.setTimeout($this.removeClass.bind($this, 'copying'), 250);
+});
