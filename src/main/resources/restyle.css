@@ -371,6 +371,14 @@ li > a[data-target] > span {
     text-overflow: ellipsis;
 }
 
+.text-wrap {
+    width: 100%;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 li > a[data-target] > span.info {
     display: none;
 }
@@ -429,7 +437,8 @@ li > a[data-target] > span.info {
 }
 
 .complementary > li.active {
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     height: 100%;
 }
 
@@ -463,4 +472,17 @@ li > a[data-target] > span.info {
 
 [data-clipboard-text].copying {
     animation: copy-animation 0.25s linear 0s;
+}
+
+.dictionary span.lovercase:nth-child(2)::before{
+    color: black;
+    content: 'of ';
+}
+
+.dictionary span.lovercase::after {
+    content: ',';
+}
+
+.dictionary span.lovercase:last-child::after {
+    content: '';
 }

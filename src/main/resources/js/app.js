@@ -33,7 +33,8 @@ function responseTyper(responseType) {
         response = " " + responseTyper(value);
     });
     if (responseType.type) {
-        response = '<span class="name object-link"><a href="#">' + Handlebars.helpers.shrinkByDots(responseType.type) + '</a></span>' + response;
+        var shrinkByDots = Handlebars.helpers.shrinkByDots(responseType.type);
+        response = '<span class="name object-link"><a href="#' + shrinkByDots + '">' + shrinkByDots + '</a></span>' + response;
     } else if (responseType.modelType) {
         response = '<span class="type">' + responseType.modelType + '</span>' + response;
     }

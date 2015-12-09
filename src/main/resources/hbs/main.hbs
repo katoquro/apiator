@@ -1,4 +1,4 @@
-<div class="col-sm-9 col-sm-offset-3 col-md-9 main" role="main">
+<div class="main" role="main">
     {{#each apiContexts}}
         <div class="target-marker" id="{{apiPath}}"></div>
         <h4 class="page-header">{{apiPath}}</h4>
@@ -47,7 +47,7 @@
                                                 {{~/if~}}
                                                 {{~#if type~}}
                                                     <span>→</span>
-                                                    <span class="object-link"><a href="#">{{shrinkByDots type}}</a></span>
+                                                    <span class="object-link"><a href="#{{shrinkByDots type}}">{{shrinkByDots type}}</a></span>
                                                 {{~/if~}}
                                             </div>
                                         </div>
@@ -65,9 +65,11 @@
                                     <div class="col-xs-4 col-md-4 ">
 
                                         {{~#if returnType.type~}}
-                                            <span class="name object-link"><a href="#">
-                                                {{~shrinkByDots returnType.type~}}
-                                            </a></span>
+                                            <span class="name object-link">
+                                                <a href="#{{shrinkByDots returnType.type}}">
+                                                    {{~shrinkByDots returnType.type~}}
+                                                </a>
+                                            </span>
                                         {{else}}
                                             <span class="type">
                                                 {{~returnType.modelType~}}
@@ -88,8 +90,9 @@
         {{/each}}
     {{/each}}
 
-    <div class="target-marker" id="types"></div>
     <h4 class="page-header">Types</h4>
+
+    <div class="target-marker" id="types"></div>
     {{#each usedApiTypes}}
         <div class="target-marker" id="{{shrinkByDots type}}"></div>
         <div class="panel panel-info">
@@ -104,10 +107,10 @@
                         <div class="col-xs-12 col-md-10">
                             {{#each fields}}
                                 <div class="row">
-                                    <div class="col-xs-2 col-sm-2 col-md-3">
-                                        {{name}}
+                                    <div class="col-sm-4 typeNames">
+                                        <span class="text-wrap" title="{{name}}">{{name}}</span>
                                     </div>
-                                    <div class="col-xs-2 col-sm-1 col-md-6 gap_x_r">
+                                    <div class="col-sm-6 gap_x_r dictionary">
                                         <span class="type object">{{modelType}}</span>
                                         <!--{{#if name}}<span class="gray italic">{{name}}</span>{{/if}}-->
                                         {{~#if basedOn~}}
