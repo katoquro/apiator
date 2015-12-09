@@ -13,22 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.modeltype
+package com.ainrif.apiator.modeltype
 
 import com.ainrif.apiator.core.model.ModelType
 import spock.lang.Specification
+import spock.lang.Unroll
 
-class AnyModelTypeResolverSpec extends Specification {
+import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.Response
+
+class JaxRsModelTypeResolverSpec extends Specification {
+    @Unroll
     def "resolve"() {
         given:
-        def resolver = new AnyModelTypeResolver()
+        def resolver = new JaxRsModelTypeResolver()
 
         expect:
         resolver.resolve(type) == expected
 
         where:
-        type                 || expected
-        CustomUnresolvedType || null
-        Object               || ModelType.ANY
+        type      || expected
+        Object    || null
+        Response  || ModelType.ANY
+        MediaType || ModelType.STRING
     }
 }
