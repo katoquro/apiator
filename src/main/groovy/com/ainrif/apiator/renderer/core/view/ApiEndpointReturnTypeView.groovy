@@ -13,20 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.writer.core.view
+package com.ainrif.apiator.renderer.core.view
 
-import com.ainrif.apiator.core.model.api.ApiField
+import com.ainrif.apiator.core.model.api.ApiEndpointReturnType
 
-class ApiFieldView extends ModelTypeBasedView {
-    String name
-    boolean readable
-    boolean writable
-
-    ApiFieldView(ApiField field) {
-        super(field.type)
-
-        this.name = field.name
-        this.readable = field.readable
-        this.writable = field.writable
+class ApiEndpointReturnTypeView extends ModelTypeBasedView {
+    ApiEndpointReturnTypeView(ApiEndpointReturnType returnType) {
+        super(returnType.type)
     }
 }

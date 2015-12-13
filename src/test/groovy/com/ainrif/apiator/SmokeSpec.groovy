@@ -18,7 +18,7 @@ package com.ainrif.apiator
 import com.ainrif.apiator.core.Apiator
 import com.ainrif.apiator.core.ApiatorConfig
 import com.ainrif.apiator.modeltype.JaxRsModelTypeResolver
-import com.ainrif.apiator.writer.core.CoreHtmlRenderer
+import com.ainrif.apiator.renderer.core.CoreHtmlRenderer
 import groovy.json.JsonSlurper
 import spock.lang.Specification
 

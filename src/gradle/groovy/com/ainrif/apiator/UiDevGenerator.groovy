@@ -15,7 +15,7 @@
  */
 package com.ainrif.apiator
 
-import com.ainrif.apiator.writer.core.CoreHtmlRenderer
+import com.ainrif.apiator.renderer.core.CoreHtmlRenderer
 
 class UiDevGenerator {
     public static void main(String[] args) {

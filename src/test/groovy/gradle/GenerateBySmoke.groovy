@@ -17,7 +17,7 @@ package gradle
 
 import com.ainrif.apiator.core.Apiator
 import com.ainrif.apiator.core.ApiatorConfig
-import com.ainrif.apiator.writer.core.CoreHtmlRenderer
+import com.ainrif.apiator.renderer.core.CoreHtmlRenderer
 
 import javax.ws.rs.Path
 
