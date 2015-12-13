@@ -13,20 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.writer.core.view
+package com.ainrif.apiator.renderer.core.view
 
-import com.ainrif.apiator.core.model.api.ApiField
+import com.ainrif.apiator.core.model.api.ApiType
 
-class ApiFieldView extends ModelTypeBasedView {
-    String name
-    boolean readable
-    boolean writable
+class ApiTypeView extends ModelTypeBasedView implements Comparable<ApiTypeView> {
+    List<ApiFieldView> fields
 
-    ApiFieldView(ApiField field) {
-        super(field.type)
+    ApiTypeView(ApiType type, List<ApiFieldView> fields) {
+        super(type)
 
-        this.name = field.name
-        this.readable = field.readable
-        this.writable = field.writable
+        this.fields = fields
+    }
+
+    @Override
+    int compareTo(ApiTypeView o) {
+        this.type.compareToIgnoreCase(o.type)
     }
 }

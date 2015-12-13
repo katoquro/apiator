@@ -18,13 +18,10 @@ package com.ainrif.apiator.core.modeltype
 import com.ainrif.apiator.api.ModelTypeResolver
 import com.ainrif.apiator.core.model.ModelType
 
-import javax.ws.rs.core.Response
-
 class AnyModelTypeResolver implements ModelTypeResolver {
     @Override
     ModelType resolve(Class<?> type) {
         if (Object == type) return ModelType.ANY
-        if ([Response].any { it.isAssignableFrom(type) }) return ModelType.ANY
 
         return null
     }

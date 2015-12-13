@@ -17,7 +17,8 @@ package com.ainrif.apiator
 
 import com.ainrif.apiator.core.Apiator
 import com.ainrif.apiator.core.ApiatorConfig
-import com.ainrif.apiator.writer.core.CoreHtmlRenderer
+import com.ainrif.apiator.modeltype.JaxRsModelTypeResolver
+import com.ainrif.apiator.renderer.core.CoreHtmlRenderer
 import groovy.json.JsonSlurper
 import spock.lang.Specification
 
@@ -28,10 +29,11 @@ import static spock.util.matcher.HamcrestSupport.expect
 class SmokeSpec extends Specification {
     static final String smokeJson = SmokeSpec.classLoader.getResource('smoke1.json').text
     static final String jaxrsPackage = 'com.ainrif.apiator.test.model.jaxrs.smoke'
+    static final def resolvers = [new JaxRsModelTypeResolver()]
 
     def "Smoke test; jax-rs"() {
         given:
-        Apiator apiator = new Apiator(new ApiatorConfig(basePackage: jaxrsPackage))
+        Apiator apiator = new Apiator(new ApiatorConfig(basePackage: jaxrsPackage, modelTypeResolvers: resolvers))
 
         when:
         def actual = apiator.render()
@@ -42,10 +44,9 @@ class SmokeSpec extends Specification {
 
     def "Smoke test; should produce the same result each time"() {
         given:
-
-        def apiator1 = new Apiator(new ApiatorConfig(basePackage: jaxrsPackage))
-        def apiator2 = new Apiator(new ApiatorConfig(basePackage: jaxrsPackage))
-        def apiator3 = new Apiator(new ApiatorConfig(basePackage: jaxrsPackage))
+        def apiator1 = new Apiator(new ApiatorConfig(basePackage: jaxrsPackage, modelTypeResolvers: resolvers))
+        def apiator2 = new Apiator(new ApiatorConfig(basePackage: jaxrsPackage, modelTypeResolvers: resolvers))
+        def apiator3 = new Apiator(new ApiatorConfig(basePackage: jaxrsPackage, modelTypeResolvers: resolvers))
 
         when:
         def render1 = apiator1.render()
@@ -60,7 +61,8 @@ class SmokeSpec extends Specification {
 
     def "Smoke test; Core HTML Renderer"() {
         given:
-        Apiator apiator = new Apiator(new ApiatorConfig(basePackage: jaxrsPackage, renderer: new CoreHtmlRenderer()))
+        Apiator apiator = new Apiator(new ApiatorConfig(
+                basePackage: jaxrsPackage, renderer: new CoreHtmlRenderer(), modelTypeResolvers: resolvers))
 
         when:
         def actual = apiator.render()

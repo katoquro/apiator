@@ -13,22 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.modeltype
+package com.ainrif.apiator.renderer.core.view
 
-import com.ainrif.apiator.core.model.ModelType
-import spock.lang.Specification
+import com.ainrif.apiator.core.model.api.ApiContext
 
-class AnyModelTypeResolverSpec extends Specification {
-    def "resolve"() {
-        given:
-        def resolver = new AnyModelTypeResolver()
+class ApiContextView implements Comparable<ApiContextView> {
+    String name
+    String apiPath
+    List<ApiEndpointView> apiEndpoints = []
 
-        expect:
-        resolver.resolve(type) == expected
+    ApiContextView(ApiContext context) {
+        this.name = context.name
+        this.apiPath = context.apiPath
+        this.apiEndpoints = context.apiEndpoints.collect { new ApiEndpointView(it) }
 
-        where:
-        type                 || expected
-        CustomUnresolvedType || null
-        Object               || ModelType.ANY
+        this.apiEndpoints.sort()
+    }
+
+    @Override
+    int compareTo(ApiContextView o) {
+        return apiPath.compareToIgnoreCase(o.apiPath) ?: name.compareTo(o.name)
     }
 }

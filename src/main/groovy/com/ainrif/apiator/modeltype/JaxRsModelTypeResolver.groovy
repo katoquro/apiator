@@ -13,12 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.writer.core.view
+package com.ainrif.apiator.modeltype
 
-import com.ainrif.apiator.core.model.api.ApiEndpointReturnType
+import com.ainrif.apiator.api.ModelTypeResolver
+import com.ainrif.apiator.core.model.ModelType
 
-class ApiEndpointReturnTypeView extends ModelTypeBasedView {
-    ApiEndpointReturnTypeView(ApiEndpointReturnType returnType) {
-        super(returnType.type)
+import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.Response
+
+class JaxRsModelTypeResolver implements ModelTypeResolver {
+    @Override
+    ModelType resolve(Class<?> type) {
+        if (Response.isAssignableFrom(type)) return ModelType.ANY
+        if (MediaType.isAssignableFrom(type)) return ModelType.STRING
+
+        return null
     }
 }

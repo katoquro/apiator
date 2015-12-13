@@ -13,21 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.writer.core.view
+package com.ainrif.apiator.modeltype
 
-import com.ainrif.apiator.core.model.api.ApiType
+import com.ainrif.apiator.core.model.ModelType
+import spock.lang.Specification
+import spock.lang.Unroll
 
-class ApiTypeView extends ModelTypeBasedView implements Comparable<ApiTypeView> {
-    List<ApiFieldView> fields
+import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.Response
 
-    ApiTypeView(ApiType type, List<ApiFieldView> fields) {
-        super(type)
+class JaxRsModelTypeResolverSpec extends Specification {
+    @Unroll
+    def "resolve"() {
+        given:
+        def resolver = new JaxRsModelTypeResolver()
 
-        this.fields = fields
-    }
+        expect:
+        resolver.resolve(type) == expected
 
-    @Override
-    int compareTo(ApiTypeView o) {
-        this.type.compareToIgnoreCase(o.type)
+        where:
+        type      || expected
+        Object    || null
+        Response  || ModelType.ANY
+        MediaType || ModelType.STRING
     }
 }

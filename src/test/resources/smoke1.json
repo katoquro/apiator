@@ -297,6 +297,14 @@
         },
         {
           "basedOn": [],
+          "modelType": "STRING",
+          "name": "publicMediaType",
+          "readable": true,
+          "type": null,
+          "writable": true
+        },
+        {
+          "basedOn": [],
           "modelType": "INTEGER",
           "name": "publicField",
           "readable": true,

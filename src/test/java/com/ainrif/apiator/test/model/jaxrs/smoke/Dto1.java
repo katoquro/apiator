@@ -15,6 +15,7 @@
  */
 package com.ainrif.apiator.test.model.jaxrs.smoke;
 
+import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -24,6 +25,8 @@ public class Dto1 {
     public byte[] publicByteArray;
 
     public Object publicObject;
+
+    public MediaType publicMediaType;
 
     public int publicField = 42;
 
