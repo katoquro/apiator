@@ -164,7 +164,13 @@
           "params": [],
           "path": "/type-value",
           "returnType": {
-            "basedOn": [],
+            "basedOn": [
+              {
+                "basedOn": [],
+                "modelType": "STRING",
+                "type": null
+              }
+            ],
             "modelType": "OBJECT",
             "type": "com.ainrif.apiator.test.model.jaxrs.smoke.DtoTypeValue"
           }
@@ -417,7 +423,13 @@
       "type": "com.ainrif.apiator.test.model.jaxrs.smoke.DtoNested"
     },
     {
-      "basedOn": [],
+      "basedOn": [
+        {
+          "basedOn": [],
+          "modelType": "STRING",
+          "type": null
+        }
+      ],
       "fields": [
         {
           "basedOn": [],

@@ -27,6 +27,7 @@ class ApiType {
 
     Type type
 
+    //todo make caches immutable after create
     List<ApiType> flattenArgumentTypesCache
     Class<?> rawTypeCache
     ModelType modelTypeCache
@@ -149,7 +150,7 @@ class ApiType {
     }
 
     int hashCode() {
-        return Objects.hash(rawType, flattenArgumentTypes())
+        return Objects.hash(rawType, flattenArgumentTypes().collect { it.rawType })
     }
 
     @Override

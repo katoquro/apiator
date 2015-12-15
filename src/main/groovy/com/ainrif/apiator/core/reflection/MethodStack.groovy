@@ -111,7 +111,7 @@ abstract class MethodStack extends ArrayList<Method> {
     }
 
     protected static Closure<List<ApiType>> collectApiTypesFromGenerics = { ApiType type ->
-        type.generic ? type.flattenArgumentTypes() : [type]
+        type.generic ? type.flattenArgumentTypes() << type : [type]
     }
 
     protected static Closure<List<ApiType>> collectApiTypesFromFields = { ApiType type ->

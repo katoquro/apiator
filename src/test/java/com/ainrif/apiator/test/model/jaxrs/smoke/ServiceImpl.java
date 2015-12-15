@@ -56,7 +56,7 @@ public class ServiceImpl implements Service {
     }
 
     @Path("/type-value")
-    public DtoTypeValue getDtoTypeValue() {
+    public DtoTypeValue<String> getDtoTypeValue() {
         return null;
     }
 
