@@ -95,47 +95,6 @@ Handlebars.registerHelper('copyUrler', copyUrler);
 $('#doc-container')
     .html(Handlebars.compile(templateSrc)(apiJson));
 
-$.fn.scrollspy.Constructor.prototype.refresh = function () {
-    var that = this;
-    var offsetMethod = 'offset';
-    var offsetBase = 0;
-
-    this.offsets = [];
-    this.targets = [];
-    this.scrollHeight = this.getScrollHeight();
-
-    if (!$.isWindow(this.$scrollElement[0])) {
-        offsetMethod = 'position';
-        offsetBase = this.$scrollElement.scrollTop();
-    }
-
-    this.$body
-        .find(this.selector)
-        .map(function () {
-            var $el = $(this);
-            var href = $el.data('target') || $el.attr('href');
-            var $href = /^#./.test(href) && $(document.getElementById(href.slice(1)));
-
-            return ($href
-                && $href.length
-                && $href.is(':visible')
-                && [[$href[offsetMethod]().top + offsetBase, href]]) || null
-        })
-        .sort(function (a, b) {
-            return a[0] - b[0]
-        })
-        .each(function () {
-            that.offsets.push(this[0]);
-            that.targets.push(this[1]);
-        })
-};
-
-var adjustSidebar = function () {
-    $('#sidebar').outerHeight($(window).height() - 50);
-};
-adjustSidebar();
-$(window).resize(adjustSidebar);
-
 document.title = new Date();
 
 //fuzzy search
@@ -202,30 +161,86 @@ $('#fuzzy-input').on('keyup click', function () {
         .show();
 });
 
-
-$('.endpoints li').on('activate.bs.scrollspy', function (e) {
-    e.stopPropagation();
-    e.preventDefault();
-    var $this = $(this),
-        position = $this.position(),
-        sidebar = $('li.endpoints');
-    if ($this.find('.active').length) {
-        return;
-    }
-    sidebar.animate({scrollTop: $this.offsetParent().position().top + position.top}, 0)
-});
-
-setTimeout(function () {
-    $('body').scrollspy({
-        target: '.complementary',
-        offset: 40
-    });
-}, 2000);
-
 new Clipboard('[data-clipboard-text]');
 
-$('[data-clipboard-text]').click(function () {
+$('[data-clipboard-text]').click(function (e) {
     $this = $(this);
     $this.addClass('copying');
     window.setTimeout($this.removeClass.bind($this, 'copying'), 250);
+    var hashUrl = this.getAttribute('data-clipboard-text');
+    var hash = hashUrl.substring(hashUrl.indexOf('#'))
+    if ($('li.active>a').attr('href') === hash) {
+        return;
+    }
+    var item = _.find(anchorsMap, {id: hash});
+    activateAnchor(item.anchor, hash);
+    scrollAnchor(item.anchor, hash);
 });
+
+var clickAnchorEvent = function (ev) {
+    var anchor = $(ev.target).parent('a'),
+        id = anchor.attr('href');
+
+    activateAnchor(anchor, id);
+};
+
+var deactivateAnchors = function () {
+    var activeItems = _.toArray(document.querySelectorAll('.side-container a.active,.side-container li.active'));
+    activeItems.forEach(function (item) {
+        if (item.classList)
+            item.classList.remove('active');
+        else
+            item.className = item.className.replace(new RegExp('(^|\\b)' + 'active' + '(\\b|$)', 'gi'), ' ');
+    })
+};
+
+var activateAnchor = function (anchor, id) {
+    deactivateAnchors()
+    anchor = $(anchor);
+    var c = anchor.parents('.side-container').length ? anchor.parents('.side-container') : anchor.next();
+    anchor.parent().addClass("active");
+    c.addClass('active');
+};
+
+window.scrollAnchor = function (anchor, id) {
+    anchor = $(anchor);
+
+    var e = $(".side-container .active");
+    var ep = (e.position().top);
+    var eh = e.height();
+
+    var c = anchor.parents('.side-container').length ? anchor.parents('.side-container') : anchor.next();
+    var activeItem = c.find('li.active');
+
+    var scrollTo = activeItem.prevAll().length * eh;
+    c.scrollTop(scrollTo);
+};
+
+(function () {
+    var anchors = document.querySelectorAll(".nav a");
+    anchors = _.toArray(anchors);
+    var anchorsMap = anchors.map(function (anchor, index, collection) {
+        var id = anchor.getAttribute('href');
+        return {anchor, id};
+    });
+
+    var bindedClick = clickAnchorEvent.bind(anchorsMap);
+
+    window.anchorsMap = anchorsMap;
+
+    anchors.map(function (anchor) {
+        anchor.addEventListener('click', bindedClick);
+    });
+
+    setTimeout(function () {
+        var href = window.location.hash;
+        if (!href) {
+            return;
+        }
+        var node = _.find(anchorsMap, {id: href});
+        if (node) {
+            activateAnchor(node.anchor, href);
+            scrollAnchor(node.anchor, href);
+        }
+    }, 300);
+})();
