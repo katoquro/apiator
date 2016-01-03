@@ -7,11 +7,14 @@
             <div class="panel {{panelStyle method}}">
                 <div class="panel-heading">
                     <span class="gray endpoint {{method}}">{{path}}</span>
-                    <span class="span-left" title='Click to copy' data-clipboard-text="{{copyUrler  method=method apiPath=../apiPath path=path}}"><i class="fa fa-link"></i></span>
+                    <span class="span-left" title='Click to copy'
+                          data-clipboard-text="{{copyUrler  method=method apiPath=../apiPath path=path}}"><i
+                            class="fa fa-link"></i></span>
 
                     <div class="navbar-right link-to-java">
                         <span class="span-info">{{../name}}.{{name}}</span>
-                        <span class="span-right"><i title="Click to copy" class="fa fa-clipboard" data-clipboard-text="{{../name}}#{{name}}"></i></span>
+                        <span class="span-right"><i title="Click to copy" class="fa fa-clipboard"
+                                                    data-clipboard-text="{{../name}}#{{name}}"></i></span>
                     </div>
                 </div>
                 <div class="panel-body">
@@ -51,7 +54,8 @@
                                                 {{~/if~}}
                                                 {{~#if type~}}
                                                     <span>→</span>
-                                                    <span class="object-link"><a href="#{{shrinkByDots type}}">{{shrinkByDots type}}</a></span>
+                                                    <span class="object-link"><a
+                                                            href="#{{shrinkByDots type}}">{{shrinkByDots type}}</a></span>
                                                 {{~/if~}}
                                             </div>
                                         </div>
@@ -93,7 +97,15 @@
         <div class="target-marker" id="{{shrinkByDots type}}"></div>
         <div class="panel panel-info">
             <div class="panel-heading">
-                <span class="gray endpoint {{method}}">{{shrinkByDots type}}</span>
+                <span class="gray endpoint">{{shrinkByDots type}}</span>
+                <span class="span-left" title='Click to copy' data-clipboard-text="{{copyUrlerType type=type}}"><i
+                        class="fa fa-link"></i></span>
+
+                <div class="navbar-right link-to-java">
+                    <span class="span-info">{{type}}</span>
+                    <span class="span-right"><i title="Click to copy" class="fa fa-clipboard"
+                                                data-clipboard-text="{{type}}"></i></span>
+                </div>
             </div>
             <div class="panel-body">
                 <div class="container-fluid">
@@ -108,7 +120,6 @@
                                     </div>
                                     <div class="col-sm-6 gap_x_r">
                                         <span class="type object">{{modelType}}</span>
-                                        <!--{{#if name}}<span class="gray italic">{{name}}</span>{{/if}}-->
                                         {{~#if basedOn~}}
                                             <span class="gray italic">of</span>
                                             {{#each basedOn}}
@@ -142,7 +153,15 @@
         <div class="target-marker" id="{{shrinkByDots type}}"></div>
         <div class="panel panel-info">
             <div class="panel-heading">
-                <span class="gray endpoint {{method}}">{{shrinkByDots type}}</span>
+                <span class="gray endpoint">{{shrinkByDots type}}</span>
+                <span class="span-left" title='Click to copy' data-clipboard-text="{{copyUrlerType type=type}}"><i
+                        class="fa fa-link"></i></span>
+
+                <div class="navbar-right link-to-java">
+                    <span class="span-info">{{type}}</span>
+                    <span class="span-right"><i title="Click to copy" class="fa fa-clipboard"
+                                                data-clipboard-text="{{type}}"></i></span>
+                </div>
             </div>
             <div class="panel-body">
                 <div class="container-fluid">

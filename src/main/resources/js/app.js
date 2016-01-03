@@ -89,8 +89,14 @@ function copyUrler(data) {
     return prefix + urler(data);
 }
 
+function copyUrlerType(data) {
+    var prefix = location.origin + location.pathname;
+    return prefix + '#' + Handlebars.helpers.shrinkByDots(data.hash.type)
+}
+
 Handlebars.registerHelper('urler', urler);
 Handlebars.registerHelper('copyUrler', copyUrler);
+Handlebars.registerHelper('copyUrlerType', copyUrlerType);
 
 $('#doc-container')
     .html(Handlebars.compile(templateSrc)(apiJson));
