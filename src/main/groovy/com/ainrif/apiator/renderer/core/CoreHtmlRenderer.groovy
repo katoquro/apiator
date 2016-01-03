@@ -27,8 +27,11 @@ class CoreHtmlRenderer implements Renderer {
     String js
     String css
     String hbs
+    String cssLocal
+    String jsLocal
 
-    String template
+    String mainTemplate
+    String templateLocal
     String toFile
 
     CoreHtmlRenderer() {
@@ -36,6 +39,10 @@ class CoreHtmlRenderer implements Renderer {
 
         def jsPaths = []
         jsPaths << webJarsLocator.getFullPath('jquery', 'jquery.min.js')
+        jsPaths << webJarsLocator.getFullPath('lodash', 'lodash.min.js')
+        jsPaths << webJarsLocator.getFullPath('underscore', 'underscore-min.js')
+        jsPaths << webJarsLocator.getFullPath('backbone', 'backbone-min.js')
+        jsPaths << webJarsLocator.getFullPath('backbone-marionette', 'backbone.marionette.min.js')
         jsPaths << webJarsLocator.getFullPath('bootstrap', 'bootstrap.min.js')
         jsPaths << webJarsLocator.getFullPath('handlebars', 'handlebars.min.js')
         jsPaths << 'fuse.min.js'
@@ -44,23 +51,38 @@ class CoreHtmlRenderer implements Renderer {
         cssPaths << webJarsLocator.getFullPath('bootstrap', 'bootstrap.min.css')
 
         def hbsPath = []
-        hbsPath << 'first'
-        hbsPath << 'second'
+        hbsPath << 'app'
+        hbsPath << 'nav'
+        hbsPath << 'content'
+        hbsPath << 'sidebar'
+        hbsPath << 'main'
 
         js = jsPaths
                 .collect { this.class.classLoader.getResource(it).text }
-                .join('\r\n') + 'jq = jQuery'
-
-        css = cssPaths
-                .collect { this.class.classLoader.getResource(it).text }
                 .join('\r\n')
+
+        def jsLocalPaths = []
+        jsLocalPaths << '/js/app.js'
+
+        def cssLocalPaths = []
+        cssLocalPaths << '/restyle.css'
 
         hbs = hbsPath
                 .collect { [name: it, content: this.class.classLoader.getResource("hbs/${it}.hbs").text] }
                 .collect { "<script type='text/x-handlebars-template' id='${it.name}'>${it.content}</script>" }
                 .join('\r\n')
 
-        template = this.class.getResource('/core-html-renderer-template.hbs').text
+        def templateLocalPaths = []
+        templateLocalPaths << '/hbs/app.hbs'
+
+        js = concatExternalResources(jsPaths)
+        css = concatExternalResources(cssPaths)
+
+        jsLocal = concatLocalResources(jsLocalPaths)
+        cssLocal = concatLocalResources(cssLocalPaths)
+        templateLocal = concatLocalResources(templateLocalPaths)
+
+        mainTemplate = this.class.getResource('/index.html').text
     }
 
     CoreHtmlRenderer(@Nullable toFile) {
@@ -75,10 +97,26 @@ class CoreHtmlRenderer implements Renderer {
         return renderTemplate(json)
     }
 
+    protected String concatExternalResources(List<String> paths) {
+        paths.collect { this.class.classLoader.getResource(it).text }
+                .join('\r\n')
+    }
+
+    protected String concatLocalResources(List<String> paths) {
+        paths.collect { this.class.getResource(it).text }
+                .join('\r\n')
+    }
+
     protected String renderTemplate(String json) {
         def html = new GStringTemplateEngine()
-                .createTemplate(template)
-                .make([json: json, js: js, css: css, hbs: hbs])
+                .createTemplate(mainTemplate)
+                .make([json    : json,
+                       js      : js,
+                       css     : css,
+                       jsLocal : jsLocal,
+                       cssLocal: cssLocal,
+                       template: templateLocal,
+                       hbs     : hbs])
                 .toString()
 
         if (toFile) {

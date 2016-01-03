@@ -47,12 +47,15 @@ dependencies {
     compile "javax.ws.rs:javax.ws.rs-api:2.0.1"
     compile "com.fasterxml.jackson.core:jackson-databind:2.6.1"
 
+    //Core HTML Renderer
     compile "org.webjars:webjars-locator:0.21"
+    compile "org.webjars.bower:bootstrap:3.3.5"
+    compile "org.webjars.bower:jquery:2.1.4"
+    compile "org.webjars.bower:backbone:1.2.1"
+    compile "org.webjars.bower:lodash:3.10.1"
+    //waiting for license update
     compile "org.webjars:handlebars:3.0.0-1"
-    compile "org.webjars:bootstrap:3.3.2-2", {
-        exclude group: 'org.webjars', module: 'jquery'
-    }
-    compile "org.webjars:jquery:2.1.3"
+    compile "org.webjars:backbone-marionette:2.4.1", { exclude group: 'org.webjars' }
 
     testCompile "org.spockframework:spock-core:1.0-groovy-2.4", {
         exclude group: 'junit', module: 'junit-dep'
