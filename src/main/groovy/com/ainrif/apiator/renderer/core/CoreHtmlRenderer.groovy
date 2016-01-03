@@ -39,6 +39,10 @@ class CoreHtmlRenderer implements Renderer {
 
         def jsPaths = []
         jsPaths << webJarsLocator.getFullPath('jquery', 'jquery.min.js')
+        jsPaths << webJarsLocator.getFullPath('lodash', 'lodash.min.js')
+        jsPaths << webJarsLocator.getFullPath('underscore', 'underscore-min.js')
+        jsPaths << webJarsLocator.getFullPath('backbone', 'backbone-min.js')
+        jsPaths << webJarsLocator.getFullPath('backbone-marionette', 'backbone.marionette.min.js')
         jsPaths << webJarsLocator.getFullPath('bootstrap', 'bootstrap.min.js')
         jsPaths << webJarsLocator.getFullPath('handlebars', 'handlebars.min.js')
         jsPaths << 'fuse.min.js'
