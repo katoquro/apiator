@@ -15,14 +15,39 @@ function stringHashCode(str) {
 
 Handlebars.registerHelper('hashCode', stringHashCode);
 
-Handlebars.registerHelper('shrinkByDots', function (str) {
-    var splitName = str.split(".");
-    var result = '';
-    for (var i = 0; i < splitName.length - 1; i++) {
-        result += splitName[i][0] + '.';
+var PANNEL_MAPPER = {
+    'GET': 'panel-info',
+    'POST': 'panel-success',
+    'DELETE': 'panel-danger',
+    'PUT': 'panel-warning',
+    'PATCH': 'panel-default',
+    'OPTIONS': 'panel-default',
+    'HEAD': 'panel-default',
+    'DEFAULT': 'panel-default'
+};
+
+function responseTyper(responseType) {
+    var response = "";
+
+    responseType.basedOn.forEach(function (value) {
+        response = " " + responseTyper(value);
+    });
+    if (responseType.type) {
+        response = '<span class="name object-link"><a href="#">' + Handlebars.helpers.shrinkByDots(responseType.type) + '</a></span>' + response;
+    } else if (responseType.modelType) {
+        response = '<span class="type">' + responseType.modelType + '</span>' + response;
     }
-    result += splitName[splitName.length - 1];
-    return result
+    return response;
+}
+
+Handlebars.registerHelper('responseTyper', responseTyper);
+
+Handlebars.registerHelper('panelStyle', function (method) {
+    return PANNEL_MAPPER[method] || PANNEL_MAPPER.DEFAULT;
+});
+
+Handlebars.registerHelper('shrinkByDots', function (str) {
+    return str.split('.').slice(-1);
 });
 
 Handlebars.registerHelper('json', function (data) {

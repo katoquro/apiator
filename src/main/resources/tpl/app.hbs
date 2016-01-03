@@ -1,246 +1,137 @@
-<header class="navbar navbar-default navbar-fixed-top" id="top">
-    <div class="container">
-        <a href="#" class="navbar-brand">
-            {{#if clientApiInfo.version}} {{clientApiInfo.basePath}} {{clientApiInfo.version}}
-            {{else}}Core HTML Renderer
-            {{/if}}
-        </a>
-        <nav>
-            <ul class="nav navbar-nav">
-                <li><a href="#">Endpoints</a></li>
-                <li><a href="#used-enumerations">Enumerations</a></li>
-                <li><a href="#used-api-types">Types</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="https://bitbucket.org/ainrif/apiator">Apiator v{{apiatorInfo.version}}</a></li>
-            </ul>
-            <form class="navbar-form navbar-right" role="search">
-                <div class="input-group">
-                    <input type="text" class="form-control" id="fuzzy-input" placeholder="Search for path">
-                    <ul class="dropdown-menu dropdown-menu-left" role="menu" id="fuzzy-suggest">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">item</a></li>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                            aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">
+                        {{#if clientApiInfo.version}} {{clientApiInfo.basePath}} {{clientApiInfo.version}}
+                        {{else}}Core HTML Renderer
+                        {{/if}}
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-10">
+                <div id="navbar" class="navbar-collapse collapse">
+                    <div class="navbar-form navbar-left">
+                        <input type="text" class="form-control" placeholder="Search...">
+                    </div>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">Api info</a></li>
+                        <li><a href="#">Endpoints</a></li>
+                        <li><a href="#">Types</a></li>
+                        <li><a href="#">Enumerations</a></li>
+                        <li>
+                            <a href="https://bitbucket.org/ainrif/apiator" target="_blank" title="Apiator v{{apiatorInfo.version}}">
+                                <span class="glyphicon glyphicon-plane" aria-hidden="true"></span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
-            </form>
-        </nav>
+            </div>
+        </div>
     </div>
-</header>
-<div class="row" style="margin-top: 50px;">
-    <nav class="col-xs-3 complementary">
-        <ul id="sidebar" class="nav nav-stacked fixed">
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                {{#each apiContexts}}
+                    <li>
+                        <a href="#{{apiPath}}"><span class="endpoint">{{apiPath}}</span></a>
+                        <ul class="nav nav-sidebar">
+                            {{#each apiEndpoints}}
+                                <li><a href="#{{../apiPath}}{{path}}"><span class="endpoint {{method}}">{{path}}</span></a>
+                                </li>
+                            {{/each}}
+                        </ul>
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
+        <!--Main Content -->
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" role="main">
             {{#each apiContexts}}
-                <li>
-                    <a href="#{{hashCode name}}">{{name}}</a>
-                    <ul class="nav nav-stacked">
-                        {{#each apiEndpoints}}
-                            <li><a href="#{{hashCode ../name}}-{{hashCode name}}">{{name}}</a></li>
-                        {{/each}}
-                    </ul>
-                </li>
-            {{/each}}
-            <li>
-                <a href="#used-enumerations">Used Enumerations</a>
-                <ul class="nav nav-stacked">
-                    {{#each usedEnumerations}}
-                        <li><a href="#uat-{{hashCode type}}">{{shrinkByDots type}}</a></li>
-                    {{/each}}
-                </ul>
-            </li>
-            <li>
-                <a href="#used-api-types">Used Api Types</a>
-                <ul class="nav nav-stacked">
-                    {{#each usedApiTypes}}
-                        <li><a href="#uat-{{hashCode type}}">{{shrinkByDots type}}</a></li>
-                    {{/each}}
-                </ul>
-            </li>
-        </ul>
-    </nav>
-    <!--Main Content -->
-    <div class="col-xs-9" role="main">
-        <h2>Endpoints</h2>
-        {{#each apiContexts}}
-            <div class="target-marker" id="{{hashCode name}}"></div>
-            <section>
-                <h3>{{name}}</h3>
-
-                <p>{{apiPath}}</p>
-
+                <div class="target-marker" id="{{apiPath}}"></div>
+                <h4 class="page-header">{{apiPath}}</h4>
                 {{#each apiEndpoints}}
-                    <div class="target-marker" id="{{hashCode ../name}}-{{hashCode name}}"></div>
-                    <div class="panel panel-default">
+                    <div class="target-marker" id="{{../apiPath}}{{path}}"></div>
+                    <div class="panel {{panelStyle method}}">
                         <div class="panel-heading">
-                            <span class="pull-right">{{name}}</span>
-                            <span class="label label-default">{{method}}</span> {{../apiPath}}{{path}}
+                            <span class="gray endpoint {{method}}">{{path}}</span>
                         </div>
                         <div class="panel-body">
-                            <div>
-                                return:
-                                {{#if returnType.type}}
-                                    <a href="#uat-{{hashCode returnType.type}}">
-                                        <code>{{shrinkByDots returnType.type}}</code>
-                                    </a>
-                                {{else}}
-                                    <code>{{returnType.modelType}}</code>
-                                {{/if}}
+                            <div class="container-fluid">
+                                {{#if params}}
+                                    <div class="row">
+                                        <h5>Parameters</h5>
 
-                                {{#if returnType.basedOn}}
-                                    based on:
-                                    {{#each returnType.basedOn}}
-                                        <!--todo need to process nested values-->
-                                        {{#if this.type}}
-                                            <a href="#uat-{{hashCode this.type}}">
-                                                <code>{{shrinkByDots this.type}}</code>
-                                            </a>
-                                        {{else}}
-                                            <code>{{this.modelType}}</code>
-                                        {{/if}}
-                                    {{/each}}
-                                {{/if}}
-                            </div>
-                            {{#if params}}
-                                <div>
-                                    params:
-                                    {{#each params}}
-                                        <span class="label label-primary">@{{httpParamType}}</span>
-                                        : {{name}}
-                                        {{#if type}}
-                                            <a href="#uat-{{hashCode type}}">
-                                                <code>{{shrinkByDots type}}</code>
-                                            </a>
-                                        {{else}}
-                                            <code>{{modelType}}</code>
-                                        {{/if}}
-
-                                        {{#if basedOn}}
-                                            based on:
-                                            {{#each basedOn}}
-                                                {{#if this.type}}
-                                                    <a href="#uat-{{hashCode this.type}}">
-                                                        <code>{{shrinkByDots this.type}}</code>
-                                                    </a>
-                                                {{else}}
-                                                    <code>{{this.modelType}}</code>
-                                                {{/if}}
+                                        <div class="col-xs-12 col-md-10">
+                                            {{#each params}}
+                                                <div class="row">
+                                                    <div class="col-xs-2 col-sm-2 col-md-1 parameter lovercase">
+                                                        ({{httpParamType}})
+                                                    </div>
+                                                    <div class="col-xs-2 col-sm-1 col-md-6 gap_x_r">
+                                                        <span class="type object">{{modelType}}</span>
+                                                        {{#if name}}<span class="gray italic">{{name}}</span>{{/if}}
+                                                        {{~#if basedOn~}}
+                                                            {{#each basedOn}}
+                                                                {{#if this.type}}
+                                                                    <a href="#" class="object object-link">{{this.type}}</a>
+                                                                {{else}}
+                                                                    <span class="lovercase">{{this.modelType}}</span>
+                                                                {{/if}}
+                                                            {{/each}}
+                                                        {{~/if~}}
+                                                        {{~#if type~}}
+                                                            <span>→</span>
+                                                            <span class="object-link"><a href="#">{{shrinkByDots type}}</a></span>
+                                                        {{~/if~}}
+                                                    </div>
+                                                </div>
                                             {{/each}}
-                                        {{/if}}
-                                        <br/>
-                                        <span style="display:inline-block; width:51px"></span>
-                                    {{/each}}
-                                </div>
-                            {{/if}}
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <a class="btn btn-default btn-sm"
-                                       data-toggle="collapse"
-                                       href="#raw-{{hashCode ../name}}-{{hashCode name}}"
-                                       aria-controls="#raw-{{hashCode ../name}}-{{hashCode name}}"
-                                       aria-expanded="false">
-                                        Raw View
-                                    </a>
+                                        </div>
+                                    </div>
+                                {{/if}}
+                                <div class="row">
+                                    <h5>Responses</h5>
 
-                                    <div class="collapse" id="raw-{{hashCode ../name}}-{{hashCode name}}">
-                                        <pre>{{json this}}</pre>
+                                    <div class="col-xs-12 col-md-10">
+                                        <div class="row">
+                                            <div class="col-xs-1 col-md-1 response-code">200</div>
+                                            <!--<div class="col-xs-4 col-md-3 response-format  object">application/json</div>-->
+                                            <div class="col-xs-4 col-md-4 ">
+
+                                                {{~#if returnType.type~}}
+                                                    <span class="name object-link"><a href="#" >
+                                                        {{~shrinkByDots returnType.type~}}
+                                                    </a></span>
+                                                {{else}}
+                                                    <span class="type">
+                                                        {{~returnType.modelType~}}
+                                                    </span>
+                                                {{/if~}}
+                                                {{~#if returnType.basedOn}}
+                                                    {{~#each returnType.basedOn}}
+                                                        {{{responseTyper this}}}
+                                                    {{/each~}}
+                                                {{/if~}}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 {{/each}}
-            </section>
-        {{/each}}
-        <div class="target-marker" id="used-enumerations"></div>
-        <section>
-            <h2>Enumerations</h2>
-            {{#each usedEnumerations}}
-                <div class="target-marker" id="uat-{{hashCode type}}"></div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        {{type}}
-                    </div>
-                    <div class="panel-body">
-                        possible values:
-                        {{#each values}}
-                            <code>{{this}}</code>
-                        {{/each}}
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <a class="btn btn-default btn-sm"
-                                   data-toggle="collapse"
-                                   href="#raw-{{hashCode type}}"
-                                   aria-controls="#raw-{{hashCode type}}"
-                                   aria-expanded="false">
-                                    Raw View
-                                </a>
-
-                                <div class="collapse" id="raw-{{hashCode type}}">
-                                    <pre>{{json this}}</pre>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             {{/each}}
-        </section>
-        <div class="target-marker" id="used-api-types"></div>
-        <section>
-            <h2>Types</h2>
-            {{#each usedApiTypes}}
-                <div class="target-marker" id="uat-{{hashCode type}}"></div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        {{type}}
-                    </div>
-                    <div class="panel-body">
-                        {{#each fields}}
-                            <div>
-                                <!--inverse of access logic means ui can set/get params-->
-                                {{#if readable}}
-                                    <span class="label label-success">set</span>
-                                {{else}}
-                                    <span class="label label-danger">set</span>
-                                {{/if}}
-                                {{name}} :
-                                {{#if type}}
-                                    <a href="#uat-{{hashCode type}}">
-                                        <code>{{shrinkByDots type}}</code>
-                                    </a>
-                                {{else}}
-                                    <code>{{modelType}}</code>
-                                {{/if}}
-                                {{#if basedOn}}
-                                    based on:
-                                    {{#each basedOn}}
-                                        {{#if this.type}}
-                                            <a href="#uat-{{hashCode this.type}}">
-                                                <code>{{shrinkByDots this.type}}</code>
-                                            </a>
-                                        {{else}}
-                                            <code>{{this.modelType}}</code>
-                                        {{/if}}
-                                    {{/each}}
-                                {{/if}}
-                            </div>
-
-                        {{/each}}
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <a class="btn btn-default btn-sm"
-                                   data-toggle="collapse"
-                                   href="#raw-{{hashCode type}}"
-                                   aria-controls="#raw-{{hashCode type}}"
-                                   aria-expanded="false">
-                                    Raw View
-                                </a>
-
-                                <div class="collapse" id="raw-{{hashCode type}}">
-                                    <pre>{{json this}}</pre>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {{/each}}
-        </section>
+        </div>
     </div>
 </div>

@@ -62,7 +62,8 @@ class CoreHtmlRenderer implements Renderer {
         jsLocalPaths << '/js/app.js'
 
         def cssLocalPaths = []
-        cssLocalPaths << '/style.css'
+//        cssLocalPaths << '/style.css'
+        cssLocalPaths << '/restyle.css'
 
         hbs = hbsPath
                 .collect { [name: it, content: this.class.classLoader.getResource("hbs/${it}.hbs").text] }
