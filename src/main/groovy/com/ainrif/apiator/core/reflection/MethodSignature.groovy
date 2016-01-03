@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,19 +16,18 @@
 package com.ainrif.apiator.core.reflection
 
 import groovy.transform.EqualsAndHashCode
+import groovy.transform.ToString
 
 import java.lang.reflect.Method
 
 @EqualsAndHashCode
+@ToString
 class MethodSignature {
-    String name;
-    String[] params;
-
-    private MethodSignature() {
-    }
+    final String name;
+    final String[] paramTypeNames;
 
     MethodSignature(Method method) {
         this.name = method.name;
-        this.params = method.parameters;
+        this.paramTypeNames = method.parameterTypes*.typeName;
     }
 }

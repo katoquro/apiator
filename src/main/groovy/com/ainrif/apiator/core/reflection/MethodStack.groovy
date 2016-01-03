@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +21,15 @@ import com.ainrif.apiator.core.model.api.ApiEndpointParam
 import com.ainrif.apiator.core.model.api.ApiEndpointReturnType
 import com.ainrif.apiator.core.model.api.ApiType
 
-import javax.annotation.Nullable
+import java.beans.Introspector
 import java.lang.annotation.Annotation
+import java.lang.reflect.Field
 import java.lang.reflect.Method
+import java.lang.reflect.Modifier
+import java.util.function.Predicate
+
+import static com.ainrif.apiator.core.model.ModelType.ENUMERATION
+import static com.ainrif.apiator.core.model.ModelType.OBJECT
 
 /**
  * List of method overrides from parent (interface/superclass) to child (implementation)
@@ -34,7 +40,7 @@ abstract class MethodStack extends ArrayList<Method> {
         super(collection)
     }
 
-    abstract String getTitle()
+    abstract String getName()
 
     abstract String getPath()
 
@@ -46,62 +52,116 @@ abstract class MethodStack extends ArrayList<Method> {
 
     /**
      * collects java types from params and return values
-     *
-     * @return
      */
     public Set<ApiType> getUsedApiTypes() {
-        (params.collect { it.type } << returnType.type)
-                .collect { it.generic ? it.flattenArgumentTypes() : it }
-                .flatten()
-                .collect { ApiType type -> type.array ? new ApiType(type.arrayType) : type }
-                .findAll { ApiType type -> ModelType.OBJECT == type.modelType }
-                .findAll { ApiType type -> Object.class != type.rawType }
-                .toSet()
+        collectAllUsedTypes()
+                .findAll { OBJECT == it.modelType }
     }
 
     /**
-     * collects annotations from method hierarchy tree
-     *
-     * @param annotationClass
-     * @return
+     * collects java Enums from params and return values
      */
-    public <T extends Annotation> List<T> getAnnotationList(Class<T> annotationClass) {
-        this.findAll { it.isAnnotationPresent(annotationClass) }
-                .collect { it.getAnnotation(annotationClass) }
+    public Set<ApiType> getUsedEnumerations() {
+        collectAllUsedTypes()
+                .findAll { ENUMERATION == it.modelType }
     }
 
     /**
      * collects annotations from method parameters from hierarchy tree
      *
-     * @return [ < param signature > :[inherited annotations]]
+     * @return [ < param index > : [inherited annotations] ]
      */
-    public Map<ParamSignature, List<? extends Annotation>> getParametersAnnotationsLists() {
-        Map<ParamSignature, List<? extends Annotation>> result = new HashMap<>().withDefault { [] }
-        def paramTypes = this.last().parameterTypes
+    public Map<Integer, List<? extends Annotation>> getParametersAnnotationsLists() {
+        Map<Integer, List<? extends Annotation>> result = new HashMap<>().withDefault { [] }
         this.each {
             it.parameterAnnotations.eachWithIndex { Annotation[] entry, int i ->
-                result[new ParamSignature(i, paramTypes[i])] += entry as List
+                result[i] += entry as List
             }
         }
 
         result
     }
 
-    static <T extends Annotation> Map<ParamSignature, List<? extends Annotation>> filterParametersAnnotationsLists(
-            Map<ParamSignature, List<? extends Annotation>> annotations, @Nullable Class<T> type) {
-        def result;
-        if (type) {
-            result = annotations
-            // all annotated params
-                    .findAll { it.value.any { type.isAssignableFrom(it.class) } }
-            // only annotated stack items
-                    .collectEntries { k, v -> [k, v.findAll { type.isAssignableFrom(it.class) }] }
-        } else {
-            // find all not annotated params
-            result = annotations.findAll { it.value.empty }
+    private Set<ApiType> collectAllUsedTypes() {
+        Set<ApiType> types = [] // result
+
+        // all types used in params and return type form input data to start BFS collecting
+        def nextLookup = (params.collect { it.type } << returnType.type)
+        while (nextLookup) {
+            def typesToLookup = nextLookup
+                    .collect(collectApiTypesFromGenerics).flatten()
+                    .collect(mapArraysToItsTypeApiType).toSet()
+                    .findAll(testTypeIsNotPrimitive)
+
+            def typesFromFields = typesToLookup
+                    .findAll(testTypeIsCustomModelType)
+                    .collect(collectApiTypesFromFields).flatten().toSet()
+                    .collect(collectApiTypesFromGetters).flatten().toSet()
+                    .collect(mapArraysToItsTypeApiType)
+                    .findAll(testTypeIsNotPrimitive)
+                    .minus(typesToLookup)
+
+            types += typesToLookup
+            types += typesFromFields
+
+            nextLookup = typesFromFields.findAll { OBJECT == it.modelType || it.generic }
         }
 
-        result
+        types
     }
 
+    protected static Closure<List<ApiType>> collectApiTypesFromGenerics = { ApiType type ->
+        type.generic ? type.flattenArgumentTypes() << type : [type]
+    }
+
+    protected static Closure<List<ApiType>> collectApiTypesFromFields = { ApiType type ->
+        RUtils.getAllFields(findFirstNotArrayType(type), testFieldIsPublicAndNotStatic)
+                .collect { new ApiType(it.genericType) } << type
+    }
+
+    protected static Closure<List<ApiType>> collectApiTypesFromGetters = { ApiType type ->
+        def rawType = findFirstNotArrayType(type)
+
+        if (!rawType.interface && !rawType.primitive && testTypeIsCustomModelType.call(new ApiType(rawType))) {
+            def beanInfo = rawType.enum ?
+                    Introspector.getBeanInfo(rawType, Enum) :
+                    Introspector.getBeanInfo(rawType, Object)
+
+            def typesFromGetters = beanInfo.propertyDescriptors
+                    .findAll { it.readMethod }
+                    .collect { it.readMethod.genericReturnType }
+                    .collect { new ApiType(it) }
+
+            typesFromGetters << type
+
+            return typesFromGetters
+        } else {
+            return [type]
+        }
+    }
+
+    protected static Class<?> findFirstNotArrayType(ApiType type) {
+        def targetType = type.array ? type.componentApiType.rawType : type.rawType
+        while (targetType.array) {
+            targetType = targetType.componentType
+        }
+
+        targetType
+    }
+
+    protected static Closure<ApiType> mapArraysToItsTypeApiType = { ApiType type ->
+        type.array ? new ApiType(findFirstNotArrayType(type)) : type
+    }
+
+    protected static Closure<Boolean> testTypeIsNotPrimitive = { ApiType type ->
+        ModelType.notPrimitiveTypes.any { it == type.modelType } && Object.class != type.rawType
+    }
+
+    protected static Closure<Boolean> testTypeIsCustomModelType = { ApiType type ->
+        ModelType.customModelTypes.any { it == type.modelType } && Object.class != type.rawType
+    }
+
+    protected static Predicate<Field> testFieldIsPublicAndNotStatic = {
+        Modifier.isPublic(it.modifiers) && !Modifier.isStatic(it.modifiers)
+    }
 }

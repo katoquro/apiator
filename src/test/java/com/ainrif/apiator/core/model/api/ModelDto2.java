@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,17 +17,22 @@ package com.ainrif.apiator.core.model.api;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-public class ModelDto2<TV, TVB extends Collection> {
+public class ModelDto2<TV, TVB extends Collection, GENERIC_BOUNDED extends List<String>> {
     Object objectField;
+
+    List<ModelEnum> listGEnumField;
     List<String> listGStringField;
     List<Set<String>> listGSetGStringField;
+    List<String[]> listGStringArray;
+    List<Iterable<TVB>> listGIterableGTVBField;
     List<TV> listGTVField;
     List<TVB> listGTVBField;
-    List<Set<TVB>> listGSetGTVBField;
+    List<GENERIC_BOUNDED> listGenericBounded;
 
-    List<String[]> ListGStringArray;
+    Map<Set<String>, TVB> mapGSetGStringAndGTVBField;
 
-//    List<String>[] ListGString_array; //additional case of GenericArrayType
+    List<Set<String>[]> listGSetArrayField;
 }

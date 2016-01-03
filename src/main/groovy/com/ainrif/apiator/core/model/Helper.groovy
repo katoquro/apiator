@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,35 +26,23 @@ import java.util.function.Predicate
 import static java.util.Objects.nonNull
 
 final class Helper {
-    static ModelType getTypeByClass(Class<?> type) {
-        if ([CharSequence, Character, char, Enum].any { it.isAssignableFrom(type) }
-                || URL == type
-                || UUID == type) return ModelType.STRING
+    /**
+     * tries to resolve properties and return like map of property to its {@link ApiType}
+     *
+     * Uses next resolve strategies
+     * <ol>
+     *     <li>java bean properties</li>
+     *     <li>public fields</li>
+     * </ol>
+     *
+     * @return [ < property name > : < property type > ]
+     */
+    static Map<String, ApiField> getPropertiesTypes(Class<?> type) {
+        def beanInfo = type.interface ?
+                Introspector.getBeanInfo(type) :
+                Introspector.getBeanInfo(type, Object)
 
-        else if ([Void, void].any { it.isAssignableFrom(type) }) return ModelType.VOID
-        else if ([Byte, byte].any { it.isAssignableFrom(type) }) return ModelType.BYTE
-
-        else if ([Boolean, boolean].any { it.isAssignableFrom(type) }) return ModelType.BOOLEAN
-        else if ([Integer, Short, int, short].any { it.isAssignableFrom(type) }) return ModelType.INTEGER
-        else if ([Long, long].any { it.isAssignableFrom(type) }) return ModelType.LONG
-        else if ([Float, float].any { it.isAssignableFrom(type) }) return ModelType.FLOAT
-        else if ([Double, double].any { it.isAssignableFrom(type) }) return ModelType.DOUBLE
-
-        else if ([Date, Calendar].any { it.isAssignableFrom(type) }) return ModelType.DATE
-
-        else if (Map.isAssignableFrom(type)) return ModelType.DICTIONARY
-
-        else if (Set.isAssignableFrom(type)) return ModelType.SET
-
-        else if (Iterable.isAssignableFrom(type)
-                || type.isArray()) return ModelType.ARRAY
-
-        return ModelType.OBJECT
-    }
-
-    static Map<String, ApiField> getTypeFields(Class<?> type) {
-        def props = Introspector.getBeanInfo(type)
-                .propertyDescriptors
+        def props = beanInfo.propertyDescriptors
                 .collect {
             new ApiField(
                     name: it.name,

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,20 @@
  */
 package com.ainrif.apiator.core
 
+import com.ainrif.apiator.api.ModelTypeResolver
+import com.ainrif.apiator.api.Renderer
 import com.ainrif.apiator.api.WebServiceProvider
 import com.ainrif.apiator.api.annotation.Api
 import com.ainrif.apiator.provider.jaxrs.JaxRsProvider
-import com.ainrif.apiator.writer.core.CoreJsonWriter
+import com.ainrif.apiator.renderer.core.CoreJsonRenderer
 
 import java.lang.annotation.Annotation
 
 class ApiatorConfig {
     String basePackage = ''
     WebServiceProvider provider = new JaxRsProvider()
-    CoreJsonWriter writer = new CoreJsonWriter()
+    Renderer renderer = new CoreJsonRenderer()
+    List<ModelTypeResolver> modelTypeResolvers
     String basePath = '/api'
     String apiVersion = '1.0.0-SNAPSHOT'
     Class<Annotation> apiClass = Api;

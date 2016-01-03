@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,32 @@
  */
 package com.ainrif.apiator.core.model
 
+/**
+ * Type {@link ModelType#SYSTEM} is for internal usage.
+ * Represents types like {@link Class} to prevent unnecessary introspection
+ */
 public enum ModelType {
-    OBJECT, DICTIONARY, VOID, BYTE,
+    ANY,
 
-    ARRAY, SET,
+    OBJECT, ENUMERATION,
 
-    BOOLEAN, INTEGER, LONG, FLOAT, DOUBLE, STRING,
+    DICTIONARY, ARRAY, SET,
 
-    DATE
+    VOID, BOOLEAN, BYTE, INTEGER, LONG, FLOAT, DOUBLE, STRING,
+
+    DATE, BINARY,
+
+    SYSTEM;
+
+    static Collection<ModelType> getCustomModelTypes() {
+        [OBJECT, ENUMERATION]
+    }
+
+    static Collection<ModelType> getNotPrimitiveTypes() {
+        values().minus(primitiveTypes)
+    }
+
+    static Collection<ModelType> getPrimitiveTypes() {
+        [VOID, BOOLEAN, BYTE, INTEGER, LONG, FLOAT, DOUBLE, STRING]
+    }
 }

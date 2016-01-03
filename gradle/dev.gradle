@@ -1,0 +1,25 @@
+task generate_by_smoke(type: JavaExec) {
+    def apiatorPath = 'build/apiator/site'
+
+    doFirst {
+        def path = file(apiatorPath)
+        path.mkdirs()
+    }
+
+    main = 'gradle.GenerateBySmoke'
+    classpath = sourceSets.test.runtimeClasspath
+    args = [file(apiatorPath).absolutePath]
+}
+
+task generate_stub(type: JavaExec) {
+    def apiatorPath = 'build/apiator/resources'
+
+    doFirst {
+        def path = file(apiatorPath)
+        path.mkdirs()
+    }
+
+    main = 'gradle.GenerateStubJson'
+    classpath = sourceSets.test.runtimeClasspath
+    args = [file(apiatorPath).absolutePath]
+}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package com.ainrif.apiator.core.reflection
 
+import java.lang.annotation.Annotation
+import java.lang.reflect.AnnotatedElement
 import java.lang.reflect.Field
 import java.lang.reflect.Method
 import java.util.function.Predicate
@@ -33,6 +35,7 @@ final class RUtils {
                 .each
                 {
                     it.declaredMethods
+                            .findAll { !it.bridge }
                             .findAll { method -> predicates.every { it.test(method) } }
                             .each { method -> map[new MethodSignature(method)] << (method) }
                 }
@@ -84,6 +87,11 @@ final class RUtils {
         interfaces
     }
 
+    /**
+     * @param type to scan from
+     * @param predicates
+     * @return fields from class and all parents
+     */
     public static List<Field> getAllFields(final Class<?> type,
                                            Predicate<? super Field>... predicates) {
         def _clazz = type;
@@ -96,5 +104,28 @@ final class RUtils {
         return fields.findAll { Field field ->
             predicates.every { it.test(field) }
         }
+    }
+
+    /**
+     * collects annotations from method hierarchy tree
+     *
+     * @param annotationClass
+     */
+    public
+    static <A extends Annotation, E extends AnnotatedElement> List<A> getAnnotationList(List<E> elements, Class<A> annotationClass) {
+        elements.findAll { it.isAnnotationPresent(annotationClass) }
+                .collect { it.getAnnotation(annotationClass) }
+    }
+
+    /**
+     * converts POJO to Map
+     *
+     * @param pojo
+     * @return for map values it calls {@link Object#toString()} if field is {@null} returns {@null}
+     */
+    public static Map<String, String> asMap(def pojo) {
+        pojo.class.declaredFields
+                .findAll { !it.synthetic }
+                .collectEntries { [(it.name), pojo."$it.name"?.toString()] }
     }
 }

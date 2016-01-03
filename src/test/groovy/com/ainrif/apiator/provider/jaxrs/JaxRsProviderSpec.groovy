@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,8 @@
  */
 package com.ainrif.apiator.provider.jaxrs
 
-import com.ainrif.apiator.test.model.jaxrs.Service
-import com.ainrif.apiator.test.model.jaxrs.ServiceImpl
+import com.ainrif.apiator.test.model.jaxrs.smoke.Service
+import com.ainrif.apiator.test.model.jaxrs.smoke.ServiceImpl
 import spock.lang.Specification
 
 import static org.hamcrest.Matchers.containsInAnyOrder
@@ -37,13 +37,16 @@ class JaxRsProviderSpec extends Specification {
                              'getDtoTypeValue',
                              'getDtoWildcardType',
                              'doVoidMethod',
-                             'getByteArray']
+                             'getByteArray',
+                             'setStatus',
+                             'getStream',
+                             'getClassType']
 
         when:
         def actual = provider.getMethodStacks(contextStack)
 
         then:
         expect actual, hasSize(expected.size())
-        expect actual.collect { it.title }, containsInAnyOrder(expected)
+        expect actual.collect { it.name }, containsInAnyOrder(expected)
     }
 }

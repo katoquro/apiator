@@ -1,0 +1,185 @@
+<div class="main" role="main">
+    {{#each apiContexts}}
+        <div class="target-marker" id="{{apiPath}}"></div>
+        <h4 class="page-header">{{apiPath}}</h4>
+        {{#each apiEndpoints}}
+            <div class="target-marker" id="_{{lower method}}_{{../apiPath}}{{path}}"></div>
+            <div class="panel {{panelStyle method}}">
+                <div class="panel-heading">
+                    <span class="gray endpoint {{method}}">{{path}}</span>
+                    <span class="span-left" title='Click to copy'
+                          data-clipboard-text="{{copyUrler  method=method apiPath=../apiPath path=path}}"><i
+                            class="fa fa-link"></i></span>
+
+                    <div class="navbar-right link-to-java">
+                        <span class="span-info">{{../name}}.{{name}}</span>
+                        <span class="span-right"><i title="Click to copy" class="fa fa-clipboard"
+                                                    data-clipboard-text="{{../name}}#{{name}}"></i></span>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="container-fluid">
+                        {{#if params}}
+                            <div class="row">
+                                <h5>Parameters</h5>
+
+                                <div class="col-xs-12 col-md-10">
+                                    {{#each params}}
+                                        <div class="row">
+                                            <div class="col-xs-2 col-sm-2 col-md-1 parameter lovercase">
+                                                ({{httpParamType}})
+                                            </div>
+                                            <div class="col-xs-2 col-sm-1 col-md-6 gap_x_r">
+                                                <span class="type object">{{modelType}}</span>
+                                                {{~#if name~}}
+                                                    <span class="gray italic">
+                                                        {{~name~}}
+                                                        {{~#if defaultValue~}}
+                                                            <span class="gray span-info">={{defaultValue}}</span>
+                                                        {{~/if~}}
+                                                    </span>
+                                                {{~/if~}}
+                                                <!--todo add to default set this variant-->
+                                                {{~#if basedOn~}}
+                                                    {{#each basedOn}}
+                                                        {{#if this.type}}
+                                                            <span class="gray italic">of</span>
+                                                            <span class="object-link">
+                                                                <a href="#{{shrinkByDots this.type}}">{{shrinkByDots this.type}}</a>
+                                                            </span>
+                                                        {{else}}
+                                                            <span class="lovercase">{{this.modelType}}</span>
+                                                        {{/if}}
+                                                    {{/each}}
+                                                {{~/if~}}
+                                                {{~#if type~}}
+                                                    <span>→</span>
+                                                    <span class="object-link"><a
+                                                            href="#{{shrinkByDots type}}">{{shrinkByDots type}}</a></span>
+                                                {{~/if~}}
+                                            </div>
+                                        </div>
+                                    {{/each}}
+                                </div>
+                            </div>
+                        {{/if}}
+                        <div class="row">
+                            <h5>Responses</h5>
+                            <span style="padding-left: 50px"></span>
+                            {{~#if returnType.type~}}
+                                <span class="name object-link">
+                                    <a href="#{{shrinkByDots returnType.type}}">
+                                        {{~shrinkByDots returnType.type~}}
+                                    </a>
+                                </span>
+                            {{else}}
+                                <span class="type">
+                                    {{~returnType.modelType~}}
+                                </span>
+                            {{/if~}}
+                            {{~#if returnType.basedOn}}
+                                <span class="gray italic">of</span>
+                                {{~#each returnType.basedOn}}
+                                    <span class="add-coma"> {{{responseTyper this}}} </span>
+                                {{/each~}}
+                            {{/if~}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    {{/each}}
+
+    <h4 class="page-header">Types</h4>
+
+    <div class="target-marker" id="types"></div>
+    {{#each usedApiTypes}}
+        <div class="target-marker" id="{{shrinkByDots type}}"></div>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <span class="gray endpoint">{{shrinkByDots type}}</span>
+                <span class="span-left" title='Click to copy' data-clipboard-text="{{copyUrlerType type=type}}"><i
+                        class="fa fa-link"></i></span>
+
+                <div class="navbar-right link-to-java">
+                    <span class="span-info">{{type}}</span>
+                    <span class="span-right"><i title="Click to copy" class="fa fa-clipboard"
+                                                data-clipboard-text="{{type}}"></i></span>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <h5>Fields</h5>
+
+                        <div class="col-xs-12 col-md-10">
+                            {{#each fields}}
+                                <div class="row">
+                                    <div class="col-sm-4 typeNames">
+                                        <span class="text-wrap" title="{{name}}">{{name}}</span>
+                                    </div>
+                                    <div class="col-sm-6 gap_x_r">
+                                        <span class="type object">{{modelType}}</span>
+                                        {{~#if basedOn~}}
+                                            <span class="gray italic">of</span>
+                                            {{#each basedOn}}
+                                                {{#if this.type}}
+                                                    <span class="add-coma object-link">
+                                                        <a href="#{{shrinkByDots this.type}}">{{shrinkByDots this.type}}</a>
+                                                    </span>
+                                                {{else}}
+                                                    <span class="add-coma type">{{this.modelType}}</span>
+                                                {{/if}}
+                                            {{/each}}
+                                        {{~/if~}}
+                                        {{~#if type~}}
+                                            <span>→</span>
+                                            <span class="object-link">
+                                                <a href="#{{shrinkByDots type}}">{{shrinkByDots type}}</a>
+                                            </span>
+                                        {{~/if~}}
+                                    </div>
+                                </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+    <div class="target-marker" id="enumerations"></div>
+    <h4 class="page-header">Enumerations</h4>
+    {{#each usedEnumerations}}
+        <div class="target-marker" id="{{shrinkByDots type}}"></div>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <span class="gray endpoint">{{shrinkByDots type}}</span>
+                <span class="span-left" title='Click to copy' data-clipboard-text="{{copyUrlerType type=type}}"><i
+                        class="fa fa-link"></i></span>
+
+                <div class="navbar-right link-to-java">
+                    <span class="span-info">{{type}}</span>
+                    <span class="span-right"><i title="Click to copy" class="fa fa-clipboard"
+                                                data-clipboard-text="{{type}}"></i></span>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <h5>Values</h5>
+
+                        <div class="col-xs-12 col-md-10">
+                            {{#each values}}
+                                <div class="row">
+                                    <div class="col-xs-2 col-sm-2 col-md-3">
+                                        {{this}}
+                                    </div>
+                                </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+</div>

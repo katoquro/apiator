@@ -1,0 +1,32 @@
+apply plugin: 'gears.uidev'
+
+sourceSets {
+    gradle {
+        groovy {
+            srcDir 'src/gradle/groovy'
+            compileClasspath += main.compileClasspath + files(main.output.classesDir)
+        }
+    }
+}
+
+uiDev {
+    liveReloadRoot = 'build/apiator/site'
+    taskTriggerRoots = ['src/main/resources', 'build/apiator/resources']
+    taskName = 'ui_dev_generate'
+    coldStart = true
+}
+
+uiDev.dependsOn generate_stub
+
+task ui_dev_generate(type: JavaExec) {
+    def apiatorPath = 'build/apiator'
+
+    doFirst {
+        def path = file("${apiatorPath}/site")
+        path.mkdirs()
+    }
+
+    main = 'com.ainrif.apiator.UiDevGenerator'
+    classpath = sourceSets.main.runtimeClasspath + sourceSets.gradle.output
+    args = [file(apiatorPath).absolutePath]
+}

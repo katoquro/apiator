@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 package com.ainrif.apiator.core.reflection
-
-import java.lang.annotation.Annotation
-
 /**
  * List of classes from parent (interface/superclass) to child (implementation)
  */
@@ -26,12 +23,7 @@ abstract class ContextStack extends ArrayList<Class> {
         super(collection)
     }
 
-    abstract String getTitle()
+    abstract String getName()
 
     abstract String getApiContextPath()
-
-    public <T extends Annotation> List<T> getAnnotationList(Class<T> annotationClass) {
-        this.findAll { it.isAnnotationPresent(annotationClass) }
-                .collect { it.getAnnotation(annotationClass) }
-    }
 }

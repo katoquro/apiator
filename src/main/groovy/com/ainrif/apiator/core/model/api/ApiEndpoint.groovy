@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,5 +21,6 @@ class ApiEndpoint {
     ApiEndpointMethod method
     ApiEndpointReturnType returnType
     List<ApiEndpointParam> params
+    Set<ApiType> usedEnumerations
     Set<ApiType> usedApiTypes
 }

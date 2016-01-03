@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,11 +17,25 @@ package com.ainrif.apiator.provider.jaxrs
 
 import com.ainrif.apiator.core.model.api.*
 import com.ainrif.apiator.core.reflection.MethodStack
+import com.ainrif.apiator.core.reflection.RUtils
+import org.springframework.core.annotation.AnnotationUtils
 
 import javax.ws.rs.*
+import javax.ws.rs.core.Context
+import java.lang.annotation.Annotation
+import java.lang.reflect.Field
 import java.lang.reflect.Method
+import java.util.function.Predicate
+
+import static java.util.Collections.emptyList
+import static java.util.Collections.singletonList
 
 class JaxRsMethodStack extends MethodStack {
+
+    private final static def SIMPLE_PARAM_ANNOTATIONS = [PathParam, FormParam, QueryParam, HeaderParam, CookieParam];
+    private final static Predicate<Field> testFieldAnnotations = { field ->
+        SIMPLE_PARAM_ANNOTATIONS.any { field.isAnnotationPresent(it) }
+    }
 
     private JaxRsContextStack context;
 
@@ -31,41 +45,18 @@ class JaxRsMethodStack extends MethodStack {
     }
 
     @Override
-    String getTitle() {
+    String getName() {
         this.last().name
     }
 
     @Override
     String getPath() {
-        def path = (getAnnotationList(Path) ?: null)?.last()?.value()
-        if (!path) {
-            path = (context.getAnnotationList(Path) ?: null)?.last()?.value()
-        }
-
-        path ?: { throw new RuntimeException("PATH") }.call();
+        AnnotationUtils.findAnnotation(this.last(), Path)?.value() ?: '/'
     }
 
     @Override
     ApiEndpointMethod getMethod() {
-        def method = 'GET'
-
-        this.each { Method javaMethod ->
-            def annotation = [POST, GET, PUT, DELETE, OPTIONS, HEAD].find { javaMethod.isAnnotationPresent(it) }
-
-            if (annotation) {
-                method = annotation.getAnnotation(HttpMethod).value()
-            } else if (javaMethod.isAnnotationPresent(HttpMethod)) {
-                method = javaMethod.getAnnotation(HttpMethod).value()
-            } else {
-                def annotationOpt = javaMethod.getAnnotations().find {
-                    it.annotationType().isAnnotationPresent(HttpMethod)
-                }
-
-                if (annotationOpt) {
-                    method = annotationOpt.annotationType().getAnnotation(HttpMethod).value()
-                }
-            }
-        }
+        def method = AnnotationUtils.findAnnotation(this.last(), HttpMethod)?.value() ?: 'GET'
 
         ApiEndpointMethod.valueOf(method);
     }
@@ -77,39 +68,84 @@ class JaxRsMethodStack extends MethodStack {
         )
     }
 
+    //todo tests for annotated body params
     @Override
     List<ApiEndpointParam> getParams() {
-        def result = []
-        def annotations = getParametersAnnotationsLists()
+        def methodParams = this.last().parameters
 
-        result += filterParametersAnnotationsLists(annotations, PathParam).collect {
-            def parameter = this.last().parameters[it.key.index]
-            new ApiEndpointParam(
-                    index: it.key.index,
-                    name: parameter.name,
-                    type: new ApiType(parameter.parameterizedType),
-                    httpParamType: ApiEndpointParamType.PATH
+        return getParametersAnnotationsLists().collectMany { index, annList ->
+            def reversedAnnList = annList.reverse()
+
+            def found = reversedAnnList.find { annotation -> Context.isAssignableFrom(annotation.annotationType()) }
+            if (found) {
+                return emptyList()
+            }
+
+            // explicitly annotated params
+            found = reversedAnnList.find { annotation ->
+                SIMPLE_PARAM_ANNOTATIONS.any { it.isAssignableFrom(annotation.annotationType()) }
+            }
+            if (found) {
+                def result = new ApiEndpointParam(
+                        index: index,
+                        name: found.value(),
+                        type: new ApiType(methodParams[index].parameterizedType),
+                        httpParamType: httpParamTypeFor(found.annotationType()),
+                        defaultValue: reversedAnnList.find {
+                            DefaultValue.isAssignableFrom(it.annotationType())
+                        }?.value()
+                )
+
+                return singletonList(result)
+            }
+
+            // complex BeanParams
+            found = reversedAnnList.find { annotation -> BeanParam.isAssignableFrom(annotation.annotationType()) }
+            if (found) {
+                return RUtils.getAllFields(methodParams[index].type, testFieldAnnotations).collect {
+                    def annotation = it.annotations.find { SIMPLE_PARAM_ANNOTATIONS.contains(it.annotationType()) }
+                    new ApiEndpointParam(
+                            index: -1,
+                            name: annotation.value(),
+                            type: new ApiType(it.genericType),
+                            httpParamType: httpParamTypeFor(annotation.annotationType()),
+                            defaultValue: AnnotationUtils.getAnnotation(it, DefaultValue)?.value()
+                    )
+                }
+            }
+
+            // implicit BODY param (not annotated with jax-rs param annotations)
+            def result = new ApiEndpointParam(
+                    index: index,
+                    name: null,
+                    type: new ApiType(methodParams[index].parameterizedType),
+                    httpParamType: ApiEndpointParamType.BODY,
+                    defaultValue: null
             )
+
+            return singletonList(result)
         }
+    }
 
-        result += filterParametersAnnotationsLists(annotations, QueryParam).collect {
-            def parameter = this.last().parameters[it.key.index]
-            new ApiEndpointParam(
-                    index: it.key.index,
-                    name: parameter.name,
-                    type: new ApiType(parameter.parameterizedType),
-                    httpParamType: ApiEndpointParamType.QUERY
-            )
-        }
-
-        result += filterParametersAnnotationsLists(annotations, null).collect {
-            def parameter = this.last().parameters[it.key.index]
-            new ApiEndpointParam(
-                    index: it.key.index,
-                    name: parameter.name,
-                    type: new ApiType(parameter.parameterizedType),
-                    httpParamType: ApiEndpointParamType.BODY
-            )
+    private static ApiEndpointParamType httpParamTypeFor(Class<? extends Annotation> annotation) {
+        def result
+        switch (annotation) {
+            case PathParam:
+                result = ApiEndpointParamType.PATH
+                break
+            case QueryParam:
+                result = ApiEndpointParamType.QUERY
+                break
+            case HeaderParam:
+                result = ApiEndpointParamType.HEADER
+                break
+            case CookieParam:
+                result = ApiEndpointParamType.COOKIE
+                break
+            case FormParam:
+                result = ApiEndpointParamType.FORM
+                break
+            default: throw new RuntimeException('UNSUPPORTED HTTP ENDPOINT PARAM')
         }
 
         result

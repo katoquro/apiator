@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,8 @@
  */
 
 /**
- * m01 model to tests:
- * {@link com.ainrif.apiator.core.reflection.RUtils#getAllSuperTypes(java.lang.Class)}
- * {@link com.ainrif.apiator.core.reflection.RUtils#getAllSuperClasses(java.lang.Class)}
- * {@link com.ainrif.apiator.core.reflection.RUtils#getAllSuperInterfaces(java.lang.Class)}
+ * @see com.ainrif.apiator.core.reflection.RUtils#getAllSuperTypes(java.lang.Class)
+ * @see com.ainrif.apiator.core.reflection.RUtils#getAllSuperClasses(java.lang.Class)
+ * @see com.ainrif.apiator.core.reflection.RUtils#getAllSuperInterfaces(java.lang.Class)
  */
 package com.ainrif.apiator.test.model.m01;

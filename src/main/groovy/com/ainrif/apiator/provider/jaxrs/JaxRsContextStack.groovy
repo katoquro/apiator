@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package com.ainrif.apiator.provider.jaxrs
 
 import com.ainrif.apiator.core.reflection.ContextStack
+import com.ainrif.apiator.core.reflection.RUtils
 
 import javax.ws.rs.Path
 
@@ -25,12 +26,12 @@ class JaxRsContextStack extends ContextStack {
     }
 
     @Override
-    String getTitle() {
+    String getName() {
         this.last().getSimpleName()
     }
 
     @Override
     String getApiContextPath() {
-        (this.getAnnotationList(Path) ?: null)?.last()?.value() ?: ''
+        (RUtils.getAnnotationList(this, Path) ?: null)?.last()?.value() ?: ''
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,62 +15,90 @@
  */
 package com.ainrif.apiator.core
 
-import com.ainrif.apiator.core.model.api.ApiContext
-import com.ainrif.apiator.core.model.api.ApiEndpoint
-import com.ainrif.apiator.core.model.api.ApiScheme
+import com.ainrif.apiator.core.model.ModelTypeRegister
+import com.ainrif.apiator.core.model.api.*
+import com.google.common.base.Stopwatch
 import org.reflections.Reflections
 import org.reflections.scanners.SubTypesScanner
 import org.reflections.scanners.TypeAnnotationsScanner
 import org.reflections.util.ClasspathHelper
 import org.reflections.util.ConfigurationBuilder
 import org.reflections.util.FilterBuilder
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
+import java.util.concurrent.TimeUnit
 
 class Apiator {
 
+    private static final Logger logger = LoggerFactory.getLogger(Apiator)
+
     private ApiatorConfig config;
+    private ApiatorInfo info;
 
     private ApiScheme scheme
 
     Apiator(ApiatorConfig config) {
         this.config = config
+        this.info = new ApiatorInfo()
+
+        //Injects
+        ApiType.modelTypeRegister = config.modelTypeResolvers ?
+                new ModelTypeRegister(config.modelTypeResolvers) :
+                new ModelTypeRegister()
     }
 
     ApiScheme getScheme() {
         scheme ?: {
-            scheme = new ApiScheme(basePath: config.basePath, version: config.apiVersion)
+            def stopwatch = Stopwatch.createStarted()
+            scheme = new ApiScheme(apiatorInfo: info, clientApiInfo: new ClientApiInfo(config))
+
             Set<Class<?>> apiClasses = scanForApi()
 
             apiClasses.each {
                 def ctxStack = config.provider.getContextStack(it)
-                def apiCtx = new ApiContext(title: ctxStack.title, apiPath: ctxStack.apiContextPath)
+                def apiCtx = new ApiContext(name: ctxStack.name, apiPath: ctxStack.apiContextPath)
 
                 apiCtx.apiEndpoints += config.provider
                         .getMethodStacks(ctxStack)
                         .collect {
                     new ApiEndpoint(
-                            name: it.title,
+                            name: it.name,
                             path: it.path,
                             method: it.method,
                             returnType: it.returnType,
                             params: it.params,
+                            usedEnumerations: it.usedEnumerations,
                             usedApiTypes: it.usedApiTypes)
                 }
+
+                apiCtx.usedEnumerations = apiCtx.apiEndpoints
+                        .collect { it.usedEnumerations }
+                        .flatten()
 
                 apiCtx.usedApiTypes = apiCtx.apiEndpoints
                         .collect { it.usedApiTypes }
                         .flatten()
 
+                scheme.usedEnumerations += apiCtx.usedEnumerations
                 scheme.usedApiTypes += apiCtx.usedApiTypes
 
                 scheme.apiContexts << apiCtx
             }
 
+            logger.info("Api Scheme generating took ${stopwatch.elapsed(TimeUnit.MILLISECONDS)}ms. ${apiClasses.size()} contexts were processed")
             scheme
         }()
     }
 
     String render() {
-        config.writer.write(getScheme())
+        def scheme = getScheme()
+        def stopwatch = Stopwatch.createStarted()
+
+        def render = config.renderer.render(scheme)
+
+        logger.info("Scheme rendering took ${stopwatch.elapsed(TimeUnit.MILLISECONDS)}ms. ")
+        render
     }
 
     protected Set<Class<?>> scanForApi() {

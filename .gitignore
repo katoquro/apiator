@@ -6,14 +6,20 @@
 out/
 
 ### Gradle ###
-# Exclude Folder List #
+# Exclude Folder List
 .gradle/
 build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Ignore Gradle tasklist
+.gradletasknamecache
 
 ### Java ###
 *.class
 
-# Package Files #
+# Package Files
 *.jar
 *.war
 *.ear
@@ -24,5 +30,6 @@ rebel.xml
 ### Docs ###
 /wiki
 
-## Exclusions ##
+### Exclusions ###
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !*gradle-wrapper.jar
