@@ -1,7 +1,7 @@
 <div class="sidebar">
     <ul class="nav nav-sidebar complementary">
-        <a href="#endpoints"> <i class="fa fa-plug"></i> <span class="endpoint">Endpoints</span></a>
-        <li class="endpoints side-container">
+        <a href="#endpoints" class="sidebar-title"> <i class="fa fa-plug"></i> <span>Endpoints</span></a>
+        <li class="endpoints side-container active">
             <ul class="nav nav-sidebar">
                 {{#each apiContexts}}
                     <li>
@@ -9,28 +9,43 @@
                     </li>
                     {{#each apiEndpoints}}
                         <li>
-                            <a title="{{path}}" data-href="{{urler  method=method apiPath=../apiPath path=path}}" href="{{urler  method=method apiPath=../apiPath path=path}}" data-target=""><span class="endpoint {{method}}">{{path}}</span></a>
+                            <a title="{{path}}"
+                               href="{{urler  method=method apiPath=../apiPath path=path}}"
+                               data-href="{{urler  method=method apiPath=../apiPath path=path}}"
+                               data-target="">
+                                <span class="endpoint {{method}}">{{path}}</span>
+                            </a>
                         </li>
                     {{/each}}
                 {{/each}}
             </ul>
         </li>
-        <a href="#types"> <i class="fa fa-file-text"></i> <span class="endpoint">Types</span></a>
+
+        <a href="#types" class="sidebar-title"> <i class="fa fa-file-text"></i> <span>Types</span></a>
         <li class="types side-container">
             <ul class="nav nav-sidebar">
                 {{#each usedApiTypes}}
                     <li>
-                        <a title="{{shrinkByDots type}}" href="#{{shrinkByDots type}}" data-target=""><span class="endpoint {{modelType}}">{{shrinkByDots type}}</span></a>
+                        <a title="{{shrinkByDots type}}"
+                           href="#{{shrinkByDots type}}"
+                           data-target="">
+                            <span class="endpoint {{modelType}}">{{shrinkByDots type}}</span>
+                        </a>
                     </li>
                 {{/each}}
             </ul>
         </li>
-        <a href="#enumerations"> <i class="fa fa-file-text"></i> <span class="endpoint">Enumerations</span></a>
+
+        <a href="#enumerations" class="sidebar-title"> <i class="fa fa-file-text"></i> <span>Enumerations</span> </a>
         <li class="enumerations side-container">
             <ul class="nav nav-sidebar">
                 {{#each usedEnumerations}}
                     <li>
-                        <a title="{{shrinkByDots type}}" href="#{{shrinkByDots type}}" data-target=""><span class="endpoint {{modelType}}">{{shrinkByDots type}}</span></a>
+                        <a title="{{shrinkByDots type}}"
+                           href="#{{shrinkByDots type}}"
+                           data-target="">
+                            <span class="endpoint {{modelType}}">{{shrinkByDots type}}</span>
+                        </a>
                     </li>
                 {{/each}}
             </ul>

@@ -228,26 +228,6 @@ li ul.nav.nav-sidebar {
     text-transform: lowercase;
 }
 
-.name.object:after {
-    content: '→';
-    margin-left: 15px;
-}
-
-span.type + span.type:before {
-    content: 'of';
-    margin-left: 5px;
-    margin-right: 5px;
-    font-style: italic;
-    color: #8A8989;
-}
-
-span.type + span.name:before {
-    content: 'of';
-    margin-right: 5px;
-    font-style: italic;
-    color: #8A8989;
-}
-
 .object-link > a {
     /*padding-left: 15px;*/
     text-decoration: underline;
@@ -269,11 +249,7 @@ span.type + span.name:before {
     margin-left: 15px;
 }
 
-.gap_x_l {
-    padding-left: 15px;
-}
-
-.gap_x_r span, .gap_x_r a {
+.gap_x_r span {
     padding-right: 10px;
 }
 
@@ -474,15 +450,10 @@ li > a[data-target] > span.info {
     animation: copy-animation 0.25s linear 0s;
 }
 
-.dictionary span.lovercase:nth-child(2)::before{
-    color: black;
-    content: 'of ';
-}
-
-.dictionary span.lovercase::after {
+span.add-coma::after {
     content: ',';
 }
 
-.dictionary span.lovercase:last-child::after {
+span.add-coma:last-child::after {
     content: '';
 }

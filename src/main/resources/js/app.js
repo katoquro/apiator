@@ -95,7 +95,7 @@ Handlebars.registerHelper('copyUrler', copyUrler);
 $('#doc-container')
     .html(Handlebars.compile(templateSrc)(apiJson));
 
-document.title = new Date();
+//document.title = new Date().toTimeString();
 
 //fuzzy search
 var fuseDictionary = {};
@@ -178,28 +178,28 @@ $('[data-clipboard-text]').click(function (e) {
 });
 
 var clickAnchorEvent = function (ev) {
-    var anchor = $(ev.target).parent('a'),
-        id = anchor.attr('href');
+    var anchor = $(ev.currentTarget);
+
+    if (anchor.is('.main *')) {
+        anchor = $('.sidebar a[href=' + $(ev.currentTarget).attr('href') + ']')
+    }
+
+    var id = anchor.attr('href');
 
     activateAnchor(anchor, id);
 };
 
-var deactivateAnchors = function () {
-    var activeItems = _.toArray(document.querySelectorAll('.side-container a.active,.side-container li.active'));
-    activeItems.forEach(function (item) {
-        if (item.classList)
-            item.classList.remove('active');
-        else
-            item.className = item.className.replace(new RegExp('(^|\\b)' + 'active' + '(\\b|$)', 'gi'), ' ');
-    })
-};
+var activateAnchor = function (_anchor, id) {
+    $('.side-container.active').removeClass('active');
+    var anchor = $(_anchor);
 
-var activateAnchor = function (anchor, id) {
-    deactivateAnchors()
-    anchor = $(anchor);
-    var c = anchor.parents('.side-container').length ? anchor.parents('.side-container') : anchor.next();
-    anchor.parent().addClass("active");
-    c.addClass('active');
+    if (anchor.is('.sidebar-title')) {
+        anchor.next().addClass('active');
+    } else {
+        $('.side-container li.active').removeClass('active');
+        anchor.closest('li').addClass('active');
+        anchor.closest('.side-container').addClass('active');
+    }
 };
 
 window.scrollAnchor = function (anchor, id) {
@@ -217,7 +217,7 @@ window.scrollAnchor = function (anchor, id) {
 };
 
 (function () {
-    var anchors = document.querySelectorAll(".nav a");
+    var anchors = document.querySelectorAll(".nav li a");
     anchors = _.toArray(anchors);
     var anchorsMap = anchors.map(function (anchor, index, collection) {
         var id = anchor.getAttribute('href');
@@ -231,6 +231,9 @@ window.scrollAnchor = function (anchor, id) {
     anchors.map(function (anchor) {
         anchor.addEventListener('click', bindedClick);
     });
+
+    $('.sidebar-title').on('click', clickAnchorEvent);
+    $('.main a[href^="#"]').on('click', clickAnchorEvent);
 
     setTimeout(function () {
         var href = window.location.hash;

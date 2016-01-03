@@ -65,7 +65,6 @@ class CoreHtmlRenderer implements Renderer {
         jsLocalPaths << '/js/app.js'
 
         def cssLocalPaths = []
-//        cssLocalPaths << '/style.css'
         cssLocalPaths << '/restyle.css'
 
         hbs = hbsPath
