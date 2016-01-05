@@ -76,26 +76,10 @@ class CoreHtmlRenderer implements Renderer {
 
         indexTmpl = this.class.getResource('/index.html').text
 
-        //fonts inlining
-        def robotMonoFont_cy = "https://fonts.gstatic.com/s/robotomono/v4/hMqPNLsu_dywMa4C_DEpY14sYYdJg5dU2qzJEVSuta0.woff2".toURL().bytes
-        def robotMonoFont_la = "https://fonts.gstatic.com/s/robotomono/v4/hMqPNLsu_dywMa4C_DEpY4gp9Q8gbYrhqGlRav_IXfk.woff2".toURL().bytes
-
         cssLocal = new StreamingTemplateEngine()
                 .createTemplate(this.class.getResource('/fontsInlining.css').text)
-                .make([fa_eot      : encodeToBase64(webJarsLocator, 'font-awesome', 'fontawesome-webfont.eot'),
-                       fa_woff2    : encodeToBase64(webJarsLocator, 'font-awesome', 'fontawesome-webfont.woff2'),
-                       fa_woff     : encodeToBase64(webJarsLocator, 'font-awesome', 'fontawesome-webfont.woff'),
-                       fa_ttf      : encodeToBase64(webJarsLocator, 'font-awesome', 'fontawesome-webfont.ttf'),
-                       fa_svg      : encodeToBase64(webJarsLocator, 'font-awesome', 'fontawesome-webfont.svg'),
-
-                       gi_eot      : encodeToBase64(webJarsLocator, 'bootstrap', '/dist/fonts/glyphicons-halflings-regular.eot'),
-                       gi_woff2    : encodeToBase64(webJarsLocator, 'bootstrap', '/dist/fonts/glyphicons-halflings-regular.woff2'),
-                       gi_woff     : encodeToBase64(webJarsLocator, 'bootstrap', '/dist/fonts/glyphicons-halflings-regular.woff'),
-                       gi_ttf      : encodeToBase64(webJarsLocator, 'bootstrap', '/dist/fonts/glyphicons-halflings-regular.ttf'),
-                       gi_svg      : encodeToBase64(webJarsLocator, 'bootstrap', '/dist/fonts/glyphicons-halflings-regular.svg'),
-
-                       rom_cy_woff2: Base64.encoder.encodeToString(robotMonoFont_cy),
-                       rom_la_woff2: Base64.encoder.encodeToString(robotMonoFont_la)])
+                .make([fa_woff: encodeToBase64(webJarsLocator, 'font-awesome', 'fontawesome-webfont.woff'),
+                       gi_woff: encodeToBase64(webJarsLocator, 'bootstrap', '/dist/fonts/glyphicons-halflings-regular.woff')])
                 .toString() + cssLocal
     }
 

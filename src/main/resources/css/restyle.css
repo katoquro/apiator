@@ -289,11 +289,6 @@ li ul.nav.nav-sidebar {
 
 /* working on sidebar*/
 
-/*li.types.go-back {*/
-/*bottom: 0;*/
-/*position: absolute;*/
-/*}*/
-
 .col-sm-3.col-md-2.sidebar {
     top: 31px;
     /*overflow: hidden;*/
@@ -366,7 +361,7 @@ li > a[data-target] > span.info {
 }
 
 .span-info {
-    font-family: 'Roboto Mono';
+    font-family: "Lucida Console", Monaco, monospace;
     font-style: normal;
 }
 
