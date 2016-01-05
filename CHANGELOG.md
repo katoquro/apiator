@@ -1,3 +1,6 @@
+v0.3.1 - inline
+- update : inline Core HTML Renderer dependencies
+
 v0.3.0 - redesign
 
 - update : Core HTML Renderer redesign
