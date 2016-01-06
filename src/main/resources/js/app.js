@@ -155,7 +155,7 @@ $('#fuzzy-suggest').on('click', 'li', function () {
     $('#fuzzy-suggest').hide();
 });
 
-var fuzzyTemplate = Handlebars.compile($("#fuzzy-response-template").html());
+var fuzzyTemplate = Handlebars.compile($("#fuzzy-response").html());
 
 $('#fuzzy-input').on('keyup click', function () {
     var that = $(this);
