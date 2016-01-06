@@ -1,5 +1,6 @@
 v0.3.1 - inline
 - update : inline Core HTML Renderer dependencies
+- fix : full http path for endpoint card
 
 v0.3.0 - redesign
 
