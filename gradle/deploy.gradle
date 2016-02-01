@@ -49,8 +49,8 @@ bintray {
 
     publications = ['mavenJava']
 
-    dryRun = true
-    publish = false
+    dryRun = false
+    publish = true
     pkg {
         repo = 'maven'
         userOrg = 'ainrif'

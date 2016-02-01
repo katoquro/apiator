@@ -279,12 +279,6 @@ li ul.nav.nav-sidebar {
     visibility: hidden;
 }
 
-@font-face {
-    font-family: 'Glyphicons Halflings';
-    src: url(http://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.eot);
-    src: url(http://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'), url(http://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.woff2) format('woff2'), url(https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.woff) format('woff'), url(https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.ttf) format('truetype'), url(https://netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg')
-}
-
 .nav-sidebar li .nav {
     display: none;
 }
@@ -294,11 +288,6 @@ li ul.nav.nav-sidebar {
 }
 
 /* working on sidebar*/
-
-/*li.types.go-back {*/
-/*bottom: 0;*/
-/*position: absolute;*/
-/*}*/
 
 .col-sm-3.col-md-2.sidebar {
     top: 31px;
@@ -371,13 +360,8 @@ li > a[data-target] > span.info {
     padding: 0 15px 0;
 }
 
-.popup {
-    display: none;
-    position: absolute;
-}
-
 .span-info {
-    font-family: 'Roboto Mono';
+    font-family: "Lucida Console", Monaco, monospace;
     font-style: normal;
 }
 

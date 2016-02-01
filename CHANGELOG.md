@@ -1,3 +1,20 @@
+v0.3.1 - inline
+- update : inline Core HTML Renderer dependencies
+- fix : full http path for endpoint card
+
+v0.3.0 - redesign
+
+- update : Core HTML Renderer redesign
+- infra : auto-deploy to Bintray from CI 
+- add : new ModelTypes 'SYSTEM' and 'ANY'
+- add : parsing of getters return types as ModelType for following introspection
+- add : @DefaultValues annotation support
+- add : info level logging about generation time 
+- fix : Core JSON Renderer generation order
+- fix : endless recursive parsing of enum fields
+- fix : @Context shouldn't be parsed as body param
+- fix : explicit generic introspection in return type
+
 v0.2.2 - generics 
 
 - update : Core Renderer Model

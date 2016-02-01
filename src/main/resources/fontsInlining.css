@@ -13,7 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.test.model.m06;
+@font-face {
+    font-family: 'FontAwesome';
 
-public class M06_AnnotatedViaInheritance extends M06_Annotated {
+    src: url('data:application/font-woff;charset=utf-8;base64,${fa_woff}') format('woff');
+
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Glyphicons Halflings';
+
+    src: url('data:application/font-woff;charset=utf-8;base64,${gi_woff}') format('woff');
 }
