@@ -21,24 +21,30 @@ import com.ainrif.apiator.core.model.api.ApiType
 abstract class ModelTypeBasedView {
     String type
     ModelType modelType
-    List<ApiTypeGenericView> basedOn = []
 
     ModelTypeBasedView(ApiType type) {
         this.modelType = type.modelType
         this.type = [ModelType.OBJECT, ModelType.ENUMERATION].any { it == type.modelType } ? type.rawType.name : null
-
-        if (type.array) {
-            this.basedOn = [new ApiTypeGenericView(type.componentApiType)]
-        } else if (type.generic) {
-            this.basedOn = type.actualTypeArguments.collect { new ApiTypeGenericView(it) }
-        } else {
-            this.basedOn = []
-        }
     }
 
     static class ApiTypeGenericView extends ModelTypeBasedView {
+        String templateName
+        List<ApiTypeGenericView> basedOn = []
+
         ApiTypeGenericView(ApiType type) {
             super(type)
+
+            if (type.template) {
+                this.templateName = type.templateName
+            }
+
+            if (type.array) {
+                this.basedOn = [new ApiTypeGenericView(type.componentApiType)]
+            } else if (type.generic) {
+                this.basedOn = type.actualTypeArguments.collect { new ApiTypeGenericView(it) }
+            } else {
+                this.basedOn = []
+            }
         }
     }
 }

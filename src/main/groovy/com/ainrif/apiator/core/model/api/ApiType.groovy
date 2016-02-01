@@ -25,13 +25,13 @@ class ApiType {
     //Inject
     static ModelTypeRegister modelTypeRegister
 
-    Type type
+    protected Type type
 
     //todo make caches immutable after create
-    List<ApiType> flattenArgumentTypesCache
-    Class<?> rawTypeCache
-    ModelType modelTypeCache
-    ApiType componentApiTypeCache
+    protected List<ApiType> flattenArgumentTypesCache
+    protected Class<?> rawTypeCache
+    protected ModelType modelTypeCache
+    protected ApiType componentApiTypeCache
 
     ApiType(Type type) {
         this.type = type
@@ -50,6 +50,10 @@ class ApiType {
             default:
                 return false
         }
+    }
+
+    boolean isTemplate() {
+        type instanceof TypeVariable
     }
 
     Class<?> getRawType() {
@@ -88,6 +92,14 @@ class ApiType {
 
             throw new RuntimeException('TYPE IS NOT ARRAY')
         }()
+    }
+
+    String getTemplateName() {
+        if (template) {
+            return type.asType(TypeVariable).name
+        }
+
+        throw new RuntimeException('TYPE IS NOT TEMPLATE')
     }
 
     List<ApiType> getActualTypeArguments() {

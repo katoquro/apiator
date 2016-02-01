@@ -82,6 +82,7 @@ abstract class MethodStack extends ArrayList<Method> {
         result
     }
 
+    //todo cache
     private Set<ApiType> collectAllUsedTypes() {
         Set<ApiType> types = [] // result
 

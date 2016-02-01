@@ -17,7 +17,7 @@ package com.ainrif.apiator.renderer.core.view
 
 import com.ainrif.apiator.core.model.api.ApiField
 
-class ApiFieldView extends ModelTypeBasedView {
+class ApiFieldView extends ModelTypeBasedView.ApiTypeGenericView {
     String name
     boolean readable
     boolean writable

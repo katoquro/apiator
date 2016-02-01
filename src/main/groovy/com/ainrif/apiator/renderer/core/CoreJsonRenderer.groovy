@@ -19,6 +19,7 @@ import com.ainrif.apiator.api.Renderer
 import com.ainrif.apiator.core.model.api.ApiScheme
 import com.ainrif.apiator.renderer.core.view.ApiSchemeView
 import com.fasterxml.jackson.annotation.JsonAutoDetect
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.PropertyAccessor
 import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -35,6 +36,8 @@ class CoreJsonRenderer implements Renderer {
 
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+
+        mapper.serializationInclusion = JsonInclude.Include.NON_NULL
 
         mapper.writeValueAsString(apiScheme)
     }

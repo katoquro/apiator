@@ -18,7 +18,8 @@ package com.ainrif.apiator.renderer.core.view
 import com.ainrif.apiator.core.model.api.ApiEndpointParam
 import com.ainrif.apiator.core.model.api.ApiEndpointParamType
 
-class ApiEndpointParamView extends ModelTypeBasedView implements Comparable<ApiEndpointParamView> {
+class ApiEndpointParamView extends ModelTypeBasedView.ApiTypeGenericView
+        implements Comparable<ApiEndpointParamView> {
     String name
     ApiEndpointParamType httpParamType
     Integer index
