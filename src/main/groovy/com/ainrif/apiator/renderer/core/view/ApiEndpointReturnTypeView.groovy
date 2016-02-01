@@ -17,7 +17,7 @@ package com.ainrif.apiator.renderer.core.view
 
 import com.ainrif.apiator.core.model.api.ApiEndpointReturnType
 
-class ApiEndpointReturnTypeView extends ModelTypeBasedView {
+class ApiEndpointReturnTypeView extends ModelTypeBasedView.ApiTypeGenericView {
     ApiEndpointReturnTypeView(ApiEndpointReturnType returnType) {
         super(returnType.type)
     }

@@ -14,14 +14,17 @@
                   {
                     "basedOn": [],
                     "modelType": "OBJECT",
+                    "templateName": null,
                     "type": "com.ainrif.apiator.test.model.jaxrs.smoke.Dto2"
                   }
                 ],
                 "modelType": "ARRAY",
+                "templateName": null,
                 "type": null
               }
             ],
             "modelType": "ARRAY",
+            "templateName": null,
             "type": null
           }
         },
@@ -36,6 +39,7 @@
               "index": 0,
               "modelType": "BINARY",
               "name": "file",
+              "templateName": null,
               "type": null
             }
           ],
@@ -43,6 +47,7 @@
           "returnType": {
             "basedOn": [],
             "modelType": "BINARY",
+            "templateName": null,
             "type": null
           }
         },
@@ -57,6 +62,7 @@
               "index": -1,
               "modelType": "STRING",
               "name": "BP_public_query",
+              "templateName": null,
               "type": null
             },
             {
@@ -66,6 +72,7 @@
               "index": -1,
               "modelType": "STRING",
               "name": "BP_private_query",
+              "templateName": null,
               "type": null
             }
           ],
@@ -75,10 +82,12 @@
               {
                 "basedOn": [],
                 "modelType": "BYTE",
+                "templateName": null,
                 "type": null
               }
             ],
             "modelType": "ARRAY",
+            "templateName": null,
             "type": null
           }
         },
@@ -93,13 +102,15 @@
               "index": 0,
               "modelType": "ENUMERATION",
               "name": "enum",
+              "templateName": null,
               "type": "com.ainrif.apiator.test.model.jaxrs.smoke.EnumApiType"
             }
           ],
           "path": "/enum",
           "returnType": {
             "basedOn": [],
-            "modelType": "VOID",
+            "modelType": "ANY",
+            "templateName": "TEMPLATE",
             "type": null
           }
         },
@@ -113,10 +124,12 @@
               {
                 "basedOn": [],
                 "modelType": "OBJECT",
+                "templateName": null,
                 "type": "com.ainrif.apiator.test.model.jaxrs.smoke.Dto3"
               }
             ],
             "modelType": "ARRAY",
+            "templateName": null,
             "type": null
           }
         },
@@ -131,6 +144,7 @@
               "index": 0,
               "modelType": "OBJECT",
               "name": null,
+              "templateName": null,
               "type": "com.ainrif.apiator.test.model.jaxrs.smoke.Dto1"
             }
           ],
@@ -138,6 +152,7 @@
           "returnType": {
             "basedOn": [],
             "modelType": "ANY",
+            "templateName": null,
             "type": null
           }
         },
@@ -151,10 +166,12 @@
               {
                 "basedOn": [],
                 "modelType": "SYSTEM",
+                "templateName": null,
                 "type": null
               }
             ],
             "modelType": "SYSTEM",
+            "templateName": null,
             "type": null
           }
         },
@@ -168,10 +185,12 @@
               {
                 "basedOn": [],
                 "modelType": "STRING",
+                "templateName": null,
                 "type": null
               }
             ],
             "modelType": "OBJECT",
+            "templateName": null,
             "type": "com.ainrif.apiator.test.model.jaxrs.smoke.DtoTypeValue"
           }
         },
@@ -183,6 +202,7 @@
           "returnType": {
             "basedOn": [],
             "modelType": "VOID",
+            "templateName": null,
             "type": null
           }
         },
@@ -194,6 +214,7 @@
           "returnType": {
             "basedOn": [],
             "modelType": "OBJECT",
+            "templateName": null,
             "type": "com.ainrif.apiator.test.model.jaxrs.smoke.DtoWithBounds"
           }
         },
@@ -208,6 +229,7 @@
               "index": 0,
               "modelType": "STRING",
               "name": "id",
+              "templateName": null,
               "type": null
             }
           ],
@@ -215,6 +237,7 @@
           "returnType": {
             "basedOn": [],
             "modelType": "OBJECT",
+            "templateName": null,
             "type": "com.ainrif.apiator.test.model.jaxrs.smoke.Dto1"
           }
         },
@@ -229,6 +252,7 @@
               "index": 0,
               "modelType": "STRING",
               "name": "id",
+              "templateName": null,
               "type": null
             }
           ],
@@ -236,6 +260,7 @@
           "returnType": {
             "basedOn": [],
             "modelType": "OBJECT",
+            "templateName": null,
             "type": "com.ainrif.apiator.test.model.jaxrs.smoke.Dto1"
           }
         }
@@ -255,19 +280,20 @@
   },
   "usedApiTypes": [
     {
-      "basedOn": [],
       "fields": [
         {
           "basedOn": [
             {
               "basedOn": [],
               "modelType": "STRING",
+              "templateName": null,
               "type": null
             }
           ],
           "modelType": "ARRAY",
           "name": "privateFieldWithPublicGetter",
           "readable": true,
+          "templateName": null,
           "type": null,
           "writable": false
         },
@@ -276,6 +302,7 @@
           "modelType": "STRING",
           "name": "publicFieldWithPublicGetter",
           "readable": true,
+          "templateName": null,
           "type": null,
           "writable": true
         },
@@ -284,12 +311,14 @@
             {
               "basedOn": [],
               "modelType": "BYTE",
+              "templateName": null,
               "type": null
             }
           ],
           "modelType": "ARRAY",
           "name": "publicByteArray",
           "readable": true,
+          "templateName": null,
           "type": null,
           "writable": true
         },
@@ -298,6 +327,7 @@
           "modelType": "ANY",
           "name": "publicObject",
           "readable": true,
+          "templateName": null,
           "type": null,
           "writable": true
         },
@@ -306,6 +336,7 @@
           "modelType": "STRING",
           "name": "publicMediaType",
           "readable": true,
+          "templateName": null,
           "type": null,
           "writable": true
         },
@@ -314,6 +345,7 @@
           "modelType": "INTEGER",
           "name": "publicField",
           "readable": true,
+          "templateName": null,
           "type": null,
           "writable": true
         },
@@ -322,12 +354,14 @@
             {
               "basedOn": [],
               "modelType": "STRING",
+              "templateName": null,
               "type": null
             }
           ],
           "modelType": "ARRAY",
           "name": "publicFieldWithPrivateGetter",
           "readable": true,
+          "templateName": null,
           "type": null,
           "writable": true
         }
@@ -336,13 +370,13 @@
       "type": "com.ainrif.apiator.test.model.jaxrs.smoke.Dto1"
     },
     {
-      "basedOn": [],
       "fields": [
         {
           "basedOn": [],
           "modelType": "OBJECT",
           "name": "typeFromGetter",
           "readable": true,
+          "templateName": null,
           "type": "com.ainrif.apiator.test.model.jaxrs.smoke.Dto2$GetterType",
           "writable": false
         },
@@ -351,6 +385,7 @@
           "modelType": "INTEGER",
           "name": "publicField",
           "readable": true,
+          "templateName": null,
           "type": null,
           "writable": true
         },
@@ -359,6 +394,7 @@
           "modelType": "OBJECT",
           "name": "dtoNested",
           "readable": true,
+          "templateName": null,
           "type": "com.ainrif.apiator.test.model.jaxrs.smoke.DtoNested",
           "writable": true
         },
@@ -369,16 +405,19 @@
                 {
                   "basedOn": [],
                   "modelType": "STRING",
+                  "templateName": null,
                   "type": null
                 }
               ],
               "modelType": "ARRAY",
+              "templateName": null,
               "type": null
             }
           ],
           "modelType": "ARRAY",
           "name": "genericArray",
           "readable": true,
+          "templateName": null,
           "type": null,
           "writable": true
         }
@@ -387,19 +426,18 @@
       "type": "com.ainrif.apiator.test.model.jaxrs.smoke.Dto2"
     },
     {
-      "basedOn": [],
       "fields": [],
       "modelType": "OBJECT",
       "type": "com.ainrif.apiator.test.model.jaxrs.smoke.Dto2$GetterType"
     },
     {
-      "basedOn": [],
       "fields": [
         {
           "basedOn": [],
           "modelType": "INTEGER",
           "name": "publicField",
           "readable": true,
+          "templateName": null,
           "type": null,
           "writable": true
         }
@@ -408,13 +446,13 @@
       "type": "com.ainrif.apiator.test.model.jaxrs.smoke.Dto3"
     },
     {
-      "basedOn": [],
       "fields": [
         {
           "basedOn": [],
           "modelType": "INTEGER",
           "name": "publicField",
           "readable": true,
+          "templateName": null,
           "type": null,
           "writable": true
         }
@@ -423,19 +461,13 @@
       "type": "com.ainrif.apiator.test.model.jaxrs.smoke.DtoNested"
     },
     {
-      "basedOn": [
-        {
-          "basedOn": [],
-          "modelType": "STRING",
-          "type": null
-        }
-      ],
       "fields": [
         {
           "basedOn": [],
           "modelType": "ANY",
           "name": "data",
           "readable": true,
+          "templateName": "T",
           "type": null,
           "writable": true
         }
@@ -444,19 +476,20 @@
       "type": "com.ainrif.apiator.test.model.jaxrs.smoke.DtoTypeValue"
     },
     {
-      "basedOn": [],
       "fields": [
         {
           "basedOn": [
             {
               "basedOn": [],
               "modelType": "OBJECT",
+              "templateName": "TE",
               "type": "com.ainrif.apiator.test.model.jaxrs.smoke.DtoWithBounds$GenericWildcardBound"
             }
           ],
           "modelType": "ARRAY",
           "name": "withExtendsBound",
           "readable": true,
+          "templateName": null,
           "type": null,
           "writable": false
         },
@@ -465,12 +498,14 @@
             {
               "basedOn": [],
               "modelType": "OBJECT",
+              "templateName": "TEC",
               "type": "com.ainrif.apiator.test.model.jaxrs.smoke.DtoWithBounds$GenericWildcardBound"
             }
           ],
           "modelType": "ARRAY",
           "name": "withExtendsBoundFromClass",
           "readable": false,
+          "templateName": null,
           "type": null,
           "writable": true
         },
@@ -479,12 +514,14 @@
             {
               "basedOn": [],
               "modelType": "OBJECT",
+              "templateName": null,
               "type": "com.ainrif.apiator.test.model.jaxrs.smoke.DtoWithBounds$GenericWildcardBound"
             }
           ],
           "modelType": "ARRAY",
           "name": "withExtendsWildcardBound",
           "readable": false,
+          "templateName": null,
           "type": null,
           "writable": true
         },
@@ -493,12 +530,14 @@
             {
               "basedOn": [],
               "modelType": "ANY",
+              "templateName": null,
               "type": null
             }
           ],
           "modelType": "ARRAY",
           "name": "withSuperWildcardBound",
           "readable": false,
+          "templateName": null,
           "type": null,
           "writable": true
         }
@@ -507,13 +546,13 @@
       "type": "com.ainrif.apiator.test.model.jaxrs.smoke.DtoWithBounds"
     },
     {
-      "basedOn": [],
       "fields": [
         {
           "basedOn": [],
           "modelType": "INTEGER",
           "name": "field",
           "readable": true,
+          "templateName": null,
           "type": null,
           "writable": true
         }
@@ -524,7 +563,6 @@
   ],
   "usedEnumerations": [
     {
-      "basedOn": [],
       "modelType": "ENUMERATION",
       "type": "com.ainrif.apiator.test.model.jaxrs.smoke.EnumApiType",
       "values": [
