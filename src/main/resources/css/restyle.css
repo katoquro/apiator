@@ -369,6 +369,14 @@ li > a[data-target] > span.info {
     visibility: hidden;
 }
 
+.template-tooltip:hover:after {
+    content: "Template. Ask developer about implementation";
+    position: relative;
+    font-size: 10px;
+    top: -5px;
+    color: #C5862B;
+}
+
 .link-to-java:hover > .span-right {
     visibility: visible;
 }
