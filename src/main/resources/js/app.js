@@ -100,7 +100,7 @@ function urler(data) {
 }
 
 function copyUrler(data) {
-    var prefix = location.origin + location.pathname;
+    var prefix = location.origin + location.pathname + location.search;
     return prefix + urler(data);
 }
 
