@@ -54,11 +54,13 @@ class CoreHtmlRenderer implements Renderer {
 
         def cssLocalPaths = []
         cssLocalPaths << '/css/restyle.css'
+        cssLocalPaths << '/css/feedback.css'
 
         def hbsPath = []
         hbsPath << 'app'
         hbsPath << 'nav'
         hbsPath << 'content'
+        hbsPath << 'feedback'
         hbsPath << 'sidebar'
         hbsPath << 'main'
         hbsPath << 'fuzzy-response'
