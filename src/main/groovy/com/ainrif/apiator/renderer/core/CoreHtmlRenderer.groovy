@@ -30,8 +30,6 @@ class CoreHtmlRenderer implements Renderer {
     String cssLocal
     String hbs
 
-    String indexTmpl
-
     String toFile
 
     CoreHtmlRenderer() {
@@ -76,8 +74,6 @@ class CoreHtmlRenderer implements Renderer {
                 .collect { "<script type='text/x-handlebars-template' id='${it.name}'>${it.content}</script>" }
                 .join('\r\n')
 
-        indexTmpl = this.class.getResource('/index.html').text
-
         cssLocal = new StreamingTemplateEngine()
                 .createTemplate(this.class.getResource('/fontsInlining.css').text)
                 .make([fa_woff: encodeToBase64(webJarsLocator, 'font-awesome', 'fontawesome-webfont.woff'),
@@ -116,13 +112,14 @@ class CoreHtmlRenderer implements Renderer {
 
     protected String renderTemplate(String json) {
         def html = new StreamingTemplateEngine()
-                .createTemplate(indexTmpl)
+                .createTemplate(this.class.getResource('/index.html').text)
                 .make([json    : json,
                        js      : js,
                        css     : css,
                        jsLocal : jsLocal,
                        cssLocal: cssLocal,
-                       hbs     : hbs])
+                       hbs     : hbs,
+                       favicon : Base64.encoder.encodeToString(this.class.getResource('/bw_favicon.png').bytes)])
                 .toString()
 
         if (toFile) {
