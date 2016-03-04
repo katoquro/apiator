@@ -21,9 +21,3 @@
     font-weight: normal;
     font-style: normal;
 }
-
-@font-face {
-    font-family: 'Glyphicons Halflings';
-
-    src: url('data:application/font-woff;charset=utf-8;base64,${gi_woff}') format('woff');
-}

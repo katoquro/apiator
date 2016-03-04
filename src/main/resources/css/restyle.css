@@ -54,6 +54,14 @@ body {
     display: none;
 }
 
+.logo-link-to-src {
+    opacity: 0.6;
+}
+
+.logo-link-to-src:hover {
+    opacity: 1;
+}
+
 /*
  * Top navigation
  * Hide default border to remove 1px line.

@@ -76,8 +76,7 @@ class CoreHtmlRenderer implements Renderer {
 
         cssLocal = new StreamingTemplateEngine()
                 .createTemplate(this.class.getResource('/fontsInlining.css').text)
-                .make([fa_woff: encodeToBase64(webJarsLocator, 'font-awesome', 'fontawesome-webfont.woff'),
-                       gi_woff: encodeToBase64(webJarsLocator, 'bootstrap', '/dist/fonts/glyphicons-halflings-regular.woff')])
+                .make([fa_woff: encodeToBase64(webJarsLocator, 'font-awesome', 'fontawesome-webfont.woff')])
                 .toString() + cssLocal
     }
 
