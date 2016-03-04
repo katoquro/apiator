@@ -27,6 +27,10 @@ body {
  * Global add-ons
  */
 
+.visible {
+    visibility: visible;
+}
+
 .sub-header {
     padding-bottom: 10px;
     border-bottom: 1px solid #eee;
@@ -383,20 +387,12 @@ li > a[data-target] > span.info {
     font-style: normal;
 }
 
-.span-right {
-    visibility: hidden;
-}
-
 .template-tooltip:hover:after {
     content: "Template. Ask developer about implementation";
     position: relative;
     font-size: 10px;
     top: -5px;
     color: #C5862B;
-}
-
-.link-to-java:hover > .span-right {
-    visibility: visible;
 }
 
 .nav-sidebar.complementary > li.active + a {
