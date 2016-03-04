@@ -185,17 +185,19 @@ $('#fuzzy-input').on('keyup click', function () {
 new Clipboard('[data-clipboard-text]');
 
 $('[data-clipboard-text]').click(function (e) {
-    $this = $(this);
+    var $this = $(this);
     $this.addClass('copying');
     window.setTimeout($this.removeClass.bind($this, 'copying'), 250);
     var hashUrl = this.getAttribute('data-clipboard-text');
-    var hash = hashUrl.substring(hashUrl.indexOf('#'))
+    var hash = hashUrl.substring(hashUrl.indexOf('#'));
     if ($('li.active>a').attr('href') === hash) {
         return;
     }
     var item = _.find(anchorsMap, {id: hash});
-    activateAnchor(item.anchor, hash);
-    scrollAnchor(item.anchor, hash);
+    if (item) {
+        activateAnchor(item.anchor, hash);
+        scrollAnchor(item.anchor, hash);
+    }
 });
 
 var clickAnchorEvent = function (ev) {
