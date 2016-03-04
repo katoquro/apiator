@@ -32,6 +32,24 @@ body {
     border-bottom: 1px solid #eee;
 }
 
+.positionRelative {
+    position: relative;
+}
+
+.raw-view-switch {
+    position: absolute;
+    font-size: 12px;
+    font-style: italic;
+    color: #31708f;
+    right: 10px;
+    bottom: 5px;
+    cursor: pointer;
+}
+
+.panel-raw-view {
+    display: none;
+}
+
 /*
  * Top navigation
  * Hide default border to remove 1px line.

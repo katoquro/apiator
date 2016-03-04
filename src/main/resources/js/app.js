@@ -268,3 +268,7 @@ window.scrollAnchor = function (anchor, id) {
         }
     }, 300);
 })();
+
+$('.raw-view-switch').on('click', function () {
+    $(this).parent().next().slideToggle();
+});

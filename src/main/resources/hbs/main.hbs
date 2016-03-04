@@ -17,7 +17,7 @@
                                                     data-clipboard-text="{{../name}}#{{name}}"></i></span>
                     </div>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body positionRelative">
                     <div class="container-fluid">
                         {{#if params}}
                             <div class="row">
@@ -91,6 +91,10 @@
                             {{/if~}}
                         </div>
                     </div>
+                    <div class="raw-view-switch">Raw view</div>
+                </div>
+                <div class="panel-raw-view">
+                    <pre>{{json this}}</pre>
                 </div>
             </div>
         {{/each}}
