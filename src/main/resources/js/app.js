@@ -15,22 +15,8 @@
  */
 var template = $('#app');
 var templateSrc = template.html();
-template.remove();
 
-function stringHashCode(str) {
-    var hash = 0;
-    if (str.length == 0) return hash;
-    for (var i = 0; i < str.length; i++) {
-        var char = str.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash;
-    }
-    return hash;
-}
-
-Handlebars.registerHelper('hashCode', stringHashCode);
-
-var PANNEL_MAPPER = {
+var PANEL_MAPPER = {
     'GET': 'panel-info',
     'POST': 'panel-success',
     'DELETE': 'panel-danger',
@@ -61,15 +47,15 @@ function lower(string) {
     return string.toLowerCase();
 }
 
-Handlebars.registerHelper('templater', function (selector, data) {
-    var tpl = $('#' + selector);
-    return Handlebars.compile(tpl.html())(data.hash.data);
+$("[type='text/x-handlebars-template']").each(function (i, template) {
+    var $template = $(template);
+    Handlebars.registerPartial($template.attr('id'), $template.html());
 });
 
 Handlebars.registerHelper('lower', lower);
 
 Handlebars.registerHelper('panelStyle', function (method) {
-    return PANNEL_MAPPER[method] || PANNEL_MAPPER.DEFAULT;
+    return PANEL_MAPPER[method] || PANEL_MAPPER.DEFAULT;
 });
 
 Handlebars.registerHelper('skipLeadSlash', function (string) {
