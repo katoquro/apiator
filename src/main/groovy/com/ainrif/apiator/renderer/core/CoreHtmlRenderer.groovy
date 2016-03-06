@@ -18,12 +18,15 @@ package com.ainrif.apiator.renderer.core
 import com.ainrif.apiator.api.Renderer
 import com.ainrif.apiator.core.model.api.ApiScheme
 import groovy.text.StreamingTemplateEngine
+import org.lesscss.LessCompiler
+import org.lesscss.LessSource
 import org.slf4j.LoggerFactory
 import org.webjars.WebJarAssetLocator
 
 import javax.annotation.Nullable
 import java.nio.file.*
 
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import static java.util.Collections.emptyMap
 
 class CoreHtmlRenderer implements Renderer {
@@ -61,19 +64,35 @@ class CoreHtmlRenderer implements Renderer {
         List<Path> cssPaths = []
         cssPaths << resolveResourcePath('bootstrap', 'bootstrap.min.css')
         cssPaths << resolveResourcePath('font-awesome', 'font-awesome.min.css')
-        cssPaths << resolveResourcePath('/apiator/css/restyle.css')
-        cssPaths << resolveResourcePath('/apiator/css/feedback.css')
+
+        // Resource processing
 
         js = jsPaths.collect { it.text }
-                .join('\r\n')
-
-        css = cssPaths.collect { it.text }
                 .join('\r\n')
 
         js += Files.walk(resolveResourcePath('/apiator/js'))
                 .filter { !Files.isDirectory(it) }
                 .collect { it.text }
                 .join('\r\n')
+
+        def tmpdir = Files.createTempDirectory('apiator')
+        def lessDir = resolveResourcePath('/apiator/less')
+        Files.walk(lessDir)
+                .each {
+            def targetPath = tmpdir.resolve(lessDir.relativize(it).toString())
+
+            if (Files.isDirectory(it)) {
+                Files.createDirectories(targetPath)
+            } else {
+                Files.copy(it.newInputStream(), targetPath, REPLACE_EXISTING)
+            }
+        }
+
+        css = cssPaths.collect { it.text }
+                .join('\r\n')
+
+        css += new LessCompiler()
+                .compile(new LessSource(tmpdir.resolve('main.less').toFile()))
 
         css += new StreamingTemplateEngine()
                 .createTemplate(resolveResourcePath('/fontsInlining.css').text)
