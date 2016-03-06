@@ -21,6 +21,9 @@ import groovy.text.StreamingTemplateEngine
 import org.webjars.WebJarAssetLocator
 
 import javax.annotation.Nullable
+import java.nio.file.*
+
+import static java.util.Collections.emptyMap
 
 class CoreHtmlRenderer implements Renderer {
 
@@ -32,6 +35,14 @@ class CoreHtmlRenderer implements Renderer {
 
     String toFile
 
+    CoreHtmlRenderer(@Nullable toFile) {
+        this()
+        this.toFile = toFile
+    }
+
+    /**
+     * The main build flow to assemble resources
+     */
     CoreHtmlRenderer() {
         def webJarsLocator = new WebJarAssetLocator()
 
@@ -54,14 +65,11 @@ class CoreHtmlRenderer implements Renderer {
         cssLocalPaths << '/css/restyle.css'
         cssLocalPaths << '/css/feedback.css'
 
-        def hbsPath = []
-        hbsPath << 'app'
-        hbsPath << 'nav'
-        hbsPath << 'content'
-        hbsPath << 'feedback'
-        hbsPath << 'sidebar'
-        hbsPath << 'main'
-        hbsPath << 'fuzzy-response'
+        hbs = Files.walk(resolveResourcePath('/hbs'))
+                .filter { !Files.isDirectory(it) }
+                .collect { [name: (it.fileName.toString() - '.hbs'), content: it.text] }
+                .collect { "<script type='text/x-handlebars-template' id='${it.name}'>${it.content}</script>" }
+                .join('\r\n')
 
         js = concatExternalResources(jsPaths)
         css = concatExternalResources(cssPaths)
@@ -69,20 +77,28 @@ class CoreHtmlRenderer implements Renderer {
         jsLocal = concatLocalResources(jsLocalPaths)
         cssLocal = concatLocalResources(cssLocalPaths)
 
-        hbs = hbsPath
-                .collect { [name: it, content: this.class.classLoader.getResource("hbs/${it}.hbs").text] }
-                .collect { "<script type='text/x-handlebars-template' id='${it.name}'>${it.content}</script>" }
-                .join('\r\n')
-
         cssLocal = new StreamingTemplateEngine()
                 .createTemplate(this.class.getResource('/fontsInlining.css').text)
                 .make([fa_woff: encodeToBase64(webJarsLocator, 'font-awesome', 'fontawesome-webfont.woff')])
                 .toString() + cssLocal
     }
 
-    CoreHtmlRenderer(@Nullable toFile) {
-        this()
-        this.toFile = toFile
+    private Path resolveResourcePath(String resourceDir) {
+        if (!resourceDir.startsWith('/')) {
+            throw new RuntimeException("Path should start from / and to be under 'apiator' resource folder")
+        }
+        resourceDir = "/apiator$resourceDir"
+
+        URI uri = getClass().getResource(resourceDir).toURI();
+        Path resourcePath;
+        if (uri.scheme.equals("jar")) {
+            FileSystem fileSystem = FileSystems.newFileSystem(uri, emptyMap());
+            resourcePath = fileSystem.getPath(resourceDir);
+        } else {
+            resourcePath = Paths.get(uri);
+        }
+
+        resourcePath
     }
 
     @Override
