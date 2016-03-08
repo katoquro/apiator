@@ -15,7 +15,6 @@
  */
 
 modulejs.define('hbsHelpers', function () {
-
     var PANEL_MAPPER = {
         'GET': 'panel-info',
         'POST': 'panel-success',
@@ -26,6 +25,11 @@ modulejs.define('hbsHelpers', function () {
         'HEAD': 'panel-default',
         'DEFAULT': 'panel-default'
     };
+
+    $("[type='text/x-handlebars-template']").each(function (i, template) {
+        var $template = $(template);
+        Handlebars.registerPartial($template.attr('id'), $template.html());
+    });
 
     function responseTyper(responseType) {
         var response = "";
@@ -43,14 +47,10 @@ modulejs.define('hbsHelpers', function () {
     }
 
     Handlebars.registerHelper('responseTyper', responseTyper);
+
     function lower(string) {
         return string.toLowerCase();
     }
-
-    $("[type='text/x-handlebars-template']").each(function (i, template) {
-        var $template = $(template);
-        Handlebars.registerPartial($template.attr('id'), $template.html());
-    });
 
     Handlebars.registerHelper('lower', lower);
 

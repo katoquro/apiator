@@ -77,11 +77,10 @@
                                     </a>
                                 </span>
                             {{else}}
-                                {{#ifCond returnType.modelType 'ANY'}}
-                                    <span class="gray span-info template-tooltip">{{returnType.templateName}}</span>
-                                {{else}}
-                                    <span class="lovercase">{{returnType.modelType}}</span>
-                                {{/ifCond}}
+                                <span class="type">{{returnType.modelType}}</span>
+                                {{#if returnType.templateName}}
+                                    <span class="gray span-info template-tooltip">({{returnType.templateName}})</span>
+                                {{/if}}
                             {{/if~}}
                             {{~#if returnType.basedOn}}
                                 <span class="gray italic">of</span>

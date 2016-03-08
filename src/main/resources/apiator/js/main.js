@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-modulejs.define('main', ['hbsHelpers', 'fuzzySearch'], function (helpers, fuzzy) {
+modulejs.define('main', [], function (helpers, fuzzy) {
     var template = $('#app');
     var templateSrc = template.html();
 
+    modulejs.require('hbsHelpers');
     $('#doc-container').html(Handlebars.compile(templateSrc)(apiJson));
 
+    modulejs.require('fuzzySearch');
     modulejs.require('linkProcessor')
 });
