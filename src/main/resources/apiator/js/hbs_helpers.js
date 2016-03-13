@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-modulejs.define('hbsHelpers', function () {
+modulejs.define('hbs', function () {
     var PANEL_MAPPER = {
         'GET': 'panel-info',
         'POST': 'panel-success',
@@ -25,11 +25,6 @@ modulejs.define('hbsHelpers', function () {
         'HEAD': 'panel-default',
         'DEFAULT': 'panel-default'
     };
-
-    $("[type='text/x-handlebars-template']").each(function (i, template) {
-        var $template = $(template);
-        Handlebars.registerPartial($template.attr('id'), $template.html());
-    });
 
     function responseTyper(responseType) {
         var response = "";
@@ -81,6 +76,7 @@ modulejs.define('hbsHelpers', function () {
     });
 
     function urler(data) {
+        // console.log(data)
         var hash = data.hash;
         return '#_' + lower(hash.method) + '_' + hash.apiPath + hash.path;
     }
@@ -99,4 +95,17 @@ modulejs.define('hbsHelpers', function () {
     Handlebars.registerHelper('copyUrler', copyUrler);
     Handlebars.registerHelper('copyUrlerType', copyUrlerType);
 
+    $("[type='text/x-handlebars-template']").each(function (i, template) {
+        var $template = $(template);
+        Handlebars.registerPartial($template.attr('id'), $template.html());
+    });
+
+    return {
+        render: function () {
+            var template = $('#app');
+            var templateSrc = template.html();
+
+            $('#doc-container').html(Handlebars.compile(templateSrc)(apiJson));
+        }
+    }
 });

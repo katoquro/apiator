@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-modulejs.define('main', [], function (helpers, fuzzy) {
-    var template = $('#app');
-    var templateSrc = template.html();
-
-    modulejs.require('hbsHelpers');
-    $('#doc-container').html(Handlebars.compile(templateSrc)(apiJson));
+modulejs.define('main', ['hbs', 'linkProcessor'], function (hbs, linkProcessor) {
+    hbs.render();
 
     modulejs.require('fuzzySearch');
-    modulejs.require('linkProcessor')
+
+    linkProcessor.attachCallbacks();
+    linkProcessor.navigateSidebarMenu(window.location.hash)
 });

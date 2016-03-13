@@ -15,39 +15,19 @@
  */
 
 modulejs.define('linkProcessor', function () {
-    new Clipboard('[data-clipboard-text]');
+    /**
+     * @param {string} hash
+     */
+    function navigateSidebarMenu(hash) {
+        $('.sidebar a[href="' + hash + '"]').each(function (i, item) {
+            markSidebarActive(item);
+            scrollToSidebarItem(item);
+        })
+    }
 
-    $('[data-clipboard-text]').on('click', function (e) {
-        var $this = $(this);
-        $this.addClass('copying');
-        window.setTimeout($this.removeClass.bind($this, 'copying'), 250);
-        var hashUrl = this.getAttribute('data-clipboard-text');
-        var hash = hashUrl.substring(hashUrl.indexOf('#'));
-        if ($('li.active>a').attr('href') === hash) {
-            return;
-        }
-        var item = _.find(anchorsMap, {id: hash});
-        if (item) {
-            activateAnchor(item.anchor, hash);
-            scrollAnchor(item.anchor, hash);
-        }
-    });
-
-    var clickAnchorEvent = function (ev) {
-        var anchor = $(ev.currentTarget);
-
-        if (anchor.is('.main *')) {
-            anchor = $('.sidebar a[href=' + $(ev.currentTarget).attr('href') + ']')
-        }
-
-        var id = anchor.attr('href');
-
-        activateAnchor(anchor, id);
-    };
-
-    var activateAnchor = function (_anchor, id) {
-        $('.side-container.active').removeClass('active');
+    function markSidebarActive(_anchor) {
         var anchor = $(_anchor);
+        $('.side-container.active').removeClass('active');
 
         if (anchor.is('.sidebar-title')) {
             anchor.next().addClass('active');
@@ -56,53 +36,58 @@ modulejs.define('linkProcessor', function () {
             anchor.closest('li').addClass('active');
             anchor.closest('.side-container').addClass('active');
         }
-    };
+    }
 
-    window.scrollAnchor = function (anchor, id) {
-        anchor = $(anchor);
+    const SIDEBAR_SCROLL_BOTTOM_THRESHOLD = 30;
 
-        var e = $(".side-container .active");
-        var ep = (e.position().top);
-        var eh = e.height();
+    function scrollToSidebarItem(_anchor) {
+        var anchor = $(_anchor);
 
-        var c = anchor.parents('.side-container').length ? anchor.parents('.side-container') : anchor.next();
-        var activeItem = c.find('li.active');
+        var activeItem = $('.side-container li.active');
+        var activeSideContainer = anchor.closest('.side-container');
 
-        var scrollTo = activeItem.prevAll().length * eh;
-        c.scrollTop(scrollTo);
-    };
+        var itemHeight = activeItem.height();
+        var containerHeight = activeSideContainer.height() - SIDEBAR_SCROLL_BOTTOM_THRESHOLD;
 
-    var anchors = document.querySelectorAll(".nav li a");
-    anchors = _.toArray(anchors);
-    var anchorsMap = anchors.map(function (anchor, index, collection) {
-        var id = anchor.getAttribute('href');
-        return {anchor, id};
-    });
+        var scrollTo = activeItem.prevAll().length * itemHeight;
+        var currentScroll = activeSideContainer.scrollTop();
 
-    var bindedClick = clickAnchorEvent.bind(anchorsMap);
-
-    window.anchorsMap = anchorsMap;
-
-    anchors.map(function (anchor) {
-        anchor.addEventListener('click', bindedClick);
-    });
-
-    $('.sidebar-title').on('click', clickAnchorEvent);
-    $('.main a[href^="#"]').on('click', clickAnchorEvent);
-
-    setTimeout(function () {
-        var href = window.location.hash;
-        if (!href) {
-            return;
+        if (!(currentScroll < scrollTo && scrollTo < (currentScroll + containerHeight))) {
+            activeSideContainer.scrollTop(scrollTo);
         }
-        var node = _.find(anchorsMap, {id: href});
-        if (node) {
-            activateAnchor(node.anchor, href);
-            scrollAnchor(node.anchor, href);
-        }
-    }, 300);
+    }
 
-    $('.raw-view-switch').on('click', function () {
-        $(this).parent().next().slideToggle();
-    });
+    /**
+     * @param {Event} event
+     */
+    function clickLinkCallback(event) {
+        var href = $(event.currentTarget).attr('href');
+
+        navigateSidebarMenu(href);
+    }
+
+
+    return {
+        navigateSidebarMenu: navigateSidebarMenu,
+        attachCallbacks: function () {
+            var clipboard = new Clipboard('[data-clipboard-text]');
+            clipboard.on('success', function (event) {
+                var url = event.text;
+                var urlHash = url.substring(url.indexOf('#'));
+
+                if ($('li.active>a').attr('href') === urlHash) {
+                    return;
+                }
+
+                navigateSidebarMenu(urlHash);
+            });
+
+            $('.main a[href^="#"], .sidebar a[href^="#"]').on('click', clickLinkCallback);
+
+            $('.raw-view-switch').on('click', function () {
+                $(this).parent().next().slideToggle();
+            });
+
+        }
+    }
 });

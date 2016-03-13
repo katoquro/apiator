@@ -460,7 +460,7 @@ li > a[data-target] > span.info {
   }
 }
 
-[data-clipboard-text].copying {
+[data-clipboard-text]:not(:active) {
   animation: copy-animation 0.25s linear 0s;
 }
 

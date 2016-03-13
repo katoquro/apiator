@@ -14,32 +14,57 @@
  * limitations under the License.
  */
 
-modulejs.define('fuzzySearch', ['hbsHelpers'], function (helpers) {
-    var fuseDictionary = {};
-    var urlBanger = _.compose(_.flatten, _.map);
-    fuseDictionary.url = urlBanger(apiJson.apiContexts, mapApiContexts);
-
-    function mapApiContexts(apiContext) {
-        return apiContext.apiEndpoints.map(mapApiEndpoints, apiContext);
+modulejs.define('fuzzySearch', ['hbs'], function (hbs) {
+    function toTitleCase(str) {
+        return str.replace(/\w+/g, function (txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
     }
 
-    function mapApiEndpoints(apiEndpoint) {
-        var miniApiEndpoint = _.pick(apiEndpoint, [
-            "method",
-            "name",
-            "params",
-            "path"
-        ]);
-        miniApiEndpoint.path = this.apiPath + miniApiEndpoint.path;
-        return miniApiEndpoint;
+    function toIndex(str) {
+        return toTitleCase(str.replace(/\W/g, ' ').replace(/\s+/g, ' '))
     }
+
+    var fuseDataSet = _
+        .chain(apiJson.apiContexts)
+        .flatMap(function (context) {
+            var apiPath = context.apiPath;
+            return _.map(context.apiEndpoints, function (endpoint) {
+                return {apiPath: apiPath, endpoint: endpoint}
+            });
+        })
+        .map(function (it) {
+            return {
+                index: {
+                    method: it.endpoint.method + '-' + it.endpoint.method.toLocaleLowerCase(),
+                    apiPath: toIndex(it.apiPath),
+                    path: toIndex(it.endpoint.path)
+                },
+                method: it.endpoint.method,
+                apiPath: it.apiPath,
+                path: it.endpoint.path
+            }
+        })
+        .value();
 
     var fuseOptions = {
-        keys: ['name', 'path', 'method'],
-        caseSensitive: true // keys to search in
+        keys: [{
+            name: 'index.method',
+            weight: 0.50
+        }, {
+            name: 'index.apiPath',
+            weight: 0.30
+        }, {
+            name: 'index.path',
+            weight: 0.19
+        }],
+        caseSensitive: true,
+        verbose: false
     };
 
-    var fuse = new Fuse(fuseDictionary.url, fuseOptions);
+    var fuse = new Fuse(fuseDataSet, fuseOptions);
+
+    var fuzzyTemplate = Handlebars.compile($("#fuzzy-response").html());
 
     $('html').click(function (event) {
         if (!$(event.target).is('#fuzzy-suggest, #fuzzy-input')) {
@@ -51,23 +76,13 @@ modulejs.define('fuzzySearch', ['hbsHelpers'], function (helpers) {
         $('#fuzzy-suggest').hide();
     });
 
-    var fuzzyTemplate = Handlebars.compile($("#fuzzy-response").html());
-
     $('#fuzzy-input').on('keyup click', function () {
         var that = $(this);
         if (2 > that.val().length) return;
 
         var hits = fuse.search(that.val()).slice(0, 10);
         var suggestItems = hits.map(function (hit) {
-            return $(fuzzyTemplate({
-                    hit: hit,
-                    hash: {
-                        apiPath: '',
-                        method: hit.method,
-                        path: hit.path
-                    }
-                })
-            );
+            return $(fuzzyTemplate({hash: hit}));
         });
 
         var suggestMenu = $('#fuzzy-suggest');
