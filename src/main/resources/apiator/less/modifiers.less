@@ -15,25 +15,41 @@
  */
 @import "variables";
 
-#feedback {
-  a {
-    border: 1px solid #ccc;
-    border-radius: 3px 3px 0 0;
-    border-bottom: 0;
-    position: fixed;
-    right: -65px;
-    bottom: 50px;
-    transform: rotate(-90deg);
-    transform-origin: left top 0;
-    width: 90px;
-    height: 25px;
+.visible {
+  visibility: visible;
+}
 
-    background-color: #F5F5EE;
-    font-family: @font-mono;
-    padding: 5px 10px 0;
-    text-align: center;
-    font-size: 12px;
+.positionRelative {
+  position: relative;
+}
 
-    color: #898989;
+.lowercase {
+  text-transform: lowercase;
+}
+
+.gray {
+  color: @gray;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.text-ellipsis {
+  width: 100%;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+span.add-comma {
+  &::after {
+    content: ',';
+  }
+  &:last-child {
+    &::after {
+      content: '';
+    }
   }
 }

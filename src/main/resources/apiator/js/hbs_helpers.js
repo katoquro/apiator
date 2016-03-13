@@ -34,9 +34,9 @@ modulejs.define('hbs', function () {
         });
         if (responseType.type) {
             var shrinkByDots = Handlebars.helpers.shrinkByDots(responseType.type);
-            response = '<span class="name object-link"><a href="#' + shrinkByDots + '">' + shrinkByDots + '</a></span>' + response;
+            response = '<span class="type-name object-link"><a href="#' + shrinkByDots + '">' + shrinkByDots + '</a></span>' + response;
         } else if (responseType.modelType) {
-            response = '<span class="type">' + responseType.modelType + '</span>' + response;
+            response = '<span class="model-type">' + responseType.modelType + '</span>' + response;
         }
         return response;
     }

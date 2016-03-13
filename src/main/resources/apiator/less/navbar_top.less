@@ -15,25 +15,34 @@
  */
 @import "variables";
 
-#feedback {
-  a {
-    border: 1px solid #ccc;
-    border-radius: 3px 3px 0 0;
-    border-bottom: 0;
-    position: fixed;
-    right: -65px;
-    bottom: 50px;
-    transform: rotate(-90deg);
-    transform-origin: left top 0;
-    width: 90px;
-    height: 25px;
+.logo-link-to-src {
+  opacity: 0.6;
+  &:hover {
+    opacity: 1;
+  }
+}
 
-    background-color: #F5F5EE;
-    font-family: @font-mono;
-    padding: 5px 10px 0;
-    text-align: center;
-    font-size: 12px;
+.navbar-fixed-top {
+  border: 0;
+}
 
-    color: #898989;
+.navbar-form {
+  overflow: hidden;
+  .form-control {
+    width: 100%;
+  }
+}
+
+a.navbar-brand {
+  .text-ellipsis()
+}
+
+.navbar-header {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  a.navbar-brand {
+    display: none;
   }
 }

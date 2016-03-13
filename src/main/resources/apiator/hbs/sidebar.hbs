@@ -1,5 +1,5 @@
 <div class="sidebar">
-    <ul class="nav nav-sidebar complementary">
+    <ul class="nav nav-sidebar">
         <a href="#endpoints" class="sidebar-title"> <i class="fa fa-plug"></i> <span>Endpoints</span></a>
         <li class="endpoints side-container active">
             <ul class="nav nav-sidebar">
@@ -9,10 +9,7 @@
                     </li>
                     {{#each apiEndpoints}}
                         <li>
-                            <a title="{{path}}"
-                               href="{{urler method=method apiPath=../apiPath path=path}}"
-                               data-href="{{urler method=method apiPath=../apiPath path=path}}"
-                               data-target="">
+                            <a title="{{path}}" href="{{urler method=method apiPath=../apiPath path=path}}">
                                 <span class="endpoint {{method}}">{{path}}</span>
                             </a>
                         </li>
@@ -26,9 +23,7 @@
             <ul class="nav nav-sidebar">
                 {{#each usedApiTypes}}
                     <li>
-                        <a title="{{shrinkByDots type}}"
-                           href="#{{shrinkByDots type}}"
-                           data-target="">
+                        <a title="{{type}}" href="#{{shrinkByDots type}}">
                             <span class="endpoint {{modelType}}">{{shrinkByDots type}}</span>
                         </a>
                     </li>
@@ -41,9 +36,7 @@
             <ul class="nav nav-sidebar">
                 {{#each usedEnumerations}}
                     <li>
-                        <a title="{{shrinkByDots type}}"
-                           href="#{{shrinkByDots type}}"
-                           data-target="">
+                        <a title="{{type}}" href="#{{shrinkByDots type}}">
                             <span class="endpoint {{modelType}}">{{shrinkByDots type}}</span>
                         </a>
                     </li>

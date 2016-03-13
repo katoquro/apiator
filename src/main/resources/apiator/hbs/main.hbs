@@ -26,11 +26,11 @@
                                 <div class="col-xs-12 col-md-10">
                                     {{#each params}}
                                         <div class="row">
-                                            <div class="col-xs-2 col-sm-2 col-md-1 parameter lovercase">
+                                            <div class="col-xs-2 col-sm-2 col-md-1 parameter lowercase">
                                                 ({{httpParamType}})
                                             </div>
                                             <div class="col-xs-2 col-sm-1 col-md-6 gap_x_r">
-                                                <span class="type object">{{modelType}}</span>
+                                                <span class="model-type">{{modelType}}</span>
                                                 {{~#if name~}}
                                                     <span class="gray italic">
                                                         {{~name~}}
@@ -51,7 +51,7 @@
                                                             {{#ifCond this.modelType 'ANY'}}
                                                                 <span class="gray span-info template-tooltip">{{this.templateName}}</span>
                                                             {{else}}
-                                                                <span class="lovercase">{{this.modelType}}</span>
+                                                                <span class="lowercase">{{this.modelType}}</span>
                                                             {{/ifCond}}
                                                         {{/if}}
                                                     {{/each}}
@@ -71,13 +71,13 @@
                             <h5>Responses</h5>
                             <span style="padding-left: 50px"></span>
                             {{~#if returnType.type~}}
-                                <span class="name object-link">
+                                <span class="type-name object-link">
                                     <a href="#{{shrinkByDots returnType.type}}">
                                         {{~shrinkByDots returnType.type~}}
                                     </a>
                                 </span>
                             {{else}}
-                                <span class="type">{{returnType.modelType}}</span>
+                                <span class="model-type">{{returnType.modelType}}</span>
                                 {{#if returnType.templateName}}
                                     <span class="gray span-info template-tooltip">({{returnType.templateName}})</span>
                                 {{/if}}
@@ -85,7 +85,7 @@
                             {{~#if returnType.basedOn}}
                                 <span class="gray italic">of</span>
                                 {{~#each returnType.basedOn}}
-                                    <span class="add-coma"> {{{responseTyper this}}} </span>
+                                    <span class="add-comma"> {{{responseTyper this}}} </span>
                                 {{/each~}}
                             {{/if~}}
                         </div>
@@ -125,26 +125,26 @@
                             {{#each fields}}
                                 <div class="row">
                                     <div class="col-sm-4 typeNames">
-                                        <span class="text-wrap" title="{{name}}">{{name}}</span>
+                                        <span class="text-ellipsis" title="{{name}}">{{name}}</span>
                                     </div>
                                     <div class="col-sm-6 gap_x_r">
                                         {{#ifCond modelType 'ANY'}}
                                             <span class="gray span-info template-tooltip">{{templateName}}</span>
                                         {{else}}
-                                            <span class="type object">{{modelType}}</span>
+                                            <span class="model-type">{{modelType}}</span>
                                         {{/ifCond}}
                                         {{~#if basedOn~}}
                                             <span class="gray italic">of</span>
                                             {{#each basedOn}}
                                                 {{#if this.type}}
-                                                    <span class="add-coma object-link">
+                                                    <span class="add-comma object-link">
                                                         <a href="#{{shrinkByDots this.type}}">{{shrinkByDots this.type}}</a>
                                                     </span>
                                                 {{else}}
                                                     {{#ifCond this.modelType 'ANY'}}
-                                                        <span class="add-coma gray span-info template-tooltip">{{this.templateName}}</span>
+                                                        <span class="add-comma gray span-info template-tooltip">{{this.templateName}}</span>
                                                     {{else}}
-                                                        <span class="add-coma type">{{this.modelType}}</span>
+                                                        <span class="add-comma type">{{this.modelType}}</span>
                                                     {{/ifCond}}
                                                 {{/if}}
                                             {{/each}}
