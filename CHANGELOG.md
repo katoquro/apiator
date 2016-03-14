@@ -1,3 +1,11 @@
+v4.0.0 - HTML renderer update
+- update : HTML renderer dev kit
+- add : template names for api types
+- add : documentation and feedback links
+- add : raw endpoint view in HTML Renderer
+- add : graphic assets
+- fix : permalink with GET params
+
 v0.3.1 - inline
 - update : inline Core HTML Renderer dependencies
 - fix : full http path for endpoint card

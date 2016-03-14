@@ -1,0 +1,62 @@
+<div class="target-marker" id="{{shrinkByDots type}}"></div>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <span class="gray endpoint">{{shrinkByDots type}}</span>
+        <span class="span-left" title='Click to copy' data-clipboard-text="{{copyUrlerType type=type}}">
+            <i class="fa fa-link"></i>
+        </span>
+
+        <div class="navbar-right link-to-java">
+            <span class="span-info">{{type}}</span>
+            <span class="span-right">
+                <i title="Click to copy" class="fa fa-clipboard" data-clipboard-text="{{type}}"></i>
+            </span>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="container-fluid">
+            <div class="row">
+                <h5>Fields</h5>
+
+                <div class="col-xs-12 col-md-10">
+                    {{#each fields}}
+                        <div class="row">
+                            <div class="col-sm-4 typeNames">
+                                <span class="text-ellipsis" title="{{name}}">{{name}}</span>
+                            </div>
+                            <div class="col-sm-6 gap_x_r">
+                                {{#ifCond modelType 'ANY'}}
+                                    <span class="gray span-info template-tooltip">{{templateName}}</span>
+                                {{else}}
+                                    <span class="model-type">{{modelType}}</span>
+                                {{/ifCond}}
+                                {{~#if basedOn~}}
+                                    <span class="gray italic">of</span>
+                                    {{#each basedOn}}
+                                        {{#if this.type}}
+                                            <span class="add-comma object-link">
+                                                <a href="#{{shrinkByDots this.type}}">{{shrinkByDots this.type}}</a>
+                                            </span>
+                                        {{else}}
+                                            {{#ifCond this.modelType 'ANY'}}
+                                                <span class="add-comma gray span-info template-tooltip">{{this.templateName}}</span>
+                                            {{else}}
+                                                <span class="add-comma model-type">{{this.modelType}}</span>
+                                            {{/ifCond}}
+                                        {{/if}}
+                                    {{/each}}
+                                {{~/if~}}
+                                {{~#if type~}}
+                                    <span>→</span>
+                                    <span class="object-link">
+                                        <a href="#{{shrinkByDots type}}">{{shrinkByDots type}}</a>
+                                    </span>
+                                {{~/if~}}
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

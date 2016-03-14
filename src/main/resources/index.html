@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Apiator</title>
-    <script type="text/javascript"> ${js} </script>
+    <link rel="icon" type="image/png" href="data:image/png;base64,${favicon}">
     <style type="text/css">
         ${css}
-        ${cssLocal}
     </style>
     ${hbs}
 </head>
@@ -14,18 +13,27 @@
 
 <div id="doc-container"></div>
 
-<script type="text/javascript">
-    var apiJson = ${json};
-    ${jsLocal}
-</script>
+<script type="text/javascript">var apiJson = ${json};</script>
+<script type="text/javascript"> ${js} </script>
 
 <img id="flag_counter" src="#" style="visibility: hidden"/>
 
 <script>
+    modulejs.require('main');
     if (apiJson.apiatorInfo.version == 'UNPACKED') {
         document.write('<script src="'
                 + '//' + location.host + '/livereload.js"></'
-                + 'script>')
+                + 'script>');
+
+        if (window.opener) {
+//            jQuery('body').on('click', function (event) {
+//                console.log(this);
+//                jQuery(event.target).toggleClass('visible')
+//            })
+        }
+        function windowForDemo() {
+            window.open(document.location, '', "width=1100, height=800");
+        }
     } else {
         var flag = "http://s05.flagcounter.com/count/m2fq/bg_FFFFFF/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_3/labels_1/pageviews_1/flags_0/percent_0/";
         jQuery("#flag_counter").attr('src', flag);

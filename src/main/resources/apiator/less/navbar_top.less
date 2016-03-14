@@ -13,12 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.renderer.core.view
+@import "variables";
 
-import com.ainrif.apiator.core.model.api.ApiEndpointReturnType
+.logo-link-to-src {
+  opacity: 0.6;
+  &:hover {
+    opacity: 1;
+  }
+}
 
-class ApiEndpointReturnTypeView extends ModelTypeBasedView.ApiTypeGenericView {
-    ApiEndpointReturnTypeView(ApiEndpointReturnType returnType) {
-        super(returnType.type)
-    }
+.navbar-fixed-top {
+  border: 0;
+}
+
+.navbar-form {
+  overflow: hidden;
+  .form-control {
+    width: 100%;
+  }
+}
+
+ul#fuzzy-suggest {
+  left: inherit;
+}
+
+a.navbar-brand {
+  .text-ellipsis()
+}
+
+.navbar-header {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  a.navbar-brand {
+    display: none;
+  }
 }

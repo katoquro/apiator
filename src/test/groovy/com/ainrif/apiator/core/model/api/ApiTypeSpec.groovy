@@ -74,6 +74,42 @@ class ApiTypeSpec extends Specification {
         'genericBounded'          | false
     }
 
+    def "isTemplate; #inputType"() {
+        given:
+        def input = new ApiType(ModelDto1.getDeclaredField(inputType).genericType)
+
+        expect:
+        input.template == expected
+
+        where:
+        inputType                 | expected
+        'intPrimitiveField'       | false
+        'objectField'             | false
+        'enumField'               | false
+        'stringField'             | false
+        'setField'                | false
+        'arrayField'              | false
+        'iterableField'           | false
+        'genericSetArrayField'    | false
+        'typeVariableType'        | true
+        'typeVariableBoundedType' | true
+        'genericBounded'          | true
+    }
+
+    def "getTemplateName; #inputType"() {
+        given:
+        def input = new ApiType(ModelDto1.getDeclaredField(inputType).genericType)
+
+        expect:
+        input.templateName == expected
+
+        where:
+        inputType                 | expected
+        'typeVariableType'        | 'TV'
+        'typeVariableBoundedType' | 'TVB'
+        'genericBounded'          | 'GENERIC_BOUNDED'
+    }
+
     def "getRawType; #inputType"() {
         given:
         def input = new ApiType(ModelDto1.getDeclaredField(inputType).genericType)

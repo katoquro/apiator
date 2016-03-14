@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.renderer.core.view
 
-import com.ainrif.apiator.core.model.api.ApiEndpointReturnType
+modulejs.define('main', ['hbs', 'linkProcessor'], function (hbs, linkProcessor) {
+    hbs.render();
 
-class ApiEndpointReturnTypeView extends ModelTypeBasedView.ApiTypeGenericView {
-    ApiEndpointReturnTypeView(ApiEndpointReturnType returnType) {
-        super(returnType.type)
-    }
-}
+    modulejs.require('fuzzySearch');
+
+    linkProcessor.attachCallbacks();
+    linkProcessor.navigateSidebarMenu(window.location.hash)
+});

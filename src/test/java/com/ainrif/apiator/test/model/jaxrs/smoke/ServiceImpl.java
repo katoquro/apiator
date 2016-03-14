@@ -24,7 +24,7 @@ import java.util.List;
 
 @Api("description")
 @Path("/entities") //todo test w/o class level @Path
-public class ServiceImpl implements Service {
+public class ServiceImpl<TEMPLATE> implements Service {
 
     @Path("/new")
     @Override
@@ -76,7 +76,8 @@ public class ServiceImpl implements Service {
 
     @CustomPOST
     @Path("/enum")
-    public void setStatus(@QueryParam("enum") @DefaultValue("THIRD") EnumApiType status) {
+    public TEMPLATE setStatus(@QueryParam("enum") @DefaultValue("THIRD") EnumApiType status) {
+        return null;
     }
 
     public void justPublicMethod() {
