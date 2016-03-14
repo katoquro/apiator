@@ -11,7 +11,10 @@ sourceSets {
 
 uiDev {
     liveReloadRoot = 'build/apiator/site'
-    taskTriggerRoots = ['src/main/resources', 'build/apiator/resources']
+    taskTriggerRoots = [
+            'src/main/resources',
+            'build/apiator/resources',
+            'src/main/groovy/com/ainrif/apiator/renderer']
     taskName = 'ui_dev_generate'
     coldStart = true
 }

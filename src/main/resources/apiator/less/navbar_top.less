@@ -13,11 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@font-face {
-    font-family: 'FontAwesome';
+@import "variables";
 
-    src: url('data:application/font-woff;charset=utf-8;base64,${fa_woff}') format('woff');
+.logo-link-to-src {
+  opacity: 0.6;
+  &:hover {
+    opacity: 1;
+  }
+}
 
-    font-weight: normal;
-    font-style: normal;
+.navbar-fixed-top {
+  border: 0;
+}
+
+.navbar-form {
+  overflow: hidden;
+  .form-control {
+    width: 100%;
+  }
+}
+
+ul#fuzzy-suggest {
+  left: inherit;
+}
+
+a.navbar-brand {
+  .text-ellipsis()
+}
+
+.navbar-header {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  a.navbar-brand {
+    display: none;
+  }
 }

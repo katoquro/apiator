@@ -13,11 +13,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@font-face {
-    font-family: 'FontAwesome';
+@import "variables";
 
-    src: url('data:application/font-woff;charset=utf-8;base64,${fa_woff}') format('woff');
+.visible {
+  visibility: visible;
+}
 
-    font-weight: normal;
-    font-style: normal;
+.positionRelative {
+  position: relative;
+}
+
+.lowercase {
+  text-transform: lowercase;
+}
+
+.gray {
+  color: @gray;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.text-ellipsis {
+  width: 100%;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+span.add-comma {
+  &::after {
+    content: ',';
+  }
+  &:last-child {
+    &::after {
+      content: '';
+    }
+  }
 }

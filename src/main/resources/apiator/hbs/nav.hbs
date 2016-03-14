@@ -1,0 +1,48 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                            aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">
+                        {{clientApiInfo.basePath}} {{clientApiInfo.version}}
+                    </a>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="//apiator.ainrif.com"
+                               target="_blank"
+                               title="Apiator Docs">
+                                <i class="fa fa-book"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="//bitbucket.org/ainrif/apiator"
+                               target="_blank"
+                               title="Apiator v{{apiatorInfo.version}}"
+                               class="logo-link-to-src">
+                                <img height="18"
+                                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfgAwQUECUIu5EfAAACcElEQVRIx82VTUhUYRSG36uOSQZqBJEa/dKY0S6icMywRT8UJE7RJqI2LcJJKpJMUxdGG2EoKmtRILWQCqwoswQjCt3lT7ZoYT/kD1iJRRrZzNNi7njvzL3h5CJ67+b7zj3ve75z7j3nk/5jkJBXihvRkESeCpblv/XWp5eH/eOtfQ39x7qMD4lF9lDPl9uIMiYoQ1QwDABD1JI8w6EpB9jJQka5hqjEgeN/Ts/T3QawhiJgM8sZddIJM/ncTcJb3L8U4cdHEeDFw0mqaGYwTuAbh6E7XqLwPtCJENX0kIY4QjPPuMxuMrhgE+hCvCZ8yU7PagPgImIlU4hkhmyUCTaQyxhhAFoQuQCrqqL8sx0RxxzECU4jGhyZbyedHwAEEWI/++5G+asj0WoR4hOFiMcOgRCiCICDCCEM0uZIkraeA7iBEHuBjYg6l+pvQ/hNsvnsQZKSXjRRghBZhIADCINJh0BxLBlRfF6SZHREtqmMAPAKIXIYi6G/N0m77BLtkrKVUipEBiNmla1YFXw0LU14TBvMnxYw+swqXuVMXMFW2OJ4bOsAIMQW4CYlb6I98N1ZskpHxmIdAKmRvwCgNypwC1c8pQY/PpYgxA7Tep3PUYcWswdZzAwY45GbucJq5NmhYLqhzC+YEIIciiymJCnJVHiY6KQ8qnfaFFk2TgsgXXHxfaCAfFqkZHVaxhxlar2eSFJdzETgZdxJ82zvei3zKaCHRgjGTUMyGbemVijfrk6/JVBDkAYYcB+oAVppp5q5seOKe5bAV0LArwX8zQVDNj9tyQ3itehGgndUkkq1VvM0oDvGMInRZn/d/Vv8BogCnLEUo0ffAAAAAElFTkSuQmCC">
+                            </a>
+                        </li>
+                    </ul>
+                    <form class="navbar-form" role="search">
+                        <input type="text" class="form-control" id="fuzzy-input" placeholder="Fuzzy Search...">
+                        <ul class="dropdown-menu dropdown-menu-left" role="menu" id="fuzzy-suggest">
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">item</a></li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

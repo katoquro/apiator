@@ -18,72 +18,92 @@ package com.ainrif.apiator.renderer.core
 import com.ainrif.apiator.api.Renderer
 import com.ainrif.apiator.core.model.api.ApiScheme
 import groovy.text.StreamingTemplateEngine
+import org.lesscss.LessCompiler
+import org.lesscss.LessSource
+import org.slf4j.LoggerFactory
 import org.webjars.WebJarAssetLocator
 
 import javax.annotation.Nullable
+import java.nio.file.*
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING
+import static java.util.Collections.emptyMap
 
 class CoreHtmlRenderer implements Renderer {
+    static def logger = LoggerFactory.getLogger(CoreHtmlRenderer)
 
     String js
     String css
-    String jsLocal
-    String cssLocal
     String hbs
 
     String toFile
 
-    CoreHtmlRenderer() {
-        def webJarsLocator = new WebJarAssetLocator()
-
-        def jsPaths = []
-        jsPaths << webJarsLocator.getFullPath('jquery', 'jquery.min.js')
-        jsPaths << webJarsLocator.getFullPath('lodash', 'lodash.min.js')
-        jsPaths << webJarsLocator.getFullPath('bootstrap', 'bootstrap.min.js')
-        jsPaths << webJarsLocator.getFullPath('handlebars', 'handlebars.min.js')
-        jsPaths << webJarsLocator.getFullPath('fuse.js', 'fuse.min.js')
-        jsPaths << webJarsLocator.getFullPath('clipboard', 'clipboard.min.js')
-
-        def cssPaths = []
-        cssPaths << webJarsLocator.getFullPath('bootstrap', 'bootstrap.min.css')
-        cssPaths << webJarsLocator.getFullPath('font-awesome', 'font-awesome.min.css')
-
-        def jsLocalPaths = []
-        jsLocalPaths << '/js/app.js'
-
-        def cssLocalPaths = []
-        cssLocalPaths << '/css/restyle.css'
-        cssLocalPaths << '/css/feedback.css'
-
-        def hbsPath = []
-        hbsPath << 'app'
-        hbsPath << 'nav'
-        hbsPath << 'content'
-        hbsPath << 'feedback'
-        hbsPath << 'sidebar'
-        hbsPath << 'main'
-        hbsPath << 'fuzzy-response'
-
-        js = concatExternalResources(jsPaths)
-        css = concatExternalResources(cssPaths)
-
-        jsLocal = concatLocalResources(jsLocalPaths)
-        cssLocal = concatLocalResources(cssLocalPaths)
-
-        hbs = hbsPath
-                .collect { [name: it, content: this.class.classLoader.getResource("hbs/${it}.hbs").text] }
-                .collect { "<script type='text/x-handlebars-template' id='${it.name}'>${it.content}</script>" }
-                .join('\r\n')
-
-        cssLocal = new StreamingTemplateEngine()
-                .createTemplate(this.class.getResource('/fontsInlining.css').text)
-                .make([fa_woff: encodeToBase64(webJarsLocator, 'font-awesome', 'fontawesome-webfont.woff'),
-                       gi_woff: encodeToBase64(webJarsLocator, 'bootstrap', '/dist/fonts/glyphicons-halflings-regular.woff')])
-                .toString() + cssLocal
-    }
+    final Set<String> fsCache = []
+    final WebJarAssetLocator webJarsLocator
 
     CoreHtmlRenderer(@Nullable toFile) {
         this()
         this.toFile = toFile
+    }
+
+    /**
+     * The main build flow to assemble resources
+     */
+    CoreHtmlRenderer() {
+        webJarsLocator = new WebJarAssetLocator()
+
+        List<Path> jsPaths = []
+        jsPaths << resolveResourcePath('modulejs', 'modulejs.min.js')
+        jsPaths << resolveResourcePath('jquery', 'jquery.min.js')
+        jsPaths << resolveResourcePath('lodash', 'lodash.min.js')
+        jsPaths << resolveResourcePath('bootstrap', 'bootstrap.min.js')
+        jsPaths << resolveResourcePath('handlebars', 'handlebars.min.js')
+        jsPaths << resolveResourcePath('fuse.js', 'fuse.min.js')
+        jsPaths << resolveResourcePath('clipboard', 'clipboard.min.js')
+
+        List<Path> cssPaths = []
+        cssPaths << resolveResourcePath('bootstrap', 'bootstrap.min.css')
+        cssPaths << resolveResourcePath('font-awesome', 'font-awesome.min.css')
+
+        // Resource processing
+
+        js = jsPaths.collect { it.text }
+                .join('\r\n')
+
+        js += Files.walk(resolveResourcePath('/apiator/js'))
+                .filter { !Files.isDirectory(it) }
+                .collect { it.text }
+                .join('\r\n')
+
+        def tmpdir = Files.createTempDirectory('apiator')
+        def lessDir = resolveResourcePath('/apiator/less')
+        Files.walk(lessDir)
+                .each {
+            def targetPath = tmpdir.resolve(lessDir.relativize(it).toString())
+
+            if (Files.isDirectory(it)) {
+                Files.createDirectories(targetPath)
+            } else {
+                Files.copy(it.newInputStream(), targetPath, REPLACE_EXISTING)
+            }
+        }
+
+        css = cssPaths.collect { it.text }
+                .join('\r\n')
+
+        css += new LessCompiler()
+                .compile(new LessSource(tmpdir.resolve('main.less').toFile()))
+
+        css += new StreamingTemplateEngine()
+                .createTemplate(resolveResourcePath('/fontsInlining.css').text)
+                .make([fa_woff: encodeToBase64(resolveResourcePath('font-awesome', 'fontawesome-webfont.woff'))])
+                .toString()
+
+        hbs = Files.walk(resolveResourcePath('/apiator/hbs'))
+                .filter { !Files.isDirectory(it) }
+                .collect { [name: (it.fileName.toString() - '.hbs'), content: it.text] }
+                .collect { "<script type='text/x-handlebars-template' id='${it.name}'>${it.content}</script>" }
+                .join('\r\n')
     }
 
     @Override
@@ -93,37 +113,61 @@ class CoreHtmlRenderer implements Renderer {
         return renderTemplate(json)
     }
 
-    protected String concatExternalResources(List<String> paths) {
-        paths.collect { this.class.classLoader.getResource(it).text }
-                .join('\r\n')
+    private Path resolveResourcePath(String library, String file) {
+        def path = webJarsLocator.getFullPath(library, file)
+        resolveResourcePath(path)
     }
 
-    protected String concatLocalResources(List<String> paths) {
-        paths.collect { this.class.getResource(it).text }
-                .join('\r\n')
+    private FileSystem getFileSystem(URI uri) {
+        String fsPath = uri.rawSchemeSpecificPart
+        fsPath = fsPath.substring(0, fsPath.indexOf('!/'))
+
+        def fs
+        if (fsCache.contains(fsPath)) {
+            fs = FileSystems.getFileSystem(uri)
+        } else {
+            fs = FileSystems.newFileSystem(uri, emptyMap())
+            fsCache << fsPath
+        }
+
+        fs
     }
 
-    protected String encodeToBase64(WebJarAssetLocator locator, String webjar, String partialPath) {
-        def assetPath = locator.getFullPath(webjar, partialPath)
-        def resourceStream = this.class.classLoader.getResourceAsStream(assetPath)
+    private Path resolveResourcePath(String localResource) {
+        def resource = getClass().getResource(localResource)
 
-        return Base64.encoder.encodeToString(resourceStream.bytes)
+        if (!resource) {
+            resource = getClass().classLoader.getResource(localResource)
+        }
+
+        URI uri = resource.toURI()
+        Path resourcePath
+        if (uri.scheme == 'jar') {
+            FileSystem fileSystem = getFileSystem(uri)
+            resourcePath = fileSystem.getPath(localResource)
+        } else {
+            resourcePath = Paths.get(uri)
+        }
+
+        resourcePath
+    }
+
+    protected static String encodeToBase64(Path path) {
+        return Base64.encoder.encodeToString(path.bytes)
     }
 
     protected String renderTemplate(String json) {
         def html = new StreamingTemplateEngine()
-                .createTemplate(this.class.getResource('/index.html').text)
-                .make([json    : json,
-                       js      : js,
-                       css     : css,
-                       jsLocal : jsLocal,
-                       cssLocal: cssLocal,
-                       hbs     : hbs,
-                       favicon : Base64.encoder.encodeToString(this.class.getResource('/bw_favicon.png').bytes)])
+                .createTemplate(resolveResourcePath('/index.html').text)
+                .make([json   : json,
+                       js     : js,
+                       css    : css,
+                       hbs    : hbs,
+                       favicon: encodeToBase64(resolveResourcePath('/bw_favicon.png'))])
                 .toString()
 
         if (toFile) {
-            new File(toFile).write(html);
+            new File(toFile).write(html)
         }
 
         return html

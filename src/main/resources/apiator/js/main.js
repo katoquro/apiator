@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@font-face {
-    font-family: 'FontAwesome';
 
-    src: url('data:application/font-woff;charset=utf-8;base64,${fa_woff}') format('woff');
+modulejs.define('main', ['hbs', 'linkProcessor'], function (hbs, linkProcessor) {
+    hbs.render();
 
-    font-weight: normal;
-    font-style: normal;
-}
+    modulejs.require('fuzzySearch');
+
+    linkProcessor.attachCallbacks();
+    linkProcessor.navigateSidebarMenu(window.location.hash)
+});
