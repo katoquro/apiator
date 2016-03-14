@@ -38,7 +38,6 @@ class CoreHtmlRenderer implements Renderer {
 
     String toFile
 
-    final Set<String> fsCache = []
     final WebJarAssetLocator webJarsLocator
 
     CoreHtmlRenderer(@Nullable toFile) {
@@ -118,16 +117,12 @@ class CoreHtmlRenderer implements Renderer {
         resolveResourcePath(path)
     }
 
-    private FileSystem getFileSystem(URI uri) {
-        String fsPath = uri.rawSchemeSpecificPart
-        fsPath = fsPath.substring(0, fsPath.indexOf('!/'))
-
+    private static FileSystem getFileSystem(URI uri) {
         def fs
-        if (fsCache.contains(fsPath)) {
+        try {
             fs = FileSystems.getFileSystem(uri)
-        } else {
+        } catch (FileSystemNotFoundException ignored) {
             fs = FileSystems.newFileSystem(uri, emptyMap())
-            fsCache << fsPath
         }
 
         fs
