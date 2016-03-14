@@ -102,7 +102,7 @@ modulejs.define('hbs', function () {
 
     return {
         render: function () {
-            var template = $('#app');
+            var template = $('#main');
             var templateSrc = template.html();
 
             $('#doc-container').html(Handlebars.compile(templateSrc)(apiJson));

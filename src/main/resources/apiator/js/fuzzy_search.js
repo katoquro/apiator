@@ -36,7 +36,7 @@ modulejs.define('fuzzySearch', ['hbs'], function (hbs) {
         .map(function (it) {
             return {
                 index: {
-                    method: it.endpoint.method + '-' + it.endpoint.method.toLocaleLowerCase(),
+                    method: toIndex(it.endpoint.method) + '-' + it.endpoint.method,
                     apiPath: toIndex(it.apiPath),
                     path: toIndex(it.endpoint.path)
                 },
