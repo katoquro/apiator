@@ -155,11 +155,11 @@ abstract class MethodStack extends ArrayList<Method> {
     }
 
     protected static Closure<Boolean> testTypeIsNotPrimitive = { ApiType type ->
-        ModelType.notPrimitiveTypes.any { it == type.modelType } && Object.class != type.rawType
+        ModelType.notPrimitiveTypes.any { it == type.modelType } && Object != type.rawType && Enum != type.rawType
     }
 
     protected static Closure<Boolean> testTypeIsCustomModelType = { ApiType type ->
-        ModelType.customModelTypes.any { it == type.modelType } && Object.class != type.rawType
+        ModelType.customModelTypes.any { it == type.modelType } && Object != type.rawType && Enum != type.rawType
     }
 
     protected static Predicate<Field> testFieldIsPublicAndNotStatic = {
