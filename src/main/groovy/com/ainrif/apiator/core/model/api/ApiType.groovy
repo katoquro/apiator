@@ -17,6 +17,7 @@ package com.ainrif.apiator.core.model.api
 
 import com.ainrif.apiator.core.model.ModelType
 import com.ainrif.apiator.core.model.ModelTypeRegister
+import groovy.transform.Memoized
 
 import java.lang.reflect.*
 
@@ -26,12 +27,6 @@ class ApiType {
     static ModelTypeRegister modelTypeRegister
 
     protected Type type
-
-    //todo make caches immutable after create
-    protected List<ApiType> flattenArgumentTypesCache
-    protected Class<?> rawTypeCache
-    protected ModelType modelTypeCache
-    protected ApiType componentApiTypeCache
 
     ApiType(Type type) {
         this.type = type
@@ -56,42 +51,43 @@ class ApiType {
         type instanceof TypeVariable
     }
 
+    @Memoized
     Class<?> getRawType() {
-        rawTypeCache ?: {
-            if (generic) {
-                rawTypeCache = type.asType(ParameterizedType).rawType.asType(Class)
-            } else if (type instanceof TypeVariable) {
-                def bounds = type.asType(TypeVariable).bounds
-                if (bounds) {
-                    //todo multiple bounds
-                    rawTypeCache = new ApiType(bounds[0]).rawType
-                } else {
-                    rawTypeCache = Object //fallback case; need test
-                }
-            } else if (type instanceof WildcardType) {
-                def bound = type.asType(WildcardType).upperBounds[0]
-                rawTypeCache = new ApiType(bound).rawType
-            } else if (type instanceof GenericArrayType) {
-                rawTypeCache = type.class
+        def result
+        if (generic) {
+            result = type.asType(ParameterizedType).rawType.asType(Class)
+        } else if (type instanceof TypeVariable) {
+            def bounds = type.asType(TypeVariable).bounds
+            if (bounds) {
+                //todo multiple bounds
+                result = new ApiType(bounds[0]).rawType
             } else {
-                rawTypeCache = type.asType(Class)
+                result = Object //fallback case; need test
             }
-        }()
+        } else if (type instanceof WildcardType) {
+            def bound = type.asType(WildcardType).upperBounds[0]
+            result = new ApiType(bound).rawType
+        } else if (type instanceof GenericArrayType) {
+            result = type.class
+        } else {
+            result = type.asType(Class)
+        }
+
+        return result
     }
 
+    @Memoized
     ApiType getComponentApiType() {
-        componentApiTypeCache ?: {
-            if (array) {
-                switch (type) {
-                    case { it instanceof Class }:
-                        return new ApiType(type.asType(Class).componentType)
-                    case { it instanceof GenericArrayType }:
-                        return new ApiType(type.asType(GenericArrayType).genericComponentType)
-                }
+        if (array) {
+            switch (type) {
+                case { it instanceof Class }:
+                    return new ApiType(type.asType(Class).componentType)
+                case { it instanceof GenericArrayType }:
+                    return new ApiType(type.asType(GenericArrayType).genericComponentType)
             }
+        }
 
-            throw new RuntimeException('TYPE IS NOT ARRAY')
-        }()
+        throw new RuntimeException('TYPE IS NOT ARRAY')
     }
 
     String getTemplateName() {
@@ -102,6 +98,7 @@ class ApiType {
         throw new RuntimeException('TYPE IS NOT TEMPLATE')
     }
 
+    @Memoized
     List<ApiType> getActualTypeArguments() {
         if (generic) {
             return type.asType(ParameterizedType)
@@ -112,11 +109,10 @@ class ApiType {
         throw new RuntimeException('TYPE IS NOT GENERIC')
     }
 
+    @Memoized
     ModelType getModelType() {
-        modelTypeCache ?: {
-            if (!modelTypeRegister) throw new RuntimeException('Model Type Register was not injected')
-            modelTypeCache = modelTypeRegister.getTypeByClass(rawType)
-        }()
+        if (!modelTypeRegister) throw new RuntimeException('Model Type Register was not injected')
+        modelTypeRegister.getTypeByClass(rawType)
     }
 
     /**
@@ -130,10 +126,9 @@ class ApiType {
      *
      * @return list which represents all generic args including generic type
      */
+    @Memoized
     List<ApiType> flattenArgumentTypes() {
-        flattenArgumentTypesCache ?: {
-            flattenArgumentTypesCache = generic ? _flattenArgumentTypes(actualTypeArguments) : []
-        }()
+        generic ? _flattenArgumentTypes(actualTypeArguments) : []
     }
 
     private static List<ApiType> _flattenArgumentTypes(List<ApiType> apiTypes) {
@@ -151,6 +146,7 @@ class ApiType {
         result.reverse()
     }
 
+    @Override
     boolean equals(o) {
         if (this.is(o)) return true
         if (getClass() != o.class) return false
@@ -161,6 +157,7 @@ class ApiType {
         return flattenArgumentTypes().collect { it.rawType } == apiType.flattenArgumentTypes().collect { it.rawType }
     }
 
+    @Override
     int hashCode() {
         return Objects.hash(rawType, flattenArgumentTypes().collect { it.rawType })
     }

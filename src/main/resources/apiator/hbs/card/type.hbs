@@ -47,10 +47,13 @@
                                     {{/each}}
                                 {{~/if~}}
                                 {{~#if type~}}
-                                    <span>→</span>
-                                    <span class="object-link">
-                                        <a href="#{{shrinkByDots type}}">{{shrinkByDots type}}</a>
-                                    </span>
+                                    {{#ifCond this.type 'java.lang.Enum'}}
+                                    {{else}}
+                                        <span>→</span>
+                                        <span class="object-link">
+                                            <a href="#{{shrinkByDots type}}">{{shrinkByDots type}}</a>
+                                        </span>
+                                    {{/ifCond}}
                                 {{~/if~}}
                             </div>
                         </div>
