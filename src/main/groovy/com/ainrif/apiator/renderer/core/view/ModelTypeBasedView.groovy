@@ -18,13 +18,20 @@ package com.ainrif.apiator.renderer.core.view
 import com.ainrif.apiator.core.model.ModelType
 import com.ainrif.apiator.core.model.api.ApiType
 
-abstract class ModelTypeBasedView {
-    String type
+import javax.annotation.Nullable
+
+abstract class ModelTypeBasedView implements Comparable<ModelTypeBasedView> {
+    @Nullable String type
     ModelType modelType
 
     ModelTypeBasedView(ApiType type) {
         this.modelType = type.modelType
         this.type = [ModelType.OBJECT, ModelType.ENUMERATION].any { it == type.modelType } ? type.rawType.name : null
+    }
+
+    @Override
+    int compareTo(ModelTypeBasedView o) {
+        return type?.compareToIgnoreCase(o.type) ?: modelType.compareTo(o.modelType)
     }
 
     static class ApiTypeGenericView extends ModelTypeBasedView {

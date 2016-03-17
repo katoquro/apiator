@@ -17,17 +17,12 @@ package com.ainrif.apiator.renderer.core.view
 
 import com.ainrif.apiator.core.model.api.ApiType
 
-class ApiTypeView extends ModelTypeBasedView implements Comparable<ApiTypeView> {
+class ApiTypeView extends ModelTypeBasedView {
     List<ApiFieldView> fields
 
     ApiTypeView(ApiType type, List<ApiFieldView> fields) {
         super(type)
 
         this.fields = fields
-    }
-
-    @Override
-    int compareTo(ApiTypeView o) {
-        this.type.compareToIgnoreCase(o.type)
     }
 }
