@@ -20,6 +20,7 @@ import com.ainrif.apiator.core.model.api.ApiEndpointMethod
 import com.ainrif.apiator.core.model.api.ApiEndpointParam
 import com.ainrif.apiator.core.model.api.ApiEndpointReturnType
 import com.ainrif.apiator.core.model.api.ApiType
+import groovy.transform.Memoized
 
 import java.beans.Introspector
 import java.lang.annotation.Annotation
@@ -82,7 +83,7 @@ abstract class MethodStack extends ArrayList<Method> {
         result
     }
 
-    //todo cache
+    @Memoized(protectedCacheSize = 2)
     private Set<ApiType> collectAllUsedTypes() {
         Set<ApiType> types = [] // result
 
