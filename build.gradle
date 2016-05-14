@@ -1,3 +1,5 @@
+import org.gradle.internal.jvm.Jvm
+
 import java.time.Instant
 
 buildscript {
@@ -61,6 +63,10 @@ dependencies {
     compile 'org.webjars.bower:fuse.js:2.2.0'
     compile 'org.webjars.bower:clipboard:1.5.5'
     compile 'org.webjars.bower:font-awesome:4.5.0'
+    //^^^
+
+    //Doclets
+    compile files(Jvm.current().toolsJar)
     //^^^
 
     testCompile "org.spockframework:spock-core:1.0-groovy-2.4", {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2016 Ainrif <support@ainrif.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,25 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.provider.jaxrs
 
-import com.ainrif.apiator.core.reflection.ContextStack
-import com.ainrif.apiator.core.reflection.RUtils
+package com.ainrif.apiator.doclet.model
 
-import javax.ws.rs.Path
+class JavaDocInfo {
+    Map<String, ClassInfo> classes
 
-class JaxRsContextStack extends ContextStack {
-    JaxRsContextStack(Collection<? extends Class> collection) {
-        super(collection)
+    public static String createKey(ClassInfo info) {
+        return info.name
     }
 
-    @Override
-    String getName() {
-        this.last().canonicalName
+    public static String createKey(FieldInfo info) {
+        return info.name
     }
 
-    @Override
-    String getApiContextPath() {
-        (RUtils.getAnnotationList(this, Path) ?: null)?.last()?.value() ?: ''
+    public static String createKey(MethodInfo info) {
+        return "${info.name}_${info.paramTypeNames}".toString()
+    }
+
+    public static String createKey(ParamInfo info) {
+        return info.name
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2016 Ainrif <support@ainrif.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,25 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.provider.jaxrs
 
-import com.ainrif.apiator.core.reflection.ContextStack
-import com.ainrif.apiator.core.reflection.RUtils
+package com.ainrif.apiator.doclet;
 
-import javax.ws.rs.Path
+/**
+ * class level doc
+ */
+public class DocletTestModel {
 
-class JaxRsContextStack extends ContextStack {
-    JaxRsContextStack(Collection<? extends Class> collection) {
-        super(collection)
+    /**
+     * field level doc
+     */
+    public String stringField;
+
+    /**
+     * method level doc
+     *
+     * @param stringParam 1st param doc
+     * @param intParam    2nd param doc
+     * @return result param doc
+     */
+    public String method(String stringParam, int intParam) {
+        return null;
     }
 
-    @Override
-    String getName() {
-        this.last().canonicalName
-    }
-
-    @Override
-    String getApiContextPath() {
-        (RUtils.getAnnotationList(this, Path) ?: null)?.last()?.value() ?: ''
-    }
 }
