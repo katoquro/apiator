@@ -16,22 +16,20 @@
 
 package com.ainrif.apiator.doclet.model
 
+import com.ainrif.apiator.core.model.api.ApiContext
+import com.ainrif.apiator.core.model.api.ApiType
+
+import javax.annotation.Nullable
+
 class JavaDocInfo {
     Map<String, ClassInfo> classes
 
-    public static String createKey(ClassInfo info) {
-        return info.name
+    @Nullable ClassInfo findInfo(ApiContext apiContext) {
+        return classes[ClassInfo.createKey(apiContext)]
     }
 
-    public static String createKey(FieldInfo info) {
-        return info.name
+    @Nullable ClassInfo findInfo(ApiType apiType) {
+        return classes[ClassInfo.createKey(apiType)]
     }
 
-    public static String createKey(MethodInfo info) {
-        return "${info.name}_${info.paramTypeNames}".toString()
-    }
-
-    public static String createKey(ParamInfo info) {
-        return info.name
-    }
 }

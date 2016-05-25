@@ -22,6 +22,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
+/**
+ * Class level javadoc
+ */
 @Api("description")
 @Path("/entities") //todo test w/o class level @Path
 public class ServiceImpl<TEMPLATE> implements Service {
@@ -86,9 +89,14 @@ public class ServiceImpl<TEMPLATE> implements Service {
     private void somePrivateLogic() {
     }
 
+    /**
+     * Method level javadoc
+     *
+     * @param file Param level javadoc
+     */
     @POST
     @Path("/binary")
-    public OutputStream getStream(@FormParam("file") InputStream fileIS) {
+    public OutputStream getStream(@FormParam("file") InputStream file) {
         return null;
     }
 

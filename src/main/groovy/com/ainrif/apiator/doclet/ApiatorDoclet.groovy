@@ -23,19 +23,22 @@ import groovy.json.JsonBuilder
 
 import javax.annotation.Nullable
 
+import static java.io.File.createTempFile
+
 class ApiatorDoclet extends Doclet {
     public static final String OF_PARAM = '--output-file'
 
     /**
      * @param sourcePath
-     * @param basePackage
+     * @param basePackage if null then '.' package will be used
      * @param outputFile if null then tmp file will be created
      * @return outputFile absolute path
      */
     public static String runDoclet(String sourcePath,
-                                   String basePackage,
+                                   @Nullable String basePackage,
                                    @Nullable String outputFile) {
-        outputFile = outputFile ?: File.createTempFile('apiator', 'doclet').absolutePath
+        outputFile = outputFile ?: createTempFile('apiator', 'doclet').with { it.deleteOnExit(); it }.absolutePath
+        basePackage = basePackage ?: '.'
 
         String[] javaDocArgs = ['-sourcepath', sourcePath,
                                 '-doclet', ApiatorDoclet.class.name,

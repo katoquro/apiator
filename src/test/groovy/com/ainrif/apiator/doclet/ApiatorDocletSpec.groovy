@@ -33,12 +33,12 @@ class ApiatorDocletSpec extends Specification {
 
         when:
         def filePath = ApiatorDoclet.runDoclet(sourcePath, basePackage, null)
-        def index = new JsonSlurper().parse(new File(filePath)).asType(JavaDocInfo)
+        def index = new JsonSlurper().parse(new File(filePath)) as JavaDocInfo
 
         then:
         index.classes[testClassCanonicalName].description == 'class level doc'
         index.classes[testClassCanonicalName].fields['stringField'].description == 'field level doc'
-        def methodInfo = index.classes[testClassCanonicalName].methods['method_[String, int]']
+        def methodInfo = index.classes[testClassCanonicalName].methods['method_[java.lang.String, int]']
         methodInfo.description == 'method level doc'
         methodInfo.params['stringParam'].description == '1st param doc'
         methodInfo.params['intParam'].description == '2nd param doc'

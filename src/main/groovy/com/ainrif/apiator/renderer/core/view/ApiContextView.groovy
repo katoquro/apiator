@@ -16,22 +16,28 @@
 package com.ainrif.apiator.renderer.core.view
 
 import com.ainrif.apiator.core.model.api.ApiContext
+import com.ainrif.apiator.doclet.model.ClassInfo
+
+import javax.annotation.Nullable
 
 class ApiContextView implements Comparable<ApiContextView> {
     String name
+    String description
     String apiPath
     List<ApiEndpointView> apiEndpoints = []
 
-    ApiContextView(ApiContext context) {
+    ApiContextView(ApiContext context, @Nullable ClassInfo classInfo) {
         this.name = context.name
+        this.description = classInfo?.description
         this.apiPath = context.apiPath
-        this.apiEndpoints = context.apiEndpoints.collect { new ApiEndpointView(it) }
+        this.apiEndpoints = context.apiEndpoints
+                .collect { new ApiEndpointView(it, classInfo?.findInfo(it)) }
 
         this.apiEndpoints.sort()
     }
 
     @Override
     int compareTo(ApiContextView o) {
-        return apiPath.compareToIgnoreCase(o.apiPath) ?: name.compareTo(o.name)
+        return apiPath.compareToIgnoreCase(o.apiPath) ?: name <=> o.name
     }
 }

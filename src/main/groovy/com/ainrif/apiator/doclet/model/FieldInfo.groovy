@@ -16,7 +16,17 @@
 
 package com.ainrif.apiator.doclet.model
 
+import com.ainrif.apiator.core.model.api.ApiField
+
 class FieldInfo {
     String name
     String description
+
+    static String createKey(FieldInfo info) {
+        return info.name
+    }
+
+    static String createKey(ApiField info) {
+        return info.name
+    }
 }

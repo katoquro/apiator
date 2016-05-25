@@ -17,6 +17,8 @@ package com.ainrif.apiator.renderer.core
 
 import com.ainrif.apiator.api.Renderer
 import com.ainrif.apiator.core.model.api.ApiScheme
+import com.ainrif.apiator.doclet.ApiatorDoclet
+import com.ainrif.apiator.doclet.model.JavaDocInfo
 import com.ainrif.apiator.renderer.core.view.ApiSchemeView
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.fasterxml.jackson.annotation.JsonInclude
@@ -24,11 +26,22 @@ import com.fasterxml.jackson.annotation.PropertyAccessor
 import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
+import groovy.json.JsonSlurper
 
 class CoreJsonRenderer implements Renderer {
+
+    String sourcePath
+    String basePackage
+
     @Override
     String render(ApiScheme scheme) {
-        def apiScheme = new ApiSchemeView(scheme)
+        def docIndex = null
+        if (sourcePath) {
+            def filePath = ApiatorDoclet.runDoclet(sourcePath, basePackage, null)
+            docIndex = new JsonSlurper().parse(new File(filePath)) as JavaDocInfo
+        }
+
+        def apiScheme = new ApiSchemeView(scheme, docIndex)
 
         def mapper = new ObjectMapper()
         mapper.enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS)

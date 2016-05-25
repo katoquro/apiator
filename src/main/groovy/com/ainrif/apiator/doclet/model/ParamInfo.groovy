@@ -16,7 +16,19 @@
 
 package com.ainrif.apiator.doclet.model
 
+import com.ainrif.apiator.core.model.api.ApiEndpointParam
+
+import javax.annotation.Nullable
+
 class ParamInfo {
     String name
     String description
+
+    static String createKey(ParamInfo info) {
+        return info.name
+    }
+
+    @Nullable static String createKey(ApiEndpointParam param) {
+        return param.name
+    }
 }

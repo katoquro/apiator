@@ -31,7 +31,7 @@ abstract class ModelTypeBasedView implements Comparable<ModelTypeBasedView> {
 
     @Override
     int compareTo(ModelTypeBasedView o) {
-        return type?.compareToIgnoreCase(o.type) ?: modelType.compareTo(o.modelType)
+        return type?.compareToIgnoreCase(o.type) ?: modelType <=> o.modelType
     }
 
     static class ApiTypeGenericView extends ModelTypeBasedView {

@@ -83,6 +83,10 @@ abstract class MethodStack extends ArrayList<Method> {
         result
     }
 
+    public final MethodSignature getMethodSignature() {
+        return new MethodSignature(this.last())
+    }
+
     @Memoized(protectedCacheSize = 2)
     private Set<ApiType> collectAllUsedTypes() {
         Set<ApiType> types = [] // result

@@ -16,13 +16,18 @@
 package com.ainrif.apiator.renderer.core.view
 
 import com.ainrif.apiator.core.model.api.ApiType
+import com.ainrif.apiator.doclet.model.ClassInfo
+
+import javax.annotation.Nullable
 
 class ApiEnumerationView extends ModelTypeBasedView {
+    String description
     List<String> values = []
 
-    ApiEnumerationView(ApiType type) {
+    ApiEnumerationView(ApiType type, @Nullable ClassInfo classInfo) {
         super(type)
 
-        values = type.rawType.enumConstants*.asType(Enum)*.name()
+        this.description = classInfo?.description
+        this.values = type.rawType.enumConstants*.asType(Enum)*.name()
     }
 }

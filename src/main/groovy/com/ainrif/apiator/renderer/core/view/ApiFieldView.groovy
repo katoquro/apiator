@@ -16,16 +16,21 @@
 package com.ainrif.apiator.renderer.core.view
 
 import com.ainrif.apiator.core.model.api.ApiField
+import com.ainrif.apiator.doclet.model.FieldInfo
+
+import javax.annotation.Nullable
 
 class ApiFieldView extends ModelTypeBasedView.ApiTypeGenericView {
     String name
+    String description
     boolean readable
     boolean writable
 
-    ApiFieldView(ApiField field) {
+    ApiFieldView(ApiField field, @Nullable FieldInfo fieldInfo) {
         super(field.type)
 
         this.name = field.name
+        this.description = fieldInfo?.description
         this.readable = field.readable
         this.writable = field.writable
     }

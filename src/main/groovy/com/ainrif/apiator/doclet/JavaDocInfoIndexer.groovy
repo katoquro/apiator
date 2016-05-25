@@ -21,14 +21,12 @@ import com.sun.javadoc.ClassDoc
 import com.sun.javadoc.FieldDoc
 import com.sun.javadoc.MethodDoc
 
-import static JavaDocInfo.createKey
-
 class JavaDocInfoIndexer {
     JavaDocInfo index
 
     JavaDocInfoIndexer(ClassDoc[] context) {
         this.index = context.collect { processClass(it) }
-                .collectEntries { [createKey(it), it] }
+                .collectEntries { [ClassInfo.createKey(it), it] }
                 .with { new JavaDocInfo(classes: it) }
     }
 
@@ -36,15 +34,15 @@ class JavaDocInfoIndexer {
         def result = new ClassInfo()
 
         result.name = context.qualifiedTypeName()
-        result.description = context.commentText()
+        result.description = context.commentText() ?: null
 
         result.methods = context.methods()
                 .collect { processMethod(it) }
-                .collectEntries { [createKey(it), it] }
+                .collectEntries { [MethodInfo.createKey(it), it] }
 
         result.fields = context.fields()
                 .collect { processField(it) }
-                .collectEntries { [createKey(it), it] }
+                .collectEntries { [FieldInfo.createKey(it), it] }
 
         return result
     }
@@ -53,20 +51,20 @@ class JavaDocInfoIndexer {
         def result = new MethodInfo()
 
         result.name = methodDoc.name()
-        result.paramTypeNames = methodDoc.parameters()*.typeName()
-        result.description = methodDoc.commentText()
+        result.paramTypeNames = methodDoc.parameters()*.type()*.qualifiedTypeName()
+        result.description = methodDoc.commentText() ?: null
 
         result.params = methodDoc.paramTags()
                 .collectEntries {
             def info = new ParamInfo(name: it.parameterName(), description: it.parameterComment())
 
-            return [createKey(info), info]
+            return [ParamInfo.createKey(info), info]
         }
 
         return result
     }
 
     private static FieldInfo processField(FieldDoc fieldDoc) {
-        return new FieldInfo(name: fieldDoc.name(), description: fieldDoc.commentText())
+        return new FieldInfo(name: fieldDoc.name(), description: fieldDoc.commentText() ?: null)
     }
 }
