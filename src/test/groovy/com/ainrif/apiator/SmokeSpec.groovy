@@ -18,8 +18,8 @@ package com.ainrif.apiator
 import com.ainrif.apiator.core.Apiator
 import com.ainrif.apiator.core.ApiatorConfig
 import com.ainrif.apiator.modeltype.JaxRsModelTypeResolver
-import com.ainrif.apiator.renderer.core.CoreHtmlRenderer
-import com.ainrif.apiator.renderer.core.CoreJsonRenderer
+import com.ainrif.apiator.renderer.core.html.CoreHtmlRenderer
+import com.ainrif.apiator.renderer.core.json.CoreJsonRenderer
 import groovy.json.JsonSlurper
 import spock.lang.Specification
 

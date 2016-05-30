@@ -15,7 +15,7 @@
  */
 package com.ainrif.apiator
 
-import com.ainrif.apiator.renderer.core.CoreHtmlRenderer
+import com.ainrif.apiator.renderer.core.html.CoreHtmlRenderer
 
 class UiDevGenerator {
     public static void main(String[] args) {
@@ -24,7 +24,7 @@ class UiDevGenerator {
 
         def json = new File(jsonStubPath).text
 
-        new CoreHtmlRenderer(htmlPath).renderTemplate(json)
+        new CoreHtmlRenderer({ toFile = htmlPath }).renderTemplate(json)
     }
 }
 

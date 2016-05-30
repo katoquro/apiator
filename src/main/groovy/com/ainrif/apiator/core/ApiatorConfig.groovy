@@ -20,7 +20,7 @@ import com.ainrif.apiator.api.Renderer
 import com.ainrif.apiator.api.WebServiceProvider
 import com.ainrif.apiator.api.annotation.Api
 import com.ainrif.apiator.provider.jaxrs.JaxRsProvider
-import com.ainrif.apiator.renderer.core.CoreJsonRenderer
+import com.ainrif.apiator.renderer.core.json.CoreJsonRenderer
 
 import java.lang.annotation.Annotation
 

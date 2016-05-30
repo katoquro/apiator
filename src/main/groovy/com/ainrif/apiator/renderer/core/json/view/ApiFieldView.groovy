@@ -13,21 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.renderer.core.view
+package com.ainrif.apiator.renderer.core.json.view
 
-import com.ainrif.apiator.core.model.api.ApiType
-import com.ainrif.apiator.doclet.model.ClassInfo
+import com.ainrif.apiator.core.model.api.ApiField
+import com.ainrif.apiator.doclet.model.FieldInfo
 
 import javax.annotation.Nullable
 
-class ApiEnumerationView extends ModelTypeBasedView {
+class ApiFieldView extends ModelTypeBasedView.ApiTypeGenericView {
+    String name
     String description
-    List<String> values = []
+    boolean readable
+    boolean writable
 
-    ApiEnumerationView(ApiType type, @Nullable ClassInfo classInfo) {
-        super(type)
+    ApiFieldView(ApiField field, @Nullable FieldInfo fieldInfo) {
+        super(field.type)
 
-        this.description = classInfo?.description
-        this.values = type.rawType.enumConstants*.asType(Enum)*.name()
+        this.name = field.name
+        this.description = fieldInfo?.description
+        this.readable = field.readable
+        this.writable = field.writable
     }
 }

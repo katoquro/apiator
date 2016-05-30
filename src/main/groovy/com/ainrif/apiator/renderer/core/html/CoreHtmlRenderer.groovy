@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2016 Ainrif <support@ainrif.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,58 +13,64 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.renderer.core
+package com.ainrif.apiator.renderer.core.html
 
 import com.ainrif.apiator.api.Renderer
 import com.ainrif.apiator.core.model.api.ApiScheme
+import com.ainrif.apiator.renderer.core.json.CoreJsonRenderer
 import groovy.text.StreamingTemplateEngine
 import org.lesscss.LessCompiler
 import org.lesscss.LessSource
 import org.slf4j.LoggerFactory
 import org.webjars.WebJarAssetLocator
 
-import javax.annotation.Nullable
 import java.nio.file.*
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import static java.util.Collections.emptyMap
 
 class CoreHtmlRenderer implements Renderer {
-    static def logger = LoggerFactory.getLogger(CoreHtmlRenderer)
+    private static def logger = LoggerFactory.getLogger(CoreHtmlRenderer)
 
-    String js
-    String css
-    String hbs
+    protected String js
+    protected String css
+    protected String hbs
 
-    String toFile
+    protected WebJarAssetLocator webJarsLocator
 
-    final WebJarAssetLocator webJarsLocator
+    @Delegate final Config config
 
-    CoreHtmlRenderer(@Nullable toFile) {
-        this()
-        this.toFile = toFile
+    private static class Config extends CoreJsonRenderer.Config {
+        String toFile
     }
 
-    /**
-     * The main build flow to assemble resources
-     */
+    CoreHtmlRenderer(@DelegatesTo(Config) Closure configurator) {
+        this()
+        this.config.with configurator
+    }
+
+    CoreHtmlRenderer(Config config) {
+        this.config = config
+    }
+
     CoreHtmlRenderer() {
+        this.config = new Config()
+    }
+
+    @Override
+    String render(ApiScheme scheme) {
+        def json = new CoreJsonRenderer(config).render(scheme)
+
+        return renderTemplate(json)
+    }
+
+    private void buildStatic() {
         webJarsLocator = new WebJarAssetLocator()
 
-        List<Path> jsPaths = []
-        jsPaths << resolveResourcePath('modulejs', 'modulejs.min.js')
-        jsPaths << resolveResourcePath('jquery', 'jquery.min.js')
-        jsPaths << resolveResourcePath('lodash', 'lodash.min.js')
-        jsPaths << resolveResourcePath('bootstrap', 'bootstrap.min.js')
-        jsPaths << resolveResourcePath('handlebars', 'handlebars.min.js')
-        jsPaths << resolveResourcePath('fuse.js', 'fuse.min.js')
-        jsPaths << resolveResourcePath('clipboard', 'clipboard.min.js')
-
-        List<Path> cssPaths = []
-        cssPaths << resolveResourcePath('bootstrap', 'bootstrap.min.css')
-        cssPaths << resolveResourcePath('font-awesome', 'font-awesome.min.css')
-
-        // Resource processing
+        // js
+        List<Path> jsPaths = StaticDependencies.js.collect { lib, file ->
+            resolveResourcePath(lib, file)
+        }
 
         js = jsPaths.collect { it.text }
                 .join('\r\n')
@@ -74,6 +80,11 @@ class CoreHtmlRenderer implements Renderer {
                 .collect { it.text }
                 .join('\r\n')
 
+        List<Path> cssPaths = StaticDependencies.css.collect { lib, file ->
+            resolveResourcePath(lib, file)
+        }
+
+        // css
         def tmpdir = Files.createTempDirectory('apiator')
         def lessDir = resolveResourcePath('/apiator/less')
         Files.walk(lessDir)
@@ -98,6 +109,7 @@ class CoreHtmlRenderer implements Renderer {
                 .make([fa_woff: encodeToBase64(resolveResourcePath('font-awesome', 'fontawesome-webfont.woff'))])
                 .toString()
 
+        // hbs
         hbs = Files.walk(resolveResourcePath('/apiator/hbs'))
                 .filter { !Files.isDirectory(it) }
                 .collect { [name: (it.fileName.toString() - '.hbs'), content: it.text] }
@@ -105,16 +117,28 @@ class CoreHtmlRenderer implements Renderer {
                 .join('\r\n')
     }
 
-    @Override
-    String render(ApiScheme scheme) {
-        def json = new CoreJsonRenderer().render(scheme)
-
-        return renderTemplate(json)
-    }
-
     private Path resolveResourcePath(String library, String file) {
         def path = webJarsLocator.getFullPath(library, file)
         resolveResourcePath(path)
+    }
+
+    private Path resolveResourcePath(String path) {
+        def resource = getClass().getResource(path)
+
+        if (!resource) {
+            resource = getClass().classLoader.getResource(path)
+        }
+
+        URI uri = resource.toURI()
+        Path resourcePath
+        if (uri.scheme == 'jar') {
+            FileSystem fileSystem = getFileSystem(uri)
+            resourcePath = fileSystem.getPath(path)
+        } else {
+            resourcePath = Paths.get(uri)
+        }
+
+        resourcePath
     }
 
     private static FileSystem getFileSystem(URI uri) {
@@ -128,30 +152,12 @@ class CoreHtmlRenderer implements Renderer {
         fs
     }
 
-    private Path resolveResourcePath(String localResource) {
-        def resource = getClass().getResource(localResource)
-
-        if (!resource) {
-            resource = getClass().classLoader.getResource(localResource)
-        }
-
-        URI uri = resource.toURI()
-        Path resourcePath
-        if (uri.scheme == 'jar') {
-            FileSystem fileSystem = getFileSystem(uri)
-            resourcePath = fileSystem.getPath(localResource)
-        } else {
-            resourcePath = Paths.get(uri)
-        }
-
-        resourcePath
-    }
-
     protected static String encodeToBase64(Path path) {
         return Base64.encoder.encodeToString(path.bytes)
     }
 
     protected String renderTemplate(String json) {
+        buildStatic()
         def html = new StreamingTemplateEngine()
                 .createTemplate(resolveResourcePath('/index.html').text)
                 .make([json   : json,

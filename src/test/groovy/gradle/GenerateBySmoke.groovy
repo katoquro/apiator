@@ -17,7 +17,7 @@ package gradle
 
 import com.ainrif.apiator.core.Apiator
 import com.ainrif.apiator.core.ApiatorConfig
-import com.ainrif.apiator.renderer.core.CoreHtmlRenderer
+import com.ainrif.apiator.renderer.core.html.CoreHtmlRenderer
 
 import javax.ws.rs.Path
 
@@ -29,7 +29,7 @@ class GenerateBySmoke {
         def config = new ApiatorConfig(
                 basePackage: jaxrsPackage,
                 apiClass: Path,
-                renderer: new CoreHtmlRenderer(path))
+                renderer: new CoreHtmlRenderer({ toFile = path }))
 
         new Apiator(config).render()
     }
