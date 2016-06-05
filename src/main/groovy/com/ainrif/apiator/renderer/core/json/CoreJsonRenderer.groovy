@@ -26,7 +26,6 @@ import com.fasterxml.jackson.annotation.PropertyAccessor
 import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
-import groovy.io.FileType
 import groovy.json.JsonSlurper
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -60,14 +59,20 @@ class CoreJsonRenderer implements Renderer {
         logger.debug('auto configuration: {}', autoConfig)
         if (autoConfig) {
             if (!sourcePath) {
-                sourcePath = detectSourcePath(scheme)
+                sourcePath = new SourcePathDetector(scheme).detect()
             }
         }
 
         def docIndex = null
         if (sourcePath) {
-            def filePath = ApiatorDoclet.runDoclet(sourcePath, basePackage, null)
-            docIndex = new JsonSlurper().parse(new File(filePath)) as JavaDocInfo
+            try {
+                getClass().forName('com.sun.javadoc.Doclet')
+
+                def filePath = ApiatorDoclet.runDoclet(sourcePath, basePackage, null)
+                docIndex = new JsonSlurper().parse(new File(filePath)) as JavaDocInfo
+            } catch (ClassNotFoundException e) {
+                logger.info("JavaDoc Spi was not found. tools.jar may be missing at classpath")
+            }
         }
 
         def apiScheme = new ApiSchemeView(scheme, docIndex)
@@ -82,33 +87,5 @@ class CoreJsonRenderer implements Renderer {
         mapper.serializationInclusion = JsonInclude.Include.NON_NULL
 
         mapper.writeValueAsString(apiScheme)
-    }
-
-    protected String detectSourcePath(ApiScheme scheme) {
-        String someApiContext = scheme.apiContexts.first()?.name?.tokenize('.')?.last()
-        if (!someApiContext) return null;
-
-        someApiContext = "${someApiContext}.java"
-        List<File> files = []
-        new File(System.getProperty('user.dir'))
-                .eachFileRecurse(FileType.FILES) { files << it }
-
-        def sourceFile = files.find { it.name == someApiContext }.toPath()
-        if (!sourceFile) {
-            logger.warn('Cannot find source class for Api Context {}. Skip auto configuration', someApiContext)
-            return null
-        }
-
-        def packagePath = sourceFile.filterLine { it.startsWith('package') }
-                .toString()
-                .tokenize(' ')
-                .last()
-                .trim()
-                .replaceFirst(/;/, '')
-                .tokenize('.')
-
-        def sourcePath = '/' + sourceFile.subpath(0, sourceFile.nameCount - (packagePath.size() + 1)).toString()
-
-        return sourcePath
     }
 }

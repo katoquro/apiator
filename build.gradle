@@ -79,8 +79,9 @@ dependencies {
         exclude group: 'org.hamcrest'
     }
 
-    testCompile "org.hamcrest:hamcrest-all:1.3"
-    testCompile "ch.qos.logback:logback-classic:1.1.2"
+    testCompile 'cglib:cglib:3.2.2'
+    testCompile 'org.hamcrest:hamcrest-all:1.3'
+    testCompile 'ch.qos.logback:logback-classic:1.1.2'
 }
 
 task archiveReports(type: Zip) {

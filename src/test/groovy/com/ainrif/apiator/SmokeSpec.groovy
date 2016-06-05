@@ -50,6 +50,16 @@ class SmokeSpec extends Specification {
         new JsonSlurper().parseText(actual) == new JsonSlurper().parseText(smokeJson)
     }
 
+    def "Smoke test; auto-detection of source paths"() {
+        when:
+        def config = configWithJsonRenderer
+        config.renderer = new CoreJsonRenderer()
+        def actual = new Apiator(config).render()
+
+        then:
+        new JsonSlurper().parseText(actual) == new JsonSlurper().parseText(smokeJson)
+    }
+
     def "Smoke test; should produce the same result each time"() {
         given:
         def apiator1 = new Apiator(configWithJsonRenderer)
