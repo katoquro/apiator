@@ -13,11 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.renderer.core.view
+package com.ainrif.apiator.renderer.core.json.view
 
 import com.ainrif.apiator.core.model.Helper
 import com.ainrif.apiator.core.model.api.ApiScheme
 import com.ainrif.apiator.core.reflection.RUtils
+import com.ainrif.apiator.doclet.model.JavaDocInfo
+
+import javax.annotation.Nullable
 
 class ApiSchemeView {
     Map<String, String> apiatorInfo
@@ -26,15 +29,20 @@ class ApiSchemeView {
     List<ApiEnumerationView> usedEnumerations = []
     List<ApiTypeView> usedApiTypes = []
 
-    ApiSchemeView(ApiScheme scheme) {
+    ApiSchemeView(ApiScheme scheme, @Nullable JavaDocInfo docInfo) {
         this.apiatorInfo = RUtils.asMap(scheme.apiatorInfo)
         this.clientApiInfo = RUtils.asMap(scheme.clientApiInfo)
-        this.apiContexts = scheme.apiContexts.collect { new ApiContextView(it) }.sort()
-        this.usedEnumerations = scheme.usedEnumerations.collect { new ApiEnumerationView(it) }.sort()
+        this.apiContexts = scheme.apiContexts
+                .collect { new ApiContextView(it, docInfo?.findInfo(it)) }
+                .sort()
+        this.usedEnumerations = scheme.usedEnumerations
+                .collect { new ApiEnumerationView(it, docInfo?.findInfo(it)) }
+                .sort()
 
         this.usedApiTypes = scheme.usedApiTypes.collect {
+            def classInfo = docInfo?.findInfo(it)
             List<ApiFieldView> fields = Helper.getPropertiesTypes(it.rawType)
-                    .collect { k, v -> new ApiFieldView(v) }
+                    .collect { k, v -> new ApiFieldView(v, classInfo?.findInfo(v)) }
 
             new ApiTypeView(it, fields)
         }

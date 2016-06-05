@@ -54,7 +54,7 @@ class JaxRsProvider implements WebServiceProvider {
 
     @Override
     List<MethodStack> getMethodStacks(ContextStack contextStack) {
-        def ctxStack = contextStack.asType(JaxRsContextStack)
+        def ctxStack = contextStack as JaxRsContextStack
         RUtils.getAllMethods(contextStack.last(), { Modifier.isPublic(it.modifiers) } as Predicate)
                 .findAll { it.value.any { method -> wsAnnotations.any { method.isAnnotationPresent(it) } } }
                 .collect { signature, methods -> new JaxRsMethodStack(methods, ctxStack) }

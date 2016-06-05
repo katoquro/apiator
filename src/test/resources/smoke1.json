@@ -24,11 +24,13 @@
           }
         },
         {
+          "description": "Method level javadoc",
           "method": "POST",
           "name": "getStream",
           "params": [
             {
               "basedOn": [],
+              "description": "Param level javadoc",
               "httpParamType": "FORM",
               "index": 0,
               "modelType": "BINARY",
@@ -218,7 +220,8 @@
         }
       ],
       "apiPath": "/entities",
-      "name": "ServiceImpl"
+      "description": "Class level javadoc",
+      "name": "com.ainrif.apiator.test.model.jaxrs.smoke.ServiceImpl"
     }
   ],
   "apiatorInfo": {

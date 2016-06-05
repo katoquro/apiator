@@ -13,25 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.renderer.core.view
+package com.ainrif.apiator.renderer.core.json.view
 
-import com.ainrif.apiator.core.model.api.ApiContext
+import com.ainrif.apiator.core.model.api.ApiType
 
-class ApiContextView implements Comparable<ApiContextView> {
-    String name
-    String apiPath
-    List<ApiEndpointView> apiEndpoints = []
+class ApiTypeView extends ModelTypeBasedView {
+    List<ApiFieldView> fields
 
-    ApiContextView(ApiContext context) {
-        this.name = context.name
-        this.apiPath = context.apiPath
-        this.apiEndpoints = context.apiEndpoints.collect { new ApiEndpointView(it) }
+    ApiTypeView(ApiType type, List<ApiFieldView> fields) {
+        super(type)
 
-        this.apiEndpoints.sort()
-    }
-
-    @Override
-    int compareTo(ApiContextView o) {
-        return apiPath.compareToIgnoreCase(o.apiPath) ?: name.compareTo(o.name)
+        this.fields = fields
     }
 }

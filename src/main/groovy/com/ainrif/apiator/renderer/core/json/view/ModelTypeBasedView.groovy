@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.renderer.core.view
+package com.ainrif.apiator.renderer.core.json.view
 
 import com.ainrif.apiator.core.model.ModelType
 import com.ainrif.apiator.core.model.api.ApiType
@@ -31,7 +31,7 @@ abstract class ModelTypeBasedView implements Comparable<ModelTypeBasedView> {
 
     @Override
     int compareTo(ModelTypeBasedView o) {
-        return type?.compareToIgnoreCase(o.type) ?: modelType.compareTo(o.modelType)
+        return type?.compareToIgnoreCase(o.type) ?: modelType <=> o.modelType
     }
 
     static class ApiTypeGenericView extends ModelTypeBasedView {

@@ -13,18 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.model.api
+package com.ainrif.apiator.renderer.core.json.view
 
-import com.ainrif.apiator.core.reflection.MethodSignature
+import com.ainrif.apiator.core.model.api.ApiEndpointReturnType
 
-class ApiEndpoint {
-    String name
-    String path
-    ApiEndpointMethod method
-    ApiEndpointReturnType returnType
-    List<ApiEndpointParam> params
-    Set<ApiType> usedEnumerations
-    Set<ApiType> usedApiTypes
-
-    MethodSignature methodSignature
+class ApiEndpointReturnTypeView extends ModelTypeBasedView.ApiTypeGenericView {
+    ApiEndpointReturnTypeView(ApiEndpointReturnType returnType) {
+        super(returnType.type)
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2016 Ainrif <support@ainrif.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.renderer.core.view
 
-import com.ainrif.apiator.core.model.api.ApiEndpointReturnType
+package com.ainrif.apiator.doclet.model
 
-class ApiEndpointReturnTypeView extends ModelTypeBasedView.ApiTypeGenericView {
-    ApiEndpointReturnTypeView(ApiEndpointReturnType returnType) {
-        super(returnType.type)
+import com.ainrif.apiator.core.model.api.ApiField
+
+class FieldInfo {
+    String name
+    String description
+
+    static String createKey(FieldInfo info) {
+        return info.name
+    }
+
+    static String createKey(ApiField info) {
+        return info.name
     }
 }

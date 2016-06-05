@@ -18,7 +18,7 @@ package com.ainrif.apiator.core.model.api
 class ApiEndpointParam {
     ApiEndpointParamType httpParamType
     Integer index
-    String name
+    String name // null for body param type
     ApiType type
     String defaultValue
 }

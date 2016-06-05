@@ -69,7 +69,9 @@ class Apiator {
                             returnType: it.returnType,
                             params: it.params,
                             usedEnumerations: it.usedEnumerations,
-                            usedApiTypes: it.usedApiTypes)
+                            usedApiTypes: it.usedApiTypes,
+                            methodSignature: it.methodSignature
+                    )
                 }
 
                 apiCtx.usedEnumerations = apiCtx.apiEndpoints

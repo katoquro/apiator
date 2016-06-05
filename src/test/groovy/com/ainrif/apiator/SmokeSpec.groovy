@@ -18,9 +18,12 @@ package com.ainrif.apiator
 import com.ainrif.apiator.core.Apiator
 import com.ainrif.apiator.core.ApiatorConfig
 import com.ainrif.apiator.modeltype.JaxRsModelTypeResolver
-import com.ainrif.apiator.renderer.core.CoreHtmlRenderer
+import com.ainrif.apiator.renderer.core.html.CoreHtmlRenderer
+import com.ainrif.apiator.renderer.core.json.CoreJsonRenderer
 import groovy.json.JsonSlurper
 import spock.lang.Specification
+
+import java.nio.file.Paths
 
 import static org.apache.commons.lang3.StringUtils.deleteWhitespace
 import static org.hamcrest.Matchers.greaterThan
@@ -28,15 +31,30 @@ import static spock.util.matcher.HamcrestSupport.expect
 
 class SmokeSpec extends Specification {
     static final String smokeJson = SmokeSpec.classLoader.getResource('smoke1.json').text
+    static final String sourcePath = Paths.get(System.getProperty('user.dir'), 'src', 'test', 'java').toString()
     static final String jaxrsPackage = 'com.ainrif.apiator.test.model.jaxrs.smoke'
     static final def resolvers = [new JaxRsModelTypeResolver()]
 
-    def "Smoke test; jax-rs"() {
-        given:
-        Apiator apiator = new Apiator(new ApiatorConfig(basePackage: jaxrsPackage, modelTypeResolvers: resolvers))
+    ApiatorConfig getConfigWithJsonRenderer() {
+        return new ApiatorConfig(
+                renderer: new CoreJsonRenderer(sourcePath: sourcePath),
+                basePackage: jaxrsPackage,
+                modelTypeResolvers: resolvers)
+    }
 
+    def "Smoke test; jax-rs"() {
         when:
-        def actual = apiator.render()
+        def actual = new Apiator(configWithJsonRenderer).render()
+
+        then:
+        new JsonSlurper().parseText(actual) == new JsonSlurper().parseText(smokeJson)
+    }
+
+    def "Smoke test; auto-detection of source paths"() {
+        when:
+        def config = configWithJsonRenderer
+        config.renderer = new CoreJsonRenderer()
+        def actual = new Apiator(config).render()
 
         then:
         new JsonSlurper().parseText(actual) == new JsonSlurper().parseText(smokeJson)
@@ -44,9 +62,9 @@ class SmokeSpec extends Specification {
 
     def "Smoke test; should produce the same result each time"() {
         given:
-        def apiator1 = new Apiator(new ApiatorConfig(basePackage: jaxrsPackage, modelTypeResolvers: resolvers))
-        def apiator2 = new Apiator(new ApiatorConfig(basePackage: jaxrsPackage, modelTypeResolvers: resolvers))
-        def apiator3 = new Apiator(new ApiatorConfig(basePackage: jaxrsPackage, modelTypeResolvers: resolvers))
+        def apiator1 = new Apiator(configWithJsonRenderer)
+        def apiator2 = new Apiator(configWithJsonRenderer)
+        def apiator3 = new Apiator(configWithJsonRenderer)
 
         when:
         def render1 = apiator1.render()

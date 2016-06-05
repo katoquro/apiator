@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2016 Ainrif <support@ainrif.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.model.api
 
-import com.ainrif.apiator.core.reflection.MethodSignature
+package com.ainrif.apiator.doclet;
 
-class ApiEndpoint {
-    String name
-    String path
-    ApiEndpointMethod method
-    ApiEndpointReturnType returnType
-    List<ApiEndpointParam> params
-    Set<ApiType> usedEnumerations
-    Set<ApiType> usedApiTypes
+/**
+ * class level doc
+ */
+public class DocletTestModel {
 
-    MethodSignature methodSignature
+    /**
+     * field level doc
+     */
+    public String stringField;
+
+    /**
+     * method level doc
+     *
+     * @param stringParam 1st param doc
+     * @param intParam    2nd param doc
+     * @return result param doc
+     */
+    public String method(String stringParam, int intParam) {
+        return null;
+    }
+
 }

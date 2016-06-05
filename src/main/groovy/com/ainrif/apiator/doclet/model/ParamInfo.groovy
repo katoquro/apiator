@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2016 Ainrif <support@ainrif.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.renderer.core.view
 
-import com.ainrif.apiator.core.model.api.ApiType
+package com.ainrif.apiator.doclet.model
 
-class ApiTypeView extends ModelTypeBasedView {
-    List<ApiFieldView> fields
+import com.ainrif.apiator.core.model.api.ApiEndpointParam
 
-    ApiTypeView(ApiType type, List<ApiFieldView> fields) {
-        super(type)
+import javax.annotation.Nullable
 
-        this.fields = fields
+class ParamInfo {
+    String name
+    String description
+
+    static String createKey(ParamInfo info) {
+        return info.name
+    }
+
+    @Nullable static String createKey(ApiEndpointParam param) {
+        return param.name
     }
 }

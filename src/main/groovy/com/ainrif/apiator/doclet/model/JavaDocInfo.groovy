@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2016 Ainrif <support@ainrif.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.model.api
 
-import com.ainrif.apiator.core.reflection.MethodSignature
+package com.ainrif.apiator.doclet.model
 
-class ApiEndpoint {
-    String name
-    String path
-    ApiEndpointMethod method
-    ApiEndpointReturnType returnType
-    List<ApiEndpointParam> params
-    Set<ApiType> usedEnumerations
-    Set<ApiType> usedApiTypes
+import com.ainrif.apiator.core.model.api.ApiContext
+import com.ainrif.apiator.core.model.api.ApiType
 
-    MethodSignature methodSignature
+import javax.annotation.Nullable
+
+class JavaDocInfo {
+    Map<String, ClassInfo> classes
+
+    @Nullable ClassInfo findInfo(ApiContext apiContext) {
+        return classes[ClassInfo.createKey(apiContext)]
+    }
+
+    @Nullable ClassInfo findInfo(ApiType apiType) {
+        return classes[ClassInfo.createKey(apiType)]
+    }
+
 }

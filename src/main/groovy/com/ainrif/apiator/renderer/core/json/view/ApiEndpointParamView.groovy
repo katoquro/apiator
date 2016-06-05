@@ -13,24 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.renderer.core.view
+package com.ainrif.apiator.renderer.core.json.view
 
 import com.ainrif.apiator.core.model.api.ApiEndpointParam
 import com.ainrif.apiator.core.model.api.ApiEndpointParamType
+import com.ainrif.apiator.doclet.model.ParamInfo
+
+import javax.annotation.Nullable
 
 class ApiEndpointParamView extends ModelTypeBasedView.ApiTypeGenericView
         implements Comparable<ApiEndpointParamView> {
     String name
+    String description
     ApiEndpointParamType httpParamType
     Integer index
     String defaultValue
 
-    ApiEndpointParamView(ApiEndpointParam endpointParam) {
+    ApiEndpointParamView(ApiEndpointParam endpointParam, @Nullable ParamInfo paramInfo) {
         super(endpointParam.type)
 
+        this.name = endpointParam.name
+        this.description = paramInfo?.description
         this.httpParamType = endpointParam.httpParamType
         this.index = endpointParam.index
-        this.name = endpointParam.name
         this.defaultValue = endpointParam.defaultValue
     }
 
