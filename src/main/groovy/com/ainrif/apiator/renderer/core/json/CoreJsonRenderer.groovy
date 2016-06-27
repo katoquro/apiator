@@ -68,7 +68,10 @@ class CoreJsonRenderer implements Renderer {
             try {
                 getClass().forName('com.sun.javadoc.Doclet')
 
-                def filePath = ApiatorDoclet.runDoclet(sourcePath, basePackage, null)
+                def result = ApiatorDoclet.runDoclet(sourcePath, basePackage, null)
+                if (0 != result.code) System.exit(result.code)
+
+                def filePath = result.outputFile
                 docIndex = new JsonSlurper().parse(new File(filePath)) as JavaDocInfo
             } catch (ClassNotFoundException e) {
                 logger.info("JavaDoc Spi was not found. tools.jar may be missing at classpath")
