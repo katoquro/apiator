@@ -16,7 +16,7 @@
 package com.ainrif.apiator.renderer.core.json.view
 
 import com.ainrif.apiator.core.model.api.ApiField
-import com.ainrif.apiator.doclet.model.FieldInfo
+import com.ainrif.apiator.renderer.core.json.javadoc.FieldMergedInfo
 
 import javax.annotation.Nullable
 
@@ -26,7 +26,7 @@ class ApiFieldView extends ModelTypeBasedView.ApiTypeGenericView {
     boolean readable
     boolean writable
 
-    ApiFieldView(ApiField field, @Nullable FieldInfo fieldInfo) {
+    ApiFieldView(ApiField field, @Nullable FieldMergedInfo fieldInfo) {
         super(field.type)
 
         this.name = field.name

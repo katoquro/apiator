@@ -16,36 +16,17 @@
 
 package com.ainrif.apiator.doclet.model
 
-import com.ainrif.apiator.core.model.api.ApiContext
-import com.ainrif.apiator.core.model.api.ApiEndpoint
-import com.ainrif.apiator.core.model.api.ApiField
-import com.ainrif.apiator.core.model.api.ApiType
-
-import javax.annotation.Nullable
-
 class ClassInfo {
     String name
     String description
     Map<String, MethodInfo> methods
     Map<String, FieldInfo> fields
 
-    @Nullable MethodInfo findInfo(ApiEndpoint apiEndpoint) {
-        return methods[MethodInfo.createKey(apiEndpoint)]
-    }
-
-    @Nullable FieldInfo findInfo(ApiField apiField) {
-        return fields[FieldInfo.createKey(apiField)]
-    }
-
     static String createKey(ClassInfo info) {
         return info.name
     }
 
-    static String createKey(ApiContext apiContext) {
-        return apiContext.name
-    }
-
-    static String createKey(ApiType apiType) {
-        return apiType.rawType.canonicalName
+    static String createKey(Class<?> apiType) {
+        return apiType.canonicalName
     }
 }

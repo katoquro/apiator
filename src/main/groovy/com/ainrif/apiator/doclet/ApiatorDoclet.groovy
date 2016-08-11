@@ -52,7 +52,7 @@ class ApiatorDoclet extends Doclet {
     }
 
     public static boolean start(RootDoc root) {
-        def docInfo = new JavaDocInfoIndexer(root.classes()).index
+        def docInfo = new JavaDocInfoBuilder(root.classes()).content
 
         def filePath = getOptionValue(root.options(), OF_PARAM)[1]
         new File(filePath).write(new JsonBuilder(docInfo).toString())

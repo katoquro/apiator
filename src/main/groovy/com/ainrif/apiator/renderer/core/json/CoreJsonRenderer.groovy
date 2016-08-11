@@ -19,6 +19,7 @@ import com.ainrif.apiator.api.Renderer
 import com.ainrif.apiator.core.model.api.ApiScheme
 import com.ainrif.apiator.doclet.ApiatorDoclet
 import com.ainrif.apiator.doclet.model.JavaDocInfo
+import com.ainrif.apiator.renderer.core.json.javadoc.JavaDocInfoIndexer
 import com.ainrif.apiator.renderer.core.json.view.ApiSchemeView
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.fasterxml.jackson.annotation.JsonInclude
@@ -63,7 +64,7 @@ class CoreJsonRenderer implements Renderer {
             }
         }
 
-        def docIndex = null
+        def javaDocInfo = null
         if (sourcePath) {
             try {
                 getClass().forName('com.sun.javadoc.Doclet')
@@ -72,13 +73,15 @@ class CoreJsonRenderer implements Renderer {
                 if (0 != result.code) System.exit(result.code)
 
                 def filePath = result.outputFile
-                docIndex = new JsonSlurper().parse(new File(filePath)) as JavaDocInfo
+                javaDocInfo = new JsonSlurper().parse(new File(filePath)) as JavaDocInfo
+
+
             } catch (ClassNotFoundException e) {
                 logger.info("JavaDoc Spi was not found. tools.jar may be missing at classpath")
             }
         }
 
-        def apiScheme = new ApiSchemeView(scheme, docIndex)
+        def apiScheme = new ApiSchemeView(scheme, new JavaDocInfoIndexer(javaDocInfo.classes))
 
         def mapper = new ObjectMapper()
         mapper.enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS)

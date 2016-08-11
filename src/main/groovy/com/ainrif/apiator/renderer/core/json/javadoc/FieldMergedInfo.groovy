@@ -14,22 +14,24 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.doclet.model
+package com.ainrif.apiator.renderer.core.json.javadoc
 
-import com.ainrif.apiator.core.model.api.ApiEndpointParam
+import com.ainrif.apiator.doclet.model.FieldInfo
 
-class ParamInfo {
-    String name
-    String description
+import javax.annotation.Nullable
 
-    static String createKey(ParamInfo info) {
-        return info.name
+class FieldMergedInfo {
+    private List<FieldInfo> fieldInfos
+
+    FieldMergedInfo(List<FieldInfo> fieldInfos) {
+        this.fieldInfos = fieldInfos
     }
 
-    /**
-     * @return created key or impossible key instead of null
-     */
-    static String createKey(ApiEndpointParam param) {
-        return param.name ?: '!impossible'
+    @Nullable String getName() {
+        return fieldInfos.findResult { it?.name }
+    }
+
+    @Nullable String getDescription() {
+        return fieldInfos.findResult { it?.description }
     }
 }

@@ -18,7 +18,7 @@ package com.ainrif.apiator.renderer.core.json.view
 import com.ainrif.apiator.core.model.Helper
 import com.ainrif.apiator.core.model.api.ApiScheme
 import com.ainrif.apiator.core.reflection.RUtils
-import com.ainrif.apiator.doclet.model.JavaDocInfo
+import com.ainrif.apiator.renderer.core.json.javadoc.JavaDocInfoIndexer
 
 import javax.annotation.Nullable
 
@@ -29,20 +29,20 @@ class ApiSchemeView {
     List<ApiEnumerationView> usedEnumerations = []
     List<ApiTypeView> usedApiTypes = []
 
-    ApiSchemeView(ApiScheme scheme, @Nullable JavaDocInfo docInfo) {
+    ApiSchemeView(ApiScheme scheme, @Nullable JavaDocInfoIndexer docInfo) {
         this.apiatorInfo = RUtils.asMap(scheme.apiatorInfo)
         this.clientApiInfo = RUtils.asMap(scheme.clientApiInfo)
         this.apiContexts = scheme.apiContexts
-                .collect { new ApiContextView(it, docInfo?.findInfo(it)) }
+                .collect { new ApiContextView(it, docInfo?.getClassMergedInfo(it)) }
                 .sort()
         this.usedEnumerations = scheme.usedEnumerations
-                .collect { new ApiEnumerationView(it, docInfo?.findInfo(it)) }
+                .collect { new ApiEnumerationView(it, docInfo?.getClassMergedInfo(it)) }
                 .sort()
 
         this.usedApiTypes = scheme.usedApiTypes.collect {
-            def classInfo = docInfo?.findInfo(it)
+            def classInfo = docInfo?.getClassMergedInfo(it)
             List<ApiFieldView> fields = Helper.getPropertiesTypes(it.rawType)
-                    .collect { k, v -> new ApiFieldView(v, classInfo?.findInfo(v)) }
+                    .collect { k, v -> new ApiFieldView(v, classInfo?.getFieldMergedInfo(v)) }
 
             new ApiTypeView(it, fields)
         }

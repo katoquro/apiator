@@ -16,7 +16,7 @@
 package com.ainrif.apiator.renderer.core.json.view
 
 import com.ainrif.apiator.core.model.api.ApiContext
-import com.ainrif.apiator.doclet.model.ClassInfo
+import com.ainrif.apiator.renderer.core.json.javadoc.ClassMergedInfo
 
 import javax.annotation.Nullable
 
@@ -26,12 +26,12 @@ class ApiContextView implements Comparable<ApiContextView> {
     String apiPath
     List<ApiEndpointView> apiEndpoints = []
 
-    ApiContextView(ApiContext context, @Nullable ClassInfo classInfo) {
+    ApiContextView(ApiContext context, @Nullable ClassMergedInfo classInfo) {
         this.name = context.name
         this.description = classInfo?.description
         this.apiPath = context.apiPath
         this.apiEndpoints = context.apiEndpoints
-                .collect { new ApiEndpointView(it, classInfo?.findInfo(it)) }
+                .collect { new ApiEndpointView(it, classInfo?.getMethodMergedInfo(it)) }
 
         this.apiEndpoints.sort()
     }
