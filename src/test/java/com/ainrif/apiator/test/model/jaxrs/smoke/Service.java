@@ -29,6 +29,11 @@ public interface Service {
     @Path("/{id}")
     Object getStringDtoInImpl(@PathParam("id") String id);
 
+    /**
+     * Inherited method Level javadoc
+     *
+     * @param id Inherited param level javadoc
+     */
     @POST
     Dto1 putStringDto(String id);
 

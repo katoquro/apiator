@@ -16,20 +16,6 @@
 
 package com.ainrif.apiator.doclet.model
 
-import com.ainrif.apiator.core.model.api.ApiContext
-import com.ainrif.apiator.core.model.api.ApiType
-
-import javax.annotation.Nullable
-
 class JavaDocInfo {
     Map<String, ClassInfo> classes
-
-    @Nullable ClassInfo findInfo(ApiContext apiContext) {
-        return classes[ClassInfo.createKey(apiContext)]
-    }
-
-    @Nullable ClassInfo findInfo(ApiType apiType) {
-        return classes[ClassInfo.createKey(apiType)]
-    }
-
 }

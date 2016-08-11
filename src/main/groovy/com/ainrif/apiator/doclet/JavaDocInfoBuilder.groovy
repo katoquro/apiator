@@ -21,11 +21,11 @@ import com.sun.javadoc.ClassDoc
 import com.sun.javadoc.FieldDoc
 import com.sun.javadoc.MethodDoc
 
-class JavaDocInfoIndexer {
-    JavaDocInfo index
+class JavaDocInfoBuilder {
+    JavaDocInfo content
 
-    JavaDocInfoIndexer(ClassDoc[] context) {
-        this.index = context.collect { processClass(it) }
+    JavaDocInfoBuilder(ClassDoc[] context) {
+        this.content = context.collect { processClass(it) }
                 .collectEntries { [ClassInfo.createKey(it), it] }
                 .with { new JavaDocInfo(classes: it) }
     }

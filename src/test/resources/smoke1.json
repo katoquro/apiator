@@ -200,11 +200,13 @@
           }
         },
         {
+          "description": "Inherited method Level javadoc",
           "method": "PUT",
           "name": "putStringDto",
           "params": [
             {
               "basedOn": [],
+              "description": "Inherited param level javadoc",
               "httpParamType": "PATH",
               "index": 0,
               "modelType": "STRING",

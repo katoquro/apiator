@@ -16,10 +16,12 @@
 
 package com.ainrif.apiator.doclet
 
+import com.sun.javadoc.DocErrorReporter
 import com.sun.javadoc.Doclet
 import com.sun.javadoc.RootDoc
 import com.sun.tools.javadoc.Main
 import groovy.json.JsonBuilder
+import groovy.transform.Immutable
 
 import javax.annotation.Nullable
 
@@ -32,9 +34,9 @@ class ApiatorDoclet extends Doclet {
      * @param sourcePath
      * @param basePackage if null then '.' package will be used
      * @param outputFile if null then tmp file will be created
-     * @return outputFile absolute path
+     * @return {@link Result}
      */
-    public static String runDoclet(String sourcePath,
+    public static Result runDoclet(String sourcePath,
                                    @Nullable String basePackage,
                                    @Nullable String outputFile) {
         outputFile = outputFile ?: createTempFile('apiator', 'doclet').with { it.deleteOnExit(); it }.absolutePath
@@ -45,21 +47,19 @@ class ApiatorDoclet extends Doclet {
                                 '-quiet',
                                 OF_PARAM, outputFile,
                                 '-subpackages', basePackage]
-        Main.execute(javaDocArgs)
 
-        return outputFile
+        return new Result(Main.execute(javaDocArgs), outputFile)
     }
 
     public static boolean start(RootDoc root) {
-        def docInfo = new JavaDocInfoIndexer(root.classes()).index
+        def docInfo = new JavaDocInfoBuilder(root.classes()).content
 
-        def filePath = root.options().find { it[0] == OF_PARAM }[1]
+        def filePath = getOptionValue(root.options(), OF_PARAM)[1]
         new File(filePath).write(new JsonBuilder(docInfo).toString())
 
-        return true;
+        return true
     }
 
-    //todo validation: write access
     public static int optionLength(String option) {
         switch (option) {
             case OF_PARAM:
@@ -67,5 +67,33 @@ class ApiatorDoclet extends Doclet {
             default:
                 return 0
         }
+    }
+
+    public static boolean validOptions(String[][] options,
+                                       DocErrorReporter reporter) {
+        String[] ofArray = getOptionValue(options, OF_PARAM)
+        if (!(ofArray && ofArray[1])) {
+            reporter.printError("Required parameter is absent: ${OF_PARAM} <file>")
+            return false
+        } else {
+            def of = ofArray[1]
+            if (!new File(of).canWrite()) {
+                reporter.printError("Cannot write to file: ${of}")
+                return false
+            }
+        }
+
+        return true
+    }
+
+    @Immutable
+    public static class Result {
+        int code
+        String outputFile
+    }
+
+    @Nullable
+    private static String[] getOptionValue(String[][] options, String name) {
+        return options.find { it[0] == name }
     }
 }

@@ -17,7 +17,7 @@ package com.ainrif.apiator.renderer.core.json.view
 
 import com.ainrif.apiator.core.model.api.ApiEndpointParam
 import com.ainrif.apiator.core.model.api.ApiEndpointParamType
-import com.ainrif.apiator.doclet.model.ParamInfo
+import com.ainrif.apiator.renderer.core.json.javadoc.ParamMergedInfo
 
 import javax.annotation.Nullable
 
@@ -29,7 +29,7 @@ class ApiEndpointParamView extends ModelTypeBasedView.ApiTypeGenericView
     Integer index
     String defaultValue
 
-    ApiEndpointParamView(ApiEndpointParam endpointParam, @Nullable ParamInfo paramInfo) {
+    ApiEndpointParamView(ApiEndpointParam endpointParam, @Nullable ParamMergedInfo paramInfo) {
         super(endpointParam.type)
 
         this.name = endpointParam.name

@@ -17,20 +17,12 @@
 package com.ainrif.apiator.doclet.model
 
 import com.ainrif.apiator.core.model.api.ApiEndpoint
-import com.ainrif.apiator.core.model.api.ApiEndpointParam
-
-import javax.annotation.Nullable
 
 class MethodInfo {
     String name
     List<String> paramTypeNames
     String description
     Map<String, ParamInfo> params
-
-    @Nullable ParamInfo findInfo(ApiEndpointParam apiEndpointParam) {
-        def key = ParamInfo.createKey(apiEndpointParam)
-        return key ? params[key] : null
-    }
 
     static String createKey(MethodInfo info) {
         return "${info.name}_${info.paramTypeNames}"

@@ -16,7 +16,7 @@
 package com.ainrif.apiator.renderer.core.json.view
 
 import com.ainrif.apiator.core.model.api.ApiType
-import com.ainrif.apiator.doclet.model.ClassInfo
+import com.ainrif.apiator.renderer.core.json.javadoc.ClassMergedInfo
 
 import javax.annotation.Nullable
 
@@ -24,7 +24,7 @@ class ApiEnumerationView extends ModelTypeBasedView {
     String description
     List<String> values = []
 
-    ApiEnumerationView(ApiType type, @Nullable ClassInfo classInfo) {
+    ApiEnumerationView(ApiType type, @Nullable ClassMergedInfo classInfo) {
         super(type)
 
         this.description = classInfo?.description
