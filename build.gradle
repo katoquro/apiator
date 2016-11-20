@@ -1,13 +1,14 @@
-import org.gradle.internal.jvm.Jvm
-
 import java.time.Instant
 
 buildscript {
     repositories {
-        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
         classpath 'org.ajoberstar:gradle-git:1.3.2'
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.5"
     }
 }
 
@@ -15,96 +16,88 @@ plugins {
     id 'com.jfrog.bintray' version '1.5'
 }
 
-apply plugin: 'java'
-apply plugin: 'groovy'
-apply plugin: 'maven-publish'
+allprojects {
+    apply plugin: 'groovy'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-group = 'com.ainrif'
-version = '0.6.0-SNAPSHOT'
+    group = 'com.ainrif'
+    version = '0.6.0-SNAPSHOT'
 
-repositories {
-    mavenLocal()
-    jcenter()
+    repositories {
+        mavenLocal()
+        jcenter()
 
-    maven {
-        url "http://dl.bintray.com/ainrif/maven"
+        maven {
+            url "http://dl.bintray.com/ainrif/maven"
+        }
+    }
+
+    dependencies {
+        compile "org.codehaus.groovy:groovy-all:2.4.2"
+
+        compile "org.slf4j:slf4j-api:1.7.9"
+        compile "org.slf4j:jcl-over-slf4j:1.7.9"
+        compile "org.slf4j:log4j-over-slf4j:1.7.9"
+
+        testCompile "org.spockframework:spock-core:1.0-groovy-2.4", {
+            exclude group: 'junit', module: 'junit-dep'
+            exclude group: 'org.hamcrest'
+            exclude group: 'org.codehaus.groovy', module: 'groovy-all'
+        }
+
+        testCompile "junit:junit:4.12", {
+            exclude group: 'org.hamcrest'
+        }
+
+        testCompile 'cglib:cglib:3.2.2'
+        testCompile 'org.hamcrest:hamcrest-all:1.3'
+        testCompile 'ch.qos.logback:logback-classic:1.1.2'
+        testCompile 'org.apache.commons:commons-lang3:3.3.2'
+    }
+}
+
+subprojects {
+    apply plugin: 'maven-publish'
+
+    // todo #not_supported 1.7
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    task archiveReports(type: Zip) {
+        from 'build/reports/tests'
+        appendix = 'tests_reports'
+        version = "${project.version}_${Instant.now()}"
+        onlyIf {
+            test.state.failure
+        }
+    }
+
+    test {
+        finalizedBy archiveReports
+        testLogging {
+            exceptionFormat = 'full'
+            showStandardStreams = true
+        }
     }
 }
 
 dependencies {
-
-    compile "javax.servlet:javax.servlet-api:3.1.0"
-
-    compile "org.codehaus.groovy:groovy-all:2.4.2"
-
-    compile "org.slf4j:slf4j-api:1.7.9"
-    compile "org.slf4j:jcl-over-slf4j:1.7.9"
-    compile "org.slf4j:log4j-over-slf4j:1.7.9"
-
-    compile "org.apache.commons:commons-lang3:3.3.2"
-    compile "org.springframework:spring-core:4.1.6.RELEASE"
-    compile "org.reflections:reflections:0.9.9"
-    compile "javax.ws.rs:javax.ws.rs-api:2.0.1"
-    compile "com.fasterxml.jackson.core:jackson-databind:2.6.1"
-
-    //Core HTML Renderer
-    // todo use npm packages
-    compile 'org.webjars:webjars-locator:0.21'
-    compile 'org.lesscss:lesscss:1.7.0.1.1', {
-        exclude group: 'org.slf4j', module: 'slf4j-simple'
-    }
-
-    compile 'org.webjars.bower:modulejs:1.13.0'
-    compile 'org.webjars.bower:jquery:2.1.4'
-    compile 'org.webjars.bower:lodash:4.6.1'
-    compile 'org.webjars.bower:handlebars:4.0.5'
-    compile 'org.webjars.bower:clipboard:1.5.16'
-    compile 'org.webjars.bower:font-awesome:4.5.0'
-    //^^^
-
-    //Doclets
-    compile files(Jvm.current().toolsJar)
-    //^^^
-
-    testCompile "org.spockframework:spock-core:1.0-groovy-2.4", {
-        exclude group: 'junit', module: 'junit-dep'
-        exclude group: 'org.hamcrest'
-        exclude group: 'org.codehaus.groovy', module: 'groovy-all'
-    }
-
-    testCompile "junit:junit:4.12", {
-        exclude group: 'org.hamcrest'
-    }
-
-    testCompile 'cglib:cglib:3.2.2'
-    testCompile 'org.hamcrest:hamcrest-all:1.3'
-    testCompile 'ch.qos.logback:logback-classic:1.1.2'
+    compile project(':core')
+    compile project(':api')
+    compile project(':provider:jax-rs-provider')
+    compile project(':renderer:core-html-renderer')
+    compile project(':renderer:core-json-renderer')
+    compile project(':modeltype:jax-rs-modeltype')
+    compile project(':modeltype:j8-modeltype')
+    compile project(':test:core-model-test')
+    compile project(':test:jax-rs-model-test')
+    compile project(':test:demo-model-test')
 }
 
-task archiveReports(type: Zip) {
-    from 'build/reports/tests'
-    appendix = 'tests_reports'
-    version = "${project.version}_${Instant.now()}"
-    onlyIf {
-        test.state.failure
-    }
-}
-
-test {
-    finalizedBy archiveReports
-    testLogging {
-        exceptionFormat = 'full'
-        showStandardStreams = true
-    }
-}
-
-apply from: "$rootProject.projectDir/gradle/dev.gradle"
-apply from: "$rootProject.projectDir/gradle/uiDev.gradle"
-apply from: "$rootProject.projectDir/gradle/deploy.gradle"
+//apply from: "$rootProject.projectDir/gradle/dev.gradle"
+//apply from: "$rootProject.projectDir/gradle/uiDev.gradle"
+//apply from: "$rootProject.projectDir/gradle/deploy.gradle"
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.9'
-    distributionUrl = "https://services.gradle.org/distributions/gradle-${gradleVersion}-bin.zip"
+    gradleVersion = '2.14.1'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip"
 }
