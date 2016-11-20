@@ -17,18 +17,20 @@ package gradle
 
 import com.ainrif.apiator.core.Apiator
 import com.ainrif.apiator.core.ApiatorConfig
+import com.ainrif.apiator.provider.jaxrs.JaxRsProvider
 import com.ainrif.apiator.renderer.core.json.CoreJsonRenderer
 
 import javax.ws.rs.Path
 
-class GenerateStubJson {
-    static final String jaxrsPackage = 'com.ainrif.apiator.test.model.jaxrs'
+class GenerateJsonForUiDev {
+    static final String jaxrsPackage = 'com.ainrif.apiator.test.model.jaxrs.uidev'
 
     public static void main(String[] args) {
         def path = "${args[0]}/stub.json"
         def config = new ApiatorConfig(
                 basePackage: jaxrsPackage,
                 apiClass: Path,
+                provider: new JaxRsProvider(),
                 renderer: new CoreJsonRenderer())
 
         new File(path).write(new Apiator(config).render())

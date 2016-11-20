@@ -38,6 +38,7 @@ class SmokeSpec extends Specification {
 
     ApiatorConfig getConfigWithJsonRenderer() {
         return new ApiatorConfig(
+                debug: true,
                 provider: new JaxRsProvider(),
                 renderer: new CoreJsonRenderer(sourcePath: sourcePath),
                 basePackage: jaxrsPackage,

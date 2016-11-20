@@ -265,9 +265,8 @@
     }
   ],
   "apiatorInfo": {
-    "artifactId": "UNPACKED",
-    "groupId": "UNPACKED",
-    "version": "UNPACKED"
+    "debug": true,
+    "version": "debug"
   },
   "clientApiInfo": {
     "basePath": "/api",

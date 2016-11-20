@@ -40,7 +40,7 @@ class Apiator {
 
     Apiator(ApiatorConfig config) {
         this.config = config
-        this.info = new ApiatorInfo()
+        this.info = new ApiatorInfo(config.debug)
 
         //Injects
         ApiType.modelTypeRegister = config.modelTypeResolvers ?

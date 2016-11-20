@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2016 Ainrif <support@ainrif.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator
 
-import com.ainrif.apiator.renderer.core.html.CoreHtmlRenderer
+package com.ainrif.apiator.renderer.core.json.view
 
-class UiDevGenerator {
-    public static void main(String[] args) {
-        def htmlPath = "${args[0]}/site/api.html"
-        def jsonStubPath = "${args[0]}/resources/stub.json"
+import com.ainrif.apiator.core.ApiatorInfo
 
-        def json = new File(jsonStubPath).text
+class ApiatorInfoView {
+    boolean debug
+    String version
 
-        new CoreHtmlRenderer({ toFile = htmlPath }).renderTemplate(json)
+    ApiatorInfoView(ApiatorInfo info) {
+        this.debug = info.debug
+        this.version = info.version
     }
 }
-

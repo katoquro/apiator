@@ -25,7 +25,7 @@
 
 <script>
     modulejs.require('main');
-    if (apiJson.apiatorInfo.version == 'UNPACKED') {
+    if (apiJson.apiatorInfo.debug) {
         document.write('<script src="'
                 + '//' + location.host + '/livereload.js"></'
                 + 'script>');

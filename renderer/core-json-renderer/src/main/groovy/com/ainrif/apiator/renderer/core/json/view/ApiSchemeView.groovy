@@ -23,14 +23,14 @@ import com.ainrif.apiator.renderer.core.json.javadoc.JavaDocInfoIndexer
 import javax.annotation.Nullable
 
 class ApiSchemeView {
-    Map<String, String> apiatorInfo
+    ApiatorInfoView apiatorInfo
     Map<String, String> clientApiInfo
     List<ApiContextView> apiContexts = []
     List<ApiEnumerationView> usedEnumerations = []
     List<ApiTypeView> usedApiTypes = []
 
     ApiSchemeView(ApiScheme scheme, @Nullable JavaDocInfoIndexer docInfo) {
-        this.apiatorInfo = RUtils.asMap(scheme.apiatorInfo)
+        this.apiatorInfo = new ApiatorInfoView(scheme.apiatorInfo)
         this.clientApiInfo = RUtils.asMap(scheme.clientApiInfo)
         this.apiContexts = scheme.apiContexts
                 .collect { new ApiContextView(it, docInfo?.getClassMergedInfo(it)) }

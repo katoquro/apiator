@@ -93,8 +93,7 @@ dependencies {
     compile project(':test:demo-model-test')
 }
 
-//apply from: "$rootProject.projectDir/gradle/dev.gradle"
-//apply from: "$rootProject.projectDir/gradle/uiDev.gradle"
+apply from: "$rootProject.projectDir/gradle/uiDev.gradle"
 //apply from: "$rootProject.projectDir/gradle/deploy.gradle"
 
 task wrapper(type: Wrapper) {

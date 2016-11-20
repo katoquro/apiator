@@ -26,8 +26,9 @@ class ApiatorConfig {
     String basePackage = ''
     WebServiceProvider provider = null
     Renderer renderer = null
-    List<ModelTypeResolver> modelTypeResolvers
+    List<ModelTypeResolver> modelTypeResolvers = null
     String basePath = '/api'
     String apiVersion = '1.0.0-SNAPSHOT'
-    Class<Annotation> apiClass = Api;
+    Class<Annotation> apiClass = Api
+    boolean debug
 }
