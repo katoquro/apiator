@@ -15,54 +15,84 @@
  */
 
 modulejs.define('fuzzySearch', ['hbs'], function (hbs) {
-    function toTitleCase(str) {
-        return str.replace(/\w+/g, function (txt) {
-            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-        });
-    }
 
-    function toIndex(str) {
-        return toTitleCase(str.replace(/\W/g, ' ').replace(/\s+/g, ' '))
-    }
+    function Searcher(rawDataSet, options) {
+        var WHITESPACE_REGEXP = /\s/g;
 
-    var fuseDataSet = _
-        .chain(apiJson.apiContexts)
-        .flatMap(function (context) {
-            var apiPath = context.apiPath;
-            return _.map(context.apiEndpoints, function (endpoint) {
-                return {apiPath: apiPath, endpoint: endpoint}
-            });
-        })
-        .map(function (it) {
-            return {
-                index: {
-                    method: toIndex(it.endpoint.method) + '-' + it.endpoint.method,
-                    apiPath: toIndex(it.apiPath),
-                    path: toIndex(it.endpoint.path)
-                },
-                method: it.endpoint.method,
-                apiPath: it.apiPath,
-                path: it.endpoint.path
+        this.options = _.extend({
+            hitsCount: 10
+        }, options);
+
+        this.dataSet = _
+            .chain(rawDataSet)
+            .flatMap(function (context) {
+                var apiPath = context.apiPath;
+                return _.map(context.apiEndpoints, function (endpoint) {
+                    return {apiPath: apiPath, endpoint: endpoint}
+                });
+            })
+            .map(function (it) {
+                return {
+                    index: {
+                        path: it.apiPath + it.endpoint.path
+                    },
+                    payload: {
+                        method: it.endpoint.method,
+                        apiPath: it.apiPath,
+                        path: it.endpoint.path
+                    }
+                }
+            })
+            .value();
+
+        this.search = function (pattern) {
+            pattern = normalizePattern(pattern);
+            return _
+                .chain(this.dataSet)
+                .map(function (item) {
+                    return {item: item, score: match(pattern, item.index.path)};
+                })
+                .filter(function (it) {
+                    return 0 < it.score
+                })
+                .orderBy(['score'], ['desc'])
+                .slice(0, this.options.hitsCount)
+                .map('item')
+                .value()
+        };
+
+        function normalizePattern(pattern) {
+            return pattern.replace(WHITESPACE_REGEXP, '')
+        }
+
+        function match(pattern, str) {
+            var score = 0;
+            var pi = 0;
+            var si = 0;
+            var prev_si = -1;
+
+            while (pi < pattern.length && si < str.length) {
+                if (pattern[pi].toLowerCase() === str[si].toLowerCase()) {
+                    // chars distance
+                    score += 1 / (si - prev_si + 1);
+
+                    // same case
+                    if (pattern[pi] === str[si]) {
+                        score += 0.5;
+                    }
+
+                    prev_si = si;
+                    pi++;
+                }
+
+                si++;
             }
-        })
-        .value();
 
-    var fuseOptions = {
-        keys: [{
-            name: 'index.method',
-            weight: 0.50
-        }, {
-            name: 'index.apiPath',
-            weight: 0.30
-        }, {
-            name: 'index.path',
-            weight: 0.19
-        }],
-        caseSensitive: true,
-        verbose: false
-    };
+            return (pi === pattern.length) ? score : -1
+        }
+    }
 
-    var fuse = new Fuse(fuseDataSet, fuseOptions);
+    var searcher = new Searcher(apiJson.apiContexts, {});
 
     var fuzzyTemplate = Handlebars.compile($("#fuzzy-response").html());
 
@@ -80,16 +110,22 @@ modulejs.define('fuzzySearch', ['hbs'], function (hbs) {
         var that = $(this);
         if (2 > that.val().length) return;
 
-        var hits = fuse.search(that.val()).slice(0, 10);
-        var suggestItems = hits.map(function (hit) {
-            return $(fuzzyTemplate({hash: hit}));
-        });
+        var hits = searcher.search(that.val());
+
+        var suggestContent;
+        if (_.isEmpty(hits)) {
+            suggestContent = $('<li style="margin: 3px 10px">There are no items for such params ¯\\_(ツ)_/¯</li>')
+        } else {
+            suggestContent = hits.map(function (hit) {
+                return $(fuzzyTemplate({hash: hit.payload}));
+            });
+        }
 
         var suggestMenu = $('#fuzzy-suggest');
         suggestMenu.children()
             .remove()
             .end()
-            .append(suggestItems)
+            .append(suggestContent)
             .show();
     });
 });
