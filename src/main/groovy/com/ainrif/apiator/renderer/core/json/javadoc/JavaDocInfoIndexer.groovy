@@ -36,7 +36,8 @@ class JavaDocInfoIndexer {
 
     @Nullable ClassMergedInfo getClassMergedInfo(ApiType apiType) {
         List<ClassInfo> typeHierarchy = RUtils.getAllSuperTypes(apiType.rawType)
-                .collect { classes[ClassInfo.createKey(it)] }
+                .findResults { classes[ClassInfo.createKey(it)] }
+                .asType(List)
                 .reverse()
 
         return typeHierarchy ?
