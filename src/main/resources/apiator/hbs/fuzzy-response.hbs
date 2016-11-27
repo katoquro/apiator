@@ -1,5 +1,12 @@
 <li role="presentation">
-    <a role="menuitem" tabindex="-1" href='{{urler this}}'>
-        <span class="endpoint {{hash.method}}">{{hash.apiPath}}{{hash.path}}</span>
-    </a>
+    {{#ifCond hash.showAs 'endpoint'}}
+        <a role="menuitem" tabindex="-1" href='{{urler this}}'>
+            <span class="endpoint {{hash.method}}">{{hash.apiPath}}{{hash.path}}</span>
+        </a>
+    {{/ifCond}}
+    {{#ifCond hash.showAs 'model'}}
+        <a role="menuitem" tabindex="-1" href='#{{shrinkByDots hash.type}}'>
+            <span class="endpoint">{{hash.simpleName}}</span>
+        </a>
+    {{/ifCond}}
 </li>

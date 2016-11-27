@@ -23,8 +23,8 @@ modulejs.define('fuzzySearch', ['hbs'], function (hbs) {
             hitsCount: 10
         }, options);
 
-        this.dataSet = _
-            .chain(rawDataSet)
+        var endpointsDataSet = _
+            .chain(rawDataSet.apiContexts)
             .flatMap(function (context) {
                 var apiPath = context.apiPath;
                 return _.map(context.apiEndpoints, function (endpoint) {
@@ -34,9 +34,10 @@ modulejs.define('fuzzySearch', ['hbs'], function (hbs) {
             .map(function (it) {
                 return {
                     index: {
-                        path: it.apiPath + it.endpoint.path
+                        endpoint: it.apiPath + it.endpoint.path
                     },
                     payload: {
+                        showAs: 'endpoint',
                         method: it.endpoint.method,
                         apiPath: it.apiPath,
                         path: it.endpoint.path
@@ -45,12 +46,31 @@ modulejs.define('fuzzySearch', ['hbs'], function (hbs) {
             })
             .value();
 
-        this.search = function (pattern) {
+        var modelDataSet = _
+            .chain(rawDataSet.usedApiTypes)
+            .map(function (it) {
+                return {
+                    index: {
+                        model: it.type,
+                        type: it.type
+                    },
+                    payload: {
+                        showAs: 'model',
+                        type: it.type,
+                        simpleName: _.last(_.split(_.last(_.split(it.type, '.')), '$'))
+                    }
+                }
+            })
+            .value();
+
+        this.dataSet = _.concat(endpointsDataSet, modelDataSet);
+
+        this.search = function (pattern, indexType) {
             pattern = normalizePattern(pattern);
             return _
                 .chain(this.dataSet)
                 .map(function (item) {
-                    return {item: item, score: match(pattern, item.index.path)};
+                    return {item: item, score: match(pattern, item.index[indexType])};
                 })
                 .filter(function (it) {
                     return 0 < it.score
@@ -66,6 +86,10 @@ modulejs.define('fuzzySearch', ['hbs'], function (hbs) {
         }
 
         function match(pattern, str) {
+            if (!str) {
+                return -1;
+            }
+
             var score = 0;
             var pi = 0;
             var si = 0;
@@ -92,7 +116,7 @@ modulejs.define('fuzzySearch', ['hbs'], function (hbs) {
         }
     }
 
-    var searcher = new Searcher(apiJson.apiContexts, {});
+    var searcher = new Searcher(apiJson, {});
 
     var fuzzyTemplate = Handlebars.compile($("#fuzzy-response").html());
 
@@ -108,9 +132,24 @@ modulejs.define('fuzzySearch', ['hbs'], function (hbs) {
 
     $('#fuzzy-input').on('keyup click', function () {
         var that = $(this);
-        if (2 > that.val().length) return;
+        var query = _.trim(that.val());
 
-        var hits = searcher.search(that.val());
+        var pattern = query;
+        var indexType = 'endpoint';
+        if (query.startsWith('!')) {
+            var bang = query.match(/^!\w+/g);
+            if (_.isEmpty(bang)) {
+                return
+            }
+            bang = bang[0];
+
+            pattern = query.replace(bang, '');
+            indexType = bang.substr(1)
+        }
+
+        if (2 > pattern.length) return;
+
+        var hits = searcher.search(pattern, indexType);
 
         var suggestContent;
         if (_.isEmpty(hits)) {
