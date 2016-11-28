@@ -9,4 +9,9 @@
             <span class="endpoint">{{hash.simpleName}}</span>
         </a>
     {{/ifCond}}
+    {{#ifCond hash.showAs 'enum'}}
+        <a role="menuitem" tabindex="-1" href='#{{shrinkByDots hash.type}}'>
+            <span class="endpoint">{{hash.simpleName}} {{#if hash.enclosingType}}at {{hash.enclosingType}}{{/if}}</span>
+        </a>
+    {{/ifCond}}
 </li>

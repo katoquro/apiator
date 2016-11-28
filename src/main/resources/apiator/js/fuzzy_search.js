@@ -63,7 +63,25 @@ modulejs.define('fuzzySearch', ['hbs'], function (hbs) {
             })
             .value();
 
-        this.dataSet = _.concat(endpointsDataSet, modelDataSet);
+        var enumDataSet = _
+            .chain(rawDataSet.usedEnumerations)
+            .map(function (it) {
+                var typeNames = _.split(_.last(_.split(it.type, '.')), '$');
+                return {
+                    index: {
+                        enum: it.type
+                    },
+                    payload: {
+                        showAs: 'enum',
+                        type: it.type,
+                        simpleName: _.last(typeNames),
+                        enclosingType: 2 == typeNames.length ? typeNames[0] : null
+                    }
+                }
+            })
+            .value();
+
+        this.dataSet = _.concat(endpointsDataSet, modelDataSet, enumDataSet);
 
         this.search = function (pattern, indexType) {
             pattern = normalizePattern(pattern);
