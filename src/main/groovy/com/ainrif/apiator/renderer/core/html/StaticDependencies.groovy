@@ -27,7 +27,6 @@ class StaticDependencies {
                      lodash    : 'lodash.min.js',
                      bootstrap : 'bootstrap.min.js',
                      handlebars: 'handlebars.min.js',
-                     'fuse.js' : 'fuse.min.js',
                      clipboard : 'clipboard.min.js']
 
     static def css = [bootstrap     : 'bootstrap.min.css',

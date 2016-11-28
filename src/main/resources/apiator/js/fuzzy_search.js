@@ -15,54 +15,126 @@
  */
 
 modulejs.define('fuzzySearch', ['hbs'], function (hbs) {
-    function toTitleCase(str) {
-        return str.replace(/\w+/g, function (txt) {
-            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-        });
-    }
 
-    function toIndex(str) {
-        return toTitleCase(str.replace(/\W/g, ' ').replace(/\s+/g, ' '))
-    }
+    function Searcher(rawDataSet, options) {
+        var WHITESPACE_REGEXP = /\s/g;
 
-    var fuseDataSet = _
-        .chain(apiJson.apiContexts)
-        .flatMap(function (context) {
-            var apiPath = context.apiPath;
-            return _.map(context.apiEndpoints, function (endpoint) {
-                return {apiPath: apiPath, endpoint: endpoint}
-            });
-        })
-        .map(function (it) {
-            return {
-                index: {
-                    method: toIndex(it.endpoint.method) + '-' + it.endpoint.method,
-                    apiPath: toIndex(it.apiPath),
-                    path: toIndex(it.endpoint.path)
-                },
-                method: it.endpoint.method,
-                apiPath: it.apiPath,
-                path: it.endpoint.path
+        this.options = _.extend({
+            hitsCount: 10
+        }, options);
+
+        var endpointsDataSet = _
+            .chain(rawDataSet.apiContexts)
+            .flatMap(function (context) {
+                var apiPath = context.apiPath;
+                return _.map(context.apiEndpoints, function (endpoint) {
+                    return {apiPath: apiPath, endpoint: endpoint}
+                });
+            })
+            .map(function (it) {
+                return {
+                    index: {
+                        endpoint: it.apiPath + it.endpoint.path
+                    },
+                    payload: {
+                        showAs: 'endpoint',
+                        method: it.endpoint.method,
+                        apiPath: it.apiPath,
+                        path: it.endpoint.path
+                    }
+                }
+            })
+            .value();
+
+        var modelDataSet = _
+            .chain(rawDataSet.usedApiTypes)
+            .map(function (it) {
+                return {
+                    index: {
+                        model: it.type,
+                        type: it.type
+                    },
+                    payload: {
+                        showAs: 'model',
+                        type: it.type,
+                        simpleName: _.last(_.split(_.last(_.split(it.type, '.')), '$'))
+                    }
+                }
+            })
+            .value();
+
+        var enumDataSet = _
+            .chain(rawDataSet.usedEnumerations)
+            .map(function (it) {
+                var typeNames = _.split(_.last(_.split(it.type, '.')), '$');
+                return {
+                    index: {
+                        enum: it.type
+                    },
+                    payload: {
+                        showAs: 'enum',
+                        type: it.type,
+                        simpleName: _.last(typeNames),
+                        enclosingType: 2 == typeNames.length ? typeNames[0] : null
+                    }
+                }
+            })
+            .value();
+
+        this.dataSet = _.concat(endpointsDataSet, modelDataSet, enumDataSet);
+
+        this.search = function (pattern, indexType) {
+            pattern = normalizePattern(pattern);
+            return _
+                .chain(this.dataSet)
+                .map(function (item) {
+                    return {item: item, score: match(pattern, item.index[indexType])};
+                })
+                .filter(function (it) {
+                    return 0 < it.score
+                })
+                .orderBy(['score'], ['desc'])
+                .slice(0, this.options.hitsCount)
+                .map('item')
+                .value()
+        };
+
+        function normalizePattern(pattern) {
+            return pattern.replace(WHITESPACE_REGEXP, '')
+        }
+
+        function match(pattern, str) {
+            if (!str) {
+                return -1;
             }
-        })
-        .value();
 
-    var fuseOptions = {
-        keys: [{
-            name: 'index.method',
-            weight: 0.50
-        }, {
-            name: 'index.apiPath',
-            weight: 0.30
-        }, {
-            name: 'index.path',
-            weight: 0.19
-        }],
-        caseSensitive: true,
-        verbose: false
-    };
+            var score = 0;
+            var pi = 0;
+            var si = 0;
+            var prev_si = -1;
 
-    var fuse = new Fuse(fuseDataSet, fuseOptions);
+            while (pi < pattern.length && si < str.length) {
+                if (pattern[pi].toLowerCase() === str[si].toLowerCase()) {
+                    // chars distance
+                    score += 1 / (si - prev_si + 1);
+
+                    // same case
+                    if (pattern[pi] === str[si]) {
+                        score += 0.5;
+                    }
+
+                    prev_si = si;
+                    pi++;
+                }
+
+                si++;
+            }
+
+            return (pi === pattern.length) ? score : -1
+        }
+    }
+
+    var searcher = new Searcher(apiJson, {});
 
     var fuzzyTemplate = Handlebars.compile($("#fuzzy-response").html());
 
@@ -78,18 +150,39 @@ modulejs.define('fuzzySearch', ['hbs'], function (hbs) {
 
     $('#fuzzy-input').on('keyup click', function () {
         var that = $(this);
-        if (2 > that.val().length) return;
+        var query = _.trim(that.val());
 
-        var hits = fuse.search(that.val()).slice(0, 10);
-        var suggestItems = hits.map(function (hit) {
-            return $(fuzzyTemplate({hash: hit}));
-        });
+        var pattern = query;
+        var indexType = 'endpoint';
+        if (query.startsWith('!')) {
+            var bang = query.match(/^!\w+/g);
+            if (_.isEmpty(bang)) {
+                return
+            }
+            bang = bang[0];
+
+            pattern = query.replace(bang, '');
+            indexType = bang.substr(1)
+        }
+
+        if (2 > pattern.length) return;
+
+        var hits = searcher.search(pattern, indexType);
+
+        var suggestContent;
+        if (_.isEmpty(hits)) {
+            suggestContent = $('<li style="margin: 3px 10px">There are no items for such params ¯\\_(ツ)_/¯</li>')
+        } else {
+            suggestContent = hits.map(function (hit) {
+                return $(fuzzyTemplate({hash: hit.payload}));
+            });
+        }
 
         var suggestMenu = $('#fuzzy-suggest');
         suggestMenu.children()
             .remove()
             .end()
-            .append(suggestItems)
+            .append(suggestContent)
             .show();
     });
 });
