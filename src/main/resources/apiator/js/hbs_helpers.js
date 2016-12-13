@@ -106,6 +106,16 @@ modulejs.define('hbs', function () {
             var templateSrc = template.html();
 
             $('#doc-container').html(Handlebars.compile(templateSrc)(apiJson));
+        },
+        urlerGeneral: function (payload) {
+            switch (payload.showAs) {
+                case 'endpoint':
+                    return urler({hash: payload});
+                case 'model':
+                    return Handlebars.helpers.shrinkByDots(payload.type); // todo refactor helpers after redesign
+                default:
+                    throw new Error('Not supported payload type')
+            }
         }
     }
 });

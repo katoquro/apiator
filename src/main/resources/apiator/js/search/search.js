@@ -87,6 +87,12 @@ modulejs.define('search', ['hbs', 'searcher', 'search_box'], function (hbs, Sear
         },
         renderSuggestFunc: function (item) {
             return fuzzyTemplate({hash: item.payload})
+        },
+        onChangeFunc: function (changeEvent, box) {
+            box.clearSuggest();
+            if (changeEvent.key) {
+                location.hash = hbs.urlerGeneral(changeEvent.item.payload)
+            }
         }
     });
 });

@@ -16,11 +16,23 @@
 
 modulejs.define('search_box', [], function () {
 
-    var UP_KEY_CODE = 38;
-    var DOWN_KEY_CODE = 40;
-    var ENTER_KEY_CODE = 13;
+    const KEY_CODES = Object.freeze({
+        UP: 38,
+        DOWN: 40,
+        ENTER: 13
+    });
 
-    var ACTIVE_CLASS = 'suggest_active';
+    const ACTIVE_CLASS = 'suggest_active';
+
+    /**
+     * @param {?int} key - code of pressed key, otherwise null
+     * @param {Object} item - data associated with this selection
+     * @constructor
+     */
+    function ChangeEvent(key, item) {
+        this.key = key;
+        this.item = item;
+    }
 
     $.fn.search_box = function (options) {
         var settings = $.extend({
@@ -30,8 +42,12 @@ modulejs.define('search_box', [], function () {
             renderSuggestFunc: function (item) {
                 return item;
             },
-            onChangeFunc: function (value, box, input) {
-                input.val(value);
+            /**
+             * Activates when one of suggested items was selected
+             * @param {ChangeEvent} changeEvent - event related data
+             * @param {Object} box - methods on element
+             */
+            onChangeFunc: function (changeEvent, box) {
                 box.clearSuggest();
             }
         }, options);
@@ -50,8 +66,8 @@ modulejs.define('search_box', [], function () {
                 $(this).removeClass(ACTIVE_CLASS);
             })
             .on('click', 'li', function () {
-                var value = $(this).text();
-                settings.onChangeFunc(value, box, input);
+                var item = $(this).data('item');
+                settings.onChangeFunc(new ChangeEvent(null, item), box);
             });
 
         function changeCursorPosition(position) {
@@ -67,15 +83,15 @@ modulejs.define('search_box', [], function () {
 
         this.keydown(function (event) {
             switch (event.keyCode) {
-                case ENTER_KEY_CODE: {
-                    var value = suggest.children().eq(activeIndex).text();
-                    settings.onChangeFunc(value, box, input);
+                case KEY_CODES.ENTER: {
+                    var item = suggest.children().eq(activeIndex).data('item');
+                    settings.onChangeFunc(new ChangeEvent(KEY_CODES.ENTER, item), box);
 
                     break;
                 }
-                case UP_KEY_CODE:
-                case DOWN_KEY_CODE: {
-                    var newActiveIndex = UP_KEY_CODE == event.keyCode ? activeIndex - 1 : activeIndex + 1;
+                case KEY_CODES.UP:
+                case KEY_CODES.DOWN: {
+                    var newActiveIndex = KEY_CODES.UP == event.keyCode ? activeIndex - 1 : activeIndex + 1;
                     changeCursorPosition(newActiveIndex);
 
                     break;
@@ -91,7 +107,7 @@ modulejs.define('search_box', [], function () {
         });
 
         this.keyup(function (event) {
-            if (-1 < [ENTER_KEY_CODE, UP_KEY_CODE, DOWN_KEY_CODE].indexOf(event.keyCode)) {
+            if (-1 < [KEY_CODES.ENTER, KEY_CODES.UP, KEY_CODES.DOWN].indexOf(event.keyCode)) {
                 return;
             }
 
@@ -103,7 +119,9 @@ modulejs.define('search_box', [], function () {
             }
 
             $.each(settings.searchFunc(pattern), function (index, item) {
-                suggest.append(settings.renderSuggestFunc(item));
+                $(settings.renderSuggestFunc(item))
+                    .data('item', item)
+                    .appendTo(suggest);
             });
 
             suggest
@@ -114,6 +132,9 @@ modulejs.define('search_box', [], function () {
         box.clearSuggest = function () {
             activeIndex = 0;
             suggest.children().remove();
+        };
+        box.getInput = function () {
+            return input;
         };
 
         return box;
