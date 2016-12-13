@@ -17,7 +17,7 @@
 modulejs.define('main', ['hbs', 'linkProcessor'], function (hbs, linkProcessor) {
     hbs.render();
 
-    modulejs.require('fuzzySearch');
+    modulejs.require('search');
 
     linkProcessor.attachCallbacks();
     linkProcessor.navigateSidebarMenu(window.location.hash)
