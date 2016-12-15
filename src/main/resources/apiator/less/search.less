@@ -14,46 +14,15 @@
  * limitations under the License.
  */
 @import "variables";
-@import "modifiers";
-@import "feedback";
-@import "navbar_top";
-@import "sidebar";
-@import "endpoint_card";
-@import "search";
 
-body {
-  padding-top: 50px; //header offset
+#search_box-div {
+  position: absolute;
 }
 
-.main {
-  padding: 20px;
-  margin-left: @sidebar_width;
-  .page-header {
-    margin-top: 0;
-  }
-}
-
-.target-marker {
-  display: block;
-  height: 65px;
-  margin-top: -65px;
-  visibility: hidden;
-}
-
-.template-tooltip {
-  &:hover {
-    &:after {
-      content: "Template. Ask developer about implementation";
-      position: relative;
-      font-size: 10px;
-      top: -5px;
-      color: @bs_warning_txt;
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .main {
-    margin-left: 0;
+#search_box-div li {
+  list-style: none;
+  background-color: #fff;
+  &.suggest_active {
+    background-color: #ececec;
   }
 }
