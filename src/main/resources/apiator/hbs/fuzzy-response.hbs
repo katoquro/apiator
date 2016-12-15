@@ -1,17 +1,20 @@
 <li role="presentation">
     {{#ifCond hash.showAs 'endpoint'}}
-        <a role="menuitem" tabindex="-1" href='{{urler this}}'>
+        <a href='{{urler this}}'>
             <span class="endpoint {{hash.method}}">{{hash.apiPath}}{{hash.path}}</span>
         </a>
     {{/ifCond}}
     {{#ifCond hash.showAs 'model'}}
-        <a role="menuitem" tabindex="-1" href='#{{shrinkByDots hash.type}}'>
+        <a href='#{{shrinkByDots hash.type}}'>
             <span class="endpoint">{{hash.simpleName}}</span>
         </a>
     {{/ifCond}}
     {{#ifCond hash.showAs 'enum'}}
-        <a role="menuitem" tabindex="-1" href='#{{shrinkByDots hash.type}}'>
+        <a href='#{{shrinkByDots hash.type}}'>
             <span class="endpoint">{{hash.simpleName}} {{#if hash.enclosingType}}at {{hash.enclosingType}}{{/if}}</span>
         </a>
+    {{/ifCond}}
+    {{#ifCond hash.showAs 'bang'}}
+        <span><em><b>!</b>{{hash.name}}</em> - {{hash.description}}</span>
     {{/ifCond}}
 </li>

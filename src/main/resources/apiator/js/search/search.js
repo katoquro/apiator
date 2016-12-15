@@ -16,7 +16,7 @@
 
 modulejs.define('search', ['hbs', 'searcher', 'search_box'], function (hbs, Searcher) {
 
-    var endpointsDataSet = _
+    var endpointDataSet = _
         .chain(apiJson.apiContexts)
         .flatMap(function (context) {
             var apiPath = context.apiPath;
@@ -74,24 +74,66 @@ modulejs.define('search', ['hbs', 'searcher', 'search_box'], function (hbs, Sear
         })
         .value();
 
+    var bangDataSet = _
+        .chain([
+            ['endpoint', 'Search trough url addresses'],
+            ['model', 'Search trough model & enum names']])
+        .map(function (it) {
+            return {
+                index: {
+                    bang: '!' + it[0]
+                },
+                payload: {
+                    showAs: 'bang',
+                    bang: '!' + it[0],
+                    name: it[0],
+                    description: it[1]
+                }
+            }
+        })
+        .value();
+
     var searcher = new Searcher(apiJson, {})
-        .addToDataSet(endpointsDataSet)
+        .addToDataSet(endpointDataSet)
         .addToDataSet(modelDataSet)
-        .addToDataSet(enumDataSet);
+        .addToDataSet(enumDataSet)
+        .addToDataSet(bangDataSet);
 
     var fuzzyTemplate = Handlebars.compile($("#fuzzy-response").html());
 
     $('#fuzzy-input').search_box({
         searchFunc: function (input) {
-            return searcher.search(input, 'endpoint')
+            var query = _.trimStart(input);
+
+            var pattern = query;
+            var indexType = 'endpoint';
+            if (query.startsWith('!')) {
+                var rawBang = query.match(/^!\w*/g);
+                if (_.isEmpty(rawBang)) {
+                    return [];
+                }
+                var bang = rawBang[0];
+
+                if (!/\s/.test(query)) {
+                    return searcher.search(bang, 'bang');
+                } else {
+                    indexType = bang.substring(1);
+                    pattern = query.replace(bang, '')
+                }
+            }
+
+            return searcher.search(pattern, indexType);
         },
         renderSuggestFunc: function (item) {
             return fuzzyTemplate({hash: item.payload})
         },
         onChangeFunc: function (changeEvent, box) {
             box.clearSuggest();
-            if (changeEvent.key) {
-                location.hash = hbs.urlerGeneral(changeEvent.item.payload)
+            var payload = changeEvent.item.payload;
+            if ('bang' == payload.showAs) {
+                box.getInput().val(payload.bang + ' ');
+            } else if (changeEvent.key) {
+                location.hash = hbs.urlerGeneral(payload);
             }
         }
     });
