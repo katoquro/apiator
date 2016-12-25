@@ -34,9 +34,9 @@ modulejs.define('hbs', function () {
         });
         if (responseType.type) {
             var shrinkByDots = Handlebars.helpers.shrinkByDots(responseType.type);
-            response = '<span class="type-name object-link"><a href="#' + shrinkByDots + '">' + shrinkByDots + '</a></span>' + response;
+            response = '<a href="#' + shrinkByDots + '" class="param__type-name">' + shrinkByDots + '</a>' + response;
         } else if (responseType.modelType) {
-            response = '<span class="model-type">' + responseType.modelType + '</span>' + response;
+            response = '<span class="param__model-type">' + responseType.modelType + '</span>' + response;
         }
         return response;
     }
@@ -61,6 +61,7 @@ modulejs.define('hbs', function () {
     });
 
     Handlebars.registerHelper('shrinkByDots', function (str) {
+        if (!str) {return;}
         return str.split('.').slice(-1);
     });
 
@@ -73,6 +74,30 @@ modulejs.define('hbs', function () {
             return options.fn(this);
         }
         return options.inverse(this);
+    });
+
+    // http://stackoverflow.com/questions/4810841/how-can-i-pretty-print-json-using-javascript
+    Handlebars.registerHelper('highlightJSON', function(json) {
+      if (typeof json != 'string') {
+         json = JSON.stringify(json, undefined, 2);
+      }
+
+      json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+        var cls = 'number';
+        if (/^"/.test(match)) {
+            if (/:$/.test(match)) {
+                cls = 'key';
+            } else {
+                cls = 'string';
+            }
+        } else if (/true|false/.test(match)) {
+            cls = 'boolean';
+        } else if (/null/.test(match)) {
+            cls = 'null';
+        }
+        return '<span class="' + cls + '">' + match + '</span>';
+      });
     });
 
     function urler(data) {

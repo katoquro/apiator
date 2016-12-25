@@ -1,109 +1,105 @@
 <div class="target-marker" id="{{apiPath}}"></div>
-<h4 class="page-header">{{apiPath}}</h4>
-{{#if description}}
-    <p>Description: {{description}}</p>
-{{/if}}
-{{#each apiEndpoints}}
-    <div class="target-marker" id="_{{lower method}}_{{../apiPath}}{{path}}"></div>
-    <div class="panel {{panelStyle method}}">
-        <div class="panel-heading">
-            <span class="gray endpoint {{method}}">{{../apiPath}}{{path}}</span>
-            <span class="span-left" title='Click to copy'
-                  data-clipboard-text="{{copyUrler method=method apiPath=../apiPath path=path}}">
-                <i class="fa fa-link"></i>
-            </span>
+<div class="panel" style="font-size: 13px; line-height: 13px;">
+    <div class="panel__name">{{shrinkByDots name}}</div>
+    {{#if description}}
+        <div class="panel__description">{{description}}</div>
+    {{/if}}
 
-            <div class="navbar-right link-to-java">
-                <span class="span-info">{{../name}}.{{name}}</span>
-                <span class="span-right">
-                    <i title="Click to copy"
-                       class="fa fa-clipboard"
-                       data-clipboard-text="{{../name}}#{{name}}"></i>
-                </span>
-            </div>
-        </div>
-        <div class="panel-body positionRelative">
-            {{#if description}}<p>Description: {{description}}</p>{{/if}}
-            <div class="container-fluid">
-                {{#if params}}
-                    <div class="row">
-                        <h5>Parameters</h5>
+    <div class="panel__endpoints">
+        {{#each apiEndpoints}}
+            <div class="target-marker" id="_{{lower method}}_{{../apiPath}}{{path}}"></div>
 
-                        <div class="col-xs-12 col-md-10">
-                            {{#each params}}
-                                <div class="row">
-                                    <div class="col-xs-2 col-sm-2 col-md-1 parameter lowercase">
-                                        ({{httpParamType}})
-                                    </div>
-                                    <div class="col-xs-2 col-sm-1 col-md-3 gap_x_r">
-                                        <span class="model-type">{{modelType}}</span>
-                                        {{~#if name~}}
-                                            <span class="gray italic">
-                                                        {{~name~}}
-                                                {{~#if defaultValue~}}
-                                                    <span class="gray span-info">={{defaultValue}}</span>
-                                                {{~/if~}}
-                                                </span>
-                                        {{~/if~}}
-                                        <!--todo add to default set this variant-->
-                                        {{~#if basedOn~}}
-                                            {{#each basedOn}}
-                                                {{#if this.type}}
-                                                    <span class="gray italic">of</span>
-                                                    <span class="object-link">
-                                                        <a href="#{{shrinkByDots this.type}}">{{shrinkByDots this.type}}</a>
-                                                    </span>
-                                                {{else}}
-                                                    {{#ifCond this.modelType 'ANY'}}
-                                                        <span class="gray span-info template-tooltip">{{this.templateName}}</span>
-                                                    {{else}}
-                                                        <span class="lowercase">{{this.modelType}}</span>
-                                                    {{/ifCond}}
-                                                {{/if}}
-                                            {{/each}}
-                                        {{~/if~}}
-                                        {{~#if type~}}
-                                            <span>→</span>
-                                            <span class="object-link">
-                                                <a href="#{{shrinkByDots type}}">{{shrinkByDots type}}</a>
-                                            </span>
-                                        {{~/if~}}
-                                    </div>
-                                    {{#if description}}
-                                        <div class="col-xs-2 col-sm-1 col-md-8 gap_x_r gray">{{description}}</div>
-                                    {{/if}}
+            <div class="panel__endpoint panel__endpoint_type_{{method}}" data-type="standart">
+                <div class="endpoint__header">
+                    <span class="header__endpoint endpoint {{method}}">{{../apiPath}}{{path}}</span>
+                    <span class="header__share">Share</span>
+                    <span class="header__view header__view_active" data-type="standart">Standard view</span>
+                    <span class="header__view" data-type="tech">Tech view</span>
+                </div>
+
+                <div class="endpoint__content endpoint__content_standard">
+                    {{#if description}}
+                        <div class="content__description">{{description}}</div>
+                    {{/if}}
+
+                    {{#if params}}
+                        <div class="content__params">
+                            <div class="params__title">Parameters</div>
+                            <table class="params__table">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Parameter type</th>
+                                    <th>Data type</th>
+                                    <th>Default value/Validation</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {{#each params}}
+                                    <tr class="param">
+                                        <td>{{name}} {{#if required}}<span class="param__required">(required)</span>{{/if}}</td>
+                                        <td class="param__http-type">{{httpParamType}}</td>
+                                        <td>
+                                            <div class="param__model-type">
+                                                {{modelType}}
+                                            </div>
+                                            {{#if type~}}
+                                                <a href="#{{shrinkByDots type}}" class="param__type">
+                                                    {{~shrinkByDots type~}}
+                                                </a>
+                                            {{~/if~}}
+                                        </td>
+                                        <td>{{#if defaultValue}}{{defaultValue}}{{else}}-{{/if}}</td>
+                                    </tr>
+                                {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    {{/if}}
+
+                    <div class="content__responses">
+                        <div class="responses__title">Responses</div>
+                        <div class="responses__param">
+                            {{#if returnType.type}}
+                                <a href="#{{shrinkByDots returnType.type}}" class="param__type-name">
+                                    {{~shrinkByDots returnType.type~}}
+                                </a>
+                            {{else}}
+                                <div class="param__model-type">
+                                    {{returnType.modelType}}
                                 </div>
-                            {{/each}}
+                                {{#if returnType.templateName~}}
+                                    <a href="#{{shrinkByDots type}}" class="param__template-name">
+                                        {{~returnType.templateName~}}
+                                    </a>
+                                {{~/if~}}
+                            {{/if}}
+                            {{~#if returnType.basedOn}}
+                                {{~#each returnType.basedOn}}
+                                    {{{responseTyper this}}}
+                                    <!-- <span class="param__type-name"> {{{responseTyper this}}} </span> -->
+                                {{/each~}}
+                            {{/if~}}
                         </div>
                     </div>
-                {{/if}}
-                <div class="row">
-                    <h5>Responses</h5>
-                    <span style="padding-left: 50px"></span>
-                    {{~#if returnType.type~}}
-                        <span class="type-name object-link">
-                            <a href="#{{shrinkByDots returnType.type}}">
-                                {{~shrinkByDots returnType.type~}}
-                            </a>
-                        </span>
-                    {{else}}
-                        <span class="model-type">{{returnType.modelType}}</span>
-                        {{#if returnType.templateName}}
-                            <span class="gray span-info template-tooltip">({{returnType.templateName}})</span>
-                        {{/if}}
-                    {{/if~}}
-                    {{~#if returnType.basedOn}}
-                        <span class="gray italic">of</span>
-                        {{~#each returnType.basedOn}}
-                            <span class="add-comma"> {{{responseTyper this}}} </span>
-                        {{/each~}}
-                    {{/if~}}
+                </div>
+                <div class="endpoint__content endpoint__content_tech">
+                    <div class="content__method">
+                        <div class="method__title">Java method</div>
+                        <div class="method__name">{{shrinkByDots ../name}}.{{name}}</div>
+                        <div class="method__copy">copy reference</div>
+                    </div>
+                    <div class="content__vcs">
+                        <div class="vcs__title">VCS</div>
+                        <div class="vcs__name">{{shrinkByDots ../name}}.java</div>
+                        <div class="vcs__goto">go to file</div>
+                    </div>
+                    <div class="content__raw-view">
+                        <div class="raw-view__title">Raw view</div>
+                        <pre class="raw-view__viewer">{{{highlightJSON this}}}</pre>
+                    </div>
                 </div>
             </div>
-            <div class="raw-view-switch">Raw view</div>
-        </div>
-        <div class="panel-raw-view">
-            <pre>{{json this}}</pre>
-        </div>
+        {{/each}}
     </div>
-{{/each}}
+</div>

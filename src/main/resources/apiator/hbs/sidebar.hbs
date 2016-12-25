@@ -1,29 +1,33 @@
 <div class="sidebar">
-    <ul class="nav nav-sidebar">
-        <a href="#endpoints" class="sidebar-title"> <i class="fa fa-plug"></i> <span>Endpoints</span></a>
-        <li class="endpoints side-container active">
-            <ul class="nav nav-sidebar">
+    <ul class="sidebar__group">
+        <a href="#endpoints" class="group__title"><i class="fa fa-plug"></i><span>Endpoints</span></a>
+        <li class="group__content group__content_endpoints group__content_active">
+            <ul>
                 {{#each apiContexts}}
-                    <li>
-                        <a class="gray" href="#{{apiPath}}"><span class="endpoint">{{apiPath}}</span></a>
+                    <li class="api {{#if @first}}api_active{{/if}}">
+                        <a class="api__path" href="#{{apiPath}}">{{apiPath}}</a>{{!
+                        }}<div class="api__toggler {{#if @first}}api__toggler_active{{/if}}"></div>
+
+                        <ul class="api__endpoints">
+                            {{#each apiEndpoints}}
+                                <li>
+                                    <a title="{{path}}" href="{{urler method=method apiPath=../apiPath path=path}}">
+                                        <span class="endpoint {{method}}">{{path}}</span>
+                                    </a>
+                                </li>
+                            {{/each}}
+                        </ul>
                     </li>
-                    {{#each apiEndpoints}}
-                        <li>
-                            <a title="{{path}}" href="{{urler method=method apiPath=../apiPath path=path}}">
-                                <span class="endpoint {{method}}">{{path}}</span>
-                            </a>
-                        </li>
-                    {{/each}}
                 {{/each}}
             </ul>
         </li>
 
-        <a href="#types" class="sidebar-title"> <i class="fa fa-file-text"></i> <span>Types</span></a>
-        <li class="types side-container">
-            <ul class="nav nav-sidebar">
+        <a href="#types" class="group__title"><i class="fa fa-plug"></i><span>Types</span></a>
+        <li class="group__content group__content_types">
+            <ul>
                 {{#each usedApiTypes}}
-                    <li>
-                        <a title="{{type}}" href="#{{shrinkByDots type}}">
+                    <li class="api">
+                        <a class="api__path" title="{{type}}" href="#{{shrinkByDots type}}">
                             <span class="endpoint {{modelType}}">{{shrinkByDots type}}</span>
                         </a>
                     </li>
@@ -31,11 +35,11 @@
             </ul>
         </li>
 
-        <a href="#enumerations" class="sidebar-title"> <i class="fa fa-file-text"></i> <span>Enumerations</span> </a>
-        <li class="enumerations side-container">
-            <ul class="nav nav-sidebar">
+        <a href="#enumerations" class="group__title"><i class="fa fa-plug"></i><span>Enumerations</span></a>
+        <li class="group__content group__content_enumerations">
+            <ul>
                 {{#each usedEnumerations}}
-                    <li>
+                    <li class="api">
                         <a title="{{type}}" href="#{{shrinkByDots type}}">
                             <span class="endpoint {{modelType}}">{{shrinkByDots type}}</span>
                         </a>

@@ -60,4 +60,40 @@
 @black: #050014;
 @font-mono: "Lucida Console", Monaco, monospace;
 
-@sidebar_width: 250px;
+@bg: #1d1f21;
+@bg_dark: #202225;
+@bg_light: #272a2f;
+
+
+
+@text_color: #838688;
+@text_light: #c7cacd;
+@text_yellow: #f9dca9;
+@text_blue: #7587a5;
+
+@gray: @text_color;
+@blue: #477b7b;
+@green: #73a476;
+@orange: #cd9e77;
+@red: #cd7778;
+
+@sidebar_width: 350px;
+
+
+.endpoint(@type, @color) {
+  .endpoint.@{type} {
+    color: @color;
+
+    &:before {
+      content: "@{type}";
+      margin-right: 10px;
+    }
+  }
+}
+
+.endpoint(DEFAULT, @gray);
+.endpoint(POST, @green);
+.endpoint(GET, @blue);
+.endpoint(PUT, @orange);
+.endpoint(PATCH, @orange);
+.endpoint(DELETE, @red);

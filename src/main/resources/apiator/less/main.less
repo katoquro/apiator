@@ -14,46 +14,43 @@
  * limitations under the License.
  */
 @import "variables";
-@import "modifiers";
-@import "feedback";
-@import "navbar_top";
-@import "sidebar";
-@import "endpoint_card";
-@import "search";
 
-body {
-  padding-top: 50px; //header offset
+@import "header";
+@import "sidebar";
+@import "search";
+@import "content";
+
+@import "panel";
+@import "endpoint";
+@import "type";
+
+* {
+  margin: 0;
+  padding: 0;
+
+  color: @text_color;
+  font-family: sans-serif;
+
+  box-sizing: border-box;
 }
 
-.main {
-  padding: 20px;
-  margin-left: @sidebar_width;
-  .page-header {
-    margin-top: 0;
+a {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
   }
+}
+
+ul {
+  list-style-type: none;
+}
+
+#doc-container {
+  font-size: 0;
+  line-height: 0;
 }
 
 .target-marker {
-  display: block;
-  height: 65px;
-  margin-top: -65px;
-  visibility: hidden;
-}
-
-.template-tooltip {
-  &:hover {
-    &:after {
-      content: "Template. Ask developer about implementation";
-      position: relative;
-      font-size: 10px;
-      top: -5px;
-      color: @bs_warning_txt;
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .main {
-    margin-left: 0;
-  }
+  padding-top: 30px;
 }

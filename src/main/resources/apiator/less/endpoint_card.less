@@ -40,41 +40,46 @@ span.endpoint.DEFAULT {
 }
 
 span.endpoint.POST {
+  color: @green;
+
   &:before {
     content: 'POST';
-    color: @bs_success_txt;
     margin-right: 10px;
   }
 }
 
 span.endpoint.GET {
+  color: @blue;
+
   &:before {
     content: 'GET';
-    color: @bs_info_txt;
     margin-right: 10px;
   }
 }
 
 span.endpoint.PUT {
+  color: @orange;
+
   &:before {
     content: 'PUT';
-    color: @bs_warning_txt;
     margin-right: 10px;
   }
 }
 
 span.endpoint.PATCH {
+  color: @orange;
+
   &:before {
     content: 'PATCH';
-    color: @bs_warning_txt;
     margin-right: 10px;
   }
 }
 
 span.endpoint.DELETE {
+  color: @red;
+
   &:before {
     content: 'DELETE';
-    color: @bs_danger_txt;
     margin-right: 10px;
   }
 }
