@@ -1,13 +1,13 @@
 <div class="target-marker" id="{{apiPath}}"></div>
 <div class="panel" style="font-size: 13px; line-height: 13px;">
-    <div class="panel__name">{{shrinkByDots name}}</div>
+    <div class="panel__name">{{getAfterLastDot name}}</div>
     {{#if description}}
         <div class="panel__description">{{description}}</div>
     {{/if}}
 
     <div class="panel__endpoints">
         {{#each apiEndpoints}}
-            <div class="target-marker" id="_{{lower method}}_{{../apiPath}}{{path}}"></div>
+            <div class="target-marker" id="_{{toLowerCase method}}_{{../apiPath}}{{path}}"></div>
 
             <div class="panel__endpoint panel__endpoint_type_{{method}}" data-type="standart">
                 <div class="endpoint__header">
@@ -44,8 +44,8 @@
                                                 {{modelType}}
                                             </div>
                                             {{#if type~}}
-                                                <a href="#{{shrinkByDots type}}" class="param__type">
-                                                    {{~shrinkByDots type~}}
+                                                <a href="{{getPageLinkToType type}}" class="param__type">
+                                                    {{getAfterLastDot type}}
                                                 </a>
                                             {{~/if~}}
                                         </td>
@@ -61,15 +61,15 @@
                         <div class="responses__title">Responses</div>
                         <div class="responses__param">
                             {{#if returnType.type}}
-                                <a href="#{{shrinkByDots returnType.type}}" class="param__type-name">
-                                    {{~shrinkByDots returnType.type~}}
+                                <a href="{{getPageLinkToType returnType.type}}" class="param__type-name">
+                                    {{~getAfterLastDot returnType.type~}}
                                 </a>
                             {{else}}
                                 <div class="param__model-type">
                                     {{returnType.modelType}}
                                 </div>
                                 {{#if returnType.templateName~}}
-                                    <a href="#{{shrinkByDots type}}" class="param__template-name">
+                                    <a href="{{getPageLinkToType type}}" class="param__template-name">
                                         {{~returnType.templateName~}}
                                     </a>
                                 {{~/if~}}
@@ -86,12 +86,12 @@
                 <div class="endpoint__content endpoint__content_tech">
                     <div class="content__method">
                         <div class="method__title">Java method</div>
-                        <div class="method__name">{{shrinkByDots ../name}}.{{name}}</div>
+                        <div class="method__name">{{getAfterLastDot ../name}}.{{name}}</div>
                         <div class="method__copy">copy reference</div>
                     </div>
                     <div class="content__vcs">
                         <div class="vcs__title">VCS</div>
-                        <div class="vcs__name">{{shrinkByDots ../name}}.java</div>
+                        <div class="vcs__name">{{getAfterLastDot ../name}}.java</div>
                         <div class="vcs__goto">go to file</div>
                     </div>
                     <div class="content__raw-view">

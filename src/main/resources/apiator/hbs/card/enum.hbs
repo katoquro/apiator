@@ -1,14 +1,14 @@
-<div class="target-marker" id="{{shrinkByDots type}}"></div>
+<div class="target-marker" id="{{getAfterLastDot type}}"></div>
 <div class="panel panel-info">
     <div class="panel-heading">
-        <span class="gray endpoint">{{shrinkByDots type}}</span>
-        <span class="span-left" title='Click to copy' data-clipboard-text="{{copyUrlerType type=type}}">
+        <span class="gray endpoint">{{getAfterLastDot type}}</span>
+        <span class="span-left" title='Click to copy' data-clipboard-text="{{getAbsoluteLinkToType type}}">
             <i class="fa fa-link"></i>
         </span>
 
         <div class="navbar-right link-to-java">
             <span class="span-info">{{type}}</span>
-        <span class="span-right">
+            <span class="span-right">
             <i title="Click to copy" class="fa fa-clipboard" data-clipboard-text="{{type}}"></i>
         </span>
         </div>

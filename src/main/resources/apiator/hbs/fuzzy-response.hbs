@@ -1,20 +1,20 @@
 <li role="presentation">
-    {{#ifCond hash.showAs 'endpoint'}}
-        <a href='{{urler this}}'>
-            <span class="endpoint {{hash.method}}">{{hash.apiPath}}{{hash.path}}</span>
+    {{#ifCond showAs 'endpoint'}}
+        <a href='{{getPageLinkToEndpoint this}}'>
+            <span class="endpoint {{method}}">{{apiPath}}{{path}}</span>
         </a>
     {{/ifCond}}
-    {{#ifCond hash.showAs 'model'}}
-        <a href='#{{shrinkByDots hash.type}}'>
-            <span class="endpoint">{{hash.simpleName}}</span>
+    {{#ifCond showAs 'model'}}
+        <a href='{{getPageLinkToType type}}'>
+            <span class="endpoint">{{simpleName}}</span>
         </a>
     {{/ifCond}}
-    {{#ifCond hash.showAs 'enum'}}
-        <a href='#{{shrinkByDots hash.type}}'>
-            <span class="endpoint">{{hash.simpleName}} {{#if hash.enclosingType}}at {{hash.enclosingType}}{{/if}}</span>
+    {{#ifCond showAs 'enum'}}
+        <a href='{{getPageLinkToType type}}'>
+            <span class="endpoint">{{simpleName}} {{#if enclosingType}}at {{enclosingType}}{{/if}}</span>
         </a>
     {{/ifCond}}
-    {{#ifCond hash.showAs 'bang'}}
-        <span><em><b>!</b>{{hash.name}}</em> - {{hash.description}}</span>
+    {{#ifCond showAs 'bang'}}
+        <span><em><b>!</b>{{name}}</em> - {{description}}</span>
     {{/ifCond}}
 </li>

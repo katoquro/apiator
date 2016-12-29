@@ -14,17 +14,7 @@
  * limitations under the License.
  */
 
-modulejs.define('hbs', function () {
-    var PANEL_MAPPER = {
-        'GET': 'panel-info',
-        'POST': 'panel-success',
-        'DELETE': 'panel-danger',
-        'PUT': 'panel-warning',
-        'PATCH': 'panel-default',
-        'OPTIONS': 'panel-default',
-        'HEAD': 'panel-default',
-        'DEFAULT': 'panel-default'
-    };
+modulejs.define('hbs', ['utils'], function (utils) {
 
     function responseTyper(responseType) {
         var response = "";
@@ -33,8 +23,8 @@ modulejs.define('hbs', function () {
             response = " " + responseTyper(value);
         });
         if (responseType.type) {
-            var shrinkByDots = Handlebars.helpers.shrinkByDots(responseType.type);
-            response = '<a href="#' + shrinkByDots + '" class="param__type-name">' + shrinkByDots + '</a>' + response;
+            var typeName = utils.getAfterLastDot(responseType.type);
+            response = '<a href="' + utils.getPageLinkToType(responseType.type) + '" class="param__type-name">' + typeName + '</a>' + response;
         } else if (responseType.modelType) {
             response = '<span class="param__model-type">' + responseType.modelType + '</span>' + response;
         }
@@ -43,31 +33,11 @@ modulejs.define('hbs', function () {
 
     Handlebars.registerHelper('responseTyper', responseTyper);
 
-    function lower(string) {
-        return string.toLowerCase();
-    }
-
-    Handlebars.registerHelper('lower', lower);
-
-    Handlebars.registerHelper('panelStyle', function (method) {
-        return PANEL_MAPPER[method] || PANEL_MAPPER.DEFAULT;
+    Handlebars.registerHelper('toLowerCase', function (string) {
+        return (string && typeof string === 'string') ? string.toLowerCase() : '';
     });
 
-    Handlebars.registerHelper('skipLeadSlash', function (string) {
-        if (string.startsWith('/')) {
-            return string.slice(1);
-        }
-        return string;
-    });
-
-    Handlebars.registerHelper('shrinkByDots', function (str) {
-        if (!str) {return;}
-        return str.split('.').slice(-1);
-    });
-
-    Handlebars.registerHelper('json', function (data) {
-        return JSON.stringify(data, null, "  ");
-    });
+    Handlebars.registerHelper('getAfterLastDot', utils.getAfterLastDot);
 
     Handlebars.registerHelper('ifCond', function (v1, v2, options) {
         if (v1 === v2) {
@@ -77,48 +47,37 @@ modulejs.define('hbs', function () {
     });
 
     // http://stackoverflow.com/questions/4810841/how-can-i-pretty-print-json-using-javascript
-    Handlebars.registerHelper('highlightJSON', function(json) {
-      if (typeof json != 'string') {
-         json = JSON.stringify(json, undefined, 2);
-      }
-
-      json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-        var cls = 'number';
-        if (/^"/.test(match)) {
-            if (/:$/.test(match)) {
-                cls = 'key';
-            } else {
-                cls = 'string';
-            }
-        } else if (/true|false/.test(match)) {
-            cls = 'boolean';
-        } else if (/null/.test(match)) {
-            cls = 'null';
+    Handlebars.registerHelper('highlightJSON', function (json) {
+        if (typeof json != 'string') {
+            json = JSON.stringify(json, undefined, 2);
         }
-        return '<span class="' + cls + '">' + match + '</span>';
-      });
+
+        json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+            var cls = 'number';
+            if (/^"/.test(match)) {
+                if (/:$/.test(match)) {
+                    cls = 'key';
+                } else {
+                    cls = 'string';
+                }
+            } else if (/true|false/.test(match)) {
+                cls = 'boolean';
+            } else if (/null/.test(match)) {
+                cls = 'null';
+            }
+            return '<span class="' + cls + '">' + match + '</span>';
+        });
     });
 
-    function urler(data) {
-        // console.log(data)
-        var hash = data.hash;
-        return '#_' + lower(hash.method) + '_' + hash.apiPath + hash.path;
-    }
+    Handlebars.registerHelper('getPageLinkToEndpoint', utils.getPageLinkToEndpoint);
+    Handlebars.registerHelper('getAbsoluteLinkToEndpoint', utils.getAbsoluteLinkToEndpoint);
+    Handlebars.registerHelper('getPageLinkToType', utils.getPageLinkToType);
+    Handlebars.registerHelper('getAbsoluteLinkToType', utils.getAbsoluteLinkToType);
 
-    function copyUrler(data) {
-        var prefix = location.origin + location.pathname + location.search;
-        return prefix + urler(data);
-    }
-
-    function copyUrlerType(data) {
-        var prefix = location.origin + location.pathname;
-        return prefix + '#' + Handlebars.helpers.shrinkByDots(data.hash.type)
-    }
-
-    Handlebars.registerHelper('urler', urler);
-    Handlebars.registerHelper('copyUrler', copyUrler);
-    Handlebars.registerHelper('copyUrlerType', copyUrlerType);
+    Handlebars.registerHelper('hashToObject', function (options) {
+        return options.hash
+    });
 
     $("[type='text/x-handlebars-template']").each(function (i, template) {
         var $template = $(template);
@@ -126,21 +85,11 @@ modulejs.define('hbs', function () {
     });
 
     return {
-        render: function () {
+        runMainRender: function () {
             var template = $('#main');
             var templateSrc = template.html();
 
             $('#doc-container').html(Handlebars.compile(templateSrc)(apiJson));
-        },
-        urlerGeneral: function (payload) {
-            switch (payload.showAs) {
-                case 'endpoint':
-                    return urler({hash: payload});
-                case 'model':
-                    return Handlebars.helpers.shrinkByDots(payload.type); // todo refactor helpers after redesign
-                default:
-                    throw new Error('Not supported payload type')
-            }
         }
     }
 });

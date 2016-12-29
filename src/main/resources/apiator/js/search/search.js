@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-modulejs.define('search', ['hbs', 'searcher', 'search_box'], function (hbs, Searcher) {
+modulejs.define('search', ['utils', 'hbs', 'searcher', 'search_box'], function (utils, hbs, Searcher) {
 
     var endpointDataSet = _
         .chain(apiJson.apiContexts)
@@ -125,7 +125,7 @@ modulejs.define('search', ['hbs', 'searcher', 'search_box'], function (hbs, Sear
             return searcher.search(pattern, indexType);
         },
         renderSuggestFunc: function (item) {
-            return fuzzyTemplate({hash: item.payload})
+            return fuzzyTemplate(item.payload)
         },
         onChangeFunc: function (changeEvent, box) {
             box.clearSuggest();
@@ -133,7 +133,19 @@ modulejs.define('search', ['hbs', 'searcher', 'search_box'], function (hbs, Sear
             if ('bang' == payload.showAs) {
                 box.getInput().val(payload.bang + ' ');
             } else if (changeEvent.key) {
-                location.hash = hbs.urlerGeneral(payload);
+                var navigateTo;
+                switch (payload.showAs) {
+                    case 'endpoint':
+                        navigateTo = utils.getPageLinkToEndpoint(payload);
+                        break;
+                    case 'model':
+                        navigateTo = utils.getPageLinkToType(payload.type);
+                        break;
+                    default:
+                        throw new Error('Not supported payload type')
+                }
+
+                location.hash = navigateTo;
             }
         }
     });

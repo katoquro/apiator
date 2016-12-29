@@ -1,8 +1,8 @@
-<div class="target-marker" id="{{shrinkByDots type}}"></div>
+<div class="target-marker" id="{{getAfterLastDot type}}"></div>
 <div class="panel" style="font-size: 13px; line-height: 13px;">
     <div class="panel__type">
         <div class="type__header">
-            <span class="header__name">{{shrinkByDots type}}</span>
+            <span class="header__name">{{getAfterLastDot type}}</span>
             <span class="header__share">Share</span>
         </div>
         <div class="type__content">
@@ -32,7 +32,8 @@
                                 {{~#if basedOn~}}
                                     {{#each basedOn}}
                                         {{#if this.type}}
-                                            <a href="#{{shrinkByDots this.type}}" class="field__type">{{shrinkByDots this.type}}</a>
+                                            <a href="{{getPageLinkToType this.type}}"
+                                               class="field__type">{{getAfterLastDot this.type}}</a>
                                         {{else}}
                                             {{#ifCond this.modelType 'ANY'}}
                                                 <span class="field__tamplate-name">{{this.templateName}}</span>
@@ -45,7 +46,8 @@
                                 {{~#if type~}}
                                     {{#ifCond this.type 'java.lang.Enum'}}
                                     {{else}}
-                                        <a href="#{{shrinkByDots type}}" class="field__type">{{shrinkByDots type}}</a>
+                                        <a href="{{getPageLinkToType type}}"
+                                           class="field__type">{{getAfterLastDot type}}</a>
                                     {{/ifCond}}
                                 {{~/if~}}
                             </td>

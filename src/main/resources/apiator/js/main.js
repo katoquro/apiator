@@ -15,7 +15,7 @@
  */
 
 modulejs.define('main', ['hbs', 'sidebar', 'endpoint'], function (hbs, sidebar, endpoint) {
-    hbs.render();
+    hbs.runMainRender();
 
     modulejs.require('search');
 
