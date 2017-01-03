@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-modulejs.define('main', ['hbs', 'sidebar', 'endpoint'], function (hbs, sidebar, endpoint) {
+modulejs.define('main', ['hbs', 'sidebar', 'endpoint', 'link_processor'], function (hbs, sidebar, endpoint, link_processor) {
     hbs.runMainRender();
 
     modulejs.require('search');
 
     sidebar.run();
     endpoint.run();
+    link_processor.run();
     //linkProcessor.attachCallbacks();
     //linkProcessor.navigateSidebarMenu(window.location.hash)
 });

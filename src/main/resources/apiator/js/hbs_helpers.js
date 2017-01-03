@@ -70,8 +70,10 @@ modulejs.define('hbs', ['utils'], function (utils) {
         });
     });
 
+    Handlebars.registerHelper('getTargetMarkerOfEndpoint', utils.getTargetMarkerOfEndpoint);
     Handlebars.registerHelper('getPageLinkToEndpoint', utils.getPageLinkToEndpoint);
     Handlebars.registerHelper('getAbsoluteLinkToEndpoint', utils.getAbsoluteLinkToEndpoint);
+    Handlebars.registerHelper('getTargetMarkerOfType', utils.getTargetMarkerOfType);
     Handlebars.registerHelper('getPageLinkToType', utils.getPageLinkToType);
     Handlebars.registerHelper('getAbsoluteLinkToType', utils.getAbsoluteLinkToType);
 

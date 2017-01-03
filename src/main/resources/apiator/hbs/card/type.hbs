@@ -1,9 +1,9 @@
-<div class="target-marker" id="{{getAfterLastDot type}}"></div>
+<div class="target-marker" id="{{getTargetMarkerOfType type}}"></div>
 <div class="panel" style="font-size: 13px; line-height: 13px;">
     <div class="panel__type">
         <div class="type__header">
             <span class="header__name">{{getAfterLastDot type}}</span>
-            <span class="header__share">Share</span>
+            <span class="header__share copy-btn" data-clipboard-text="{{getAbsoluteLinkToType type}}">Share</span>
         </div>
         <div class="type__content">
             {{#if description}}
@@ -62,7 +62,7 @@
                 <div class="method__name">
                     {{type}}
                 </div>
-                <div class="method__copy">
+                <div class="method__copy copy-btn" data-clipboard-text="{{type}}">
                     copy reference
                 </div>
             </div>

@@ -7,12 +7,14 @@
 
     <div class="panel__endpoints">
         {{#each apiEndpoints}}
-            <div class="target-marker" id="_{{toLowerCase method}}_{{../apiPath}}{{path}}"></div>
+            <div class="target-marker"
+                 id="{{getTargetMarkerOfEndpoint (hashToObject method=method apiPath=../apiPath path=path)}}"></div>
 
             <div class="panel__endpoint panel__endpoint_type_{{method}}" data-type="standart">
                 <div class="endpoint__header">
                     <span class="header__endpoint endpoint {{method}}">{{../apiPath}}{{path}}</span>
-                    <span class="header__share">Share</span>
+                    <span class="header__share copy-btn"
+                          data-clipboard-text="{{getAbsoluteLinkToEndpoint (hashToObject method=method apiPath=../apiPath path=path)}}">Share</span>
                     <span class="header__view header__view_active" data-type="standart">Standard view</span>
                     <span class="header__view" data-type="tech">Tech view</span>
                 </div>
@@ -37,7 +39,8 @@
                                 <tbody>
                                 {{#each params}}
                                     <tr class="param">
-                                        <td>{{name}} {{#if required}}<span class="param__required">(required)</span>{{/if}}</td>
+                                        <td>{{name}} {{#if required}}<span
+                                                class="param__required">(required)</span>{{/if}}</td>
                                         <td class="param__http-type">{{httpParamType}}</td>
                                         <td>
                                             <div class="param__model-type">
@@ -87,7 +90,9 @@
                     <div class="content__method">
                         <div class="method__title">Java method</div>
                         <div class="method__name">{{getAfterLastDot ../name}}.{{name}}</div>
-                        <div class="method__copy">copy reference</div>
+                        <div class="method__copy copy-btn"
+                             data-clipboard-text="{{../name}}#{{name}}">copy reference
+                        </div>
                     </div>
                     <div class="content__vcs">
                         <div class="vcs__title">VCS</div>

@@ -17,6 +17,21 @@
 modulejs.define('utils', function () {
 
     /**
+     * returns substring after last dot, example:
+     * a.b.c -> c
+     * a -> a
+     * @param {string} dotSeparatedString
+     * @returns {string}
+     */
+    this.getAfterLastDot = function (dotSeparatedString) {
+        if (dotSeparatedString && typeof dotSeparatedString === 'string') {
+            return dotSeparatedString.split('.').slice(-1)[0];
+        }
+
+        return '';
+    };
+
+    /**
      * Data type for endpoint link generator
      * @typedef {Object} EndpointData
      * @property {string} method - http method
@@ -28,8 +43,16 @@ modulejs.define('utils', function () {
      * @param {EndpointData} data
      * @returns {string}
      */
+    this.getTargetMarkerOfEndpoint = function (data) {
+        return '_' + data.method.toLowerCase() + '_' + data.apiPath + data.path;
+    };
+
+    /**
+     * @param {EndpointData} data
+     * @returns {string}
+     */
     this.getPageLinkToEndpoint = function (data) {
-        return '#_' + data.method.toLowerCase() + '_' + data.apiPath + data.path;
+        return '#' + getTargetMarkerOfEndpoint(data)
     };
 
     /**
@@ -43,32 +66,25 @@ modulejs.define('utils', function () {
 
     /**
      * @param {string} type - full type name
+     * @return {string}
+     */
+    this.getTargetMarkerOfType = getAfterLastDot;
+
+    /**
+     * @param {string} type - full type name
+     * @return {string}
      */
     this.getPageLinkToType = function (type) {
-        return '#' + getAfterLastDot(type)
+        return '#' + getTargetMarkerOfType(type)
     };
 
     /**
      * @param {string} type - full type name
+     * @return {string}
      */
     this.getAbsoluteLinkToType = function (type) {
         var prefix = location.origin + location.pathname + location.search;
         return prefix + getPageLinkToType(type);
-    };
-
-    /**
-     * returns substring after last dot, example:
-     * a.b.c -> c
-     * a -> a
-     * @param {string} dotSeparatedString
-     * @returns {string}
-     */
-    this.getAfterLastDot = function (dotSeparatedString) {
-        if (dotSeparatedString && typeof dotSeparatedString === 'string') {
-            return dotSeparatedString.split('.').slice(-1)[0];
-        }
-
-        return '';
     };
 
     return this;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2017 Ainrif <support@ainrif.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,80 +14,22 @@
  * limitations under the License.
  */
 
-modulejs.define('linkProcessor', function () {
-    /**
-     * @param {string} hash
-     */
-    function navigateSidebarMenu(hash) {
-        $('.sidebar a[href="' + hash + '"]').each(function (i, item) {
-            markSidebarActive(item);
-            scrollToSidebarItem(item);
-        })
+modulejs.define('link_processor', [], function () {
+    function runCopyBtnProcessor() {
+        var clipboard = new Clipboard('.copy-btn');
+        clipboard.on('success', function (event) {
+            // todo navigation to item in sidebar
+            // todo tooltip about coping
+        });
+        clipboard.on('error', function (event) {
+            // todo show input with message 'Press Ctrl+C' (OS related)
+        });
     }
-
-    function markSidebarActive(_anchor) {
-        var anchor = $(_anchor);
-        $('.side-container.active').removeClass('active');
-
-        if (anchor.is('.sidebar-title')) {
-            anchor.next().addClass('active');
-        } else {
-            $('.side-container li.active').removeClass('active');
-            anchor.closest('li').addClass('active');
-            anchor.closest('.side-container').addClass('active');
-        }
-    }
-
-    const SIDEBAR_SCROLL_BOTTOM_THRESHOLD = 30;
-
-    function scrollToSidebarItem(_anchor) {
-        var anchor = $(_anchor);
-
-        var activeItem = $('.side-container li.active');
-        var activeSideContainer = anchor.closest('.side-container');
-
-        var itemHeight = activeItem.height();
-        var containerHeight = activeSideContainer.height() - SIDEBAR_SCROLL_BOTTOM_THRESHOLD;
-
-        var scrollTo = activeItem.prevAll().length * itemHeight;
-        var currentScroll = activeSideContainer.scrollTop();
-
-        if (!(currentScroll < scrollTo && scrollTo < (currentScroll + containerHeight))) {
-            activeSideContainer.scrollTop(scrollTo);
-        }
-    }
-
-    /**
-     * @param {Event} event
-     */
-    function clickLinkCallback(event) {
-        var href = $(event.currentTarget).attr('href');
-
-        navigateSidebarMenu(href);
-    }
-
 
     return {
-        navigateSidebarMenu: navigateSidebarMenu,
-        attachCallbacks: function () {
-            var clipboard = new Clipboard('[data-clipboard-text]');
-            clipboard.on('success', function (event) {
-                var url = event.text;
-                var urlHash = url.substring(url.indexOf('#'));
-
-                if ($('li.active>a').attr('href') === urlHash) {
-                    return;
-                }
-
-                navigateSidebarMenu(urlHash);
-            });
-
-            $('.main a[href^="#"], .sidebar a[href^="#"]').on('click', clickLinkCallback);
-
-            $('.raw-view-switch').on('click', function () {
-                $(this).parent().next().slideToggle();
-            });
-
+        run: function () {
+            // todo navigation to item in sidebar
+            runCopyBtnProcessor();
         }
     }
 });
