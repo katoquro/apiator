@@ -1,0 +1,30 @@
+@import "variables";
+
+@track_color: #555;
+
+::-webkit-scrollbar {
+  width: 9px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  background-color: @track_color;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+
+::-webkit-resizer {
+}
+
+body {
+  scrollbar-face-color: @track_color;
+  scrollbar-track-color: @bg_dark;
+  scrollbar-arrow-color: @bg_dark;
+}
