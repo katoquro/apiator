@@ -13,7 +13,12 @@
 
 <div id="doc-container"></div>
 
-<script type="text/javascript">var apiJson = ${json};</script>
+<script type="text/javascript">
+    /**
+     * @type {Apiator.ApiScheme}
+     */
+    var apiJson = ${json};
+</script>
 <script type="text/javascript"> ${js} </script>
 
 <img id="flag_counter" src="#" style="visibility: hidden; display: none;"/>
