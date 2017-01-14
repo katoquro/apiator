@@ -49,25 +49,25 @@ modulejs.define('hbs', ['utils'], function (utils) {
     // http://stackoverflow.com/questions/4810841/how-can-i-pretty-print-json-using-javascript
     Handlebars.registerHelper('highlightJSON', function (json) {
         if (typeof json != 'string') {
-            json = JSON.stringify(json, undefined, 2);
+            json = JSON.stringify(json, undefined, 4);
         }
 
         json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-            var cls = 'number';
+            var cls = 'json__value_number';
             if (/^"/.test(match)) {
                 if (/:$/.test(match)) {
-                    cls = 'key';
+                    cls = 'json__key';
                 } else {
-                    cls = 'string';
+                    cls = 'json__value_string';
                 }
             } else if (/true|false/.test(match)) {
-                cls = 'boolean';
+                cls = 'json__value_boolean';
             } else if (/null/.test(match)) {
                 cls = 'null';
             }
             return '<span class="' + cls + '">' + match + '</span>';
-        });
+        }).replace(/(\r\n|\n|\r)/gm, '<br>');
     });
 
     Handlebars.registerHelper('getTargetMarkerOfEndpoint', utils.getTargetMarkerOfEndpoint);
