@@ -1,13 +1,13 @@
 modulejs.define('endpoint', function () {
 
   function run() {
-    var $endpointHeader = $('.endpoint__header');
+    var $endpointHeader = $('.panel_endpoint .panel__header');
 
-    $endpointHeader.find('.header__view').on('click', function(e) {
-      $(this).siblings('.header__view').removeClass('header__view_active');
-      $(this).addClass('header__view_active');
+    $endpointHeader.find('.panel__header-view').on('click', function(e) {
+      $(this).siblings('.panel__header-view').removeClass('panel__header-view_active');
+      $(this).addClass('panel__header-view_active');
 
-      $(this).parents('.panel__endpoint').attr('data-type', $(this).data('type'));
+      $(this).parents('.endpoint').attr('data-type', $(this).data('type'));
     });
   }
 

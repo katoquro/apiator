@@ -1,33 +1,22 @@
 <div class="target-marker" id="{{getTargetMarkerOfType type}}"></div>
-<div class="panel panel-info">
-    <div class="panel-heading">
-        <span class="gray endpoint">{{getAfterLastDot type}}</span>
-        <span class="span-left" title='Click to copy' data-clipboard-text="{{getAbsoluteLinkToType type}}">
-            <i class="fa fa-link"></i>
-        </span>
-
-        <div class="navbar-right link-to-java">
-            <span class="span-info">{{type}}</span>
-            <span class="span-right">
-            <i title="Click to copy" class="fa fa-clipboard" data-clipboard-text="{{type}}"></i>
-        </span>
-        </div>
+<div class="panel panel_enum enum">
+    <div class="panel__header">
+        <span class="panel__header-name">{{getAfterLastDot type}}</span>
+        <span class="panel__header-share copy-btn" data-clipboard-text="{{getAbsoluteLinkToType type}}">Share</span>
     </div>
-    <div class="panel-body">
-        <div class="container-fluid">
-            <div class="row">
-                <h5>Values</h5>
+    <div class="panel__content">
+        <div class="panel__content-title">Values</div>
 
-                <div class="col-xs-12 col-md-10">
-                    {{#each values}}
-                        <div class="row">
-                            <div class="col-xs-2 col-sm-2 col-md-3">
-                                {{this}}
-                            </div>
-                        </div>
-                    {{/each}}
-                </div>
-            </div>
+        <div class="panel__content-content">
+            <table class="table">
+                <tbody>
+                {{#each values}}
+                    <tr>
+                        <td>{{this}}</td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

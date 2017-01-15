@@ -1,0 +1,43 @@
+.type {
+
+  .table_type {
+
+    .field {
+
+      &__model-type {
+        text-transform: lowercase;
+        color: @text_yellow;
+        display: inline-block;
+      }
+
+      &__type {
+        color: @text_blue;
+        text-decoration: underline;
+        cursor: pointer;
+        display: inline-block;
+
+        &:hover {
+          color: darken(@text_blue, 10%);
+        }
+      }
+    }
+  }
+
+  &__method {
+
+    &-name,
+    &-copy {
+      display: inline-block;
+    }
+
+    &-name {
+      color: @orange;
+    }
+
+    &-copy {
+      border-bottom: 1px dashed;
+      margin-left: 30px;
+      cursor: pointer;
+    }
+  }
+}

@@ -1,70 +1,68 @@
 <div class="target-marker" id="{{getTargetMarkerOfType type}}"></div>
-<div class="panel" style="font-size: 13px; line-height: 13px;">
-    <div class="panel__type">
-        <div class="type__header">
-            <span class="header__name">{{getAfterLastDot type}}</span>
-            <span class="header__share copy-btn" data-clipboard-text="{{getAbsoluteLinkToType type}}">Share</span>
-        </div>
-        <div class="type__content">
-            {{#if description}}
-                <div class="content__description">{{description}}</div>
-            {{/if}}
+<div class="panel panel_type type" style="font-size: 13px; line-height: 13px;">
+    <div class="panel__header">
+        <span class="panel__header-name">{{getAfterLastDot type}}</span>
+        <span class="panel__header-share copy-btn" data-clipboard-text="{{getAbsoluteLinkToType type}}">Share</span>
+    </div>
+    <div class="panel__content">
+        {{#if description}}
+            <div class="panel__content-description">{{description}}</div>
+        {{/if}}
 
-            <div class="content__fields">
-                <div class="fields__title">Fields</div>
-                <table class="fields__table">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Date type</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {{#each fields}}
-                        <tr class="field">
-                            <td>{{name}}</td>
-                            <td>
-                                {{#ifCond modelType 'ANY'}}
-                                    <span class="field__tamplate-name">{{templateName}}</span>
-                                {{else}}
-                                    <span class="field__model-type">{{modelType}}</span>
-                                {{/ifCond}}
-                                {{~#if basedOn~}}
-                                    {{#each basedOn}}
-                                        {{#if this.type}}
-                                            <a href="{{getPageLinkToType this.type}}"
-                                               class="field__type">{{getAfterLastDot this.type}}</a>
-                                        {{else}}
-                                            {{#ifCond this.modelType 'ANY'}}
-                                                <span class="field__tamplate-name">{{this.templateName}}</span>
-                                            {{else}}
-                                                <span class="field__model-type">{{this.modelType}}</span>
-                                            {{/ifCond}}
-                                        {{/if}}
-                                    {{/each}}
-                                {{~/if~}}
-                                {{~#if type~}}
-                                    {{#ifCond this.type 'java.lang.Enum'}}
+        <div class="panel__content-title">Fields</div>
+
+        <div class="panel__content-content">
+            <table class="table table_type">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date type</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each fields}}
+                    <tr class="field">
+                        <td>{{name}}</td>
+                        <td>
+                            {{#ifCond modelType 'ANY'}}
+                                <span class="field__template-name">{{templateName}}</span>
+                            {{else}}
+                                <span class="field__model-type">{{modelType}}</span>
+                            {{/ifCond}}
+                            {{~#if basedOn~}}
+                                {{#each basedOn}}
+                                    {{#if this.type}}
+                                        <a href="{{getPageLinkToType this.type}}"
+                                           class="field__type">{{getAfterLastDot this.type}}</a>
                                     {{else}}
-                                        <a href="{{getPageLinkToType type}}"
-                                           class="field__type">{{getAfterLastDot type}}</a>
-                                    {{/ifCond}}
-                                {{~/if~}}
-                            </td>
-                        </tr>
-                    {{/each}}
-                    </tbody>
-                </table>
-            </div>
+                                        {{#ifCond this.modelType 'ANY'}}
+                                            <span class="field__template-name">{{this.templateName}}</span>
+                                        {{else}}
+                                            <span class="field__model-type">{{this.modelType}}</span>
+                                        {{/ifCond}}
+                                    {{/if}}
+                                {{/each}}
+                            {{~/if~}}
+                            {{~#if type~}}
+                                {{#ifCond this.type 'java.lang.Enum'}}
+                                {{else}}
+                                    <a href="{{getPageLinkToType type}}"
+                                       class="field__type">{{getAfterLastDot type}}</a>
+                                {{/ifCond}}
+                            {{~/if~}}
+                        </td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
 
-            <div class="content__method">
-                <div class="method__title">Java method</div>
-                <div class="method__name">
-                    {{type}}
-                </div>
-                <div class="method__copy copy-btn" data-clipboard-text="{{type}}">
-                    copy reference
-                </div>
+        <div class="panel__content-title">Java method</div>
+        <div class="panel__content-content type__method">
+            <div class="type__method-name">{{type}}</div>
+
+            <div class="type__method-copy copy-btn" data-clipboard-text="{{type}}">
+                copy reference
             </div>
         </div>
     </div>

@@ -2,257 +2,43 @@
   font-size: 13px;
   line-height: 13px;
   background: @bg;
+  margin-bottom: 20px;
+  border: 1px solid @gray;
+  box-sizing: border-box;
+  border-radius: 1px;
 
-  // &__name, // .target-marker
-  &__description {
-    margin-bottom: 30px;
+  &__header {
+    border-bottom: 1px solid desaturate(@gray, 20%); // !!
+    display: flex;
+    cursor: pointer;
+
+    &-name,
+    &-share,
+    &-view {
+      padding: 15px 20px;
+    }
+
+    &-share {
+      margin-left: auto;
+    }
   }
 
-  &__name {
-    font-size: 14px;
-    line-height: 14px;
-    text-transform: uppercase; // ??
-    color: @text_light;
-  }
+  &__content {
+    padding: 15px 20px;
+    margin-top: 40px;
 
-  &__endpoints {}
+    &-description {
+      margin-top: 40px;
+    }
 
-  &__endpoint,
-  &__type {
-    margin-bottom: 20px;
-    border: 1px solid @gray;
-    box-sizing: border-box;
-    border-radius: 1px;
+    &-title {
+      text-transform: uppercase;
+      color: @text_light;
+      margin-bottom: 30px;
+    }
 
-    .endpoint,
-    .type {
-      &__header {
-        border-bottom: 1px solid desaturate(@gray, 20%); // !!
-        display: flex;
-        cursor: pointer;
-
-        .header {
-          &__endpoint,
-          &__share,
-          &__view,
-          &__name {
-            padding: 15px 20px;
-          }
-
-          &__endpoint {}
-
-          &__share {
-            margin-left: auto;
-          }
-
-          &__view {
-
-            &_active {
-
-            }
-          }
-        }
-      }
-
-      &__content {
-        padding: 15px 20px;
-
-        .content {
-          &__description,
-          &__params,
-          &__responses,
-          &__fields,
-          &__method,
-          &__vcs,
-          &__raw-view {
-            margin-top: 40px;
-          }
-
-          &__description {
-          }
-
-          &__params,
-          &__fields,
-          &__method,
-          &__vcs,
-          &__raw-view {
-
-            .params,
-            .fields,
-            .method,
-            .vcs,
-            .raw-view {
-              &__title {
-                text-transform: uppercase;
-                color: @text_light;
-                margin-bottom: 30px;
-              }
-            }
-
-            .params,
-            .fields {
-              &__table {
-                width: calc(~"100% + 16px");
-                position: relative;
-                left: -8px;
-                text-align: left;
-                border-collapse: collapse;
-
-                tr {
-                  height: 35px;
-
-                  th:first-child,
-                  td:first-child {
-                    padding: 0 8px;
-                  }
-
-                  th {
-                    font-weight: normal;
-                  }
-
-                  td {
-                    color: @text_light;
-                  }
-                }
-
-                tbody {
-                  tr:nth-child(2n) {
-                    background-color: #26282A;
-                  }
-                }
-
-                .param,
-                .field {
-                  &__required {
-
-                  }
-
-                  &__http-type {
-                    text-transform: lowercase;
-                  }
-
-                  &__model-type {
-                    text-transform: lowercase;
-                    color: @text_yellow;
-                    display: inline-block;
-                  }
-
-                  &__type {
-                    color: @text_blue;
-                    text-decoration: underline;
-                    cursor: pointer;
-                    display: inline-block;
-
-                    &:hover {
-                      color: darken(@text_blue, 10%);
-                    }
-                  }
-                }
-              }
-            }
-          }
-
-          &__responses {
-
-            .responses {
-              &__title {
-                text-transform: uppercase;
-                color: @text_light;
-                margin-bottom: 30px;
-              }
-
-              &__param {
-
-                .param {
-                  &__type-name {
-                    color: @text_blue;
-                    text-decoration: underline;
-                    cursor: pointer;
-
-                    &:hover {
-                      color: darken(@text_blue, 10%);
-                    }
-                  }
-
-                  &__model-type {
-                    text-transform: lowercase;
-                    color: @text_yellow;
-                    display: inline-block;
-                  }
-                }
-              }
-            }
-          }
-
-          &__method,
-          &__vcs {
-
-            .method,
-            .vcs {
-              &__name,
-              &__copy,
-              &__goto {
-                display: inline-block;
-              }
-
-              &__name {
-                color: @orange;
-              }
-
-              &__copy,
-              &__goto {
-                border-bottom: 1px dashed;
-                margin-left: 30px;
-                cursor: pointer;
-              }
-            }
-          }
-        }
-      }
+    &-content {
+      margin-bottom: 30px;
     }
   }
 }
-
-.panel__endpoint(@type, @color) {
-  .panel__endpoint_type_@{type} {
-    border-color: @color;
-
-    .endpoint {
-      &__header {
-        border-color: fade(@color, 45%);
-
-        background-color: fade(@color, 15%); //_active
-
-        .header {
-          //&__endpoint,
-          &__share,
-          &__view {
-            color: @color;
-
-            &:hover {
-              background-color: fade(@color, 30%);
-            }
-
-            &_active {
-              background-color: fade(@color, 20%);
-            }
-          }
-        }
-      }
-
-      &__content {
-        .content__raw-view .raw-view__viewer {
-          background-color: fade(@bg, 5%);
-          border: 1px solid fade(@color, 45%);
-        }
-      }
-    }
-  }
-}
-
-.panel__endpoint(DEFAULT, @gray);
-.panel__endpoint(POST, @green);
-.panel__endpoint(GET, @blue);
-.panel__endpoint(PUT, @orange);
-.panel__endpoint(PATCH, @orange);
-.panel__endpoint(DELETE, @red);

@@ -25,10 +25,8 @@ class StaticDependencies {
     static def js = [modulejs  : 'modulejs.min.js',
                      jquery    : 'jquery.min.js',
                      lodash    : 'lodash.min.js',
-                     bootstrap : 'bootstrap.min.js',
                      handlebars: 'handlebars.min.js',
                      clipboard : 'clipboard.min.js']
 
-    static def css = [bootstrap     : 'bootstrap.min.css',
-                      'font-awesome': 'font-awesome.min.css']
+    static def css = ['font-awesome': 'font-awesome.min.css']
 }

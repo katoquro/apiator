@@ -59,7 +59,6 @@ dependencies {
     compile 'org.webjars.bower:modulejs:1.13.0'
     compile 'org.webjars.bower:jquery:2.1.4'
     compile 'org.webjars.bower:lodash:4.6.1'
-    compile 'org.webjars.bower:bootstrap:3.3.6'
     compile 'org.webjars.bower:handlebars:4.0.5'
     compile 'org.webjars.bower:clipboard:1.5.16'
     compile 'org.webjars.bower:font-awesome:4.5.0'
