@@ -111,6 +111,10 @@ modulejs.define('search_box', [], function () {
                 return;
             }
 
+            searchOnInput();
+        });
+
+        function searchOnInput() {
             box.clearSuggest();
 
             var pattern = input.val();
@@ -127,6 +131,12 @@ modulejs.define('search_box', [], function () {
             suggest
                 .insertAfter(input)
                 .children().first().addClass(ACTIVE_CLASS);
+        }
+
+        this.click(function () {
+            if (suggest.is(':empty')) {
+                searchOnInput()
+            }
         });
 
         box.clearSuggest = function () {
