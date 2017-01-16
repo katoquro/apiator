@@ -1,24 +1,23 @@
 modulejs.define('sidebar', function () {
 
-  function run() {
-    var $sidebar = $('.sidebar'),
-        $toggler = $sidebar.find('.api__toggler');
+    function run() {
+        var $sidebar = $('.sidebar'),
+            $apiContext = $sidebar.find('.api');
 
-    $toggler.on('click', function(e) {
-      $(this).toggleClass('api__toggler_active');
-      $(this).parent().toggleClass('api_active');
-    });
+        $apiContext.on('click', function (e) {
+            $(this).find('.api__toggle').toggleClass('api__toggle_active');
+            $(this).toggleClass('api_active');
+        });
 
+        var $groupTitle = $('.group__title');
 
-    var $groupTitle = $('.group__title');
+        $groupTitle.on('click', function (e) {
+            $(this).siblings('.group__content').removeClass('group__content_active');
+            $(this).next().addClass('group__content_active');
+        })
+    }
 
-    $groupTitle.on('click', function(e) {
-      $(this).siblings('.group__content').removeClass('group__content_active');
-      $(this).next().addClass('group__content_active');
-    })
-  }
-
-  return {
-    run: run
-  }
+    return {
+        run: run
+    }
 });

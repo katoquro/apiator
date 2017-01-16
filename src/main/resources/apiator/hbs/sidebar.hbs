@@ -5,15 +5,15 @@
             <ul>
                 {{#each apiContexts}}
                     <li class="api {{#if @first}}api_active{{/if}}">
-                        <a class="api__path" href="#{{apiPath}}">{{apiPath}}</a>{{!
-                        }}
-                        <div class="api__toggler {{#if @first}}api__toggler_active{{/if}}"></div>
+                        <a class="api__path" href="#{{apiPath}}">{{apiPath}}</a>
+                        <div class="api__toggle {{#if @first}}api__toggle_active{{/if}}"></div>
 
                         <ul class="api__endpoints">
                             {{#each apiEndpoints}}
                                 <li>
                                     <a title="{{path}}"
-                                       href="{{getPageLinkToEndpoint (hashToObject method=method apiPath=../apiPath path=path)}}">
+                                       href="{{getPageLinkToEndpoint
+                                               (hashToObject method=method apiPath=../apiPath path=path)}}">
                                         <span class="endpoint {{method}}">{{path}}</span>
                                     </a>
                                 </li>
@@ -42,7 +42,7 @@
             <ul>
                 {{#each usedEnumerations}}
                     <li class="api">
-                        <a class="api__path"  title="{{type}}" href="{{getPageLinkToType type}}">
+                        <a class="api__path" title="{{type}}" href="{{getPageLinkToType type}}">
                             <span class="endpoint {{modelType}}">{{getAfterLastDot type}}</span>
                         </a>
                     </li>
