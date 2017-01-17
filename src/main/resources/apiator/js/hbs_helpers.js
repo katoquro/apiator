@@ -16,22 +16,35 @@
 
 modulejs.define('hbs', ['utils'], function (utils) {
 
-    function responseTyper(responseType) {
-        var response = "";
-
-        responseType.basedOn.forEach(function (value) {
-            response = " " + responseTyper(value);
-        });
-        if (responseType.type) {
-            var typeName = utils.getAfterLastDot(responseType.type);
-            response = '<a href="' + utils.getPageLinkToType(responseType.type) + '" class="param__type-name">' + typeName + '</a>' + response;
-        } else if (responseType.modelType) {
-            response = '<span class="param__model-type">' + responseType.modelType + '</span>' + response;
+    /**
+     * @param {Apiator.EndpointType|Apiator.BasicType} type
+     */
+    function renderTemplateTypes(type) {
+        var result = "";
+        if (type.type) {
+            result += '<a href="' + utils.getPageLinkToType(type.type) + '" class="type-view__model">'
+                + utils.getAfterLastDot(type.type) + '</a>'
+        } else {
+            result += '<div class="type-view__modeltype">'
+                + type.modelType + '</div>'
         }
-        return response;
+        if (type.templateName) {
+            // todo process template name
+        }
+        if (!_.isEmpty(type.basedOn)) {
+            result += ' of (';
+            _.each(type.basedOn, function (it) {
+                result += renderTemplateTypes(it);
+                result += ', '
+            });
+            result = result.slice(0, -2);
+            result += ')';
+        }
+
+        return result;
     }
 
-    Handlebars.registerHelper('responseTyper', responseTyper);
+    Handlebars.registerHelper('renderTemplateTypes', renderTemplateTypes);
 
     Handlebars.registerHelper('toLowerCase', function (string) {
         return (string && typeof string === 'string') ? string.toLowerCase() : '';
@@ -76,6 +89,7 @@ modulejs.define('hbs', ['utils'], function (utils) {
     Handlebars.registerHelper('getTargetMarkerOfType', utils.getTargetMarkerOfType);
     Handlebars.registerHelper('getPageLinkToType', utils.getPageLinkToType);
     Handlebars.registerHelper('getAbsoluteLinkToType', utils.getAbsoluteLinkToType);
+    Handlebars.registerHelper('splitCamelCase', utils.splitCamelCase);
 
     Handlebars.registerHelper('hashToObject', function (options) {
         return options.hash

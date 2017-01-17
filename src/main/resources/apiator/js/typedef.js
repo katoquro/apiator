@@ -91,7 +91,7 @@
  * @property {string} name -
  * @property {string} path -
  * @property {Apiator.ApiEndpointParam[]} params -
- * @property {Apiator.EndpointType[]} returnType -
+ * @property {Apiator.EndpointType} returnType -
  */
 
 /**
@@ -108,7 +108,7 @@
  * @typedef {Object} Apiator.EndpointType
  * @augments Apiator.BasicType
  *
- * @property {Apiator.EndpointType} basedOn -
+ * @property {Apiator.EndpointType[]} basedOn -
  * @property {string} templateName -
  */
 

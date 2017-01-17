@@ -87,5 +87,21 @@ modulejs.define('utils', function () {
         return prefix + getPageLinkToType(type);
     };
 
+
+    /**
+     * Split Camel Case string into separate words and keep case of letters
+     *
+     * @param {string} string
+     * @return {string}
+     */
+    this.splitCamelCase = function (string) {
+        return string.replace(/[A-Z]/g, function (letter, index) {
+            if (0 != index) {
+                return ' ' + letter;
+            }
+            return letter;
+        });
+    };
+
     return this;
 });

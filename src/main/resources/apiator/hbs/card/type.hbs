@@ -12,7 +12,7 @@
         <div class="panel__content-title">Fields</div>
 
         <div class="panel__content-content">
-            <table class="table table_type">
+            <table class="table">
                 <thead>
                 <tr>
                     <th>Name</th>
@@ -21,47 +21,20 @@
                 </thead>
                 <tbody>
                 {{#each fields}}
-                    <tr class="field">
+                    <tr>
                         <td>{{name}}</td>
-                        <td>
-                            {{#ifCond modelType 'ANY'}}
-                                <span class="field__template-name">{{templateName}}</span>
-                            {{else}}
-                                <span class="field__model-type">{{modelType}}</span>
-                            {{/ifCond}}
-                            {{~#if basedOn~}}
-                                {{#each basedOn}}
-                                    {{#if this.type}}
-                                        <a href="{{getPageLinkToType this.type}}"
-                                           class="field__type">{{getAfterLastDot this.type}}</a>
-                                    {{else}}
-                                        {{#ifCond this.modelType 'ANY'}}
-                                            <span class="field__template-name">{{this.templateName}}</span>
-                                        {{else}}
-                                            <span class="field__model-type">{{this.modelType}}</span>
-                                        {{/ifCond}}
-                                    {{/if}}
-                                {{/each}}
-                            {{~/if~}}
-                            {{~#if type~}}
-                                {{#ifCond this.type 'java.lang.Enum'}}
-                                {{else}}
-                                    <a href="{{getPageLinkToType type}}"
-                                       class="field__type">{{getAfterLastDot type}}</a>
-                                {{/ifCond}}
-                            {{~/if~}}
-                        </td>
+                        <td>{{{renderTemplateTypes this}}}</td>
                     </tr>
                 {{/each}}
                 </tbody>
             </table>
         </div>
 
-        <div class="panel__content-title">Java method</div>
-        <div class="panel__content-content type__method">
-            <div class="type__method-name">{{type}}</div>
+        <div class="panel__content-title">Source Reference</div>
+        <div class="panel__content-content type__src-ref">
+            <div class="type__src-ref-name">{{type}}</div>
 
-            <div class="type__method-copy copy-btn" data-clipboard-text="{{type}}">
+            <div class="type__src-ref-copy copy-btn" data-clipboard-text="{{type}}">
                 copy reference
             </div>
         </div>

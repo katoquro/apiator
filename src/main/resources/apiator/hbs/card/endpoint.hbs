@@ -1,19 +1,21 @@
 <div class="target-marker" id="{{apiPath}}"></div>
 <div class="endpoints">
-    <div class="endpoints__name">{{getAfterLastDot name}}</div>
+    <div class="endpoints__name">{{splitCamelCase (getAfterLastDot name)}}</div>
     {{#if description}}
         <div class="endpoints__description">{{description}}</div>
     {{/if}}
 </div>
 
 {{#each apiEndpoints}}
-    <div class="target-marker" id="{{getTargetMarkerOfEndpoint (hashToObject method=method apiPath=../apiPath path=path)}}"></div>
+    <div class="target-marker"
+         id="{{getTargetMarkerOfEndpoint (hashToObject method=method apiPath=../apiPath path=path)}}"></div>
     <div class="panel panel_endpoint endpoints__endpoint endpoint endpoint_type_{{method}}" data-type="standard">
 
         <div class="panel__header">
             <span class="panel__header-name endpoint {{method}}">{{../apiPath}}{{path}}</span>
             <span class="panel__header-share copy-btn"
-                  data-clipboard-text="{{getAbsoluteLinkToEndpoint (hashToObject method=method apiPath=../apiPath path=path)}}">Share</span>
+                  data-clipboard-text="{{getAbsoluteLinkToEndpoint
+                          (hashToObject method=method apiPath=../apiPath path=path)}}">Share</span>
             <span class="panel__header-view panel__header-view_active" data-type="standard">Standard view</span>
             <span class="panel__header-view" data-type="tech">Tech view</span>
         </div>
@@ -39,16 +41,7 @@
                         <tr class="param">
                             <td>{{name}} {{#if required}}<span class="param__required">(required)</span>{{/if}}</td>
                             <td class="param__http-type">{{httpParamType}}</td>
-                            <td>
-                                <div class="param__model-type">
-                                    {{modelType}}
-                                </div>
-                                {{#if type~}}
-                                    <a href="{{getPageLinkToType type}}" class="param__type">
-                                        {{getAfterLastDot type}}
-                                    </a>
-                                {{~/if~}}
-                            </td>
+                            <td>{{{renderTemplateTypes this}}}</td>
                             <td>{{#if defaultValue}}{{defaultValue}}{{else}}-{{/if}}</td>
                         </tr>
                     {{/each}}
@@ -57,27 +50,8 @@
             {{/if}}
 
             <div class="panel__content-title">Responses</div>
-            <div class="panel__content-content endpoint__responses-param">
-                {{#if returnType.type}}
-                    <a href="{{getPageLinkToType returnType.type}}" class="endpoint__responses-param__type-name">
-                        {{~getAfterLastDot returnType.type~}}
-                    </a>
-                {{else}}
-                    <div class="endpoint__responses-param__model-type">
-                        {{returnType.modelType}}
-                    </div>
-                    {{#if returnType.templateName~}}
-                        <a href="{{getPageLinkToType type}}" class="endpoint__responses-param__template-name">
-                            {{~returnType.templateName~}}
-                        </a>
-                    {{~/if~}}
-                {{/if}}
-                {{~#if returnType.basedOn}}
-                    {{~#each returnType.basedOn}}
-                        {{{responseTyper this}}}
-                        <!-- <span class="param__type-name"> {{{responseTyper this}}} </span> -->
-                    {{/each~}}
-                {{/if~}}
+            <div class="panel__content-content">
+                {{{renderTemplateTypes returnType}}}
             </div>
         </div>
 
@@ -89,11 +63,13 @@
                      data-clipboard-text="{{../name}}#{{name}}">copy reference
                 </div>
             </div>
+            {{!--
             <div class="endpoint__vcs vcs">
                 <div class="vcs__title">VCS</div>
                 <div class="vcs__name">{{getAfterLastDot ../name}}.java</div>
                 <div class="vcs__goto">go to file</div>
             </div>
+            --}}
             <div class="endpoint__raw-view raw-view">
                 <div class="raw-view__title">Raw view</div>
                 <pre class="raw-view__viewer json">{{{highlightJSON this}}}</pre>

@@ -28,7 +28,8 @@
 
     .param {
 
-      &__required {}
+      &__required {
+      }
 
       &__http-type {
         text-transform: lowercase;
@@ -50,25 +51,6 @@
           color: darken(@text_blue, 10%);
         }
       }
-    }
-  }
-
-  &__responses-param {
-
-    &__type-name {
-      color: @text_blue;
-      text-decoration: underline;
-      cursor: pointer;
-
-      &:hover {
-        color: darken(@text_blue, 10%);
-      }
-    }
-
-    &__model-type {
-      text-transform: lowercase;
-      color: @text_yellow;
-      display: inline-block;
     }
   }
 
