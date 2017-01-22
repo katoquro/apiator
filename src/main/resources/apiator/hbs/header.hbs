@@ -1,7 +1,27 @@
 <div class="header">
-    <div class="header__user header_block_left"></div>{{!
+    <div class="header__menu header_block_left menu">
+        <div class="menu__pic"></div>
+        <ul class="menu__items">
+            <li class="menu__items-item">
+                <i class="menu__items-item-icon fa fa-gift" aria-hidden="true"></i>
+                <span>What's New</span>
+            </li>
+            <li class="menu__items-item">
+                <i class="menu__items-item-icon fa fa-book" aria-hidden="true"></i>
+                <a href="//apiator.ainrif.com" target="_blank" class="menu__items-item-link">Documentation</a>
+            </li>
+            <li class="menu__items-item">
+                <i class="menu__items-item-icon fa fa-bitbucket" aria-hidden="true"></i>
+                <a href="//bitbucket.org/ainrif/apiator" target="_blank" class="menu__items-item-link">Source code</a>
+            </li>
+            <li class="menu__items-item">
+                <i class="menu__items-item-icon fa fa-bug" aria-hidden="true"></i>
+                <a href="//bitbucket.org/ainrif/apiator/issues/new" target="_blank" class="menu__items-item-link">Report an Issue</a>
+            </li>
+        </ul>
+    </div>
     {{!<div class="header__project header_block_right">PROJECT NAME</div>}}
-    }}<div class="header__project header_block_right">
+    <div class="header__project header_block_right">
         <form class="search" role="search">
             <input type="text" class="search__input" id="fuzzy-input" autocomplete="off" placeholder="Search...">
         </form>
