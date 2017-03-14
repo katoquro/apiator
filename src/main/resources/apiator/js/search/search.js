@@ -93,7 +93,7 @@ modulejs.define('search', ['utils', 'hbs', 'searcher', 'search_box'], function (
         })
         .value();
 
-    var searcher = new Searcher(apiJson, {})
+    var searcher = new Searcher({})
         .addToDataSet(endpointDataSet)
         .addToDataSet(modelDataSet)
         .addToDataSet(enumDataSet)

@@ -8,7 +8,7 @@
 
 {{#each apiEndpoints}}
     <div class="target-marker"
-         id="{{getTargetMarkerOfEndpoint (hashToObject method=method apiPath=../apiPath path=path)}}"></div>
+         id="{{getIdForTargetMarkerOfEndpoint (hashToObject method=method apiPath=../apiPath path=path)}}"></div>
     <div class="panel panel_endpoint endpoints__endpoint endpoint endpoint_type_{{method}}" data-type="standard">
 
         <div class="panel__header">

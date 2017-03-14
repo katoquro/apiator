@@ -16,6 +16,8 @@
 
 modulejs.define('utils', function () {
 
+    const PERMALINK_VERSION = 1;
+
     /**
      * returns substring after last dot, example:
      * a.b.c -> c
@@ -40,11 +42,12 @@ modulejs.define('utils', function () {
      */
 
     /**
+     * generates id value for page navigation to endpoint
      * @param {EndpointData} data
-     * @returns {string}
+     * @returns {string} value for {@code id} attribute
      */
-    this.getTargetMarkerOfEndpoint = function (data) {
-        return '_' + data.method.toLowerCase() + '_' + data.apiPath + data.path;
+    this.getIdForTargetMarkerOfEndpoint = function (data) {
+        return PERMALINK_VERSION + '/e/' + '_' + data.method.toLowerCase() + '_' + data.apiPath + data.path;
     };
 
     /**
@@ -52,7 +55,7 @@ modulejs.define('utils', function () {
      * @returns {string}
      */
     this.getPageLinkToEndpoint = function (data) {
-        return '#' + getTargetMarkerOfEndpoint(data)
+        return '#' + getIdForTargetMarkerOfEndpoint(data)
     };
 
     /**
@@ -65,17 +68,20 @@ modulejs.define('utils', function () {
     };
 
     /**
+     * generates id value for page navigation to model
      * @param {string} type - full type name
-     * @return {string}
+     * @returns {string} value for {@code id} attribute
      */
-    this.getTargetMarkerOfType = getAfterLastDot;
+    this.getIdForTargetMarkerOfModel = function (type) {
+        return PERMALINK_VERSION + '/m/' + getAfterLastDot(type);
+    };
 
     /**
      * @param {string} type - full type name
      * @return {string}
      */
     this.getPageLinkToType = function (type) {
-        return '#' + getTargetMarkerOfType(type)
+        return '#' + getIdForTargetMarkerOfModel(type)
     };
 
     /**

@@ -83,10 +83,10 @@ modulejs.define('hbs', ['utils'], function (utils) {
         }).replace(/(\r\n|\n|\r)/gm, '<br>');
     });
 
-    Handlebars.registerHelper('getTargetMarkerOfEndpoint', utils.getTargetMarkerOfEndpoint);
+    Handlebars.registerHelper('getIdForTargetMarkerOfEndpoint', utils.getIdForTargetMarkerOfEndpoint);
     Handlebars.registerHelper('getPageLinkToEndpoint', utils.getPageLinkToEndpoint);
     Handlebars.registerHelper('getAbsoluteLinkToEndpoint', utils.getAbsoluteLinkToEndpoint);
-    Handlebars.registerHelper('getTargetMarkerOfType', utils.getTargetMarkerOfType);
+    Handlebars.registerHelper('getIdForTargetMarkerOfModel', utils.getIdForTargetMarkerOfModel);
     Handlebars.registerHelper('getPageLinkToType', utils.getPageLinkToType);
     Handlebars.registerHelper('getAbsoluteLinkToType', utils.getAbsoluteLinkToType);
     Handlebars.registerHelper('splitCamelCase', utils.splitCamelCase);

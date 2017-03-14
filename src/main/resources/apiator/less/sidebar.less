@@ -6,7 +6,7 @@
   background-color: @bg_dark;
   border-right: 1px solid #2A2E39;
   overflow: scroll;
-
+  //
   height: calc(~"100vh - 50px"); // TODO: tmp solution
 
   &__group {
@@ -57,28 +57,36 @@
         }
       }
 
-      &__path,
-      &__endpoints a span {
+      &_active {
+        .api__toggle {
+          &:before {
+            content: "▲";
+          }
+        }
+      }
+
+      &__title,
+      &__endpoints span[data-link] span {
         line-height: 12px;
         width: 100%;
         display: inline-block;
         overflow: hidden;
         text-overflow: ellipsis;
+        cursor: pointer;
 
         &:hover {
           background-color: #322F2D;
         }
       }
 
-      &__path {
+      &__title {
         width: 100%;
         color: @text_color;
         padding: 16px 46px 12px 30px;
       }
 
       &__endpoints {
-
-        a {
+        span[data-link] {
           width: 100%;
           display: inline-block;
 
@@ -105,13 +113,6 @@
           vertical-align: middle;
           text-align: center;
           position: absolute;
-        }
-
-        &_active {
-
-          &:before {
-            content: "▲";
-          }
         }
 
         &:hover {
