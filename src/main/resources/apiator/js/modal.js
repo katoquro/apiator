@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2017 Ainrif <support@ainrif.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,24 @@
  * limitations under the License.
  */
 
-modulejs.define('main',
-    ['hbs', 'sidebar', 'endpoint', 'link_processor', 'menu', 'modal'],
-    function (hbs, sidebar, endpoint, link_processor, menu, modal) {
-        hbs.runMainRender();
+modulejs.define('modal', function () {
 
-        modulejs.require('search');
+    function run() {
+        $('.modal').on('click', function (e) {
+            if (e.target != this) {
+                return;
+            }
 
-        sidebar.run();
-        endpoint.run();
-        link_processor.run();
-        menu.run();
-        modal.run()
-    });
+            $('.modal-wrapper').removeClass('modal-wrapper_active');
+        })
+    }
+
+    function showModal() {
+        $('.modal-wrapper').addClass('modal-wrapper_active')
+    }
+
+    return {
+        run: run,
+        showModal: showModal
+    }
+});
