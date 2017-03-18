@@ -22,7 +22,7 @@ modulejs.define('search_box', [], function () {
         ENTER: 13
     });
 
-    const ACTIVE_CLASS = 'suggest_active';
+    const ACTIVE_CLASS = 'search__suggest-item_active';
 
     /**
      * @param {?int} key - code of pressed key, otherwise null
@@ -55,7 +55,7 @@ modulejs.define('search_box', [], function () {
         var box = {};
         var input = this;
         var activeIndex = 0;
-        var suggest = $('#search_box-div').get()[0] || $('<div id="search_box-div"></div>');
+        var suggest = $('.search__suggest').get()[0] || $('<ul class="search__suggest"></ul>');
 
         suggest
             .on('mouseover', 'li', function () {
@@ -111,6 +111,10 @@ modulejs.define('search_box', [], function () {
                 return;
             }
 
+            searchOnInput();
+        });
+
+        function searchOnInput() {
             box.clearSuggest();
 
             var pattern = input.val();
@@ -127,6 +131,12 @@ modulejs.define('search_box', [], function () {
             suggest
                 .insertAfter(input)
                 .children().first().addClass(ACTIVE_CLASS);
+        }
+
+        this.click(function () {
+            if (suggest.is(':empty')) {
+                searchOnInput()
+            }
         });
 
         box.clearSuggest = function () {

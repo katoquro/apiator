@@ -14,11 +14,16 @@
  * limitations under the License.
  */
 
-modulejs.define('main', ['hbs', 'linkProcessor'], function (hbs, linkProcessor) {
-    hbs.render();
+modulejs.define('main',
+    ['hbs', 'sidebar', 'endpoint', 'link_processor', 'menu', 'modal'],
+    function (hbs, sidebar, endpoint, link_processor, menu, modal) {
+        hbs.runMainRender();
 
-    modulejs.require('search');
+        modulejs.require('search');
 
-    linkProcessor.attachCallbacks();
-    linkProcessor.navigateSidebarMenu(window.location.hash)
-});
+        sidebar.run();
+        endpoint.run();
+        link_processor.run();
+        menu.run();
+        modal.run()
+    });

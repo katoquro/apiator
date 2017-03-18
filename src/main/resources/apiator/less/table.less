@@ -1,0 +1,30 @@
+.table {
+  width: calc(~"100% + 16px");
+  position: relative;
+  left: -8px;
+  text-align: left;
+  border-collapse: collapse;
+
+  tr {
+    height: 35px;
+
+    th:first-child,
+    td:first-child {
+      padding: 0 8px;
+    }
+
+    th {
+      font-weight: normal;
+    }
+
+    td {
+      color: @text_light;
+    }
+  }
+
+  tbody {
+    tr:nth-child(2n+1) {
+      background-color: #26282A;
+    }
+  }
+}

@@ -40,7 +40,8 @@ class SourcePathDetector {
      *
      * @return concatenated sting list of found absolute paths otherwise null
      */
-    public @Nullable String detect() {
+    @Nullable
+    String detect() {
         List<String> classNames = apiScheme.apiContexts*.name
         if (!classNames) return null;
 
@@ -79,7 +80,7 @@ class SourcePathDetector {
             return null
         }
 
-        return paths.unique().join(';')
+        return paths.unique().join(':')
     }
 
     /**

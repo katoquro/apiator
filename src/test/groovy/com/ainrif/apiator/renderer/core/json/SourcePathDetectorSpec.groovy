@@ -43,7 +43,7 @@ class SourcePathDetectorSpec extends Specification {
                  new Tuple2<>(['/NO_ROOT/prj2/src/main/java'], ['org.example.MyClass2'])]
         ]
         expected << ['/NO_ROOT/prj/src/main/java',
-                     '/NO_ROOT/prj/src/main/java;/NO_ROOT/prj2/src/main/java']
+                     '/NO_ROOT/prj/src/main/java:/NO_ROOT/prj2/src/main/java']
     }
 
     @Unroll

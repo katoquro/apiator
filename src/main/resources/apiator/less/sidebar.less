@@ -1,104 +1,124 @@
-/*
- * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-@import "variables";
-
 .sidebar {
   width: @sidebar_width;
-  position: fixed;
-  top: 51px;
-  bottom: 0;
-  left: 0;
-  z-index: 10;
-  display: block;
-  background-color: @bs_default_bg;
-}
+  display: inline-block;
+  position: relative;
+  padding: 25px 20px;
+  background-color: @bg_dark;
+  border-right: 1px solid #2A2E39;
+  overflow: scroll;
+  //
+  height: calc(~"100vh - 50px"); // TODO: tmp solution
 
-.nav-sidebar {
-  > li > a {
-    padding: 5px 15px;
+  &__group {
 
-  }
-
-  > li .nav {
-    display: none;
-  }
-
-  > .active {
-    > a {
-      font-weight: 700;
+    > * + * {
+      margin-top: 5px;
     }
-  }
 
-  li.active {
-    .nav {
-      display: block;
+    .group {
+      &__title {
+        font-size: 14px;
+        line-height: 14px;
+        width: 100%;
+        display: inline-block;
+        text-transform: uppercase;
+        background-color: @bg_light;
+        padding: 13px 10px;
+        cursor: pointer;
+
+        span {
+          font-size: 14px;
+          padding-left: 8px;
+        }
+      }
+
+      &__content {
+        display: none;
+
+        &_active {
+          display: block;
+        }
+      }
     }
-  }
 
-  li > a[href^="#"] {
-    > span {
-      width: 100%;
-      display: block;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    .api {
+      font-size: 12px;
+      line-height: 0;
+      border: 1px solid @border_gray;
+      position: relative;
+
+      & + .api {
+        margin-top: 5px;
+      }
+
+      &:not(.api_active) {
+        .api__endpoints {
+          display: none;
+        }
+      }
+
+      &_active {
+        .api__toggle {
+          &:before {
+            content: "▲";
+          }
+        }
+      }
+
+      &__title,
+      &__endpoints span[data-link] span {
+        line-height: 12px;
+        width: 100%;
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #322F2D;
+        }
+      }
+
+      &__title {
+        width: 100%;
+        color: @text_color;
+        padding: 16px 46px 12px 30px;
+      }
+
+      &__endpoints {
+        span[data-link] {
+          width: 100%;
+          display: inline-block;
+
+          span {
+            padding: 16px 6px 12px 50px;
+          }
+        }
+      }
+
+      &__toggle {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        cursor: pointer;
+
+        &:before {
+          content: "▼"; // tmp
+          width: 100%;
+          height: 100%;
+          line-height: 40px;
+          vertical-align: middle;
+          text-align: center;
+          position: absolute;
+        }
+
+        &:hover {
+          background-color: #322F2D;
+        }
+      }
     }
-  }
-}
-
-.nav.nav-sidebar {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.sidebar > .nav-sidebar {
-  > li.active {
-    overflow-x: hidden;
-    overflow-y: auto;
-    height: 100%;
-
-    & + a {
-      border-top: 1px solid #ccc;
-    }
-  }
-
-  > a {
-    font-weight: 400;
-    color: @black;
-    border-bottom: 1px solid #ccc;
-    background: #f5f5ee;
-    height: 30px;
-    padding: 5px 0 5px 5px;
-  }
-}
-
-.side-container {
-  span {
-    &:before {
-      margin-right: 10px;
-      width: 50px;
-      text-align: right;
-      display: inline-block;
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .sidebar {
-    display: none;
   }
 }

@@ -17,7 +17,7 @@
 package com.ainrif.apiator.doclet
 
 import com.sun.javadoc.DocErrorReporter
-import com.sun.javadoc.Doclet
+import com.sun.javadoc.LanguageVersion
 import com.sun.javadoc.RootDoc
 import com.sun.tools.javadoc.Main
 import groovy.json.JsonBuilder
@@ -27,7 +27,10 @@ import javax.annotation.Nullable
 
 import static java.io.File.createTempFile
 
-class ApiatorDoclet extends Doclet {
+/**
+ * @see com.sun.javadoc.Doclet
+ */
+class ApiatorDoclet {
     public static final String OF_PARAM = '--output-file'
 
     /**
@@ -51,7 +54,7 @@ class ApiatorDoclet extends Doclet {
         return new Result(Main.execute(javaDocArgs), outputFile)
     }
 
-    public static boolean start(RootDoc root) {
+    static boolean start(RootDoc root) {
         def docInfo = new JavaDocInfoBuilder(root.classes()).content
 
         def filePath = getOptionValue(root.options(), OF_PARAM)[1]
@@ -60,7 +63,7 @@ class ApiatorDoclet extends Doclet {
         return true
     }
 
-    public static int optionLength(String option) {
+    static int optionLength(String option) {
         switch (option) {
             case OF_PARAM:
                 return 2
@@ -69,8 +72,7 @@ class ApiatorDoclet extends Doclet {
         }
     }
 
-    public static boolean validOptions(String[][] options,
-                                       DocErrorReporter reporter) {
+    static boolean validOptions(String[][] options, DocErrorReporter reporter) {
         String[] ofArray = getOptionValue(options, OF_PARAM)
         if (!(ofArray && ofArray[1])) {
             reporter.printError("Required parameter is absent: ${OF_PARAM} <file>")
@@ -86,8 +88,12 @@ class ApiatorDoclet extends Doclet {
         return true
     }
 
+    static LanguageVersion languageVersion() {
+        return LanguageVersion.JAVA_1_5
+    }
+
     @Immutable
-    public static class Result {
+    static class Result {
         int code
         String outputFile
     }

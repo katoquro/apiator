@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2017 Ainrif <support@ainrif.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,27 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@import "variables";
 
-#feedback {
-  a {
-    border: 1px solid #ccc;
-    border-radius: 3px 3px 0 0;
-    border-bottom: 0;
-    position: fixed;
-    right: -65px;
-    bottom: 50px;
-    transform: rotate(-90deg);
-    transform-origin: left top 0;
-    width: 90px;
-    height: 25px;
+modulejs.define('modal', function () {
 
-    background-color: #F5F5EE;
-    font-family: @font-mono;
-    padding: 5px 10px 0;
-    text-align: center;
-    font-size: 12px;
+    function run() {
+        $('.modal').on('click', function (e) {
+            if (e.target != this) {
+                return;
+            }
 
-    color: #898989;
-  }
-}
+            $('.modal-wrapper').removeClass('modal-wrapper_active');
+        })
+    }
+
+    function showModal() {
+        $('.modal-wrapper').addClass('modal-wrapper_active')
+    }
+
+    return {
+        run: run,
+        showModal: showModal
+    }
+});

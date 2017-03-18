@@ -1,64 +1,41 @@
-<div class="target-marker" id="{{shrinkByDots type}}"></div>
-<div class="panel panel-info">
-    <div class="panel-heading">
-        <span class="gray endpoint">{{shrinkByDots type}}</span>
-        <span class="span-left" title='Click to copy' data-clipboard-text="{{copyUrlerType type=type}}">
-            <i class="fa fa-link"></i>
-        </span>
-
-        <div class="navbar-right link-to-java">
-            <span class="span-info">{{type}}</span>
-            <span class="span-right">
-                <i title="Click to copy" class="fa fa-clipboard" data-clipboard-text="{{type}}"></i>
-            </span>
-        </div>
+<div class="target-marker" id="{{getIdForTargetMarkerOfModel type}}"></div>
+<div class="panel panel_type type" style="font-size: 13px; line-height: 13px;">
+    <div class="panel__header">
+        <span class="panel__header-name">{{getAfterLastDot type}}</span>
+        <span class="panel__header-share copy-btn" data-clipboard-text="{{getAbsoluteLinkToType type}}">Copy link</span>
     </div>
-    <div class="panel-body">
-        <div class="container-fluid">
-            <div class="row">
-                <h5>Fields</h5>
+    <div class="panel__content">
+        {{#if description}}
+            <div class="panel__content-description">{{description}}</div>
+        {{/if}}
 
-                <div class="col-xs-12 col-md-10">
-                    {{#each fields}}
-                        <div class="row">
-                            <div class="col-sm-4 typeNames">
-                                <span class="text-ellipsis" title="{{name}}">{{name}}</span>
-                            </div>
-                            <div class="col-sm-6 gap_x_r">
-                                {{#ifCond modelType 'ANY'}}
-                                    <span class="gray span-info template-tooltip">{{templateName}}</span>
-                                {{else}}
-                                    <span class="model-type">{{modelType}}</span>
-                                {{/ifCond}}
-                                {{~#if basedOn~}}
-                                    <span class="gray italic">of</span>
-                                    {{#each basedOn}}
-                                        {{#if this.type}}
-                                            <span class="add-comma object-link">
-                                                <a href="#{{shrinkByDots this.type}}">{{shrinkByDots this.type}}</a>
-                                            </span>
-                                        {{else}}
-                                            {{#ifCond this.modelType 'ANY'}}
-                                                <span class="add-comma gray span-info template-tooltip">{{this.templateName}}</span>
-                                            {{else}}
-                                                <span class="add-comma model-type">{{this.modelType}}</span>
-                                            {{/ifCond}}
-                                        {{/if}}
-                                    {{/each}}
-                                {{~/if~}}
-                                {{~#if type~}}
-                                    {{#ifCond this.type 'java.lang.Enum'}}
-                                    {{else}}
-                                        <span>→</span>
-                                        <span class="object-link">
-                                            <a href="#{{shrinkByDots type}}">{{shrinkByDots type}}</a>
-                                        </span>
-                                    {{/ifCond}}
-                                {{~/if~}}
-                            </div>
-                        </div>
-                    {{/each}}
-                </div>
+        <div class="panel__content-title">Fields</div>
+
+        <div class="panel__content-content">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date type</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each fields}}
+                    <tr>
+                        <td>{{name}}</td>
+                        <td>{{{renderTemplateTypes this}}}</td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="panel__content-title">Source Reference</div>
+        <div class="panel__content-content type__src-ref">
+            <div class="type__src-ref-name">{{type}}</div>
+
+            <div class="type__src-ref-copy copy-btn" data-clipboard-text="{{type}}">
+                copy reference
             </div>
         </div>
     </div>
