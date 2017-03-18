@@ -15,6 +15,7 @@
  */
 package com.ainrif.apiator.provider.jaxrs
 
+import com.ainrif.apiator.core.model.api.ApiType
 import com.ainrif.apiator.core.reflection.ContextStack
 import com.ainrif.apiator.core.reflection.RUtils
 
@@ -27,11 +28,16 @@ class JaxRsContextStack extends ContextStack {
 
     @Override
     String getName() {
-        this.last().getSimpleName()
+        this.last().canonicalName
     }
 
     @Override
     String getApiContextPath() {
         (RUtils.getAnnotationList(this, Path) ?: null)?.last()?.value() ?: ''
+    }
+
+    @Override
+    ApiType getApiType() {
+        new ApiType(this.last())
     }
 }

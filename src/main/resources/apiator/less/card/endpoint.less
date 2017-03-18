@@ -1,0 +1,148 @@
+.endpoints {
+  font-size: 13px;
+  line-height: 13px;
+
+  &__name {
+    font-size: 14px;
+    line-height: 14px;
+    text-transform: uppercase; // ??
+    color: @text_light;
+  }
+
+  &__description {
+    margin-top: 30px;
+  }
+}
+
+.endpoint {
+
+  &__content {
+
+    &-description {
+      margin-bottom: 30px;
+    }
+  }
+
+  .table_endpoint {
+    margin-bottom: 30px;
+
+    .param {
+
+      &__required {
+      }
+
+      &__http-type {
+        text-transform: lowercase;
+      }
+
+      &__model-type {
+        text-transform: lowercase;
+        color: @text_yellow;
+        display: inline-block;
+      }
+
+      &__type {
+        color: @text_blue;
+        text-decoration: underline;
+        cursor: pointer;
+        display: inline-block;
+
+        &:hover {
+          color: darken(@text_blue, 10%);
+        }
+      }
+    }
+  }
+
+  .method,
+  .vcs,
+  .raw-view { // to mixin
+
+    &__title {
+      text-transform: uppercase;
+      color: @text_light;
+      margin-bottom: 30px;
+    }
+
+    &__name,
+    &__copy,
+    &__goto {
+      display: inline-block;
+    }
+
+    &__name {
+      color: @orange;
+    }
+
+    &__copy,
+    &__goto {
+      border-bottom: 1px dashed;
+      margin-left: 30px;
+      cursor: pointer;
+    }
+  }
+
+  .vcs,
+  .raw-view {
+    margin-top: 40px;
+  }
+
+  .raw-view {
+
+    &__viewer {
+      padding: 15px;
+      line-height: 15px;
+    }
+  }
+
+  &[data-type="standard"] {
+    .endpoint__content_tech {
+      display: none;
+    }
+  }
+  &[data-type="tech"] {
+    .endpoint__content_standard {
+      display: none;
+    }
+  }
+}
+
+.panel__endpoint(@type, @color) {
+  .endpoint_type_@{type} {
+    border-color: @color;
+
+    .panel {
+      &__header {
+        border-color: fade(@color, 45%);
+        background-color: fade(@color, 15%); //_active
+
+        &-share,
+        &-view {
+          color: @color;
+
+          &:hover {
+            background-color: fade(@color, 30%);
+          }
+
+          &_active {
+            background-color: fade(@color, 20%);
+          }
+        }
+      }
+
+      &__content {
+        .raw-view__viewer {
+          background-color: fade(@bg_dark, 5%);
+          border: 1px solid fade(@color, 45%);
+        }
+      }
+    }
+  }
+}
+
+.panel__endpoint(DEFAULT, @gray);
+.panel__endpoint(POST, @green);
+.panel__endpoint(GET, @blue);
+.panel__endpoint(PUT, @orange);
+.panel__endpoint(PATCH, @orange);
+.panel__endpoint(DELETE, @red);

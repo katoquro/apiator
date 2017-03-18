@@ -20,6 +20,7 @@ import com.ainrif.apiator.core.model.api.ApiEndpointMethod
 import com.ainrif.apiator.core.model.api.ApiEndpointParam
 import com.ainrif.apiator.core.model.api.ApiEndpointReturnType
 import com.ainrif.apiator.core.model.api.ApiType
+import groovy.transform.Memoized
 
 import java.beans.Introspector
 import java.lang.annotation.Annotation
@@ -82,7 +83,11 @@ abstract class MethodStack extends ArrayList<Method> {
         result
     }
 
-    //todo cache
+    public final MethodSignature getMethodSignature() {
+        return new MethodSignature(this.last())
+    }
+
+    @Memoized(protectedCacheSize = 2)
     private Set<ApiType> collectAllUsedTypes() {
         Set<ApiType> types = [] // result
 
@@ -155,11 +160,11 @@ abstract class MethodStack extends ArrayList<Method> {
     }
 
     protected static Closure<Boolean> testTypeIsNotPrimitive = { ApiType type ->
-        ModelType.notPrimitiveTypes.any { it == type.modelType } && Object.class != type.rawType
+        ModelType.notPrimitiveTypes.any { it == type.modelType } && Object != type.rawType && Enum != type.rawType
     }
 
     protected static Closure<Boolean> testTypeIsCustomModelType = { ApiType type ->
-        ModelType.customModelTypes.any { it == type.modelType } && Object.class != type.rawType
+        ModelType.customModelTypes.any { it == type.modelType } && Object != type.rawType && Enum != type.rawType
     }
 
     protected static Predicate<Field> testFieldIsPublicAndNotStatic = {

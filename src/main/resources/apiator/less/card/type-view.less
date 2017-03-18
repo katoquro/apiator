@@ -1,0 +1,17 @@
+.type-view {
+  &__model {
+    color: @text_blue;
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover {
+      color: darken(@text_blue, 10%);
+    }
+  }
+
+  &__modeltype {
+    text-transform: lowercase;
+    color: @text_yellow;
+    display: inline-block;
+  }
+}

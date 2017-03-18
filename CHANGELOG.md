@@ -1,4 +1,11 @@
-v4.0.0 - HTML renderer update
+v0.5.0 - Dark theme
+- update : HTML renderer theme and design
+- update : fuzzy search
+- add : JavaDoc Support
+- add : JsDoc descriptions for code completion 
+- fix : JDK classes introspection
+
+v0.4.0 - HTML renderer update
 - update : HTML renderer dev kit
 - add : template names for api types
 - add : documentation and feedback links

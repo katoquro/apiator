@@ -1,0 +1,67 @@
+/*
+ * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+@import "variables";
+
+.search {
+  height: 100%;
+
+  &__input {
+    width: 100%;
+    height: 30px;
+    color: @text_light;
+    padding: 15px 20px;
+    border-radius: 3px;
+    border: 1px solid @gray;
+    outline: none;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  &__suggest {
+    position: absolute;
+    z-index: 99;
+    list-style: none;
+    background: @bg_dark;
+    border: 1px solid @gray;
+    border-radius: 3px;
+    padding: 15px 0;
+
+    &:empty {
+      display: none;
+    }
+
+    &-item {
+      line-height: 30px;
+      padding: 0 20px;
+      cursor: pointer;
+
+      a {
+        margin: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+
+      &_active {
+        background-color: @bg_light;
+      }
+    }
+  }
+}

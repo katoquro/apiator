@@ -1,0 +1,44 @@
+.panel {
+  font-size: 13px;
+  line-height: 13px;
+  background: @bg_dark;
+  margin-bottom: 20px;
+  border: 1px solid @gray;
+  box-sizing: border-box;
+  border-radius: 1px;
+
+  &__header {
+    border-bottom: 1px solid desaturate(@gray, 20%); // !!
+    display: flex;
+    cursor: pointer;
+
+    &-name,
+    &-share,
+    &-view {
+      padding: 15px 20px;
+    }
+
+    &-share {
+      margin-left: auto;
+    }
+  }
+
+  &__content {
+    padding: 15px 20px;
+    margin-top: 20px;
+
+    &-description {
+      margin-top: 40px;
+    }
+
+    &-title {
+      text-transform: uppercase;
+      color: @text_light;
+      margin-bottom: 20px;
+    }
+
+    &-content {
+      margin-bottom: 20px;
+    }
+  }
+}

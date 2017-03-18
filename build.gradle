@@ -1,3 +1,5 @@
+import org.gradle.internal.jvm.Jvm
+
 import java.time.Instant
 
 buildscript {
@@ -20,7 +22,7 @@ apply plugin: 'maven-publish'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 group = 'com.ainrif'
-version = '0.4.0'
+version = '0.5.0'
 
 repositories {
     mavenLocal()
@@ -48,6 +50,7 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-databind:2.6.1"
 
     //Core HTML Renderer
+    // todo use npm packages
     compile 'org.webjars:webjars-locator:0.21'
     compile 'org.lesscss:lesscss:1.7.0.1.1', {
         exclude group: 'org.slf4j', module: 'slf4j-simple'
@@ -56,11 +59,13 @@ dependencies {
     compile 'org.webjars.bower:modulejs:1.13.0'
     compile 'org.webjars.bower:jquery:2.1.4'
     compile 'org.webjars.bower:lodash:4.6.1'
-    compile 'org.webjars.bower:bootstrap:3.3.6'
     compile 'org.webjars.bower:handlebars:4.0.5'
-    compile 'org.webjars.bower:fuse.js:2.2.0'
-    compile 'org.webjars.bower:clipboard:1.5.5'
+    compile 'org.webjars.bower:clipboard:1.5.16'
     compile 'org.webjars.bower:font-awesome:4.5.0'
+    //^^^
+
+    //Doclets
+    compile files(Jvm.current().toolsJar)
     //^^^
 
     testCompile "org.spockframework:spock-core:1.0-groovy-2.4", {
@@ -73,8 +78,9 @@ dependencies {
         exclude group: 'org.hamcrest'
     }
 
-    testCompile "org.hamcrest:hamcrest-all:1.3"
-    testCompile "ch.qos.logback:logback-classic:1.1.2"
+    testCompile 'cglib:cglib:3.2.2'
+    testCompile 'org.hamcrest:hamcrest-all:1.3'
+    testCompile 'ch.qos.logback:logback-classic:1.1.2'
 }
 
 task archiveReports(type: Zip) {

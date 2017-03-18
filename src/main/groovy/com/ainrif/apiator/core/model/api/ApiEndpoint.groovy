@@ -15,6 +15,8 @@
  */
 package com.ainrif.apiator.core.model.api
 
+import com.ainrif.apiator.core.reflection.MethodSignature
+
 class ApiEndpoint {
     String name
     String path
@@ -23,4 +25,6 @@ class ApiEndpoint {
     List<ApiEndpointParam> params
     Set<ApiType> usedEnumerations
     Set<ApiType> usedApiTypes
+
+    MethodSignature methodSignature
 }

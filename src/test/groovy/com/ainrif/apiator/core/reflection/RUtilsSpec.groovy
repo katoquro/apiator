@@ -15,6 +15,7 @@
  */
 package com.ainrif.apiator.core.reflection
 
+import com.ainrif.apiator.core.model.api.ApiType
 import com.ainrif.apiator.test.model.m01.*
 import com.ainrif.apiator.test.model.m02.M02_ChildType
 import com.ainrif.apiator.test.model.m02.M02_Dto
@@ -157,6 +158,11 @@ class RUtilsSpec extends Specification {
 
         @Override
         String getApiContextPath() {
+            return null
+        }
+
+        @Override
+        ApiType getApiType() {
             return null
         }
     }

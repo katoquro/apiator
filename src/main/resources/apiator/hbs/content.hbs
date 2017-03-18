@@ -1,0 +1,12 @@
+<div class="content">
+    {{#each apiContexts}}
+        {{> endpoint}}
+    {{/each}}
+    {{#each usedApiTypes}}
+        {{> type}}
+    {{/each}}
+    {{#each usedEnumerations}}
+        {{> enum}}
+    {{/each}}
+
+</div>

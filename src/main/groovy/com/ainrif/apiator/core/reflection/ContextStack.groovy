@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 package com.ainrif.apiator.core.reflection
+
+import com.ainrif.apiator.core.model.api.ApiType
+
 /**
  * List of classes from parent (interface/superclass) to child (implementation)
  */
@@ -26,4 +29,6 @@ abstract class ContextStack extends ArrayList<Class> {
     abstract String getName()
 
     abstract String getApiContextPath()
+
+    abstract ApiType getApiType()
 }

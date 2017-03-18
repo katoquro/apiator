@@ -1,44 +1,44 @@
 <div class="sidebar">
-    <ul class="nav nav-sidebar">
-        <a href="#endpoints" class="sidebar-title"> <i class="fa fa-plug"></i> <span>Endpoints</span></a>
-        <li class="endpoints side-container active">
-            <ul class="nav nav-sidebar">
+    <ul class="sidebar__group">
+        <div class="group__title js_sidebar-title-endpoints"><i class="fa fa-plug"></i><span>Endpoints</span></div>
+        <li class="group__content group__content_active js_sidebar-endpoints">
+            <ul>
                 {{#each apiContexts}}
-                    <li>
-                        <a class="gray" href="#{{apiPath}}"><span class="endpoint">{{apiPath}}</span></a>
+                    <li class="api">
+                        <div class="api__header">
+                            <span class="api__title" data-link="#{{apiPath}}">{{apiPath}}</span>
+                            <div class="api__toggle"></div>
+                        </div>
+
+                        <ul class="api__endpoints">
+                            {{#each apiEndpoints}}
+                                <li>
+                                    <span title="{{path}}"
+                                       data-link="{{getPageLinkToEndpoint
+                                               (hashToObject method=method apiPath=../apiPath path=path)}}">
+                                        <span class="endpoint {{method}}">{{path}}</span>
+                                    </span>
+                                </li>
+                            {{/each}}
+                        </ul>
                     </li>
-                    {{#each apiEndpoints}}
-                        <li>
-                            <a title="{{path}}" href="{{urler method=method apiPath=../apiPath path=path}}">
-                                <span class="endpoint {{method}}">{{path}}</span>
-                            </a>
-                        </li>
-                    {{/each}}
                 {{/each}}
             </ul>
         </li>
 
-        <a href="#types" class="sidebar-title"> <i class="fa fa-file-text"></i> <span>Types</span></a>
-        <li class="types side-container">
-            <ul class="nav nav-sidebar">
+        <div class="group__title js_sidebar-title-model"><i class="fa fa-plug"></i><span>Types</span></div>
+        <li class="group__content js_sidebar-model">
+            <ul>
                 {{#each usedApiTypes}}
-                    <li>
-                        <a title="{{type}}" href="#{{shrinkByDots type}}">
-                            <span class="endpoint {{modelType}}">{{shrinkByDots type}}</span>
-                        </a>
+                    <li class="api">
+                        <span class="api__title {{modelType}}" data-link="{{getPageLinkToType type}}">{{getAfterLastDot
+                                type}}</span>
                     </li>
                 {{/each}}
-            </ul>
-        </li>
-
-        <a href="#enumerations" class="sidebar-title"> <i class="fa fa-file-text"></i> <span>Enumerations</span> </a>
-        <li class="enumerations side-container">
-            <ul class="nav nav-sidebar">
                 {{#each usedEnumerations}}
-                    <li>
-                        <a title="{{type}}" href="#{{shrinkByDots type}}">
-                            <span class="endpoint {{modelType}}">{{shrinkByDots type}}</span>
-                        </a>
+                    <li class="api">
+                        <span class="api__title {{modelType}}" data-link="{{getPageLinkToType type}}">{{getAfterLastDot
+                                type}}</span>
                     </li>
                 {{/each}}
             </ul>
