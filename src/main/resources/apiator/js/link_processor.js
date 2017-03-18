@@ -35,14 +35,8 @@ modulejs.define('link_processor', ['sidebar'], function (sidebar) {
     function restoreState() {
         hackToScrollToHash();
 
-        const hash = location.hash;
-        let parsed;
-        if (/#?1\//.test(hash)) {
-            parsed = new PermalinkV1Parser(hash);
-        }
-
-        mainPageRouter(hash, parsed);
-        sidebarRouter(hash, parsed);
+        mainPageRouter(hashParserFactory());
+        sidebarRouter(hashParserFactory());
     }
 
     function hackToScrollToHash() {
@@ -54,13 +48,30 @@ modulejs.define('link_processor', ['sidebar'], function (sidebar) {
     }
 
     /**
+     * Creates one of permalink parser from hash
+     * Can be called multiple times because one of router can have fallback which set the new hash and it's OK
+     * if rest routers will use new state
+     *
+     * @return {ZeroParser|PermalinkV1Parser}
+     */
+    function hashParserFactory() {
+        const hash = location.hash;
+        let parsed;
+        if (/#?1\//.test(hash)) {
+            parsed = new PermalinkV1Parser(hash);
+        } else {
+            parsed = new ZeroParser(hash);
+        }
+        return parsed;
+    }
+
+    /**
      * restores Main page state by url
-     * @param {string} hash
      * @param {PermalinkV1Parser} parsed
      */
-    function mainPageRouter(hash, parsed) {
-        if (!parsed) {
-            fallbackMainPageRouter(hash)
+    function mainPageRouter(parsed) {
+        if (!parsed.version()) {
+            fallbackMainPageRouter(parsed.getPageLink())
         } else {
             //no-op
         }
@@ -74,7 +85,6 @@ modulejs.define('link_processor', ['sidebar'], function (sidebar) {
         let result = '';
 
         for (let i = parts.length - 1; i > 0; i--) {
-            console.log(parts);
             const idSuffix = `[id$="${_.join(parts, '/')}"]`;
             if (0 < $(idSuffix).length) {
                 result = $(idSuffix).eq(0)
@@ -92,28 +102,25 @@ modulejs.define('link_processor', ['sidebar'], function (sidebar) {
 
     /**
      * restores Sidebar state by url
-     * @param {string} hash
      * @param {PermalinkV1Parser} parsed
      */
-    function sidebarRouter(hash, parsed) {
-        if (!hash) {
+    function sidebarRouter(parsed) {
+        if (!parsed.getPageLink()) {
             $('.api .api__toggle')
                 .first()
                 .closest('.api')
                 .addClass('api_active')
         }
 
-        if (!parsed) {
+        if (!parsed.version()) {
             // no-op
-        } else if (1 == parsed.version) {
+        } else if (1 == parsed.version()) {
             if (parsed.isEndpointLink()) {
                 sidebar.openGroupTitle($('.js_sidebar-title-endpoints'));
             }
             if (parsed.isModelLink()) {
                 sidebar.openGroupTitle($('.js_sidebar-title-model'));
             }
-
-            console.log('.sidebar span[data-link="' + parsed.getPageLink() + '"]');
 
             $('.sidebar span[data-link="' + parsed.getPageLink() + '"]')
                 .closest('.api')
@@ -127,15 +134,15 @@ modulejs.define('link_processor', ['sidebar'], function (sidebar) {
      * Ex.:
      * #1/e/_post_/entities/new
      *
-     * @param {string} _pageLink ready to parse hash
+     * @param {string} _hash ready to parse hash
      * @constructor
      */
-    function PermalinkV1Parser(_pageLink) {
+    function PermalinkV1Parser(_hash) {
         const PERMALINK_VERSION = 1;
+        const hash = _hash;
 
         let
-            pageLink = _pageLink,
-            source = _pageLink,
+            source = hash,
             endpoint = false,
             model = false,
             pageUri = '';
@@ -165,7 +172,7 @@ modulejs.define('link_processor', ['sidebar'], function (sidebar) {
         };
 
         this.getPageLink = function () {
-            return pageLink;
+            return hash;
         };
 
         this.isEndpointLink = function () {
@@ -178,6 +185,25 @@ modulejs.define('link_processor', ['sidebar'], function (sidebar) {
 
         this.getPageUri = function () {
             return pageUri;
+        };
+    }
+
+    /**
+     * Empty parses for fallback cases
+     *
+     * @param {string} _hash ready to parse hash
+     * @constructor
+     */
+    function ZeroParser(_hash) {
+        const PERMALINK_VERSION = 0;
+        const hash = _hash;
+
+        this.version = function () {
+            return PERMALINK_VERSION;
+        };
+
+        this.getPageLink = function () {
+            return hash;
         };
     }
 
