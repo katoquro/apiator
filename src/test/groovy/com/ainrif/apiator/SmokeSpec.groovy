@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2016 Ainrif <support@ainrif.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,8 @@ package com.ainrif.apiator
 
 import com.ainrif.apiator.core.Apiator
 import com.ainrif.apiator.core.ApiatorConfig
-import com.ainrif.apiator.modeltype.JaxRsModelTypeResolver
+import com.ainrif.apiator.modeltype.jaxrs.JaxRsModelTypeResolver
+import com.ainrif.apiator.provider.jaxrs.JaxRsProvider
 import com.ainrif.apiator.renderer.core.html.CoreHtmlRenderer
 import com.ainrif.apiator.renderer.core.json.CoreJsonRenderer
 import groovy.json.JsonSlurper
@@ -26,17 +27,19 @@ import spock.lang.Specification
 import java.nio.file.Paths
 
 import static org.apache.commons.lang3.StringUtils.deleteWhitespace
-import static org.hamcrest.Matchers.greaterThan
-import static spock.util.matcher.HamcrestSupport.expect
 
+//todo split by renderers
 class SmokeSpec extends Specification {
-    static final String smokeJson = SmokeSpec.classLoader.getResource('smoke1.json').text
-    static final String sourcePath = Paths.get(System.getProperty('user.dir'), 'src', 'test', 'java').toString()
+    static final String smokeJson = SmokeSpec.classLoader.getResource('jaxrs-smoke.json').text
+    static
+    final String sourcePath = Paths.get(System.getProperty('user.dir'), 'test', 'jax-rs-model-test', 'src', 'main', 'java').toString()
     static final String jaxrsPackage = 'com.ainrif.apiator.test.model.jaxrs.smoke'
     static final def resolvers = [new JaxRsModelTypeResolver()]
 
     ApiatorConfig getConfigWithJsonRenderer() {
         return new ApiatorConfig(
+                debug: true,
+                provider: new JaxRsProvider(),
                 renderer: new CoreJsonRenderer(sourcePath: sourcePath),
                 basePackage: jaxrsPackage,
                 modelTypeResolvers: resolvers)
@@ -79,13 +82,17 @@ class SmokeSpec extends Specification {
 
     def "Smoke test; Core HTML Renderer"() {
         given:
-        Apiator apiator = new Apiator(new ApiatorConfig(
-                basePackage: jaxrsPackage, renderer: new CoreHtmlRenderer(), modelTypeResolvers: resolvers))
+        Apiator apiator = new Apiator(
+                new ApiatorConfig(
+                        basePackage: jaxrsPackage,
+                        provider: new JaxRsProvider(),
+                        renderer: new CoreHtmlRenderer(),
+                        modelTypeResolvers: resolvers))
 
         when:
         def actual = apiator.render()
 
         then:
-        expect actual.size(), greaterThan(0)
+        actual.size() > 0
     }
 }

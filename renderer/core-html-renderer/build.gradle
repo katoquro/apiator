@@ -1,0 +1,21 @@
+apply from: "$rootProject.projectDir/gradle/deploy.gradle"
+
+dependencies {
+    compile project(':core')
+    compile project(':renderer:core-json-renderer')
+
+    compile 'org.webjars:webjars-locator:0.21'
+    compile 'org.lesscss:lesscss:1.7.0.1.1', {
+        exclude group: 'org.slf4j', module: 'slf4j-simple'
+    }
+
+    // todo use npm packages
+    compile 'org.webjars.bower:modulejs:1.13.0'
+    compile 'org.webjars.bower:jquery:2.1.4'
+    compile 'org.webjars.bower:lodash:4.6.1'
+    compile 'org.webjars.bower:handlebars:4.0.5'
+    compile 'org.webjars.bower:clipboard:1.5.5'
+    compile 'org.webjars.bower:font-awesome:4.5.0'
+
+    testCompile project(':provider:jax-rs-provider')
+}

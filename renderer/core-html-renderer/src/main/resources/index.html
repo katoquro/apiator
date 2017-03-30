@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Apiator</title>
+    <link rel="icon" type="image/png" href="data:image/png;base64,${favicon}">
+    <style type="text/css">
+        ${css}
+    </style>
+    ${hbs}
+</head>
+<body>
+
+<div id="doc-container"></div>
+
+<script type="text/javascript">
+    /**
+     * @type {Apiator.ApiScheme}
+     */
+    var apiJson = ${json};
+</script>
+<script type="text/javascript"> ${js} </script>
+
+<img id="flag_counter" src="#" style="visibility: hidden; display: none;"/>
+
+<script>
+    modulejs.require('main');
+    if (apiJson.apiatorInfo.debug) {
+        document.write('<script src="'
+                + '//' + location.host + '/livereload.js"></'
+                + 'script>');
+
+        function windowForDemo() {
+            window.open(document.location, '', "width=1100, height=800");
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+import org.gradle.internal.jvm.Jvm
+
+apply from: "$rootProject.projectDir/gradle/deploy.gradle"
+
+dependencies {
+    compile project(':api')
+
+    compile "org.reflections:reflections:0.9.9"
+    compile "javax.servlet:javax.servlet-api:3.1.0"
+
+    compile "org.springframework:spring-core:4.1.6.RELEASE" // utils for search annotations
+    compile "com.fasterxml.jackson.core:jackson-databind:2.6.1"
+
+    //Doclets
+    compile files(Jvm.current().toolsJar)
+    //^^^
+}
