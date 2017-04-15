@@ -17,6 +17,6 @@ package com.ainrif.apiator.core.spi
 
 import com.ainrif.apiator.core.model.api.ApiScheme
 
-public interface Renderer {
+interface Renderer {
     String render(ApiScheme scheme)
 }

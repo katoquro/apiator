@@ -23,11 +23,11 @@ import java.lang.reflect.Method
 @EqualsAndHashCode
 @ToString
 class MethodSignature {
-    final String name;
-    final String[] paramTypeNames;
+    final String name
+    final String[] paramTypeNames
 
     MethodSignature(Method method) {
-        this.name = method.name;
-        this.paramTypeNames = method.parameterTypes*.typeName;
+        this.name = method.name
+        this.paramTypeNames = method.parameterTypes*.typeName
     }
 }

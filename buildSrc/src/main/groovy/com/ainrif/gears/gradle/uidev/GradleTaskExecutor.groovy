@@ -19,12 +19,12 @@ import org.gradle.api.Project
 import org.gradle.api.logging.Logging
 import org.gradle.tooling.*
 
-public class GradleTaskExecutor {
+class GradleTaskExecutor {
     static final def logger = Logging.getLogger(GradleTaskExecutor)
 
     private final ProjectConnection connection
 
-    public GradleTaskExecutor(Project project) {
+    GradleTaskExecutor(Project project) {
         //todo connection from project
         connection = GradleConnector.newConnector()
                 .useInstallation(project.gradle.gradleHomeDir)
@@ -32,7 +32,7 @@ public class GradleTaskExecutor {
                 .connect()
     }
 
-    public void execute(String task, ResultHandler<Void> callback = null) {
+    void execute(String task, ResultHandler<Void> callback = null) {
         BuildLauncher launcher = connection
                 .newBuild()
                 .withArguments('-q')

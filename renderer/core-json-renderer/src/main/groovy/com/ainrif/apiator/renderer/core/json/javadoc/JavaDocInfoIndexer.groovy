@@ -24,17 +24,19 @@ import com.ainrif.apiator.doclet.model.ClassInfo
 import javax.annotation.Nullable
 
 class JavaDocInfoIndexer {
-    private Map<String, ClassInfo> classes;
+    private Map<String, ClassInfo> classes
 
     JavaDocInfoIndexer(Map<String, ClassInfo> classes) {
         this.classes = classes
     }
 
-    @Nullable ClassMergedInfo getClassMergedInfo(ApiContext apiContext) {
+    @Nullable
+    ClassMergedInfo getClassMergedInfo(ApiContext apiContext) {
         getClassMergedInfo(apiContext.apiType)
     }
 
-    @Nullable ClassMergedInfo getClassMergedInfo(ApiType apiType) {
+    @Nullable
+    ClassMergedInfo getClassMergedInfo(ApiType apiType) {
         List<ClassInfo> typeHierarchy = RUtils.getAllSuperTypes(apiType.rawType)
                 .findResults { classes[ClassInfo.createKey(it)] }
                 .asType(List)

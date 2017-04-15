@@ -37,7 +37,7 @@ class CoreJsonRenderer implements Renderer {
     @Delegate
     final Config config
 
-    public static class Config {
+    static class Config {
         String sourcePath
         String basePackage
         boolean autoConfig = true
@@ -92,8 +92,8 @@ class CoreJsonRenderer implements Renderer {
         mapper.enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS)
         mapper.enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
 
-        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
-        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE)
+        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY)
 
         mapper.serializationInclusion = JsonInclude.Include.NON_NULL
 

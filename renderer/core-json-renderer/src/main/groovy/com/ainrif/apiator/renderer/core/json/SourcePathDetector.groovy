@@ -29,7 +29,7 @@ class SourcePathDetector {
     private static final Logger logger = LoggerFactory.getLogger(SourcePathDetector)
     private static final int MAX_STEP_OUT = 3
 
-    final ApiScheme apiScheme;
+    final ApiScheme apiScheme
 
     SourcePathDetector(ApiScheme apiScheme) {
         this.apiScheme = apiScheme
@@ -43,7 +43,7 @@ class SourcePathDetector {
     @Nullable
     String detect() {
         List<String> classNames = apiScheme.apiContexts*.name
-        if (!classNames) return null;
+        if (!classNames) return null
 
         def classNamesToFind = new ArrayList(classNames)
         def startDir = System.getProperty('user.dir')
@@ -71,7 +71,7 @@ class SourcePathDetector {
                 }
             } else {
                 logger.info('All classes were resolved in {} steps', i + 1)
-                break;
+                break
             }
         }
 

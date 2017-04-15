@@ -49,7 +49,7 @@ class JaxRsProvider implements WebServiceProvider {
 
     @Override
     ContextStack getContextStack(Class<?> apiClass) {
-        new JaxRsContextStack(RUtils.getAllSuperTypes(apiClass));
+        new JaxRsContextStack(RUtils.getAllSuperTypes(apiClass))
     }
 
     @Override

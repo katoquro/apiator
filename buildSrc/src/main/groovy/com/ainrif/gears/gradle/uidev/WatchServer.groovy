@@ -40,7 +40,7 @@ class WatchServer {
 
     private Map<WatchKey, WatchUnit> watched = new HashMap<>()
 
-    public WatchServer(Map<Path, EventCallback> listeners) {
+    WatchServer(Map<Path, EventCallback> listeners) {
         this.watchService = FileSystems.default.newWatchService()
 
         listeners.each(this.&registerNestedTree)
@@ -53,7 +53,7 @@ class WatchServer {
 
         Files.walkFileTree(root, new SimpleFileVisitor<Path>() {
             @Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
+            FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
                 def watchKey = dir.register(watchService, WATCHED_EVENTS, HIGH)
 
                 def watchUnit = new WatchUnit(

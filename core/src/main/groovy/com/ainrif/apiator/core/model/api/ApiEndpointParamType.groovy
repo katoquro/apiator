@@ -15,7 +15,7 @@
  */
 package com.ainrif.apiator.core.model.api
 
-public enum ApiEndpointParamType {
+enum ApiEndpointParamType {
     PATH,
     QUERY,
 

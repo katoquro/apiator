@@ -29,7 +29,7 @@ class LiveReloadServer {
     private final Path resourceRoot
     private Server jettyServer
 
-    public LiveReloadServer(int port, Path resourceRoot) {
+    LiveReloadServer(int port, Path resourceRoot) {
         this.port = port
         this.resourceRoot = resourceRoot
     }
@@ -37,7 +37,7 @@ class LiveReloadServer {
     private void init() throws Exception {
         def resHandler = new ResourceHandler() {
             @Override
-            public Resource getResource(String path) throws MalformedURLException {
+            Resource getResource(String path) throws MalformedURLException {
                 if ('/livereload.js' == path) {
                     return Resource.newResource(LiveReloadServer.class.getResource(path))
                 }
@@ -56,7 +56,7 @@ class LiveReloadServer {
         jettyServer.handler = wsHandler
     }
 
-    public void start() throws Exception {
+    void start() throws Exception {
         this.init()
 
         try {

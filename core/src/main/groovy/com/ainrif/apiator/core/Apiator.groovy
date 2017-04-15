@@ -33,8 +33,8 @@ class Apiator {
 
     private static final Logger logger = LoggerFactory.getLogger(Apiator)
 
-    protected ApiatorConfig config;
-    protected ApiatorInfo info;
+    protected ApiatorConfig config
+    protected ApiatorInfo info
 
     protected ApiScheme scheme
 

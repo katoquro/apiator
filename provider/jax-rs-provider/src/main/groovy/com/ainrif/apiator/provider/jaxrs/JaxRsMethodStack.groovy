@@ -32,12 +32,12 @@ import static java.util.Collections.singletonList
 
 class JaxRsMethodStack extends MethodStack {
 
-    private final static def SIMPLE_PARAM_ANNOTATIONS = [PathParam, FormParam, QueryParam, HeaderParam, CookieParam];
+    private final static def SIMPLE_PARAM_ANNOTATIONS = [PathParam, FormParam, QueryParam, HeaderParam, CookieParam]
     private final static Predicate<Field> testFieldAnnotations = { field ->
         SIMPLE_PARAM_ANNOTATIONS.any { field.isAnnotationPresent(it) }
     }
 
-    private JaxRsContextStack context;
+    private JaxRsContextStack context
 
     JaxRsMethodStack(Collection<? extends Method> collection, JaxRsContextStack context) {
         super(collection)
@@ -58,7 +58,7 @@ class JaxRsMethodStack extends MethodStack {
     ApiEndpointMethod getMethod() {
         def method = AnnotationUtils.findAnnotation(this.last(), HttpMethod)?.value() ?: 'GET'
 
-        ApiEndpointMethod.valueOf(method);
+        ApiEndpointMethod.valueOf(method)
     }
 
     @Override

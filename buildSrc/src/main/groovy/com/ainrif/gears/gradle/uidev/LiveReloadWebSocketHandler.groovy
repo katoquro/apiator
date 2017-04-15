@@ -30,7 +30,7 @@ class LiveReloadWebSocketHandler extends WebSocketHandler {
 
     private static final Queue<LiveReloadWebSocket> sockets = new ConcurrentArrayQueue<>()
 
-    public static void broadcast(String msg) throws Exception {
+    static void broadcast(String msg) throws Exception {
         sockets.each { socket ->
             try {
                 socket.session.remote.sendString(msg)
@@ -47,11 +47,11 @@ class LiveReloadWebSocketHandler extends WebSocketHandler {
     }
 
     @WebSocket
-    public static class LiveReloadWebSocket {
+    static class LiveReloadWebSocket {
         protected Session session
 
         @OnWebSocketConnect
-        public void onConnect(Session session) {
+        void onConnect(Session session) {
             if (!session.upgradeRequest.requestURI.path.endsWith('livereload')) {
                 session.close()
             }
@@ -60,12 +60,12 @@ class LiveReloadWebSocketHandler extends WebSocketHandler {
         }
 
         @OnWebSocketClose
-        public void onClose(int code, String message) {
+        void onClose(int code, String message) {
             sockets.remove(this)
         }
 
         @OnWebSocketMessage
-        public void onMessage(final String data) {
+        void onMessage(final String data) {
             try {
                 if (LiveReloadProtocol.isHello(data)) {
                     session.remote.sendString(LiveReloadProtocol.hello())

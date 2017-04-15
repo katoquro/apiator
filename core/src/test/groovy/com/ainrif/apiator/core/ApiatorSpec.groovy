@@ -24,7 +24,7 @@ class ApiatorSpec extends Specification {
         def config = new ApiatorConfig(
                 basePackage: 'com.ainrif.apiator.test.model.m06',
                 apiClass: M06_Api)
-        def apiator = new Apiator(config);
+        def apiator = new Apiator(config)
 
         when:
         def actual = apiator.scanForApi()
