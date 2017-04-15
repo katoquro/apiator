@@ -163,7 +163,7 @@ class ApiType {
     }
 
     @Override
-    public String toString() {
+    String toString() {
         "ApiType{${type.typeName}}"
     }
 }

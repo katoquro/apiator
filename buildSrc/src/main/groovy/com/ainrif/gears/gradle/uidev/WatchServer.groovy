@@ -40,7 +40,7 @@ class WatchServer {
 
     private Map<WatchKey, WatchUnit> watched = new HashMap<>()
 
-    public WatchServer(Map<Path, EventCallback> listeners) {
+    WatchServer(Map<Path, EventCallback> listeners) {
         this.watchService = FileSystems.default.newWatchService()
 
         listeners.each(this.&registerNestedTree)
@@ -53,7 +53,7 @@ class WatchServer {
 
         Files.walkFileTree(root, new SimpleFileVisitor<Path>() {
             @Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
+            FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
                 def watchKey = dir.register(watchService, WATCHED_EVENTS, HIGH)
 
                 def watchUnit = new WatchUnit(
@@ -84,7 +84,7 @@ class WatchServer {
                         WatchKey key = watchService.take()
 
                         WatchEvent<Path> event = key.pollEvents()
-                                .find { Path == it.kind().type() }
+                                .find { Path == it.kind().type() } as WatchEvent<Path>
 
                         def wUnit = watched[key]
                         if (event) {
@@ -109,7 +109,7 @@ class WatchServer {
                             watched.remove(key)
                         }
                     }
-                } catch (ClosedWatchServiceException e) {
+                } catch (ClosedWatchServiceException ignore) {
                     logger.info "Access to Stopped Watch Server"
                 }
             } as Runnable)

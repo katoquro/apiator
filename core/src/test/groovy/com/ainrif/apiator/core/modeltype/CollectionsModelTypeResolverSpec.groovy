@@ -20,6 +20,7 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 class CollectionsModelTypeResolverSpec extends Specification {
+    @SuppressWarnings("GroovyAssignabilityCheck")
     @Unroll
     def "resolve"() {
         given:

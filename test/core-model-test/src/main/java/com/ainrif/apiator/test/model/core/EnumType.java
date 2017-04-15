@@ -16,5 +16,5 @@
 package com.ainrif.apiator.test.model.core;
 
 public enum EnumType {
-    FIRST, SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, EIGHTH, NINTH, TENTH;
+    FIRST, SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, EIGHTH, NINTH, TENTH
 }

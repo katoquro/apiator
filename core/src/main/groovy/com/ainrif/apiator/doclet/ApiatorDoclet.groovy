@@ -39,9 +39,9 @@ class ApiatorDoclet {
      * @param outputFile if null then tmp file will be created
      * @return {@link Result}
      */
-    public static Result runDoclet(String sourcePath,
-                                   @Nullable String basePackage,
-                                   @Nullable String outputFile) {
+    static Result runDoclet(String sourcePath,
+                            @Nullable String basePackage,
+                            @Nullable String outputFile) {
         outputFile = outputFile ?: createTempFile('apiator', 'doclet').with { it.deleteOnExit(); it }.absolutePath
         basePackage = basePackage ?: '.'
 

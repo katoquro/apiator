@@ -16,5 +16,5 @@
 package com.ainrif.apiator.test.model.m07;
 
 public interface M07_PlainInterface {
-    public M07_ParentDto getDto();
+    M07_ParentDto getDto();
 }

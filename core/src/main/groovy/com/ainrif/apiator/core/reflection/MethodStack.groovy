@@ -54,7 +54,7 @@ abstract class MethodStack extends ArrayList<Method> {
     /**
      * collects java types from params and return values
      */
-    public Set<ApiType> getUsedApiTypes() {
+    Set<ApiType> getUsedApiTypes() {
         collectAllUsedTypes()
                 .findAll { OBJECT == it.modelType }
     }
@@ -62,7 +62,7 @@ abstract class MethodStack extends ArrayList<Method> {
     /**
      * collects java Enums from params and return values
      */
-    public Set<ApiType> getUsedEnumerations() {
+    Set<ApiType> getUsedEnumerations() {
         collectAllUsedTypes()
                 .findAll { ENUMERATION == it.modelType }
     }
@@ -72,7 +72,7 @@ abstract class MethodStack extends ArrayList<Method> {
      *
      * @return [ < param index > : [inherited annotations] ]
      */
-    public Map<Integer, List<? extends Annotation>> getParametersAnnotationsLists() {
+    Map<Integer, List<? extends Annotation>> getParametersAnnotationsLists() {
         Map<Integer, List<? extends Annotation>> result = new HashMap<>().withDefault { [] }
         this.each {
             it.parameterAnnotations.eachWithIndex { Annotation[] entry, int i ->
@@ -83,7 +83,7 @@ abstract class MethodStack extends ArrayList<Method> {
         result
     }
 
-    public final MethodSignature getMethodSignature() {
+    final MethodSignature getMethodSignature() {
         return new MethodSignature(this.last())
     }
 

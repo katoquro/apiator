@@ -18,9 +18,9 @@ package com.ainrif.gears.gradle.uidev
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
 
-public class LiveReloadProtocol {
+class LiveReloadProtocol {
 
-    public static String hello() {
+    static String hello() {
         def root = new JsonBuilder()
         root {
             command 'hello'
@@ -31,7 +31,7 @@ public class LiveReloadProtocol {
         root.toString()
     }
 
-    public static String alert(String msg) throws Exception {
+    static String alert(String msg) throws Exception {
         def root = new JsonBuilder()
         root {
             command 'alert'
@@ -41,7 +41,7 @@ public class LiveReloadProtocol {
         root.toString()
     }
 
-    public static String reload(String filePath) throws Exception {
+    static String reload(String filePath) throws Exception {
         def root = new JsonBuilder()
         root {
             command 'reload'
@@ -52,7 +52,7 @@ public class LiveReloadProtocol {
         root.toString()
     }
 
-    public static boolean isHello(String data) throws Exception {
+    static boolean isHello(String data) throws Exception {
         def json = new JsonSlurper().parseText(data)
 
         'hello' == json.command

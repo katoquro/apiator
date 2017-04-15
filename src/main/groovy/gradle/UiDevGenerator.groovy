@@ -18,7 +18,7 @@ package gradle
 import com.ainrif.apiator.renderer.core.html.CoreHtmlRenderer
 
 class UiDevGenerator {
-    public static void main(String[] args) {
+    static void main(String[] args) {
         def htmlPath = "${args[0]}/site/api.html"
         def jsonStubPath = "${args[0]}/resources/stub.json"
 

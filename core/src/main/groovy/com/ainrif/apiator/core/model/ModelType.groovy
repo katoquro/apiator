@@ -19,7 +19,7 @@ package com.ainrif.apiator.core.model
  * Type {@link ModelType#SYSTEM} is for internal usage.
  * Represents types like {@link Class} to prevent unnecessary introspection
  */
-public enum ModelType {
+enum ModelType {
     ANY,
 
     OBJECT, ENUMERATION,
@@ -30,7 +30,7 @@ public enum ModelType {
 
     DATE, BINARY,
 
-    SYSTEM;
+    SYSTEM
 
     static Collection<ModelType> getCustomModelTypes() {
         [OBJECT, ENUMERATION]

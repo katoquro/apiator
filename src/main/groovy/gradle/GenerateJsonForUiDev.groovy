@@ -25,7 +25,7 @@ import javax.ws.rs.Path
 class GenerateJsonForUiDev {
     static final String jaxrsPackage = 'com.ainrif.apiator.test.model.jaxrs.uidev'
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         def path = "${args[0]}/stub.json"
         def config = new ApiatorConfig(
                 basePackage: jaxrsPackage,

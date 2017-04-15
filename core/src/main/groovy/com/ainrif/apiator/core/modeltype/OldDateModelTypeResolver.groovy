@@ -23,6 +23,6 @@ class OldDateModelTypeResolver implements ModelTypeResolver {
     ModelType resolve(Class<?> type) {
         if ([Date, Calendar].any { it.isAssignableFrom(type) }) return ModelType.DATE
 
-        return null;
+        return null
     }
 }
