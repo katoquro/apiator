@@ -80,10 +80,12 @@ class Apiator {
                 apiCtx.usedEnumerations = apiCtx.apiEndpoints
                         .collect { it.usedEnumerations }
                         .flatten()
+                        .unique() as Set<ApiType>
 
                 apiCtx.usedApiTypes = apiCtx.apiEndpoints
                         .collect { it.usedApiTypes }
                         .flatten()
+                        .unique() as Set<ApiType>
 
                 scheme.usedEnumerations += apiCtx.usedEnumerations
                 scheme.usedApiTypes += apiCtx.usedApiTypes

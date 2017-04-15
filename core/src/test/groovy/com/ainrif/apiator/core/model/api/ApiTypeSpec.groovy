@@ -110,6 +110,7 @@ class ApiTypeSpec extends Specification {
         'genericBounded'          | 'GENERIC_BOUNDED'
     }
 
+    @SuppressWarnings("GroovyAssignabilityCheck")
     def "getRawType; #inputType"() {
         given:
         def input = new ApiType(ModelDto1.getDeclaredField(inputType).genericType)
@@ -240,7 +241,7 @@ class ApiTypeSpec extends Specification {
         input.actualTypeArguments
 
         then:
-        def ex = thrown(RuntimeException)
+        thrown(RuntimeException)
     }
 
     def "_flattenArgumentTypes; #inputType"() {

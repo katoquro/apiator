@@ -63,7 +63,7 @@ subprojects {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
-    task archiveReports(type: Zip) {
+    def archiveReportsTask = task archiveReports(type: Zip) {
         from 'build/reports/tests'
         appendix = 'tests_reports'
         version = "${project.version}_${Instant.now()}"
@@ -73,7 +73,7 @@ subprojects {
     }
 
     test {
-        finalizedBy archiveReports
+        finalizedBy archiveReportsTask
         testLogging {
             exceptionFormat = 'full'
             showStandardStreams = true

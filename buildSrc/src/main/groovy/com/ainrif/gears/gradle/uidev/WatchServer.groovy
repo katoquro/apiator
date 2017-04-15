@@ -84,7 +84,7 @@ class WatchServer {
                         WatchKey key = watchService.take()
 
                         WatchEvent<Path> event = key.pollEvents()
-                                .find { Path == it.kind().type() }
+                                .find { Path == it.kind().type() } as WatchEvent<Path>
 
                         def wUnit = watched[key]
                         if (event) {
@@ -109,7 +109,7 @@ class WatchServer {
                             watched.remove(key)
                         }
                     }
-                } catch (ClosedWatchServiceException e) {
+                } catch (ClosedWatchServiceException ignore) {
                     logger.info "Access to Stopped Watch Server"
                 }
             } as Runnable)
