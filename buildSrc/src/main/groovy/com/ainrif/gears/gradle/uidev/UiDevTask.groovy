@@ -56,7 +56,7 @@ class UiDevTask extends DefaultTask {
         watchServerListeners.put(liveReloadPath, {
             logger.lifecycle "[${LocalTime.now()}] resource update : ${liveReloadPath}"
 
-            String msg = LiveReloadProtocol.reload(liveReloadPath.toString())
+            String msg = LiveReloadProtocol.alert(liveReloadPath.toString())
             LiveReloadWebSocketHandler.broadcast(msg)
         })
 
