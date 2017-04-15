@@ -38,7 +38,6 @@ class SmokeSpec extends Specification {
 
     ApiatorConfig getConfigWithJsonRenderer() {
         return new ApiatorConfig(
-                debug: true,
                 provider: new JaxRsProvider(),
                 renderer: new CoreJsonRenderer(sourcePath: sourcePath),
                 basePackage: jaxrsPackage,
@@ -47,7 +46,7 @@ class SmokeSpec extends Specification {
 
     def "Smoke test; jax-rs"() {
         when:
-        def actual = new Apiator(configWithJsonRenderer).render()
+        def actual = new ApiatorSmokeStub(configWithJsonRenderer).render()
 
         then:
         new JsonSlurper().parseText(actual) == new JsonSlurper().parseText(smokeJson)
@@ -57,7 +56,7 @@ class SmokeSpec extends Specification {
         when:
         def config = configWithJsonRenderer
         config.renderer = new CoreJsonRenderer()
-        def actual = new Apiator(config).render()
+        def actual = new ApiatorSmokeStub(config).render()
 
         then:
         new JsonSlurper().parseText(actual) == new JsonSlurper().parseText(smokeJson)
@@ -65,9 +64,9 @@ class SmokeSpec extends Specification {
 
     def "Smoke test; should produce the same result each time"() {
         given:
-        def apiator1 = new Apiator(configWithJsonRenderer)
-        def apiator2 = new Apiator(configWithJsonRenderer)
-        def apiator3 = new Apiator(configWithJsonRenderer)
+        def apiator1 = new ApiatorSmokeStub(configWithJsonRenderer)
+        def apiator2 = new ApiatorSmokeStub(configWithJsonRenderer)
+        def apiator3 = new ApiatorSmokeStub(configWithJsonRenderer)
 
         when:
         def render1 = apiator1.render()

@@ -18,12 +18,20 @@ package com.ainrif.apiator.renderer.core.json.view
 
 import com.ainrif.apiator.core.ApiatorInfo
 
+import static java.util.Collections.emptyList
+
 class ApiatorInfoView {
-    boolean debug
     String version
+    String provider
+    String renderer
+    List<String> modelTypeResolvers
 
     ApiatorInfoView(ApiatorInfo info) {
-        this.debug = info.debug
         this.version = info.version
+        this.provider = info.provider.class.simpleName
+        this.renderer = info.renderer.class.simpleName
+        this.modelTypeResolvers = info.modelTypeResolvers ?
+                info.modelTypeResolvers.collect { it.class.simpleName }.sort() :
+                emptyList()
     }
 }

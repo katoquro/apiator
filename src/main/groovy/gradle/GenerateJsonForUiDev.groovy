@@ -28,7 +28,6 @@ class GenerateJsonForUiDev {
     public static void main(String[] args) {
         def path = "${args[0]}/stub.json"
         def config = new ApiatorConfig(
-                debug: true,
                 basePackage: jaxrsPackage,
                 apiClass: Path,
                 provider: new JaxRsProvider(),

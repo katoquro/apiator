@@ -15,17 +15,20 @@
  */
 package com.ainrif.apiator.core
 
-// todo add list of used apiator modules
-class ApiatorInfo {
-    boolean debug
-    String version
+import com.ainrif.apiator.core.spi.ModelTypeResolver
+import com.ainrif.apiator.core.spi.Renderer
+import com.ainrif.apiator.core.spi.WebServiceProvider
 
-    ApiatorInfo(boolean debug) {
-        this.debug = debug
-        if (debug) {
-            this.version = 'debug'
-        } else {
-            this.version = ApiatorInfo.package.implementationVersion ?: 'UNPACKED'
-        }
+class ApiatorInfo {
+    String version
+    WebServiceProvider provider
+    Renderer renderer
+    List<ModelTypeResolver> modelTypeResolvers
+
+    ApiatorInfo(ApiatorConfig config) {
+        this.version = ApiatorInfo.package.implementationVersion ?: 'UNPACKED'
+        this.provider = config.provider
+        this.renderer = config.renderer
+        this.modelTypeResolvers = config.modelTypeResolvers
     }
 }

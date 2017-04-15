@@ -265,8 +265,12 @@
     }
   ],
   "apiatorInfo": {
-    "debug": true,
-    "version": "debug"
+    "modelTypeResolvers": [
+      "JaxRsModelTypeResolver"
+    ],
+    "provider": "JaxRsProvider",
+    "renderer": "CoreJsonRenderer",
+    "version": "SMOKE_VERSION"
   },
   "clientApiInfo": {
     "basePath": "/api",

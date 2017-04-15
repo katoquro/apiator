@@ -30,5 +30,4 @@ class ApiatorConfig {
     String basePath = '/api'
     String apiVersion = '1.0.0-SNAPSHOT'
     Class<Annotation> apiClass = Api
-    boolean debug
 }

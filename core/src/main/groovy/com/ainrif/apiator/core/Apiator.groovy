@@ -33,14 +33,14 @@ class Apiator {
 
     private static final Logger logger = LoggerFactory.getLogger(Apiator)
 
-    private ApiatorConfig config;
-    private ApiatorInfo info;
+    protected ApiatorConfig config;
+    protected ApiatorInfo info;
 
-    private ApiScheme scheme
+    protected ApiScheme scheme
 
     Apiator(ApiatorConfig config) {
         this.config = config
-        this.info = new ApiatorInfo(config.debug)
+        this.info = new ApiatorInfo(config)
 
         //Injects
         ApiType.modelTypeRegister = config.modelTypeResolvers ?
