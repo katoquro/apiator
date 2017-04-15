@@ -15,8 +15,8 @@
  */
 package com.ainrif.apiator.modeltype.j8
 
-import com.ainrif.apiator.api.ModelTypeResolver
 import com.ainrif.apiator.core.model.ModelType
+import com.ainrif.apiator.core.spi.ModelTypeResolver
 
 import java.time.temporal.Temporal
 

@@ -15,8 +15,8 @@
  */
 package com.ainrif.apiator.renderer.core.json
 
-import com.ainrif.apiator.api.Renderer
 import com.ainrif.apiator.core.model.api.ApiScheme
+import com.ainrif.apiator.core.spi.Renderer
 import com.ainrif.apiator.doclet.ApiatorDoclet
 import com.ainrif.apiator.doclet.model.JavaDocInfo
 import com.ainrif.apiator.renderer.core.json.javadoc.JavaDocInfoIndexer
@@ -34,7 +34,8 @@ import org.slf4j.LoggerFactory
 class CoreJsonRenderer implements Renderer {
     private static final Logger logger = LoggerFactory.getLogger(CoreJsonRenderer)
 
-    @Delegate final Config config
+    @Delegate
+    final Config config
 
     public static class Config {
         String sourcePath

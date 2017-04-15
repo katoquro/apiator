@@ -15,8 +15,8 @@
  */
 package com.ainrif.apiator.core.model
 
-import com.ainrif.apiator.api.ModelTypeResolver
 import com.ainrif.apiator.core.modeltype.*
+import com.ainrif.apiator.core.spi.ModelTypeResolver
 
 class ModelTypeRegister {
     private List<ModelTypeResolver> modelTypeResolvers

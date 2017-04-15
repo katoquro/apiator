@@ -15,9 +15,9 @@
  */
 package com.ainrif.apiator.core.model
 
-import com.ainrif.apiator.api.ModelTypeResolver
 import com.ainrif.apiator.core.modeltype.CoreJavaModelTypeResolver
 import com.ainrif.apiator.core.modeltype.CustomUnresolvedType
+import com.ainrif.apiator.core.spi.ModelTypeResolver
 import org.reflections.Reflections
 import org.reflections.scanners.SubTypesScanner
 import org.reflections.util.ClasspathHelper

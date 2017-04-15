@@ -15,8 +15,8 @@
  */
 package com.ainrif.apiator.core.modeltype
 
-import com.ainrif.apiator.api.ModelTypeResolver
 import com.ainrif.apiator.core.model.ModelType
+import com.ainrif.apiator.core.spi.ModelTypeResolver
 
 /**
  * Try to resolve types like: {@code void}, {@code enum}, {@code boolean}, {@code double}...

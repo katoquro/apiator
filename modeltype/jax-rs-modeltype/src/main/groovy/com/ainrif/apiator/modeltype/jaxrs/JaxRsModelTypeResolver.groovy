@@ -15,8 +15,8 @@
  */
 package com.ainrif.apiator.modeltype.jaxrs
 
-import com.ainrif.apiator.api.ModelTypeResolver
 import com.ainrif.apiator.core.model.ModelType
+import com.ainrif.apiator.core.spi.ModelTypeResolver
 
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response

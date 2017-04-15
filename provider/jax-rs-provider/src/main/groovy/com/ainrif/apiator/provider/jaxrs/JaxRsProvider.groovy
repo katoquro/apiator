@@ -15,10 +15,10 @@
  */
 package com.ainrif.apiator.provider.jaxrs
 
-import com.ainrif.apiator.api.WebServiceProvider
 import com.ainrif.apiator.core.reflection.ContextStack
 import com.ainrif.apiator.core.reflection.MethodStack
 import com.ainrif.apiator.core.reflection.RUtils
+import com.ainrif.apiator.core.spi.WebServiceProvider
 
 import javax.ws.rs.*
 import javax.ws.rs.core.Context

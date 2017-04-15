@@ -15,8 +15,8 @@
  */
 package com.ainrif.apiator.renderer.core.html
 
-import com.ainrif.apiator.api.Renderer
 import com.ainrif.apiator.core.model.api.ApiScheme
+import com.ainrif.apiator.core.spi.Renderer
 import com.ainrif.apiator.renderer.core.json.CoreJsonRenderer
 import groovy.text.StreamingTemplateEngine
 import org.lesscss.LessCompiler
@@ -38,7 +38,8 @@ class CoreHtmlRenderer implements Renderer {
 
     protected WebJarAssetLocator webJarsLocator
 
-    @Delegate final Config config
+    @Delegate
+    final Config config
 
     private static class Config extends CoreJsonRenderer.Config {
         String toFile

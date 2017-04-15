@@ -15,10 +15,10 @@
  */
 package com.ainrif.apiator.core
 
-import com.ainrif.apiator.api.ModelTypeResolver
-import com.ainrif.apiator.api.Renderer
-import com.ainrif.apiator.api.WebServiceProvider
 import com.ainrif.apiator.api.annotation.Api
+import com.ainrif.apiator.core.spi.ModelTypeResolver
+import com.ainrif.apiator.core.spi.Renderer
+import com.ainrif.apiator.core.spi.WebServiceProvider
 
 import java.lang.annotation.Annotation
 
