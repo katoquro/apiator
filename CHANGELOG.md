@@ -1,3 +1,11 @@
+v0.6.0 - Technical boost
+
+- update : core features were split across modules
+- update : project versioning system
+- update : livereload uses port as debug indicator
+- update : Groovy code style
+- update : legal info 
+
 v0.5.1
 
 - fix : HTML renderer permalink restore state

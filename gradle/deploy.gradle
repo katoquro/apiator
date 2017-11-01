@@ -55,7 +55,6 @@ bintray {
 }
 
 bintrayUpload {
-    logger.lifecycle("FATAL ${version}")
     onlyIf {
         versionHolder.release
     }
