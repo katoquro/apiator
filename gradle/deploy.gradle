@@ -55,9 +55,24 @@ bintray {
 }
 
 bintrayUpload {
+    logger.lifecycle("FATAL ${version}")
     onlyIf {
-        isOnMaster
+        versionHolder.release
+    }
+}
+
+task publishGitTag {
+    onlyIf {
+        versionHolder.release
+    }
+    doLast {
+        versionHolder.git.with {
+            tag.add(name: project.version, annotate: false, force: true)
+            push(all: false)
+            push(tags: true)
+        }
     }
 }
 
 publish.dependsOn bintrayUpload
+publish.dependsOn publishGitTag

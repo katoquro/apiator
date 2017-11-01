@@ -1,4 +1,6 @@
+import org.ajoberstar.grgit.Grgit
 import org.ajoberstar.grgit.operation.OpenOp
+import org.gradle.api.Project
 
 import java.time.Instant
 
@@ -14,14 +16,39 @@ buildscript {
     }
 }
 
-ext.git = new OpenOp(dir: rootProject.rootDir).call()
-ext.isOnMaster = 'master' == git.branch.current.name
+class VersionHolder {
+    Grgit git
+    String version
+    boolean release = false
+
+    VersionHolder(Project rootProject) {
+        git = new OpenOp(dir: rootProject.rootDir).call()
+
+        def branchName = git.branch.current.name
+        def isInFolder = branchName.contains('/')
+
+        def nonReleaseVersion = branchName
+        if (isInFolder) {
+            def branchNameParts = branchName.split('/')
+            if ('release' == branchNameParts[0]) {
+                release = true
+                version = branchNameParts[1]
+            } else {
+                version = branchNameParts.join('_') + '-SNAPSHOT'
+            }
+        } else {
+            version = branchName + '-SNAPSHOT'
+        }
+    }
+}
+
+ext.versionHolder = new VersionHolder(rootProject)
 
 allprojects {
     apply plugin: 'groovy'
 
     group = 'com.ainrif.apiator'
-    version = "0.6.0${isOnMaster ? '' : '-SNAPSHOT'}"
+    version = versionHolder.version
 
     repositories {
         mavenLocal()
@@ -96,18 +123,9 @@ dependencies {
 
 apply from: "$rootProject.projectDir/gradle/uiDev.gradle"
 
-task publishGitTag {
-    onlyIf {
-        isOnMaster
-    }
-    doLast {
-        git.tag.add(name: project.version, annotate: false, force: true)
-        git.push(all: false)
-        git.push(tags: true)
-    }
-}
+
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.14.1'
-    distributionUrl = "https://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip"
+    gradleVersion = '4.1'
+    distributionType = Wrapper.DistributionType.ALL
 }
