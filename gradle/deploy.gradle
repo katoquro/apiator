@@ -54,4 +54,10 @@ bintray {
     }
 }
 
+bintrayUpload {
+    onlyIf {
+        versionHolder.release
+    }
+}
+
 publishRelease.dependsOn bintrayUpload

@@ -129,6 +129,9 @@ dependencies {
 apply from: "$rootProject.projectDir/gradle/uiDev.gradle"
 
 task publishGitTag {
+    onlyIf {
+        versionHolder.release
+    }
     doLast {
         versionHolder.git.with {
             try {
