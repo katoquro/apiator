@@ -15,12 +15,10 @@
  */
 package com.ainrif.apiator.test.model.jaxrs.uidev;
 
-public class Book {
+public class Book extends Issue {
     private Author author;
     private Publisher publisher;
 
-    public String isbn;
-    public String title;
     public Status status;
 
     public Long getAuthorId() {

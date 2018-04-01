@@ -15,7 +15,10 @@
  */
 package com.ainrif.apiator.provider.jaxrs
 
-import com.ainrif.apiator.core.model.api.*
+import com.ainrif.apiator.core.model.api.ApiEndpointMethod
+import com.ainrif.apiator.core.model.api.ApiEndpointParam
+import com.ainrif.apiator.core.model.api.ApiEndpointParamType
+import com.ainrif.apiator.core.model.api.ApiType
 import com.ainrif.apiator.core.reflection.MethodStack
 import com.ainrif.apiator.core.reflection.RUtils
 import org.springframework.core.annotation.AnnotationUtils
@@ -59,13 +62,6 @@ class JaxRsMethodStack extends MethodStack {
         def method = AnnotationUtils.findAnnotation(this.last(), HttpMethod)?.value() ?: 'GET'
 
         ApiEndpointMethod.valueOf(method)
-    }
-
-    @Override
-    ApiEndpointReturnType getReturnType() {
-        new ApiEndpointReturnType(
-                type: new ApiType(this.last().genericReturnType),
-        )
     }
 
     //todo tests for annotated body params

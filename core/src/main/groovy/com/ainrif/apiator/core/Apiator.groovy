@@ -69,7 +69,7 @@ class Apiator {
                             name: it.name,
                             path: it.path,
                             method: it.method,
-                            returnType: it.returnType,
+                            returnTypes: it.returnTypes,
                             params: it.params,
                             usedEnumerations: it.usedEnumerations,
                             usedApiTypes: it.usedApiTypes,

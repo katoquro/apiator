@@ -51,7 +51,9 @@
 
             <div class="panel__content-title">Responses</div>
             <div class="panel__content-content">
-                {{{renderTemplateTypes returnType}}}
+                {{#each returnTypes}}
+                    {{{renderTemplateTypes this}}}&nbsp;
+                {{/each}}
             </div>
         </div>
 
@@ -63,13 +65,6 @@
                      data-clipboard-text="{{../name}}#{{name}}">copy reference
                 </div>
             </div>
-            {{!--
-            <div class="endpoint__vcs vcs">
-                <div class="vcs__title">VCS</div>
-                <div class="vcs__name">{{getAfterLastDot ../name}}.java</div>
-                <div class="vcs__goto">go to file</div>
-            </div>
-            --}}
             <div class="endpoint__raw-view raw-view">
                 <div class="raw-view__title">Raw view</div>
                 <pre class="raw-view__viewer json">{{{highlightJSON this}}}</pre>

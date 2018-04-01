@@ -17,7 +17,9 @@
 package com.ainrif.apiator.test.model.jaxrs.smoke;
 
 import com.ainrif.apiator.api.annotation.Api;
+import com.ainrif.apiator.api.annotation.ConcreteTypes;
 import com.ainrif.apiator.test.model.core.Dto01_Plain;
+import com.ainrif.apiator.test.model.core.Dto02_Complex;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -27,7 +29,8 @@ import java.util.List;
 @Path("/spec-check")
 public class JaxRsSpecCheckServiceImpl implements JaxRsSpecCheckService {
     @Override
-    public void supportCustomAnnotationsSubset() {}
+    public void supportCustomAnnotationsSubset() {
+    }
 
     @Override
     public Object pathParam(String id) {
@@ -42,6 +45,12 @@ public class JaxRsSpecCheckServiceImpl implements JaxRsSpecCheckService {
     @Path("/path-from-impl")
     @Override
     public String pathFromImpl() {
+        return null;
+    }
+
+    @Override
+    @ConcreteTypes({Dto01_Plain.class, Dto02_Complex.class})
+    public Object returnAbstractTypeWithConcreteTypesAnnotation() {
         return null;
     }
 

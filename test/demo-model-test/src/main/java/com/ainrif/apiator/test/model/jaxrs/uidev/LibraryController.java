@@ -15,6 +15,8 @@
  */
 package com.ainrif.apiator.test.model.jaxrs.uidev;
 
+import com.ainrif.apiator.api.annotation.ConcreteTypes;
+
 import javax.ws.rs.*;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +28,13 @@ public class LibraryController {
     @Path("/books/search")
     public List<Book> searchBooks(@QueryParam("status") Book.Status status,
                                   @QueryParam("title") String title) {
+        return null;
+    }
+
+    @GET
+    @Path("/isbn/search")
+    @ConcreteTypes({Book.class, Magazine.class})
+    public List<Issue> searchByIsbn(@QueryParam("isbn") String isbn) {
         return null;
     }
 

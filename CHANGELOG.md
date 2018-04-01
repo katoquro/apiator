@@ -1,3 +1,6 @@
+v0.7.0 
+- add : new annotation to allow to specify types for returns
+
 v0.6.0 - Technical boost
 
 - update : core features were split across modules

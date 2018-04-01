@@ -36,4 +36,8 @@ public interface JaxRsSpecCheckService {
 
     @GET
     String pathFromImpl();
+
+    @GET
+    @Path("/return-abstract-type")
+    Object returnAbstractTypeWithConcreteTypesAnnotation();
 }

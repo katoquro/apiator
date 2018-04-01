@@ -25,7 +25,7 @@ class ApiEndpointView implements Comparable<ApiEndpointView> {
     String description
     String path
     String method
-    ApiEndpointReturnTypeView returnType
+    List<ApiEndpointReturnTypeView> returnTypes
     List<ApiEndpointParamView> params = []
 
     ApiEndpointView(ApiEndpoint endpoint, @Nullable MethodMergedInfo methodInfo) {
@@ -33,7 +33,9 @@ class ApiEndpointView implements Comparable<ApiEndpointView> {
         this.description = methodInfo?.description
         this.path = endpoint.path
         this.method = endpoint.method
-        this.returnType = new ApiEndpointReturnTypeView(endpoint.returnType)
+        this.returnTypes = endpoint.returnTypes
+                .collect { new ApiEndpointReturnTypeView(it) }
+                .sort()
         this.params = endpoint.params
                 .collect { new ApiEndpointParamView(it, methodInfo?.getParamMergedInfo(it)) }
                 .sort()

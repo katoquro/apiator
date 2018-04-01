@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2017 Ainrif <support@ainrif.com>
+ * Copyright 2014-2018 Ainrif <support@ainrif.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.model.api
 
-import com.ainrif.apiator.core.reflection.MethodSignature
+package com.ainrif.apiator.api.annotation;
 
-class ApiEndpoint {
-    String name
-    String path
-    ApiEndpointMethod method
-    List<ApiEndpointReturnType> returnTypes
-    List<ApiEndpointParam> params
-    Set<ApiType> usedEnumerations
-    Set<ApiType> usedApiTypes
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-    MethodSignature methodSignature
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface ConcreteTypes {
+    Class<?>[] value();
 }

@@ -15,6 +15,7 @@
  */
 package com.ainrif.apiator.core.reflection
 
+import com.ainrif.apiator.api.annotation.ConcreteTypes
 import com.ainrif.apiator.core.model.ModelType
 import com.ainrif.apiator.core.model.api.ApiEndpointMethod
 import com.ainrif.apiator.core.model.api.ApiEndpointParam
@@ -31,6 +32,8 @@ import java.util.function.Predicate
 
 import static com.ainrif.apiator.core.model.ModelType.ENUMERATION
 import static com.ainrif.apiator.core.model.ModelType.OBJECT
+import static java.util.Collections.singletonList
+import static org.springframework.core.annotation.AnnotationUtils.findAnnotation
 
 /**
  * List of method overrides from parent (interface/superclass) to child (implementation)
@@ -47,9 +50,18 @@ abstract class MethodStack extends ArrayList<Method> {
 
     abstract ApiEndpointMethod getMethod()
 
-    abstract ApiEndpointReturnType getReturnType()
-
     abstract List<ApiEndpointParam> getParams()
+
+    /**
+     * @see com.ainrif.apiator.api.annotation.ConcreteTypes
+     * @return type of implementation or defined in annotation 
+     */
+    List<ApiEndpointReturnType> getReturnTypes() {
+        def leaf = this.last()
+        return (findAnnotation(leaf, ConcreteTypes)?.value()?.toList() ?: singletonList(leaf.genericReturnType))
+                .collect { new ApiType(it) }
+                .collect { new ApiEndpointReturnType(type: it) }
+    }
 
     /**
      * collects java types from params and return values
@@ -92,7 +104,7 @@ abstract class MethodStack extends ArrayList<Method> {
         Set<ApiType> types = [] // result
 
         // all types used in params and return type form input data to start BFS collecting
-        def nextLookup = (params.collect { it.type } << returnType.type)
+        def nextLookup = (params.collect { it.type } + returnTypes*.type)
         while (nextLookup) {
             def typesToLookup = nextLookup
                     .collect(collectApiTypesFromGenerics).flatten()

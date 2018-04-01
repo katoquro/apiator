@@ -30,7 +30,8 @@ class JaxRsProviderSpec extends Specification {
                              'getDtoFromImpl',
                              'pathFromImpl',
                              'implOnlyEndpoint',
-                             'implicitHttpMethodDeclaration']
+                             'implicitHttpMethodDeclaration',
+                             'returnAbstractTypeWithConcreteTypesAnnotation']
 
         when:
         def actual = provider.getMethodStacks(contextStack)

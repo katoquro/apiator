@@ -91,7 +91,7 @@
  * @property {string} name -
  * @property {string} path -
  * @property {Apiator.ApiEndpointParam[]} params -
- * @property {Apiator.EndpointType} returnType -
+ * @property {Apiator.EndpointType[]} returnTypes -
  */
 
 /**

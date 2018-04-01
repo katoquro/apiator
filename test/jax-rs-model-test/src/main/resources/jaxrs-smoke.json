@@ -17,10 +17,12 @@
             }
           ],
           "path": "/",
-          "returnType": {
-            "basedOn": [],
-            "modelType": "VOID"
-          }
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
         },
         {
           "method": "POST",
@@ -35,10 +37,12 @@
             }
           ],
           "path": "/",
-          "returnType": {
-            "basedOn": [],
-            "modelType": "VOID"
-          }
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
         },
         {
           "description": "override javadoc from interface",
@@ -46,10 +50,12 @@
           "name": "checkJavaDocOverride",
           "params": [],
           "path": "/",
-          "returnType": {
-            "basedOn": [],
-            "modelType": "VOID"
-          }
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
         }
       ],
       "apiPath": "/inheritance",
@@ -63,62 +69,90 @@
           "name": "supportCustomAnnotationsSubset",
           "params": [],
           "path": "/custom-post",
-          "returnType": {
-            "basedOn": [],
-            "modelType": "VOID"
-          }
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
         },
         {
           "method": "GET",
           "name": "getDtoFromImpl",
           "params": [],
           "path": "/get-concrete-dto-from-impl",
-          "returnType": {
-            "basedOn": [],
-            "modelType": "OBJECT",
-            "type": "com.ainrif.apiator.test.model.core.Dto01_Plain"
-          }
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "OBJECT",
+              "type": "com.ainrif.apiator.test.model.core.Dto01_Plain"
+            }
+          ]
         },
         {
           "method": "GET",
           "name": "implicitHttpMethodDeclaration",
           "params": [],
           "path": "/get-method-by-default",
-          "returnType": {
-            "basedOn": [],
-            "modelType": "STRING"
-          }
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "STRING"
+            }
+          ]
         },
         {
           "method": "GET",
           "name": "implOnlyEndpoint",
           "params": [],
           "path": "/impl-only-method",
-          "returnType": {
-            "basedOn": [
-              {
-                "basedOn": [
-                  {
-                    "basedOn": [],
-                    "modelType": "OBJECT",
-                    "type": "com.ainrif.apiator.test.model.core.Dto01_Plain"
-                  }
-                ],
-                "modelType": "ARRAY"
-              }
-            ],
-            "modelType": "ARRAY"
-          }
+          "returnTypes": [
+            {
+              "basedOn": [
+                {
+                  "basedOn": [
+                    {
+                      "basedOn": [],
+                      "modelType": "OBJECT",
+                      "type": "com.ainrif.apiator.test.model.core.Dto01_Plain"
+                    }
+                  ],
+                  "modelType": "ARRAY"
+                }
+              ],
+              "modelType": "ARRAY"
+            }
+          ]
         },
         {
           "method": "GET",
           "name": "pathFromImpl",
           "params": [],
           "path": "/path-from-impl",
-          "returnType": {
-            "basedOn": [],
-            "modelType": "STRING"
-          }
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "STRING"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "name": "returnAbstractTypeWithConcreteTypesAnnotation",
+          "params": [],
+          "path": "/return-abstract-type",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "OBJECT",
+              "type": "com.ainrif.apiator.test.model.core.Dto01_Plain"
+            },
+            {
+              "basedOn": [],
+              "modelType": "OBJECT",
+              "type": "com.ainrif.apiator.test.model.core.Dto02_Complex"
+            }
+          ]
         },
         {
           "method": "GET",
@@ -133,10 +167,12 @@
             }
           ],
           "path": "/{id}",
-          "returnType": {
-            "basedOn": [],
-            "modelType": "ANY"
-          }
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "ANY"
+            }
+          ]
         }
       ],
       "apiPath": "/spec-check",
@@ -157,10 +193,12 @@
             }
           ],
           "path": "/post-body-access_modifiers",
-          "returnType": {
-            "basedOn": [],
-            "modelType": "VOID"
-          }
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
         },
         {
           "method": "POST",
@@ -175,10 +213,12 @@
             }
           ],
           "path": "/post-body-complex",
-          "returnType": {
-            "basedOn": [],
-            "modelType": "VOID"
-          }
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
         },
         {
           "method": "POST",
@@ -193,10 +233,12 @@
             }
           ],
           "path": "/post-body-plain",
-          "returnType": {
-            "basedOn": [],
-            "modelType": "VOID"
-          }
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
         },
         {
           "method": "POST",
@@ -211,11 +253,13 @@
             }
           ],
           "path": "/post-body-read-body-javabean",
-          "returnType": {
-            "basedOn": [],
-            "modelType": "OBJECT",
-            "type": "com.ainrif.apiator.test.model.core.Dto03_JavaBean"
-          }
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "OBJECT",
+              "type": "com.ainrif.apiator.test.model.core.Dto03_JavaBean"
+            }
+          ]
         },
         {
           "method": "POST",
@@ -230,10 +274,12 @@
             }
           ],
           "path": "/post-body-type_bounds",
-          "returnType": {
-            "basedOn": [],
-            "modelType": "VOID"
-          }
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
         },
         {
           "method": "POST",
@@ -253,11 +299,13 @@
             }
           ],
           "path": "/post-body-type_value",
-          "returnType": {
-            "basedOn": [],
-            "modelType": "OBJECT",
-            "type": "com.ainrif.apiator.test.model.core.Dto05_TypeValue"
-          }
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "OBJECT",
+              "type": "com.ainrif.apiator.test.model.core.Dto05_TypeValue"
+            }
+          ]
         }
       ],
       "apiPath": "/types",
