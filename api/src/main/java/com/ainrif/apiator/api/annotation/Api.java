@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 /**
  * Default Annotation to mark api classes.
  * <p>
- * In some cases usage of {@code @PATH} as marker can lead to result with duplicates.
+ * In some cases usage of {@code @javax.ws.rs.Path} as marker can lead to result with duplicates.
  * In case when child and parent classes are both marked, scanner produce partial duplicates:
  * for parent and more detailed for child
  */

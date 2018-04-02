@@ -1,5 +1,6 @@
-v0.7.0 
+v0.7.x 
 - add : new annotation to allow to specify types for returns
+- update : transitive dependencies were reduced
 
 v0.6.0 - Technical boost
 
