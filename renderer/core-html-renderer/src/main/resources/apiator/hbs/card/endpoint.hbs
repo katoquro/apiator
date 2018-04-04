@@ -1,4 +1,4 @@
-<div class="target-marker" id="{{apiPath}}"></div>
+<div class="target-marker" data-id="{{apiPath}}"></div>
 <div class="endpoints">
     <div class="endpoints__name">{{splitCamelCase (getAfterLastDot name)}}</div>
     {{#if description}}
@@ -8,7 +8,7 @@
 
 {{#each apiEndpoints}}
     <div class="target-marker"
-         id="{{getIdForTargetMarkerOfEndpoint (hashToObject method=method apiPath=../apiPath path=path)}}"></div>
+         data-id="{{getIdForTargetMarkerOfEndpoint (hashToObject method=method apiPath=../apiPath path=path)}}"></div>
     <div class="panel panel_endpoint endpoints__endpoint endpoint endpoint_type_{{method}}" data-type="standard">
 
         <div class="panel__header">

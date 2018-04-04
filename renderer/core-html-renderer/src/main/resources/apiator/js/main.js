@@ -25,5 +25,5 @@ modulejs.define('main',
         endpoint.run();
         link_processor.run();
         menu.run();
-        modal.run()
+        modal.run();
     });

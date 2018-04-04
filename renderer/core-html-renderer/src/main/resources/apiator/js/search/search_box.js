@@ -91,7 +91,7 @@ modulejs.define('search_box', [], function () {
                 }
                 case KEY_CODES.UP:
                 case KEY_CODES.DOWN: {
-                    var newActiveIndex = KEY_CODES.UP == event.keyCode ? activeIndex - 1 : activeIndex + 1;
+                    var newActiveIndex = KEY_CODES.UP === event.keyCode ? activeIndex - 1 : activeIndex + 1;
                     changeCursorPosition(newActiveIndex);
 
                     break;

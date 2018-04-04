@@ -22,7 +22,7 @@ modulejs.define('hbs', ['utils'], function (utils) {
     function renderTemplateTypes(type) {
         var result = "";
         if (type.type) {
-            result += '<a href="' + utils.getPageLinkToType(type.type) + '" class="type-view__model">'
+            result += '<a data-link="' + utils.getPageLinkToType(type.type) + '" class="type-view__model">'
                 + utils.getAfterLastDot(type.type) + '</a>'
         } else {
             result += '<div class="type-view__modeltype">'

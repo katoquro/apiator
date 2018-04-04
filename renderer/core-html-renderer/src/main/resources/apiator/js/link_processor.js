@@ -27,19 +27,29 @@ modulejs.define('link_processor', ['sidebar'], function (sidebar) {
     }
 
     function enableDataLinks() {
-        $('[data-link]').on('click', function () {
+        $(document).on('click', '[data-link]', function () {
             location.hash = $(this).attr('data-link');
-        })
+        });
+
+        $(window).on("hashchange", function (event) {
+            let newHash = _.last(event.originalEvent.newURL.split('#'));
+            let pageLinkTarget = document.querySelector(`[data-id='${newHash}']`);
+            if (pageLinkTarget) {
+                $(".content").animate({
+                    scrollTop: pageLinkTarget.offsetTop
+                }, 700, 'swing');
+            }
+        });
     }
 
     function restoreState() {
-        hackToScrollToHash();
+        hackToScrollToHashOnPageLoad();
 
         mainPageRouter(hashParserFactory());
         sidebarRouter(hashParserFactory());
     }
 
-    function hackToScrollToHash() {
+    function hackToScrollToHashOnPageLoad() {
         if (location.hash) {
             const hash = location.hash;
             location.hash = '';

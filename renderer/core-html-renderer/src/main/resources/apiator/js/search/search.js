@@ -99,7 +99,7 @@ modulejs.define('search', ['utils', 'hbs', 'searcher', 'search_box'], function (
         .addToDataSet(enumDataSet)
         .addToDataSet(bangDataSet);
 
-    var fuzzyTemplate = Handlebars.compile($("#fuzzy-response").html());
+    var fuzzyTemplate = Handlebars.compile($("#suggest-item").html());
 
     $('#fuzzy-input').search_box({
         searchFunc: function (input) {
@@ -130,7 +130,7 @@ modulejs.define('search', ['utils', 'hbs', 'searcher', 'search_box'], function (
         onChangeFunc: function (changeEvent, box) {
             box.clearSuggest();
             var payload = changeEvent.item.payload;
-            if ('bang' == payload.showAs) {
+            if ('bang' === payload.showAs) {
                 box.getInput().val(payload.bang + ' ');
             } else if (changeEvent.key) {
                 var navigateTo;
