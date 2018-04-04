@@ -20,6 +20,9 @@ package com.ainrif.apiator.renderer.core.html
  * Library to file maps for js and css.
  * Dependencies provided by <a href="http://www.webjars.org/">WebJars</a>.
  * To add a new dependency, do it in build.gradle
+ *
+ * key - library name
+ * value - file from library bundle
  */
 class StaticDependencies {
     static def js = [modulejs  : 'modulejs.min.js',
