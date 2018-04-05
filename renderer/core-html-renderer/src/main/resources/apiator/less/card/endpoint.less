@@ -16,16 +16,7 @@
 
 .endpoint {
 
-  &__content {
-
-    &-description {
-      margin-bottom: 30px;
-    }
-  }
-
   .table_endpoint {
-    margin-bottom: 30px;
-
     .param {
 
       &__required {
@@ -53,58 +44,6 @@
       }
     }
   }
-
-  .method,
-  .vcs,
-  .raw-view { // to mixin
-
-    &__title {
-      text-transform: uppercase;
-      color: @text_light;
-      margin-bottom: 30px;
-    }
-
-    &__name,
-    &__copy,
-    &__goto {
-      display: inline-block;
-    }
-
-    &__name {
-      color: @orange;
-    }
-
-    &__copy,
-    &__goto {
-      border-bottom: 1px dashed;
-      margin-left: 30px;
-      cursor: pointer;
-    }
-  }
-
-  .vcs,
-  .raw-view {
-    margin-top: 40px;
-  }
-
-  .raw-view {
-
-    &__viewer {
-      padding: 15px;
-      line-height: 15px;
-    }
-  }
-
-  &[data-type="standard"] {
-    .endpoint__content_tech {
-      display: none;
-    }
-  }
-  &[data-type="tech"] {
-    .endpoint__content_standard {
-      display: none;
-    }
-  }
 }
 
 .panel__endpoint(@type, @color) {
@@ -130,9 +69,8 @@
         }
       }
 
-      &__content {
-        .raw-view__viewer {
-          background-color: fade(@bg_dark, 5%);
+      &__content-raw-view {
+        .viewer {
           border: 1px solid fade(@color, 45%);
         }
       }

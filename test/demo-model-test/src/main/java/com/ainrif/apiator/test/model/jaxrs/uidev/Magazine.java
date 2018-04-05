@@ -16,6 +16,9 @@
 
 package com.ainrif.apiator.test.model.jaxrs.uidev;
 
+/**
+ * Periodic publications use the same isbn
+ */
 public class Magazine extends Issue {
     public int year;
     public int issueNumber;
