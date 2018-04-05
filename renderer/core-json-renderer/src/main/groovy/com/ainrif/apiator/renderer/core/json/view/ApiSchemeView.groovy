@@ -15,7 +15,6 @@
  */
 package com.ainrif.apiator.renderer.core.json.view
 
-import com.ainrif.apiator.core.model.Helper
 import com.ainrif.apiator.core.model.api.ApiScheme
 import com.ainrif.apiator.core.reflection.RUtils
 import com.ainrif.apiator.renderer.core.json.javadoc.JavaDocInfoIndexer
@@ -39,13 +38,9 @@ class ApiSchemeView {
                 .collect { new ApiEnumerationView(it, docInfo?.getClassMergedInfo(it)) }
                 .sort()
 
-        this.usedApiTypes = scheme.usedApiTypes.collect {
-            def classInfo = docInfo?.getClassMergedInfo(it)
-            List<ApiFieldView> fields = Helper.getPropertiesTypes(it.rawType)
-                    .collect { k, v -> new ApiFieldView(v, classInfo?.getFieldMergedInfo(v)) }
-
-            new ApiTypeView(it, fields)
-        }
-        .unique().sort()
+        this.usedApiTypes = scheme.usedApiTypes
+                .collect { new ApiTypeView(it, docInfo?.getClassMergedInfo(it)) }
+                .unique()
+                .sort()
     }
 }

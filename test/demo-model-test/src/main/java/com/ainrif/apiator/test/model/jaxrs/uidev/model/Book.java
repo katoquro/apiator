@@ -29,6 +29,9 @@ public class Book extends Issue {
         return publisher.getUid();
     }
 
+    /**
+     * Current stage of book lifecycle
+     */
     public enum Status {
         PUBLISHED, DRAFT, REPRINT
     }
