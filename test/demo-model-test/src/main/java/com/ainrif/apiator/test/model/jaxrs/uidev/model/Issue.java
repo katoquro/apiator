@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2017 Ainrif <support@ainrif.com>
+ * Copyright 2014-2018 Ainrif <support@ainrif.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,23 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.test.model.jaxrs.uidev;
 
-public class Book extends Issue {
-    private Author author;
-    private Publisher publisher;
+package com.ainrif.apiator.test.model.jaxrs.uidev.model;
 
-    public Status status;
-
-    public Long getAuthorId() {
-        return author.getId();
-    }
-
-    public Long getPublisherUid() {
-        return publisher.getUid();
-    }
-
-    public enum Status {
-        PUBLISHED, DRAFT, REPRINT
-    }
+/**
+ * Common type form library items
+ */
+public class Issue {
+    public String isbn;
+    public String title;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2017 Ainrif <support@ainrif.com>
+ * Copyright 2014-2018 Ainrif <support@ainrif.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,52 +13,54 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.test.model.jaxrs.uidev;
+package com.ainrif.apiator.test.model.jaxrs.uidev.controller;
 
 import com.ainrif.apiator.api.annotation.ConcreteTypes;
+import com.ainrif.apiator.test.model.jaxrs.uidev.model.*;
 
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 import java.util.List;
-import java.util.Map;
 
 @Path("/library")
 public class LibraryController {
 
     @GET
-    @Path("/books/search")
-    public List<Book> searchBooks(@QueryParam("status") Book.Status status,
-                                  @QueryParam("title") String title) {
+    @Path("/books")
+    public List<Book> findBooks(@QueryParam("status") Book.Status status,
+                                @QueryParam("title") String title) {
         return null;
     }
 
+    /**
+     * searches over all items in the library
+     *
+     * @param isbn - number, dashes and spaces will be skipped
+     * @return found issues
+     */
     @GET
-    @Path("/isbn/search")
+    @Path("/issues")
     @ConcreteTypes({Book.class, Magazine.class})
-    public List<Issue> searchByIsbn(@QueryParam("isbn") String isbn) {
+    public List<Issue> findByIsbn(@QueryParam("isbn") String isbn) {
         return null;
     }
 
     @GET
-    @Path("/authors/search")
-    public List<Author> searchAuthors(@QueryParam("book_title") String bookTitle) {
+    @Path("/magazines")
+    public List<Magazine> findMagazines(@QueryParam("title") String title) {
         return null;
     }
 
     @GET
     @Path("/publishers")
-    public List<Publisher> searchByAuthors() {
+    public List<Publisher> findPublishers(@QueryParam("title") String title) {
         return null;
     }
 
     @GET
-    @Path("/publishers/{uid}")
-    public Publisher searchByAuthors(@PathParam("uid") Long uid) {
-        return null;
-    }
-
-    @POST
-    @Path("/very/long/url/to/grouping/all/books/by/authors")
-    public Map<Author, List<Book>> getAllBooksByAuthors() {
+    @Path("/authors")
+    public List<Author> findAuthors(@QueryParam("book_title") String bookTitle) {
         return null;
     }
 }

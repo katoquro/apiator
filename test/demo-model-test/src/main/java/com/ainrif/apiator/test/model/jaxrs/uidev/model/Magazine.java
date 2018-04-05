@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.test.model.jaxrs.uidev;
+package com.ainrif.apiator.test.model.jaxrs.uidev.model;
 
 /**
  * Periodic publications use the same isbn
