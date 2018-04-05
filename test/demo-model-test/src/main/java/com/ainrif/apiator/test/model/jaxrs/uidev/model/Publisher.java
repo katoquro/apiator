@@ -13,24 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.test.model.jaxrs.uidev;
+package com.ainrif.apiator.test.model.jaxrs.uidev.model;
 
-import java.util.Set;
+import java.util.List;
 
-public class Author {
-    private Long id;
+public class Publisher {
+    protected Long uid;
 
-    private Set<Publisher> publishers;
+    public String title;
+    public List<String> isbns;
 
-    public String firstName;
-    public String lastName;
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public Set<Long> getPublishersUids() {
-        return null;
+    public Long getUid() {
+        return uid;
     }
 }

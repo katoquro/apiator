@@ -80,7 +80,6 @@ class CoreJsonRenderer implements Renderer {
                 def filePath = result.outputFile
                 javaDocInfo = new JsonSlurper().parse(new File(filePath)) as JavaDocInfo
 
-
             } catch (ClassNotFoundException ignore) {
                 logger.info("JavaDoc Spi was not found. tools.jar may be missing at classpath")
             }

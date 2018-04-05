@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2017 Ainrif <support@ainrif.com>
+ * Copyright 2014-2018 Ainrif <support@ainrif.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,40 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.test.model.jaxrs.uidev;
+package com.ainrif.apiator.test.model.jaxrs.uidev.controller;
+
+import com.ainrif.apiator.test.model.jaxrs.uidev.model.Magazine;
 
 import javax.ws.rs.*;
 import java.util.List;
 
-@Path("/authors")
-public class AuthorController {
-
+@Path("/books")
+public class MagazineController {
     @POST
-    public Author createAuthor() {
+    public Magazine createMagazine(Magazine magazine) {
         return null;
     }
 
     @GET
-    public List<Author> getAuthors(@QueryParam("search") String query) {
+    public List<Magazine> getMagazines(@QueryParam("search") String query) {
         return null;
     }
 
     @GET
-    @Path("/{id}")
-    public Author getAuthor(@PathParam("id") Long id) {
+    @Path("/{isbn}")
+    public Magazine getMagazine(@PathParam("isbn") String isbn) {
         return null;
     }
 
     @PUT
-    @Path("/{id}")
-    public Author updateAuthor(@PathParam("id") Long id, Author author) {
+    @Path("/{isbn}")
+    public Magazine updateMagazine(@PathParam("isbn") String isbn, Magazine magazine) {
         return null;
     }
 
     @DELETE
-    @Path("/{id}")
-    public Author deleteAuthor(@PathParam("id") Long id,
-                               @QueryParam("with_books") @DefaultValue("false") boolean withBooks) {
+    @Path("/{isbn}")
+    public Magazine deleteMagazine(@PathParam("isbn") String isbn) {
         return null;
     }
 }

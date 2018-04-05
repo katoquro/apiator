@@ -13,38 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.test.model.jaxrs.uidev;
+package com.ainrif.apiator.test.model.jaxrs.uidev.controller;
+
+import com.ainrif.apiator.test.model.jaxrs.uidev.model.Author;
 
 import javax.ws.rs.*;
 import java.util.List;
 
-@Path("/books")
-public class BookController {
+@Path("/authors")
+public class AuthorController {
+
     @POST
-    public Book createBook() {
+    public Author createAuthor(Author author) {
         return null;
     }
 
     @GET
-    public List<Book> getBooks(@QueryParam("search") String query) {
+    public List<Author> getAuthors(@QueryParam("search") String query) {
         return null;
     }
 
     @GET
-    @Path("/{isbn}")
-    public Book getBook(@PathParam("isbn") String isbn) {
+    @Path("/{id}")
+    public Author getAuthor(@PathParam("id") Long id) {
         return null;
     }
 
     @PUT
-    @Path("/{isbn}")
-    public Book updateBook(@PathParam("isbn") String isbn, Book book) {
+    @Path("/{id}")
+    public Author updateAuthor(@PathParam("id") Long id, Author author) {
         return null;
     }
 
     @DELETE
-    @Path("/{isbn}")
-    public Book deleteBook(@PathParam("isbn") String isbn) {
+    @Path("/{id}")
+    public Author deleteAuthor(@PathParam("id") Long id,
+                               @QueryParam("with_books") @DefaultValue("false") boolean withBooks) {
         return null;
     }
 }

@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.test.model.jaxrs.uidev;
+package com.ainrif.apiator.test.model.jaxrs.uidev.model;
 
+/**
+ * Common type form library items
+ */
 public class Issue {
     public String isbn;
     public String title;
