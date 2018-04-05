@@ -17,7 +17,6 @@ package com.ainrif.apiator.core.reflection
 
 import com.ainrif.apiator.api.annotation.ConcreteTypes
 import com.ainrif.apiator.core.model.ModelType
-import com.ainrif.apiator.core.model.api.ApiEndpointMethod
 import com.ainrif.apiator.core.model.api.ApiEndpointParam
 import com.ainrif.apiator.core.model.api.ApiEndpointReturnType
 import com.ainrif.apiator.core.model.api.ApiType
@@ -48,7 +47,7 @@ abstract class MethodStack extends ArrayList<Method> {
 
     abstract String getPath()
 
-    abstract ApiEndpointMethod getMethod()
+    abstract String getMethod()
 
     abstract List<ApiEndpointParam> getParams()
 

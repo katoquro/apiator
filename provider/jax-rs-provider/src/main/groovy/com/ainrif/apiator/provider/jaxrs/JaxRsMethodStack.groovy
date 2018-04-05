@@ -15,7 +15,7 @@
  */
 package com.ainrif.apiator.provider.jaxrs
 
-import com.ainrif.apiator.core.model.api.ApiEndpointMethod
+
 import com.ainrif.apiator.core.model.api.ApiEndpointParam
 import com.ainrif.apiator.core.model.api.ApiEndpointParamType
 import com.ainrif.apiator.core.model.api.ApiType
@@ -49,19 +49,17 @@ class JaxRsMethodStack extends MethodStack {
 
     @Override
     String getName() {
-        this.last().name
+        return this.last().name
     }
 
     @Override
     String getPath() {
-        AnnotationUtils.findAnnotation(this.last(), Path)?.value() ?: '/'
+        return AnnotationUtils.findAnnotation(this.last(), Path)?.value() ?: '/'
     }
 
     @Override
-    ApiEndpointMethod getMethod() {
-        def method = AnnotationUtils.findAnnotation(this.last(), HttpMethod)?.value() ?: 'GET'
-
-        ApiEndpointMethod.valueOf(method)
+    String getMethod() {
+        return AnnotationUtils.findAnnotation(this.last(), HttpMethod)?.value() ?: 'GET'
     }
 
     //todo tests for annotated body params

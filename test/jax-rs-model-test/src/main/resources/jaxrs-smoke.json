@@ -65,7 +65,7 @@
     {
       "apiEndpoints": [
         {
-          "method": "POST",
+          "method": "CUSTOMVERB",
           "name": "supportCustomAnnotationsSubset",
           "params": [],
           "path": "/custom-post",

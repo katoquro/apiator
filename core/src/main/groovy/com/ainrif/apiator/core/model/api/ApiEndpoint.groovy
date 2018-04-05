@@ -20,7 +20,7 @@ import com.ainrif.apiator.core.reflection.MethodSignature
 class ApiEndpoint {
     String name
     String path
-    ApiEndpointMethod method
+    String method
     List<ApiEndpointReturnType> returnTypes
     List<ApiEndpointParam> params
     Set<ApiType> usedEnumerations

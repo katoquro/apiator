@@ -2,6 +2,7 @@ v0.7.x
 
 - add : new annotation to allow to specify types for returns
 - add : tech views for enums and types
+- add : support of custom http verbs
 - update : transitive dependencies were reduced
 
 v0.6.0 - Technical boost

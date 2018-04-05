@@ -16,10 +16,12 @@
 package com.ainrif.apiator.test.model.jaxrs.uidev.controller;
 
 import com.ainrif.apiator.api.annotation.ConcreteTypes;
+import com.ainrif.apiator.test.model.jaxrs.uidev.ADMIN;
 import com.ainrif.apiator.test.model.jaxrs.uidev.model.*;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import java.util.List;
 
@@ -62,5 +64,10 @@ public class LibraryController {
     @Path("/authors")
     public List<Author> findAuthors(@QueryParam("book_title") String bookTitle) {
         return null;
+    }
+
+    @ADMIN
+    @Path("/admin/{token}")
+    public void adminRequest(@PathParam("token") String token) {
     }
 }

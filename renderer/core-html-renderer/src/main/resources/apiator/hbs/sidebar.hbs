@@ -14,9 +14,9 @@
                             {{#each apiEndpoints}}
                                 <li>
                                     <span title="{{path}}"
-                                       data-link="{{getPageLinkToEndpoint
-                                               (hashToObject method=method apiPath=../apiPath path=path)}}">
-                                        <span class="endpoint {{method}}">{{path}}</span>
+                                          data-link="{{getPageLinkToEndpoint
+                                                  (hashToObject method=method apiPath=../apiPath path=path)}}">
+                                        <span class="api__endpoints-{{method}}">{{method}} {{path}}</span>
                                     </span>
                                 </li>
                             {{/each}}
@@ -26,7 +26,7 @@
             </ul>
         </li>
 
-        <div class="group__title js_sidebar-title-model"><i class="fa fa-plug"></i><span>Types</span></div>
+        <div class="group__title js_sidebar-title-model"><i class="fa fa-puzzle-piece"></i><span>Types</span></div>
         <li class="group__content js_sidebar-model">
             <ul>
                 {{#each usedApiTypes}}

@@ -31,21 +31,3 @@
 @red: #cd7778;
 
 @sidebar_width: 350px;
-
-.endpoint(@type, @color) {
-  .endpoint.@{type} {
-    color: @color;
-
-    &:before {
-      content: "@{type}";
-      margin-right: 10px;
-    }
-  }
-}
-
-.endpoint(DEFAULT, @gray);
-.endpoint(POST, @green);
-.endpoint(GET, @blue);
-.endpoint(PUT, @orange);
-.endpoint(PATCH, @orange);
-.endpoint(DELETE, @red);

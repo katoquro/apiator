@@ -12,7 +12,8 @@
     <div class="panel endpoint endpoint_type_{{method}}" data-type="standard">
 
         <div class="panel__header">
-            <span class="panel__header-name endpoint {{method}}">{{../apiPath}}{{path}}</span>
+            <span class="panel__header-name">{{method}}</span>
+            <span class="panel__header-name">{{../apiPath}}{{path}}</span>
             <span class="panel__header-share copy-btn"
                   data-clipboard-text="{{getAbsoluteLinkToEndpoint
                           (hashToObject method=method apiPath=../apiPath path=path)}}">Copy link</span>

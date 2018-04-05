@@ -122,3 +122,15 @@
     }
   }
 }
+
+.api__endpoints(@type, @color) {
+  .api__endpoints-@{type} {
+    color: @color;
+  }
+}
+
+.api__endpoints(GET, @blue);
+.api__endpoints(POST, @green);
+.api__endpoints(PUT, @orange);
+.api__endpoints(DELETE, @red);
+.api__endpoints(PATCH, @orange);
