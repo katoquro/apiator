@@ -1,7 +1,7 @@
 <li class="search__suggest-item">
     {{#ifCond showAs 'endpoint'}}
         <a data-link='{{getPageLinkToEndpoint this}}'>
-            <span class="endpoint {{method}}">{{apiPath}}{{path}}</span>
+            <span class="api__endpoints-{{method}}">{{method}} {{apiPath}}{{path}}</span>
         </a>
     {{/ifCond}}
     {{#ifCond showAs 'model'}}
@@ -11,7 +11,7 @@
     {{/ifCond}}
     {{#ifCond showAs 'enum'}}
         <a data-link='{{getPageLinkToType type}}'>
-            <span class="endpoint">{{simpleName}} {{#if enclosingType}}at {{enclosingType}}{{/if}}</span>
+            <span class="endpoint">{{simpleName}} {{#if enclosingType}}at {{enclosingType}}{{/if}} <b>(enumeration)</b></span>
         </a>
     {{/ifCond}}
     {{#ifCond showAs 'bang'}}

@@ -44,8 +44,7 @@ modulejs.define('search', ['utils', 'hbs', 'searcher', 'search_box'], function (
         .map(function (it) {
             return {
                 index: {
-                    model: it.type,
-                    type: it.type
+                    model: it.type
                 },
                 payload: {
                     showAs: 'model',
@@ -62,7 +61,8 @@ modulejs.define('search', ['utils', 'hbs', 'searcher', 'search_box'], function (
             var typeNames = _.split(_.last(_.split(it.type, '.')), '$');
             return {
                 index: {
-                    enum: it.type
+                    enum: it.type,
+                    model: it.type
                 },
                 payload: {
                     showAs: 'enum',
@@ -139,6 +139,9 @@ modulejs.define('search', ['utils', 'hbs', 'searcher', 'search_box'], function (
                         navigateTo = utils.getPageLinkToEndpoint(payload);
                         break;
                     case 'model':
+                        navigateTo = utils.getPageLinkToType(payload.type);
+                        break;
+                    case 'enum':
                         navigateTo = utils.getPageLinkToType(payload.type);
                         break;
                     default:

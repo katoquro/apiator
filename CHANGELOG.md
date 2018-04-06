@@ -1,9 +1,10 @@
 v0.7.x 
 
+- update : transitive dependencies were reduced
 - add : new annotation to allow to specify types for returns
 - add : tech views for enums and types
 - add : support of custom http verbs
-- update : transitive dependencies were reduced
+- fix : enums are included in model search by !model
 
 v0.6.0 - Technical boost
 
