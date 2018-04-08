@@ -31,5 +31,6 @@ class StaticDependencies {
                      handlebars: 'handlebars.min.js',
                      clipboard : 'clipboard.min.js']
 
-    static def css = ['font-awesome': 'font-awesome.min.css']
+    static def css = ['normalize-css': 'normalize.css',
+                      'font-awesome' : 'font-awesome.min.css']
 }

@@ -16,6 +16,7 @@ dependencies {
     compile 'org.webjars.bower:handlebars:4.0.5'
     compile 'org.webjars.bower:clipboard:1.5.5'
     compile 'org.webjars.bower:font-awesome:4.5.0'
+    compile 'org.webjars.bower:normalize-css:8.0.0'
 
     testCompile project(':provider:jax-rs-provider')
 }
