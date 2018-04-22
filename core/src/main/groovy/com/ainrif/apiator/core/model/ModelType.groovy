@@ -15,6 +15,8 @@
  */
 package com.ainrif.apiator.core.model
 
+import groovy.transform.Memoized
+
 /**
  * Type {@link ModelType#SYSTEM} is for internal usage.
  * Represents types like {@link Class} to prevent unnecessary introspection
@@ -32,15 +34,18 @@ enum ModelType {
 
     SYSTEM
 
+    @Memoized
     static Collection<ModelType> getCustomModelTypes() {
-        [OBJECT, ENUMERATION]
+        return [OBJECT, ENUMERATION]
     }
 
+    @Memoized
     static Collection<ModelType> getNotPrimitiveTypes() {
-        values().minus(primitiveTypes)
+        return values() - primitiveTypes
     }
 
+    @Memoized
     static Collection<ModelType> getPrimitiveTypes() {
-        [VOID, BOOLEAN, BYTE, INTEGER, LONG, FLOAT, DOUBLE, STRING]
+        return [VOID, BOOLEAN, BYTE, INTEGER, LONG, FLOAT, DOUBLE, STRING]
     }
 }

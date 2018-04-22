@@ -19,8 +19,6 @@ import com.ainrif.apiator.core.model.api.ApiScheme
 import com.ainrif.apiator.core.reflection.RUtils
 import com.ainrif.apiator.renderer.core.json.javadoc.JavaDocInfoIndexer
 
-import javax.annotation.Nullable
-
 class ApiSchemeView {
     ApiatorInfoView apiatorInfo
     Map<String, String> clientApiInfo
@@ -28,7 +26,7 @@ class ApiSchemeView {
     List<ApiEnumerationView> usedEnumerations = []
     List<ApiTypeView> usedApiTypes = []
 
-    ApiSchemeView(ApiScheme scheme, @Nullable JavaDocInfoIndexer docInfo) {
+    ApiSchemeView(ApiScheme scheme, JavaDocInfoIndexer docInfo) {
         this.apiatorInfo = new ApiatorInfoView(scheme.apiatorInfo)
         this.clientApiInfo = RUtils.asMap(scheme.clientApiInfo)
         this.apiContexts = scheme.apiContexts

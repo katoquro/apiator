@@ -15,8 +15,8 @@
  */
 package com.ainrif.apiator.renderer.core.json.view
 
-import com.ainrif.apiator.core.model.Helper
 import com.ainrif.apiator.core.model.api.ApiType
+import com.ainrif.apiator.renderer.core.json.CoreJsonRenderer
 import com.ainrif.apiator.renderer.core.json.javadoc.ClassMergedInfo
 
 import javax.annotation.Nullable
@@ -29,7 +29,7 @@ class ApiTypeView extends ModelTypeBasedView {
         super(type)
 
         this.description = classInfo?.description
-        this.fields = Helper.getPropertiesTypes(type.rawType)
-                .collect { k, v -> new ApiFieldView(v, classInfo?.getFieldMergedInfo(v)) }
+        this.fields = CoreJsonRenderer.config.propertyResolver.mapProperties(type.rawType)
+                .collect { new ApiFieldView(it, classInfo?.getFieldMergedInfo(it)) }
     }
 }
