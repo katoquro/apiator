@@ -1,3 +1,7 @@
+v0.8.x
+
+- add: support jackson annotation to override property names
+
 v0.7.x 
 
 - update : transitive dependencies were reduced

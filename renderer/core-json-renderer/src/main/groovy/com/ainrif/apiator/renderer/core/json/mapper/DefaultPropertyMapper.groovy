@@ -22,6 +22,8 @@ import com.ainrif.apiator.core.reflection.RUtils
 import com.ainrif.apiator.core.spi.PropertyMapper
 
 import java.beans.Introspector
+import java.beans.PropertyDescriptor
+import java.lang.reflect.Field
 import java.lang.reflect.Modifier
 import java.util.function.Predicate
 
@@ -47,33 +49,35 @@ class DefaultPropertyMapper implements PropertyMapper {
                 Introspector.getBeanInfo(type, Object)
 
         Map<String, ApiField> props = beanInfo.propertyDescriptors
-                .collectEntries(
-                {
-                    def name = it.name
-                    def field = new ApiField(
-                            name: name,
-                            type: nonNull(it.readMethod)
-                                    ? new ApiType(it.readMethod.genericReturnType)
-                                    : new ApiType(it.writeMethod.genericParameterTypes[0]),
-                            readable: nonNull(it.readMethod),
-                            writable: nonNull(it.writeMethod))
-
-                    return singletonMap(name, field)
-                })
+                .collectEntries this.&mapFromPropertyDescriptor
 
         props += RUtils.getAllFields(type, { Modifier.isPublic(it.modifiers) } as Predicate)
-                .collectEntries(
-                {
-                    def name = it.name
-
-                    def field = new ApiField(
-                            name: it.name,
-                            type: new ApiType(it.genericType),
-                            readable: true,
-                            writable: true)
-                    return singletonMap(name, field)
-                })
+                .collectEntries this.&mapFromField
 
         return props.values()
+    }
+
+    protected Map<String, ApiField> mapFromPropertyDescriptor(PropertyDescriptor pd) {
+        def name = pd.name
+        def field = new ApiField(
+                name: name,
+                type: nonNull(pd.readMethod)
+                        ? new ApiType(pd.readMethod.genericReturnType)
+                        : new ApiType(pd.writeMethod.genericParameterTypes[0]),
+                readable: nonNull(pd.readMethod),
+                writable: nonNull(pd.writeMethod))
+
+        return singletonMap(name, field)
+    }
+
+    protected Map<String, ApiField> mapFromField(Field f) {
+        def name = f.name
+        def field = new ApiField(
+                name: name,
+                type: new ApiType(f.genericType),
+                readable: true,
+                writable: true)
+
+        return singletonMap(name, field)
     }
 }
