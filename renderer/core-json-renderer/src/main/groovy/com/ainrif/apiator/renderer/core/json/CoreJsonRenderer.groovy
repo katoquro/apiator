@@ -16,10 +16,12 @@
 package com.ainrif.apiator.renderer.core.json
 
 import com.ainrif.apiator.core.model.api.ApiScheme
+import com.ainrif.apiator.core.spi.PropertyMapper
 import com.ainrif.apiator.core.spi.Renderer
 import com.ainrif.apiator.doclet.ApiatorDoclet
 import com.ainrif.apiator.doclet.model.JavaDocInfo
 import com.ainrif.apiator.renderer.core.json.javadoc.JavaDocInfoIndexer
+import com.ainrif.apiator.renderer.core.json.mapper.DefaultPropertyMapper
 import com.ainrif.apiator.renderer.core.json.view.ApiSchemeView
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.fasterxml.jackson.annotation.JsonInclude
@@ -35,25 +37,26 @@ class CoreJsonRenderer implements Renderer {
     private static final Logger logger = LoggerFactory.getLogger(CoreJsonRenderer)
 
     @Delegate
-    final Config config
+    static Config config
 
     static class Config {
         String sourcePath
         String basePackage
+        PropertyMapper propertyResolver = new DefaultPropertyMapper()
         boolean autoConfig = true
     }
 
     CoreJsonRenderer(@DelegatesTo(Config) Closure configurator) {
         this()
-        this.config.with configurator
+        CoreJsonRenderer.config.with configurator
     }
 
     CoreJsonRenderer(Config config) {
-        this.config = config
+        CoreJsonRenderer.config = config
     }
 
     CoreJsonRenderer() {
-        this.config = new Config()
+        CoreJsonRenderer.config = new Config()
     }
 
     @Override

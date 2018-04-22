@@ -13,7 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.ainrif.apiator.renderer.core.json
+
+import com.ainrif.apiator.core.spi.PropertyMapper
+
 /**
- * @see com.ainrif.apiator.core.model.Helper
+ * fields of this class can be configured during init process
  */
-package com.ainrif.apiator.test.model.m05;
+final class CoreJsonRendererStaticInjector {
+    static PropertyMapper propertyMapper
+}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2017 Ainrif <support@ainrif.com>
+ * Copyright 2014-2018 Ainrif <support@ainrif.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,30 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.test.model.m05;
+package com.ainrif.apiator.renderer.core.json.test.model;
 
 import java.util.List;
 
-public class M05_ConcreteType {
+public class M_ConcreteType {
 
     int fieldPackagePrivate;
     protected int fieldProtected;
     private int fieldPrivate;
     public int fieldPublic;
 
-    public List<String> getPublicBeanPropGetSet() { return null; }
+    public List<String> getPublicBeanPropGetSet() {
+        return null;
+    }
 
-    public void setPublicBeanPropGetSet(List<String> value) { }
-
-
-    public List<String> getPublicBeanPropOnlyGet() { return null; }
-
-    public void setPublicBeanPropOnlySet(List<String> value) {}
+    public void setPublicBeanPropGetSet(List<String> value) {
+    }
 
 
-    List<String> getNotPublicBeanProp1() { return null; }
+    public List<String> getPublicBeanPropOnlyGet() {
+        return null;
+    }
 
-    protected List<String> getNotPublicBeanProp2() { return null; }
+    public void setPublicBeanPropOnlySet(List<String> value) {
+    }
 
-    private List<String> getNotPublicBeanProp3() { return null; }
+
+    List<String> getNotPublicBeanProp1() {
+        return null;
+    }
+
+    protected List<String> getNotPublicBeanProp2() {
+        return null;
+    }
+
+    private List<String> getNotPublicBeanProp3() {
+        return null;
+    }
 }

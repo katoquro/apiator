@@ -43,8 +43,9 @@ class VersionHolder {
 ext.versionHolder = new VersionHolder(rootProject)
 
 ext.versions = [
-        slf4j: '1.7.9',
-        groovy: '2.4.2'
+        slf4j  : '1.7.9',
+        groovy : '2.4.2',
+        jackson: '2.6.1'
 ]
 
 allprojects {
@@ -68,7 +69,17 @@ allprojects {
         }
     }
 
+    configurations {
+        all {
+            it.exclude group: 'commons-logging'
+            it.exclude group: 'org.apache.logging.log4j'
+            it.exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        }
+    }
+
     dependencies {
+        compileOnly "org.slf4j:jcl-over-slf4j:${versions.slf4j}"
+        compileOnly "org.slf4j:log4j-over-slf4j:${versions.slf4j}"
 
         testCompile "org.spockframework:spock-core:1.0-groovy-2.4", {
             exclude group: 'junit', module: 'junit-dep'
@@ -83,7 +94,7 @@ allprojects {
         testCompile 'cglib:cglib:3.2.2'
         testCompile 'org.hamcrest:hamcrest-all:1.3'
         testCompile 'org.apache.commons:commons-lang3:3.3.2'
-        
+
         testCompile "org.slf4j:jcl-over-slf4j:${versions.slf4j}"
         testCompile "org.slf4j:log4j-over-slf4j:${versions.slf4j}"
         testCompile 'ch.qos.logback:logback-classic:1.1.2'
