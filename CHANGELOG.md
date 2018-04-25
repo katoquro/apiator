@@ -1,6 +1,7 @@
 v0.8.x
 
 - add: support jackson annotation to override property names
+- improvement: source path detection now includes model classes
 
 v0.7.x 
 

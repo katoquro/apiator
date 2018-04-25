@@ -18,7 +18,6 @@ package com.ainrif.apiator.test.model.core;
 
 public class Dto07_JavaDocField {
     /**
-     * todo #not_supported
      * Field-level javadoc
      */
     public Object objectField;

@@ -132,6 +132,7 @@ dependencies {
     compile project(':provider:jax-rs-provider')
     compile project(':renderer:core-html-renderer')
     compile project(':renderer:core-json-renderer')
+    compile project(':renderer:mapper:jackson-property-mapper')
     compile project(':modeltype:jax-rs-modeltype')
     compile project(':modeltype:j8-modeltype')
     compile project(':test:core-model-test')

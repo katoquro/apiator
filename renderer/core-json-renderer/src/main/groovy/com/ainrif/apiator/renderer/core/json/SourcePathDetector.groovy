@@ -17,6 +17,7 @@
 package com.ainrif.apiator.renderer.core.json
 
 import com.ainrif.apiator.core.model.api.ApiScheme
+import org.apache.commons.lang3.SystemUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -26,6 +27,8 @@ import java.nio.file.Path
 import static groovy.io.FileType.FILES
 
 class SourcePathDetector {
+    static final String OS_PATH_DELIMITER = SystemUtils.IS_OS_WINDOWS ? ';' : ':'
+
     private static final Logger logger = LoggerFactory.getLogger(SourcePathDetector)
     private static final int MAX_STEP_OUT = 3
 
@@ -42,10 +45,13 @@ class SourcePathDetector {
      */
     @Nullable
     String detect() {
-        List<String> classNames = apiScheme.apiContexts*.name
+        List<String> classNames = apiScheme.apiContexts*.name +
+                apiScheme.usedApiTypes*.rawType*.name +
+                apiScheme.usedEnumerations*.rawType*.name
+
         if (!classNames) return null
 
-        def classNamesToFind = new ArrayList(classNames)
+        def classNamesToFind = classNames.collect { it.split(/\$/).first() }.unique()
         def startDir = System.getProperty('user.dir')
         def paths = []
         for (int i = 0; i < MAX_STEP_OUT; i++) {
@@ -80,7 +86,9 @@ class SourcePathDetector {
             return null
         }
 
-        return paths.unique().join(':')
+        def result = paths.unique().sort()
+        logger.info('Auto-configured paths: {}', result)
+        return result.join(OS_PATH_DELIMITER)
     }
 
     /**

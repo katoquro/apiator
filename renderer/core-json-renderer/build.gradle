@@ -2,4 +2,5 @@ apply from: "$rootProject.projectDir/gradle/deploy.gradle"
 
 dependencies {
     compile project(':core')
+    compile 'org.apache.commons:commons-lang3:3.7'
 }

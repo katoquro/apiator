@@ -18,16 +18,21 @@ package com.ainrif.apiator.renderer.core.json
 
 import com.ainrif.apiator.core.model.api.ApiContext
 import com.ainrif.apiator.core.model.api.ApiScheme
+import com.ainrif.apiator.core.model.api.ApiType
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import static com.ainrif.apiator.renderer.core.json.SourcePathDetector.OS_PATH_DELIMITER
+
 class SourcePathDetectorSpec extends Specification {
 
-    def ".detect"() {
+    def "source directories should be detected for classes, inner classes and enums"() {
         given:
         def scheme = Mock(ApiScheme) {
             getApiContexts() >> [new ApiContext(name: 'org.example.MyClass'),
                                  new ApiContext(name: 'org.example.MyClass2')]
+            getUsedApiTypes() >> [new ApiType(InnerClass)]
+            getUsedEnumerations() >> [new ApiType(InnerEnum)]
         }
         def detector = Spy(SourcePathDetector, constructorArgs: [scheme]) {
             detectStartingFrom(_ as String, _ as List<String>) >>> detecten_step
@@ -40,10 +45,13 @@ class SourcePathDetectorSpec extends Specification {
         detecten_step << [
                 [new Tuple2<>(['/NO_ROOT/prj/src/main/java'], ['org.example.MyClass', 'org.example.MyClass2'])],
                 [new Tuple2<>(['/NO_ROOT/prj/src/main/java'], ['org.example.MyClass']),
-                 new Tuple2<>(['/NO_ROOT/prj2/src/main/java'], ['org.example.MyClass2'])]
+                 new Tuple2<>(['/NO_ROOT/prj2/src/main/java'], ['org.example.MyClass2'])],
+                [new Tuple2<>(['/NO_ROOT/prj/src/main/java'], ['com.ainrif.apiator.renderer.core.json.SourcePathDetectorSpec']),
+                 new Tuple2<>(['/NO_ROOT/prj2/src/main/java'], ['com.ainrif.apiator.renderer.core.json.SourcePathDetectorSpec'])]
         ]
         expected << ['/NO_ROOT/prj/src/main/java',
-                     '/NO_ROOT/prj/src/main/java:/NO_ROOT/prj2/src/main/java']
+                     ['/NO_ROOT/prj/src/main/java', '/NO_ROOT/prj2/src/main/java'].join(OS_PATH_DELIMITER),
+                     ['/NO_ROOT/prj/src/main/java', '/NO_ROOT/prj2/src/main/java'].join(OS_PATH_DELIMITER)]
     }
 
     @Unroll
@@ -88,4 +96,8 @@ class SourcePathDetectorSpec extends Specification {
                ['org.example.MyClass3'],
                ['org.example.MyClass3', 'org.example.MyClass2']]
     }
+
+    static class InnerClass {}
+
+    enum InnerEnum {}
 }

@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator
+package com.ainrif.apiator.test
 
 import com.ainrif.apiator.core.Apiator
 import com.ainrif.apiator.core.ApiatorConfig
 
 /**
- * Mock for smoke tests. Set constant values for some fields with dynamic values
+ * Mock for smoke tests. It sets dynamic fields to constant values
  */
-class ApiatorSmokeStub extends Apiator {
-    ApiatorSmokeStub(ApiatorConfig config) {
+class TestingApiator extends Apiator {
+    TestingApiator(ApiatorConfig config) {
         super(config)
         this.@info.version = 'SMOKE_VERSION'
     }

@@ -13,15 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator
+package com.ainrif.apiator.test.smoke
 
-import com.ainrif.apiator.core.Apiator
 import com.ainrif.apiator.core.ApiatorConfig
 import com.ainrif.apiator.modeltype.jaxrs.JaxRsModelTypeResolver
 import com.ainrif.apiator.provider.jaxrs.JaxRsProvider
-import com.ainrif.apiator.renderer.core.html.CoreHtmlRenderer
 import com.ainrif.apiator.renderer.core.json.CoreJsonRenderer
+import com.ainrif.apiator.renderer.core.json.SourcePathDetector
+import com.ainrif.apiator.test.TestingApiator
 import groovy.json.JsonSlurper
+import groovy.transform.Memoized
 import spock.lang.Specification
 
 import java.nio.file.Paths
@@ -29,44 +30,48 @@ import java.nio.file.Paths
 import static org.apache.commons.lang3.StringUtils.deleteWhitespace
 
 //todo split by renderers
-class SmokeSpec extends Specification {
-    static final String smokeJson = SmokeSpec.classLoader.getResource('jaxrs-smoke.json').text
-    static
-    final String sourcePath = Paths.get(System.getProperty('user.dir'), 'test', 'jax-rs-model-test', 'src', 'main', 'java').toString()
-    static final String jaxrsPackage = 'com.ainrif.apiator.test.model.jaxrs.smoke'
-    static final def resolvers = [new JaxRsModelTypeResolver()]
+class CoreJsonRendererSmokeSpec extends Specification {
+    static final String smokeJson = CoreJsonRendererSmokeSpec.classLoader.getResource('jaxrs-smoke.json').text
+
+    @Memoized
+    static String buildSourcePath() {
+        return [
+                Paths.get(System.getProperty('user.dir'), 'test', 'jax-rs-model-test', 'src', 'main', 'java'),
+                Paths.get(System.getProperty('user.dir'), 'test', 'core-model-test', 'src', 'main', 'java')
+        ].join(SourcePathDetector.OS_PATH_DELIMITER)
+    }
 
     ApiatorConfig getConfigWithJsonRenderer() {
         return new ApiatorConfig(
                 provider: new JaxRsProvider(),
-                renderer: new CoreJsonRenderer(sourcePath: sourcePath),
-                basePackage: jaxrsPackage,
-                modelTypeResolvers: resolvers)
+                renderer: new CoreJsonRenderer(sourcePath: buildSourcePath()),
+                basePackage: 'com.ainrif.apiator.test.model.jaxrs.smoke',
+                modelTypeResolvers: [new JaxRsModelTypeResolver()])
     }
 
-    def "Smoke test; jax-rs"() {
+    def "fully configured renderer"() {
         when:
-        def actual = new ApiatorSmokeStub(configWithJsonRenderer).render()
+        def actual = new TestingApiator(configWithJsonRenderer).render()
 
         then:
         new JsonSlurper().parseText(actual) == new JsonSlurper().parseText(smokeJson)
     }
 
-    def "Smoke test; auto-detection of source paths"() {
+    def "auto-detection of source paths"() {
         when:
         def config = configWithJsonRenderer
         config.renderer = new CoreJsonRenderer()
-        def actual = new ApiatorSmokeStub(config).render()
+        def actual = new TestingApiator(config).render()
 
         then:
         new JsonSlurper().parseText(actual) == new JsonSlurper().parseText(smokeJson)
     }
 
-    def "Smoke test; should produce the same result each time"() {
+    def "renderer should produce the same result each time"() {
         given:
-        def apiator1 = new ApiatorSmokeStub(configWithJsonRenderer)
-        def apiator2 = new ApiatorSmokeStub(configWithJsonRenderer)
-        def apiator3 = new ApiatorSmokeStub(configWithJsonRenderer)
+        def apiator1 = new TestingApiator(configWithJsonRenderer)
+        def apiator2 = new TestingApiator(configWithJsonRenderer)
+        def apiator3 = new TestingApiator(configWithJsonRenderer)
 
         when:
         def render1 = apiator1.render()
@@ -77,21 +82,5 @@ class SmokeSpec extends Specification {
         render1 == render2
         render2 == render3
         deleteWhitespace(render3) == deleteWhitespace(smokeJson)
-    }
-
-    def "Smoke test; Core HTML Renderer"() {
-        given:
-        Apiator apiator = new Apiator(
-                new ApiatorConfig(
-                        basePackage: jaxrsPackage,
-                        provider: new JaxRsProvider(),
-                        renderer: new CoreHtmlRenderer(),
-                        modelTypeResolvers: resolvers))
-
-        when:
-        def actual = apiator.render()
-
-        then:
-        actual.size() > 0
     }
 }

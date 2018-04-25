@@ -17,11 +17,7 @@
 package com.ainrif.apiator.test.model.core;
 
 /**
- * these java doc will be missed in smoke spec
- * because this module is used in compiled jar format
- * as transitive dependency
- * <p>
- * // TODO katoquro: 05/04/2018 split source sets to create smoke spec for this model
+ * Pojo class Level JavaDoc
  */
 public class Dto01_Plain {
     public String plainField;

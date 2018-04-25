@@ -326,6 +326,7 @@
   },
   "usedApiTypes": [
     {
+      "description": "Pojo class Level JavaDoc",
       "fields": [
         {
           "basedOn": [],
@@ -505,6 +506,7 @@
       "fields": [
         {
           "basedOn": [],
+          "description": "Field-level javadoc",
           "modelType": "ANY",
           "name": "objectField",
           "readable": true,

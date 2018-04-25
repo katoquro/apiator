@@ -70,10 +70,10 @@ class CoreJsonRenderer implements Renderer {
 
         def javaDocInfo = null
         if (sourcePath) {
-            if (!new File(sourcePath).exists()) {
-                logger.warn("There are no source path like {}", sourcePath)
-                //todo check that branch for early exit
-            }
+            // TODO katoquro: 22/04/2018 support classpath search when all paths are wrong
+            sourcePath.split(SourcePathDetector.OS_PATH_DELIMITER)
+                    .findAll { !new File(it).exists() }
+                    .each { logger.warn("There are no source path like {}", it) }
             try {
                 getClass().forName('com.sun.javadoc.Doclet')
 
