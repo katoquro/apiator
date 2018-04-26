@@ -19,7 +19,7 @@ package com.ainrif.apiator.renderer.core.json.mapper
 import com.ainrif.apiator.core.model.api.ApiField
 import com.ainrif.apiator.core.model.api.ApiType
 import com.ainrif.apiator.core.reflection.RUtils
-import com.ainrif.apiator.core.spi.PropertyMapper
+import com.ainrif.apiator.renderer.plugin.spi.PropertyMapper
 
 import java.beans.Introspector
 import java.beans.PropertyDescriptor

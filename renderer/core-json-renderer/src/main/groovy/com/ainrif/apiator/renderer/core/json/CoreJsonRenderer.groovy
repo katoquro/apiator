@@ -16,13 +16,13 @@
 package com.ainrif.apiator.renderer.core.json
 
 import com.ainrif.apiator.core.model.api.ApiScheme
-import com.ainrif.apiator.core.spi.PropertyMapper
 import com.ainrif.apiator.core.spi.Renderer
 import com.ainrif.apiator.doclet.ApiatorDoclet
 import com.ainrif.apiator.doclet.model.JavaDocInfo
 import com.ainrif.apiator.renderer.core.json.javadoc.JavaDocInfoIndexer
 import com.ainrif.apiator.renderer.core.json.mapper.DefaultPropertyMapper
 import com.ainrif.apiator.renderer.core.json.view.ApiSchemeView
+import com.ainrif.apiator.renderer.plugin.spi.PropertyMapper
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.PropertyAccessor

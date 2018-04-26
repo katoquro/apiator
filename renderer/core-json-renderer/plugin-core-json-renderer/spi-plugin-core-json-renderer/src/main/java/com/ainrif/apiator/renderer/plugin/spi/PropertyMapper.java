@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2017 Ainrif <support@ainrif.com>
+ * Copyright 2014-2018 Ainrif <support@ainrif.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.renderer.core.json
 
-import com.ainrif.apiator.core.spi.PropertyMapper
+package com.ainrif.apiator.renderer.plugin.spi;
 
-/**
- * fields of this class can be configured during init process
- */
-final class CoreJsonRendererStaticInjector {
-    static PropertyMapper propertyMapper
+import com.ainrif.apiator.core.model.api.ApiField;
+
+import java.util.Collection;
+
+public interface PropertyMapper {
+    Collection<ApiField> mapProperties(Class<?> type);
 }

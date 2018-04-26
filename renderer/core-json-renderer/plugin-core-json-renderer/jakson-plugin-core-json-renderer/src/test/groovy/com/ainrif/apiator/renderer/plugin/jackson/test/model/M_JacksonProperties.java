@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.renderer.mapper.jackson.test.model;
+package com.ainrif.apiator.renderer.plugin.jackson.test.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
