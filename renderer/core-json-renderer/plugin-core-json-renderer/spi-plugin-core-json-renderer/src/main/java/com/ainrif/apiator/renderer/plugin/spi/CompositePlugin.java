@@ -16,10 +16,11 @@
 
 package com.ainrif.apiator.renderer.plugin.spi;
 
-import com.ainrif.apiator.core.model.api.ApiField;
+import java.util.List;
 
-import java.util.Collection;
-
-public interface PropertyMapper {
-    Collection<ApiField> mapProperties(Class<?> type);
+/**
+ * interface to pass a bundle of plugins as one plugin
+ */
+public interface CompositePlugin {
+    List<CoreJsonRendererPlugin> getPlugins();
 }

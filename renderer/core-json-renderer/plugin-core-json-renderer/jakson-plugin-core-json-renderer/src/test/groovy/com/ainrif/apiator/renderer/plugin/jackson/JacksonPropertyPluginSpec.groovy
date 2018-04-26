@@ -20,10 +20,10 @@ import com.ainrif.apiator.core.model.api.ApiField
 import com.ainrif.apiator.renderer.plugin.jackson.test.model.M_JacksonProperties
 import spock.lang.Specification
 
-class JacksonPropertyMapperSpec extends Specification {
+class JacksonPropertyPluginSpec extends Specification {
     def "retrieve public property with getter or setter stay fully accessible"() {
         given:
-        def mapper = new JacksonPropertyMapper()
+        def mapper = new JacksonPropertyPlugin()
         def expectedNames = ['plainPublicField',
                              'jackson_public_field',
                              'jackson_getter_public_field',
@@ -33,7 +33,7 @@ class JacksonPropertyMapperSpec extends Specification {
                              'jackson_asymmetric_property']
 
         when:
-        def actual = mapper.mapProperties(M_JacksonProperties)
+        def actual = mapper.collectProperties(M_JacksonProperties)
 
         then:
         actual.size() == expectedNames.size()

@@ -20,9 +20,11 @@ import com.ainrif.apiator.core.spi.Renderer
 import com.ainrif.apiator.doclet.ApiatorDoclet
 import com.ainrif.apiator.doclet.model.JavaDocInfo
 import com.ainrif.apiator.renderer.core.json.javadoc.JavaDocInfoIndexer
-import com.ainrif.apiator.renderer.core.json.mapper.DefaultPropertyMapper
+import com.ainrif.apiator.renderer.core.json.plugin.DefaultCompositePlugin
 import com.ainrif.apiator.renderer.core.json.view.ApiSchemeView
-import com.ainrif.apiator.renderer.plugin.spi.PropertyMapper
+import com.ainrif.apiator.renderer.plugin.spi.CompositePlugin
+import com.ainrif.apiator.renderer.plugin.spi.CoreJsonRendererPlugin
+import com.ainrif.apiator.renderer.plugin.spi.PropertyPlugin
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.PropertyAccessor
@@ -33,30 +35,66 @@ import groovy.json.JsonSlurper
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import static java.util.Collections.singletonList
+
 class CoreJsonRenderer implements Renderer {
     private static final Logger logger = LoggerFactory.getLogger(CoreJsonRenderer)
 
     @Delegate
-    static Config config
+    Config config
+
+    static PluginsConfig pluginsConfig
 
     static class Config {
         String sourcePath
         String basePackage
-        PropertyMapper propertyResolver = new DefaultPropertyMapper()
+        List<CoreJsonRendererPlugin> plugins = [new DefaultCompositePlugin()]
         boolean autoConfig = true
     }
 
+    static class PluginsConfig {
+        PropertyPlugin propertyPlugin
+    }
+
     CoreJsonRenderer(@DelegatesTo(Config) Closure configurator) {
-        this()
-        CoreJsonRenderer.config.with configurator
+        this.config = new Config()
+        this.config.with configurator
+        init(this.config)
     }
 
     CoreJsonRenderer(Config config) {
-        CoreJsonRenderer.config = config
+        this.config = config
+        init(this.config)
     }
 
     CoreJsonRenderer() {
-        CoreJsonRenderer.config = new Config()
+        this.config = new Config()
+        init(this.config)
+    }
+
+    protected init(Config c) {
+        pluginsConfig = new PluginsConfig()
+
+        def plugins = flattenCompositePlugins(config.plugins)
+        plugins.each {
+            switch (it) {
+                case PropertyPlugin:
+                    pluginsConfig.propertyPlugin = it
+                    break
+                default:
+                    throw new RuntimeException("Unsupported Plugin type: ${it.class.name}")
+            }
+        }
+    }
+
+    static List<CoreJsonRendererPlugin> flattenCompositePlugins(List<CoreJsonRendererPlugin> plugins) {
+        return plugins.collectMany {
+            if (it instanceof CompositePlugin) {
+                return flattenCompositePlugins(it.plugins)
+            } else {
+                return singletonList(it)
+            }
+        }
     }
 
     @Override

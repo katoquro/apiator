@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.renderer.core.json.mapper
+package com.ainrif.apiator.renderer.core.json.plugin
 
 import com.ainrif.apiator.core.model.api.ApiField
 import com.ainrif.apiator.core.model.api.ApiType
 import com.ainrif.apiator.core.reflection.RUtils
-import com.ainrif.apiator.renderer.plugin.spi.PropertyMapper
+import com.ainrif.apiator.renderer.plugin.spi.PropertyPlugin
 
 import java.beans.Introspector
 import java.beans.PropertyDescriptor
@@ -40,10 +40,10 @@ import static java.util.Objects.nonNull
  *
  * @return found properties
  */
-class DefaultPropertyMapper implements PropertyMapper {
+class DefaultPropertyPlugin implements PropertyPlugin {
 
     @Override
-    Collection<ApiField> mapProperties(Class<?> type) {
+    Collection<ApiField> collectProperties(Class<?> type) {
         def beanInfo = type.interface ?
                 Introspector.getBeanInfo(type) :
                 Introspector.getBeanInfo(type, Object)

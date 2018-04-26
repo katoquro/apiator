@@ -18,7 +18,7 @@ package com.ainrif.apiator.renderer.plugin.jackson
 
 import com.ainrif.apiator.core.model.api.ApiField
 import com.ainrif.apiator.core.model.api.ApiType
-import com.ainrif.apiator.renderer.core.json.mapper.DefaultPropertyMapper
+import com.ainrif.apiator.renderer.core.json.plugin.DefaultPropertyPlugin
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.springframework.core.annotation.AnnotationUtils
 
@@ -31,10 +31,10 @@ import static java.util.Collections.singletonMap
 import static java.util.Objects.nonNull
 
 /**
- * Use same rules like {@link DefaultPropertyMapper} and
+ * Use same rules like {@link DefaultPropertyPlugin} and
  * supports property name override via {@link com.fasterxml.jackson.annotation.JsonProperty}
  */
-class JacksonPropertyMapper extends DefaultPropertyMapper {
+class JacksonPropertyPlugin extends DefaultPropertyPlugin {
     @Override
     protected Map<String, ApiField> mapFromPropertyDescriptor(PropertyDescriptor pd) {
 

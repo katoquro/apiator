@@ -14,24 +14,24 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.renderer.core.json.mapper
+package com.ainrif.apiator.renderer.core.json.plugin
 
 import com.ainrif.apiator.renderer.core.json.test.model.M_ConcreteInterface
 import com.ainrif.apiator.renderer.core.json.test.model.M_ConcreteType
 import com.ainrif.apiator.renderer.core.json.test.model.M_PropertiesWithClash
 import spock.lang.Specification
 
-class DefaultPropertyMapperSpec extends Specification {
+class DefaultPropertyPluginSpec extends Specification {
     def "retrieve properties from pojo"() {
         given:
-        def mapper = new DefaultPropertyMapper()
+        def mapper = new DefaultPropertyPlugin()
         def expectedNames = ['fieldPublic',
                              'publicBeanPropGetSet',
                              'publicBeanPropOnlyGet',
                              'publicBeanPropOnlySet']
 
         when:
-        def actual = mapper.mapProperties(M_ConcreteType)
+        def actual = mapper.collectProperties(M_ConcreteType)
 
         then:
         actual.size() == 4
@@ -40,11 +40,11 @@ class DefaultPropertyMapperSpec extends Specification {
 
     def "retrieve properties from interface"() {
         given:
-        def mapper = new DefaultPropertyMapper()
+        def mapper = new DefaultPropertyPlugin()
         def expectedNames = ['interfaceOnlyGet']
 
         when:
-        def actual = mapper.mapProperties(M_ConcreteInterface)
+        def actual = mapper.collectProperties(M_ConcreteInterface)
 
         then:
         actual.size() == 1
@@ -53,11 +53,11 @@ class DefaultPropertyMapperSpec extends Specification {
 
     def "retrieve public property with getter or setter stay fully accessible"() {
         given:
-        def mapper = new DefaultPropertyMapper()
+        def mapper = new DefaultPropertyPlugin()
         def expectedName = 'publicFieldWithOnlySet'
 
         when:
-        def actual = mapper.mapProperties(M_PropertiesWithClash)
+        def actual = mapper.collectProperties(M_PropertiesWithClash)
 
         then:
         actual.size() == 1
