@@ -16,7 +16,7 @@
 package com.ainrif.apiator.test.smoke
 
 import com.ainrif.apiator.core.ApiatorConfig
-import com.ainrif.apiator.modeltype.jaxrs.JaxRsModelTypeResolver
+import com.ainrif.apiator.modeltype.jaxrs.JaxRsModelTypePlugin
 import com.ainrif.apiator.provider.jaxrs.JaxRsProvider
 import com.ainrif.apiator.renderer.core.json.CoreJsonRenderer
 import com.ainrif.apiator.renderer.core.json.SourcePathDetector
@@ -44,9 +44,12 @@ class CoreJsonRendererSmokeSpec extends Specification {
     ApiatorConfig getConfigWithJsonRenderer() {
         return new ApiatorConfig(
                 provider: new JaxRsProvider(),
-                renderer: new CoreJsonRenderer(sourcePath: buildSourcePath()),
+                renderer: new CoreJsonRenderer({
+                    sourcePath = buildSourcePath()
+                    plugins << new JaxRsModelTypePlugin()
+                }),
                 basePackage: 'com.ainrif.apiator.test.model.jaxrs.smoke',
-                modelTypeResolvers: [new JaxRsModelTypeResolver()])
+        )
     }
 
     def "fully configured renderer"() {
@@ -60,7 +63,7 @@ class CoreJsonRendererSmokeSpec extends Specification {
     def "auto-detection of source paths"() {
         when:
         def config = configWithJsonRenderer
-        config.renderer = new CoreJsonRenderer()
+        config.renderer.asType(CoreJsonRenderer).sourcePath = null
         def actual = new TestingApiator(config).render()
 
         then:

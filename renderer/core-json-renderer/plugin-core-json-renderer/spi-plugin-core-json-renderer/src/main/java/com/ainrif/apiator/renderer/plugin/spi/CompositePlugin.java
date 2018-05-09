@@ -21,6 +21,6 @@ import java.util.List;
 /**
  * interface to pass a bundle of plugins as one plugin
  */
-public interface CompositePlugin {
+public interface CompositePlugin extends CoreJsonRendererPlugin {
     List<CoreJsonRendererPlugin> getPlugins();
 }

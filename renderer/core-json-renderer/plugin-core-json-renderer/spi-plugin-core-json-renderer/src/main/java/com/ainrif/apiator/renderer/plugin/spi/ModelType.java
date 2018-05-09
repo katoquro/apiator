@@ -13,15 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.model
 
-import groovy.transform.Memoized
+package com.ainrif.apiator.renderer.plugin.spi;
 
-/**
- * Type {@link ModelType#SYSTEM} is for internal usage.
- * Represents types like {@link Class} to prevent unnecessary introspection
- */
-enum ModelType {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public enum ModelType {
     ANY,
 
     OBJECT, ENUMERATION,
@@ -32,20 +31,18 @@ enum ModelType {
 
     DATE, BINARY,
 
-    SYSTEM
+    SYSTEM;
 
-    @Memoized
-    static Collection<ModelType> getCustomModelTypes() {
-        return [OBJECT, ENUMERATION]
-    }
+    public static ModelType[] customModelTypes = {OBJECT, ENUMERATION};
 
-    @Memoized
-    static Collection<ModelType> getNotPrimitiveTypes() {
-        return values() - primitiveTypes
-    }
+    public static ModelType[] primitiveTypes = {VOID, BOOLEAN, BYTE, INTEGER, LONG, FLOAT, DOUBLE, STRING};
 
-    @Memoized
-    static Collection<ModelType> getPrimitiveTypes() {
-        return [VOID, BOOLEAN, BYTE, INTEGER, LONG, FLOAT, DOUBLE, STRING]
+    public static ModelType[] notPrimitiveTypes = calcNotPrimitiveTypes();
+
+    private static ModelType[] calcNotPrimitiveTypes() {
+        List<ModelType> values = new ArrayList<>(Arrays.asList(values()));
+        values.removeAll(Arrays.asList(primitiveTypes));
+
+        return values.toArray(new ModelType[0]);
     }
 }

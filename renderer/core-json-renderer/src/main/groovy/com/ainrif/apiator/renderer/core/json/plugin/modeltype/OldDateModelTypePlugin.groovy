@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.modeltype
+package com.ainrif.apiator.renderer.core.json.plugin.modeltype
 
-import com.ainrif.apiator.core.model.ModelType
-import com.ainrif.apiator.core.spi.ModelTypeResolver
+import com.ainrif.apiator.renderer.plugin.spi.ModelType
+import com.ainrif.apiator.renderer.plugin.spi.ModelTypePlugin
 
-class OldDateModelTypeResolver implements ModelTypeResolver {
+class OldDateModelTypePlugin implements ModelTypePlugin {
     @Override
     ModelType resolve(Class<?> type) {
         if ([Date, Calendar].any { it.isAssignableFrom(type) }) return ModelType.DATE

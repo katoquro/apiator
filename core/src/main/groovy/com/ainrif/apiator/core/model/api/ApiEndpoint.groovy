@@ -23,8 +23,6 @@ class ApiEndpoint {
     String method
     List<ApiEndpointReturnType> returnTypes
     List<ApiEndpointParam> params
-    Set<ApiType> usedEnumerations
-    Set<ApiType> usedApiTypes
 
     MethodSignature methodSignature
 }

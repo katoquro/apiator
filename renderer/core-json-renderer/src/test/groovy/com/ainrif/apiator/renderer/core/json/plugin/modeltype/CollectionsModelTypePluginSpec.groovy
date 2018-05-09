@@ -13,36 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.ainrif.apiator.renderer.core.json.plugin.modeltype
 
-package com.ainrif.apiator.modeltype.j8
-
-
-import com.ainrif.apiator.core.model.ModelType
+import com.ainrif.apiator.renderer.plugin.spi.ModelType
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import java.time.*
-import java.time.temporal.Temporal
-
-class Jsr310ModelTypeResolverSpec extends Specification {
+class CollectionsModelTypePluginSpec extends Specification {
+    @SuppressWarnings("GroovyAssignabilityCheck")
     @Unroll
     def "resolve"() {
         given:
-        def resolver = new Jsr310ModelTypeResolver()
+        def resolver = new CollectionsModelTypePlugin()
 
         expect:
         resolver.resolve(type) == expected
 
         where:
-        type           || expected
-        Object         || null
-        Temporal       || ModelType.DATE
-        LocalDateTime  || ModelType.DATE
-        LocalDate      || ModelType.DATE
-        LocalTime      || ModelType.DATE
-        Instant        || ModelType.DATE
-        ZonedDateTime  || ModelType.DATE
-        OffsetDateTime || ModelType.DATE
-        OffsetTime     || ModelType.DATE
+        type                 || expected
+        CustomUnresolvedType || null
+        Object               || null
+        Iterable             || ModelType.ARRAY
+        Collection           || ModelType.ARRAY
+        List                 || ModelType.ARRAY
+        ArrayList            || ModelType.ARRAY
+        String[]             || ModelType.ARRAY
+        Set                  || ModelType.SET
+        Map                  || ModelType.DICTIONARY
     }
 }

@@ -16,7 +16,6 @@
 package com.ainrif.apiator.core
 
 import com.ainrif.apiator.api.annotation.Api
-import com.ainrif.apiator.core.spi.ModelTypeResolver
 import com.ainrif.apiator.core.spi.Renderer
 import com.ainrif.apiator.core.spi.WebServiceProvider
 
@@ -26,7 +25,6 @@ class ApiatorConfig {
     String basePackage = ''
     WebServiceProvider provider = null
     Renderer renderer = null
-    List<ModelTypeResolver> modelTypeResolvers = null
     String basePath = '/api'
     String apiVersion = '1.0.0-SNAPSHOT'
     Class<Annotation> apiClass = Api

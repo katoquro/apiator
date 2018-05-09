@@ -13,20 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.modeltype.jaxrs
+package com.ainrif.apiator.renderer.core.json.plugin.modeltype;
 
-import com.ainrif.apiator.core.model.ModelType
-import com.ainrif.apiator.core.spi.ModelTypeResolver
-
-import javax.ws.rs.core.MediaType
-import javax.ws.rs.core.Response
-
-class JaxRsModelTypeResolver implements ModelTypeResolver {
-    @Override
-    ModelType resolve(Class<?> type) {
-        if (Response.isAssignableFrom(type)) return ModelType.ANY
-        if (MediaType.isAssignableFrom(type)) return ModelType.STRING
-
-        return null
-    }
+public class CustomUnresolvedType {
 }

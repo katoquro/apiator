@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.model
 
-import com.ainrif.apiator.core.modeltype.CoreJavaModelTypeResolver
-import com.ainrif.apiator.core.modeltype.CustomUnresolvedType
-import com.ainrif.apiator.core.spi.ModelTypeResolver
+package com.ainrif.apiator.renderer.core.json.plugin
+
+import com.ainrif.apiator.renderer.core.json.plugin.modeltype.CoreJavaModelTypePlugin
+import com.ainrif.apiator.renderer.plugin.spi.ModelTypePlugin
 import org.reflections.Reflections
 import org.reflections.scanners.SubTypesScanner
 import org.reflections.util.ClasspathHelper
@@ -25,11 +25,10 @@ import org.reflections.util.ConfigurationBuilder
 import org.reflections.util.FilterBuilder
 import spock.lang.Specification
 
-class ModelTypeRegisterSpec extends Specification {
-
+class DefaultModelTypeCompositePluginSpec extends Specification {
     def "default init should include all core resolvers"() {
         given:
-        def corePackage = CoreJavaModelTypeResolver.package.name
+        def corePackage = CoreJavaModelTypePlugin.package.name
         Reflections reflections = new Reflections(
                 new ConfigurationBuilder()
                         .addUrls(ClasspathHelper.forPackage(corePackage))
@@ -37,27 +36,10 @@ class ModelTypeRegisterSpec extends Specification {
                         .filterInputsBy(new FilterBuilder().includePackage(corePackage))
         )
 
-        def coreResolversCount = reflections.getSubTypesOf(ModelTypeResolver).size()
+        def corePluginsCount = reflections.getSubTypesOf(ModelTypePlugin).size()
 
         expect:
-        new ModelTypeRegister().modelTypeResolvers.size() == coreResolversCount
+        new DefaultModelTypeCompositePlugin().plugins.size() == corePluginsCount
     }
 
-    def "getTypeByClass"() {
-        given:
-        def register = new ModelTypeRegister()
-
-        expect:
-        register.getTypeByClass(Object) == ModelType.ANY
-        register.getTypeByClass(CustomUnresolvedType) == ModelType.OBJECT
-    }
-
-    def "getTypeByClass; w/ custom resolver"() {
-        given:
-        def register = new ModelTypeRegister([{ CustomUnresolvedType.isAssignableFrom(it) ? ModelType.VOID : null }])
-
-        expect:
-        register.getTypeByClass(Object) == ModelType.ANY
-        register.getTypeByClass(CustomUnresolvedType) == ModelType.VOID
-    }
 }

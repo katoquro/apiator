@@ -13,20 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.modeltype
+package com.ainrif.apiator.modeltype.j8
 
-import com.ainrif.apiator.core.model.ModelType
-import com.ainrif.apiator.core.spi.ModelTypeResolver
+import com.ainrif.apiator.renderer.plugin.spi.ModelType
+import com.ainrif.apiator.renderer.plugin.spi.ModelTypePlugin
 
-import java.lang.reflect.GenericArrayType
+import java.time.temporal.Temporal
 
-class CollectionsModelTypeResolver implements ModelTypeResolver {
+class Jsr310ModelTypePlugin implements ModelTypePlugin {
     @Override
     ModelType resolve(Class<?> type) {
-        if (Map.isAssignableFrom(type)) return ModelType.DICTIONARY
-        if (Set.isAssignableFrom(type)) return ModelType.SET
-        if (([Iterable, GenericArrayType].any { it.isAssignableFrom(type) }) || type.array)
-            return ModelType.ARRAY
+        if (Temporal.isAssignableFrom(type)) return ModelType.DATE
 
         return null
     }

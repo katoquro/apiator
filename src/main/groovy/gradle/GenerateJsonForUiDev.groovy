@@ -17,6 +17,7 @@ package gradle
 
 import com.ainrif.apiator.core.Apiator
 import com.ainrif.apiator.core.ApiatorConfig
+import com.ainrif.apiator.modeltype.jaxrs.JaxRsModelTypePlugin
 import com.ainrif.apiator.provider.jaxrs.JaxRsProvider
 import com.ainrif.apiator.renderer.core.json.CoreJsonRenderer
 
@@ -31,7 +32,10 @@ class GenerateJsonForUiDev {
                 basePackage: jaxrsPackage,
                 apiClass: Path,
                 provider: new JaxRsProvider(),
-                renderer: new CoreJsonRenderer())
+                renderer: new CoreJsonRenderer({
+                    docletBasePackage = 'com.ainrif.apiator'
+                    plugins << new JaxRsModelTypePlugin()
+                }))
 
         new File(path).write(new Apiator(config).render())
     }

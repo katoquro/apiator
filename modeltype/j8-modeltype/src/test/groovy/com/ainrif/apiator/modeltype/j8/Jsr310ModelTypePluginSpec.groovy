@@ -13,22 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.modeltype
 
-import com.ainrif.apiator.core.model.ModelType
+package com.ainrif.apiator.modeltype.j8
+
+
+import com.ainrif.apiator.renderer.plugin.spi.ModelType
 import spock.lang.Specification
+import spock.lang.Unroll
 
-class AnyModelTypeResolverSpec extends Specification {
+import java.time.*
+import java.time.temporal.Temporal
+
+class Jsr310ModelTypePluginSpec extends Specification {
+    @Unroll
     def "resolve"() {
         given:
-        def resolver = new AnyModelTypeResolver()
+        def resolver = new Jsr310ModelTypePlugin()
 
         expect:
         resolver.resolve(type) == expected
 
         where:
-        type                 || expected
-        CustomUnresolvedType || null
-        Object               || ModelType.ANY
+        type           || expected
+        Object         || null
+        Temporal       || ModelType.DATE
+        LocalDateTime  || ModelType.DATE
+        LocalDate      || ModelType.DATE
+        LocalTime      || ModelType.DATE
+        Instant        || ModelType.DATE
+        ZonedDateTime  || ModelType.DATE
+        OffsetDateTime || ModelType.DATE
+        OffsetTime     || ModelType.DATE
     }
 }

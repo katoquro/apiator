@@ -13,18 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.modeltype
+package com.ainrif.apiator.renderer.core.json.plugin.modeltype
 
-import com.ainrif.apiator.core.model.ModelType
+import com.ainrif.apiator.renderer.plugin.spi.ModelType
 import spock.lang.Specification
 import spock.lang.Unroll
 
-class CollectionsModelTypeResolverSpec extends Specification {
-    @SuppressWarnings("GroovyAssignabilityCheck")
+import java.sql.Date as SQL_Date
+import java.sql.Timestamp
+
+class OldDateModelTypePluginSpec extends Specification {
     @Unroll
     def "resolve"() {
         given:
-        def resolver = new CollectionsModelTypeResolver()
+        def resolver = new OldDateModelTypePlugin()
 
         expect:
         resolver.resolve(type) == expected
@@ -33,12 +35,9 @@ class CollectionsModelTypeResolverSpec extends Specification {
         type                 || expected
         CustomUnresolvedType || null
         Object               || null
-        Iterable             || ModelType.ARRAY
-        Collection           || ModelType.ARRAY
-        List                 || ModelType.ARRAY
-        ArrayList            || ModelType.ARRAY
-        String[]             || ModelType.ARRAY
-        Set                  || ModelType.SET
-        Map                  || ModelType.DICTIONARY
+        Date                 || ModelType.DATE
+        Calendar             || ModelType.DATE
+        Timestamp            || ModelType.DATE
+        SQL_Date             || ModelType.DATE
     }
 }

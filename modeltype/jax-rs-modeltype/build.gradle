@@ -1,7 +1,7 @@
 apply from: "$rootProject.projectDir/gradle/deploy.gradle"
 
 dependencies {
-    compile project(':core')
+    compile project(':renderer:core-json-renderer:plugin-core-json-renderer:spi-plugin-core-json-renderer')
 
     compile "javax.ws.rs:javax.ws.rs-api:2.0.1"
 }

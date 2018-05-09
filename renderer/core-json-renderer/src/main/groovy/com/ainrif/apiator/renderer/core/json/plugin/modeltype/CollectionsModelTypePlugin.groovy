@@ -13,28 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.modeltype.jaxrs
+package com.ainrif.apiator.renderer.core.json.plugin.modeltype
 
-import com.ainrif.apiator.core.model.ModelType
-import spock.lang.Specification
-import spock.lang.Unroll
+import com.ainrif.apiator.renderer.plugin.spi.ModelType
+import com.ainrif.apiator.renderer.plugin.spi.ModelTypePlugin
 
-import javax.ws.rs.core.MediaType
-import javax.ws.rs.core.Response
+import java.lang.reflect.GenericArrayType
 
-class JaxRsModelTypeResolverSpec extends Specification {
-    @Unroll
-    def "resolve"() {
-        given:
-        def resolver = new JaxRsModelTypeResolver()
+class CollectionsModelTypePlugin implements ModelTypePlugin {
+    @Override
+    ModelType resolve(Class<?> type) {
+        if (Map.isAssignableFrom(type)) return ModelType.DICTIONARY
+        if (Set.isAssignableFrom(type)) return ModelType.SET
+        if (([Iterable, GenericArrayType].any { it.isAssignableFrom(type) }) || type.array)
+            return ModelType.ARRAY
 
-        expect:
-        resolver.resolve(type) == expected
-
-        where:
-        type      || expected
-        Object    || null
-        Response  || ModelType.ANY
-        MediaType || ModelType.STRING
+        return null
     }
 }

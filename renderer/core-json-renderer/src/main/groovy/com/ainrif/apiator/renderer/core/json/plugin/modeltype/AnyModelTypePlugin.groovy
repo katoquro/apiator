@@ -13,11 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.model.api
+package com.ainrif.apiator.renderer.core.json.plugin.modeltype
 
-class ApiContext {
-    String name
-    String apiPath
-    ApiType apiType
-    List<ApiEndpoint> apiEndpoints = []
+import com.ainrif.apiator.renderer.plugin.spi.ModelType
+import com.ainrif.apiator.renderer.plugin.spi.ModelTypePlugin
+
+class AnyModelTypePlugin implements ModelTypePlugin {
+    @Override
+    ModelType resolve(Class<?> type) {
+        if (Object == type) return ModelType.ANY
+
+        return null
+    }
 }

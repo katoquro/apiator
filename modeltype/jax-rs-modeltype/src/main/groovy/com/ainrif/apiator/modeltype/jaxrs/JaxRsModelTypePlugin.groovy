@@ -13,15 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.modeltype
+package com.ainrif.apiator.modeltype.jaxrs
 
-import com.ainrif.apiator.core.model.ModelType
-import com.ainrif.apiator.core.spi.ModelTypeResolver
+import com.ainrif.apiator.renderer.plugin.spi.ModelType
+import com.ainrif.apiator.renderer.plugin.spi.ModelTypePlugin
 
-class BinaryModelTypeResolver implements ModelTypeResolver {
+import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.Response
+
+class JaxRsModelTypePlugin implements ModelTypePlugin {
     @Override
     ModelType resolve(Class<?> type) {
-        if ([InputStream, OutputStream].any { it.isAssignableFrom(type) }) return ModelType.BINARY
+        if (Response.isAssignableFrom(type)) return ModelType.ANY
+        if (MediaType.isAssignableFrom(type)) return ModelType.STRING
 
         return null
     }

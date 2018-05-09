@@ -17,6 +17,7 @@
 package com.ainrif.apiator.renderer.core.json
 
 import com.ainrif.apiator.core.model.api.ApiScheme
+import org.apache.commons.lang3.ClassUtils
 import org.apache.commons.lang3.SystemUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -29,6 +30,7 @@ import static groovy.io.FileType.FILES
 class SourcePathDetector {
     static final String OS_PATH_DELIMITER = SystemUtils.IS_OS_WINDOWS ? ';' : ':'
 
+    private static final List<String> JDK_PACKAGE_PREFIXES = ['java', 'com.sun', 'com.oracle', 'javax', 'sun', 'oracle']
     private static final Logger logger = LoggerFactory.getLogger(SourcePathDetector)
     private static final int MAX_STEP_OUT = 3
 
@@ -45,9 +47,7 @@ class SourcePathDetector {
      */
     @Nullable
     String detect() {
-        List<String> classNames = apiScheme.apiContexts*.name +
-                apiScheme.usedApiTypes*.rawType*.name +
-                apiScheme.usedEnumerations*.rawType*.name
+        List<String> classNames = collectClassesNamesFromScheme(apiScheme)
 
         if (!classNames) return null
 
@@ -115,6 +115,24 @@ class SourcePathDetector {
                 .eachDirRecurse { it.eachFileMatch(FILES, ~/.*?\.java$/) { files << it } }
 
         return files
+    }
+
+    /**
+     * Collect classes used in return types and method params and filter out jdk by packages
+     * and primitives
+     *
+     * @return list of classes names
+     */
+    protected List<String> collectClassesNamesFromScheme(ApiScheme scheme) {
+        return scheme.apiContexts*.name +
+                scheme.apiContexts.collectMany {
+                    it.apiEndpoints.collectMany {
+                        (it.returnTypes*.type + it.params*.type)*.rawType
+                                .findAll { !ClassUtils.isPrimitiveOrWrapper(it) }
+                                *.name
+                                .findAll { typeName -> JDK_PACKAGE_PREFIXES.every() { !typeName.startsWith(it) } }
+                    }
+                }
     }
 
 }

@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.model.api;
+package com.ainrif.apiator.renderer.core.json.test.model;
 
-public class ModelWithCustomGeneric {
+public class M_CustomGeneric {
 
     SimpleCustomClass nonGeneric;
     GeneralisedClass<String> explicitGeneric;

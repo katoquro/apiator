@@ -13,16 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.modeltype
 
-import com.ainrif.apiator.core.model.ModelType
-import com.ainrif.apiator.core.spi.ModelTypeResolver
+package com.ainrif.apiator.renderer.plugin.spi;
 
-class AnyModelTypeResolver implements ModelTypeResolver {
-    @Override
-    ModelType resolve(Class<?> type) {
-        if (Object == type) return ModelType.ANY
+import javax.annotation.Nullable;
 
-        return null
-    }
+public interface ModelTypePlugin extends CoreJsonRendererPlugin {
+    /**
+     * @return null if this type cannot be resolved with given resolver
+     */
+    @Nullable
+    ModelType resolve(Class<?> type);
 }

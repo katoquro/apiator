@@ -13,21 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.reflection
+
+package com.ainrif.apiator.renderer.core.json.view
 
 import com.ainrif.apiator.core.model.api.ApiType
-import com.ainrif.apiator.core.model.api.ModelWithCustomGeneric
+import com.ainrif.apiator.renderer.core.json.test.model.M_CustomGeneric
 import spock.lang.Specification
 import spock.lang.Unroll
 
-class MethodStackSpec extends Specification {
+class ApiSchemeViewSpec extends Specification {
     @Unroll
     def "collectApiTypesFromGenerics; #inputType"() {
         given:
-        def input = new ApiType(ModelWithCustomGeneric.getDeclaredField(inputType).genericType)
+        def input = new ApiType(M_CustomGeneric.getDeclaredField(inputType).genericType)
 
         when:
-        def actual = MethodStack.collectApiTypesFromGenerics.call(input)
+        def actual = ApiSchemeView.collectApiTypesFromGenerics.call(input)
 
         then:
         actual.size() == expected

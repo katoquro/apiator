@@ -13,20 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.modeltype
+package com.ainrif.apiator.renderer.core.json.plugin.modeltype
 
-import com.ainrif.apiator.core.model.ModelType
+import com.ainrif.apiator.renderer.plugin.spi.ModelType
 import spock.lang.Specification
-import spock.lang.Unroll
 
-import java.sql.Date as SQL_Date
-import java.sql.Timestamp
-
-class OldDateModelTypeResolverSpec extends Specification {
-    @Unroll
+class BinaryModelTypePluginSpec extends Specification {
     def "resolve"() {
         given:
-        def resolver = new OldDateModelTypeResolver()
+        def resolver = new BinaryModelTypePlugin()
 
         expect:
         resolver.resolve(type) == expected
@@ -35,9 +30,7 @@ class OldDateModelTypeResolverSpec extends Specification {
         type                 || expected
         CustomUnresolvedType || null
         Object               || null
-        Date                 || ModelType.DATE
-        Calendar             || ModelType.DATE
-        Timestamp            || ModelType.DATE
-        SQL_Date             || ModelType.DATE
+        InputStream          || ModelType.BINARY
+        OutputStream         || ModelType.BINARY
     }
 }

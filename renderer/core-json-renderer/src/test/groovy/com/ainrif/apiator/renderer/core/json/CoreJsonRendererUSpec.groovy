@@ -16,9 +16,9 @@
 
 package com.ainrif.apiator.renderer.core.json
 
-import com.ainrif.apiator.renderer.plugin.spi.CompositePlugin
-import com.ainrif.apiator.renderer.plugin.spi.CoreJsonRendererPlugin
-import com.ainrif.apiator.renderer.plugin.spi.PropertyPlugin
+import com.ainrif.apiator.renderer.core.json.plugin.DefaultModelTypeCompositePlugin
+import com.ainrif.apiator.renderer.core.json.plugin.modeltype.CustomUnresolvedType
+import com.ainrif.apiator.renderer.plugin.spi.*
 import spock.lang.Specification
 
 class CoreJsonRendererUSpec extends Specification {
@@ -36,5 +36,37 @@ class CoreJsonRendererUSpec extends Specification {
         then:
         actual.size() == 2
         actual.each { it instanceof PropertyPlugin }
+    }
+
+    def "model type is resolved according to given plugins"() {
+        setup:
+        CoreJsonRenderer.pluginsConfig = new CoreJsonRenderer.PluginsConfig(
+                modelTypePlugins: new DefaultModelTypeCompositePlugin().plugins as List<ModelTypePlugin>
+        )
+
+        expect:
+        CoreJsonRenderer.internalTypeByClass(Object) == ModelType.ANY
+        CoreJsonRenderer.internalTypeByClass(CustomUnresolvedType) == ModelType.OBJECT
+
+        cleanup:
+        CoreJsonRenderer.pluginsConfig = null
+    }
+
+    def "model type is resolved according to given plugins; with custom plugins"() {
+        setup:
+        def customPluginList = [
+                { CustomUnresolvedType.isAssignableFrom(it) ? ModelType.VOID : null } as ModelTypePlugin
+        ]
+
+        CoreJsonRenderer.pluginsConfig = new CoreJsonRenderer.PluginsConfig(
+                modelTypePlugins: customPluginList + (new DefaultModelTypeCompositePlugin().plugins as List<ModelTypePlugin>)
+        )
+
+        expect:
+        CoreJsonRenderer.internalTypeByClass(Object) == ModelType.ANY
+        CoreJsonRenderer.internalTypeByClass(CustomUnresolvedType) == ModelType.VOID
+
+        cleanup:
+        CoreJsonRenderer.pluginsConfig = null
     }
 }

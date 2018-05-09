@@ -15,16 +15,11 @@
  */
 package com.ainrif.apiator.core.model.api
 
-import com.ainrif.apiator.core.model.ModelType
-import com.ainrif.apiator.core.model.ModelTypeRegister
 import groovy.transform.Memoized
 
 import java.lang.reflect.*
 
 class ApiType {
-
-    //Inject
-    static ModelTypeRegister modelTypeRegister
 
     protected Type type
 
@@ -33,7 +28,12 @@ class ApiType {
     }
 
     boolean isGeneric() {
-        type instanceof ParameterizedType
+        return type instanceof ParameterizedType ||
+                (type instanceof Class && type.typeParameters)
+    }
+
+    boolean isActuallyParametrised() {
+        return type instanceof ParameterizedType
     }
 
     boolean isArray() {
@@ -54,23 +54,24 @@ class ApiType {
     @Memoized
     Class<?> getRawType() {
         def result
-        if (generic) {
-            result = type.asType(ParameterizedType).rawType.asType(Class)
+        if (actuallyParametrised) {
+            result = type.asType(ParameterizedType).rawType as Class
         } else if (type instanceof TypeVariable) {
-            def bounds = type.asType(TypeVariable).bounds
+            def bounds = type.bounds
             if (bounds) {
-                //todo multiple bounds
+                // TODO katoquro: 09/05/2018 #generic-bound multiple bounds
                 result = new ApiType(bounds[0]).rawType
             } else {
-                result = Object //fallback case; need test
+                // TODO katoquro: 09/05/2018 #generic-bound fallback case; need tests
+                result = Object
             }
         } else if (type instanceof WildcardType) {
-            def bound = type.asType(WildcardType).upperBounds[0]
+            def bound = type.upperBounds[0]
             result = new ApiType(bound).rawType
         } else if (type instanceof GenericArrayType) {
             result = type.class
         } else {
-            result = type.asType(Class)
+            result = type as Class
         }
 
         return result
@@ -98,21 +99,35 @@ class ApiType {
         throw new RuntimeException('TYPE IS NOT TEMPLATE')
     }
 
+    /**
+     * List<Integer> -> [Integer]
+     * List -> []
+     *
+     * @return list of generic types actually present on current type
+     */
     @Memoized
-    List<ApiType> getActualTypeArguments() {
-        if (generic) {
+    List<ApiType> getActualParameters() {
+        if (actuallyParametrised) {
             return type.asType(ParameterizedType)
                     .actualTypeArguments
                     .collect { new ApiType(it) }
         }
 
-        throw new RuntimeException('TYPE IS NOT GENERIC')
+        throw new RuntimeException('TYPE IS NOT ACTUALLY PARAMETRISED')
     }
 
+    /**
+     * @return list of templates which can be parametrised
+     */
     @Memoized
-    ModelType getModelType() {
-        if (!modelTypeRegister) throw new RuntimeException('Model Type Register was not injected')
-        modelTypeRegister.getTypeByClass(rawType)
+    List<ApiType> getGenericParameters() {
+        if (generic) {
+            return rawType
+                    .typeParameters
+                    .collect { new ApiType(it) }
+        }
+
+        throw new RuntimeException('TYPE IS NOT GENERIC')
     }
 
     /**
@@ -128,33 +143,30 @@ class ApiType {
      */
     @Memoized
     List<ApiType> flattenArgumentTypes() {
-        generic ? _flattenArgumentTypes(actualTypeArguments) : []
+        return actuallyParametrised ? _flattenArgumentTypes(actualParameters) : []
     }
 
     private static List<ApiType> _flattenArgumentTypes(List<ApiType> apiTypes) {
-        def result = []
+        List<ApiType> result = []
 
         apiTypes.each {
-            if (it.generic) {
-                result += _flattenArgumentTypes(it.actualTypeArguments)
+            if (it.actuallyParametrised) {
+                result += _flattenArgumentTypes(it.actualParameters)
             } else if (it.array) {
                 result += _flattenArgumentTypes([it.componentApiType])
             }
             result << it
         }
 
-        result.reverse()
+        return result.reverse()
     }
 
     @Override
     boolean equals(o) {
-        if (this.is(o)) return true
-        if (getClass() != o.class) return false
+        if (!equalsIgnoreActualParams(o)) return false
 
-        ApiType apiType = (ApiType) o
-        if (rawType != apiType.rawType) return false
-
-        return flattenArgumentTypes().collect { it.rawType } == apiType.flattenArgumentTypes().collect { it.rawType }
+        return flattenArgumentTypes().collect { it.rawType } ==
+                o.asType(ApiType).flattenArgumentTypes().collect { it.rawType }
     }
 
     @Override
@@ -165,5 +177,14 @@ class ApiType {
     @Override
     String toString() {
         "ApiType{${type.typeName}}"
+    }
+
+    boolean equalsIgnoreActualParams(Object o) {
+        if (this.is(o)) return true
+        if (getClass() != o.class) return false
+
+        if (rawType != o.asType(ApiType).rawType) return false
+
+        return true
     }
 }

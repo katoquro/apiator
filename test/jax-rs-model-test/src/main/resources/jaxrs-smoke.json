@@ -313,9 +313,6 @@
     }
   ],
   "apiatorInfo": {
-    "modelTypeResolvers": [
-      "JaxRsModelTypeResolver"
-    ],
     "provider": "JaxRsProvider",
     "renderer": "CoreJsonRenderer",
     "version": "SMOKE_VERSION"

@@ -13,16 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.spi
+package com.ainrif.apiator.modeltype.jaxrs
 
-import com.ainrif.apiator.core.model.ModelType
+import com.ainrif.apiator.renderer.plugin.spi.ModelType
+import spock.lang.Specification
+import spock.lang.Unroll
 
-import javax.annotation.Nullable
+import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.Response
 
-interface ModelTypeResolver {
-    /**
-     * @return null if this type cannot be resolved with given resolver
-     */
-    @Nullable
-    ModelType resolve(Class<?> type)
+class JaxRsModelTypePluginSpec extends Specification {
+    @Unroll
+    def "resolve"() {
+        given:
+        def resolver = new JaxRsModelTypePlugin()
+
+        expect:
+        resolver.resolve(type) == expected
+
+        where:
+        type      || expected
+        Object    || null
+        Response  || ModelType.ANY
+        MediaType || ModelType.STRING
+    }
 }

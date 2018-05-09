@@ -15,8 +15,6 @@
  */
 package com.ainrif.apiator.core.model.api
 
-import com.ainrif.apiator.core.model.ModelType
-import com.ainrif.apiator.core.model.ModelTypeRegister
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -38,18 +36,19 @@ class ApiTypeSpec extends Specification {
         input.generic == expected
 
         where:
-        inputType                 | expected
-        'intPrimitiveField'       | false
-        'objectField'             | false
-        'enumField'               | false
-        'stringField'             | false
-        'setField'                | true
-        'arrayField'              | false
-        'iterableField'           | true
-        'genericSetArrayField'    | false
-        'typeVariableType'        | false
-        'typeVariableBoundedType' | false
-        'genericBounded'          | false //todo #generic-bound need discuss compared to prev test case
+        inputType                          | expected
+        'intPrimitiveField'                | false
+        'objectField'                      | false
+        'enumField'                        | false
+        'stringField'                      | false
+        'setField'                         | true
+        'arrayField'                       | false
+        'iterableField'                    | true
+        'iterableFiledWOTemplateParameter' | true
+        'genericSetArrayField'             | false
+        'typeVariableType'                 | false
+        'typeVariableBoundedType'          | false
+        'genericBounded'                   | false //todo #generic-bound need discuss compared to prev test case
     }
 
     def "isArray; #inputType"() {
@@ -209,7 +208,7 @@ class ApiTypeSpec extends Specification {
         def expected = [new ApiType(ModelDto1.getDeclaredField(expectedType).genericType)].collect { it.rawType }
 
         expect:
-        input.actualTypeArguments.collect { it.rawType } == expected
+        input.actualParameters.collect { it.rawType } == expected
 
         where:
         inputType                | expectedType
@@ -230,7 +229,7 @@ class ApiTypeSpec extends Specification {
                         new ApiType(ModelDto1.getDeclaredField('typeVariableBoundedType').genericType)]
 
         expect:
-        input.actualTypeArguments == expected
+        input.actualParameters == expected
     }
 
     def "getActualTypeArguments; not generic type"() {
@@ -238,7 +237,7 @@ class ApiTypeSpec extends Specification {
         def input = new ApiType(ModelDto2.getDeclaredField('objectField').genericType)
 
         when:
-        input.actualTypeArguments
+        input.actualParameters
 
         then:
         thrown(RuntimeException)
@@ -271,26 +270,5 @@ class ApiTypeSpec extends Specification {
     def "flattenArgumentTypes; w/o generic type"() {
         expect:
         new ApiType(String).flattenArgumentTypes() == []
-    }
-
-    def "getModelType; check if register was injected"() {
-        setup:
-        ApiType.modelTypeRegister = null
-
-        when:
-        new ApiType(String).getModelType()
-
-        then:
-        thrown(RuntimeException)
-
-        when:
-        ApiType.modelTypeRegister = new ModelTypeRegister()
-        def actual = new ApiType(String).getModelType()
-
-        then:
-        actual == ModelType.STRING
-
-        cleanup:
-        ApiType.modelTypeRegister = null
     }
 }
