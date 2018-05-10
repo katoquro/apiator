@@ -16,10 +16,10 @@
 package com.ainrif.apiator.test.smoke
 
 import com.ainrif.apiator.core.ApiatorConfig
-import com.ainrif.apiator.modeltype.jaxrs.JaxRsModelTypePlugin
 import com.ainrif.apiator.provider.jaxrs.JaxRsProvider
 import com.ainrif.apiator.renderer.core.json.CoreJsonRenderer
 import com.ainrif.apiator.renderer.core.json.SourcePathDetector
+import com.ainrif.apiator.renderer.plugin.jaxrs.JaxRsModelTypePlugin
 import com.ainrif.apiator.test.TestingApiator
 import groovy.json.JsonSlurper
 import groovy.transform.Memoized

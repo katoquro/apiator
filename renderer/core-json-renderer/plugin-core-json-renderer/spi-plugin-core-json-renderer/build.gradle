@@ -1,6 +1,0 @@
-apply from: "$rootProject.projectDir/gradle/deploy.gradle"
-
-dependencies {
-    // TODO katoquro: 26/04/2018 extract api from core 
-    compile project(':core')
-}
