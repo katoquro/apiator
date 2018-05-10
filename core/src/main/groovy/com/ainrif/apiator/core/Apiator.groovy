@@ -15,8 +15,10 @@
  */
 package com.ainrif.apiator.core
 
-import com.ainrif.apiator.core.model.ModelTypeRegister
-import com.ainrif.apiator.core.model.api.*
+import com.ainrif.apiator.core.model.api.ApiContext
+import com.ainrif.apiator.core.model.api.ApiEndpoint
+import com.ainrif.apiator.core.model.api.ApiScheme
+import com.ainrif.apiator.core.model.api.ClientApiInfo
 import com.google.common.base.Stopwatch
 import org.reflections.Reflections
 import org.reflections.scanners.SubTypesScanner
@@ -41,11 +43,6 @@ class Apiator {
     Apiator(ApiatorConfig config) {
         this.config = config
         this.info = new ApiatorInfo(config)
-
-        //Injects
-        ApiType.modelTypeRegister = config.modelTypeResolvers ?
-                new ModelTypeRegister(config.modelTypeResolvers) :
-                new ModelTypeRegister()
     }
 
     ApiScheme getScheme() {
@@ -71,24 +68,9 @@ class Apiator {
                             method: it.method,
                             returnTypes: it.returnTypes,
                             params: it.params,
-                            usedEnumerations: it.usedEnumerations,
-                            usedApiTypes: it.usedApiTypes,
                             methodSignature: it.methodSignature
                     )
                 }
-
-                apiCtx.usedEnumerations = apiCtx.apiEndpoints
-                        .collect { it.usedEnumerations }
-                        .flatten()
-                        .unique() as Set<ApiType>
-
-                apiCtx.usedApiTypes = apiCtx.apiEndpoints
-                        .collect { it.usedApiTypes }
-                        .flatten()
-                        .unique() as Set<ApiType>
-
-                scheme.usedEnumerations += apiCtx.usedEnumerations
-                scheme.usedApiTypes += apiCtx.usedApiTypes
 
                 scheme.apiContexts << apiCtx
             }

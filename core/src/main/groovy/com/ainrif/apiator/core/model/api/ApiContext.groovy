@@ -20,6 +20,4 @@ class ApiContext {
     String apiPath
     ApiType apiType
     List<ApiEndpoint> apiEndpoints = []
-    Set<ApiType> usedEnumerations = []
-    Set<ApiType> usedApiTypes = []
 }

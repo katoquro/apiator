@@ -29,7 +29,7 @@ class ApiTypeView extends ModelTypeBasedView {
         super(type)
 
         this.description = classInfo?.description
-        this.fields = CoreJsonRenderer.config.propertyResolver.mapProperties(type.rawType)
+        this.fields = CoreJsonRenderer.pluginsConfig.propertyPlugin.collectProperties(type.rawType)
                 .collect { new ApiFieldView(it, classInfo?.getFieldMergedInfo(it)) }
     }
 }

@@ -1,5 +1,6 @@
 v0.8.x
 
+- new: plugins model for JSON renderer configuration
 - add: support jackson annotation to override property names
 - improvement: source path detection now includes model classes
 

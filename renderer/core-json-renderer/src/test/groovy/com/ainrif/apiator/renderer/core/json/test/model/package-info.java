@@ -13,7 +13,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * @see com.ainrif.apiator.renderer.core.json.CoreJsonRendererStaticInjector
- */
 package com.ainrif.apiator.renderer.core.json.test.model;

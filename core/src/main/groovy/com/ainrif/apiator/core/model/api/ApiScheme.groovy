@@ -21,6 +21,4 @@ class ApiScheme {
     ApiatorInfo apiatorInfo
     ClientApiInfo clientApiInfo
     List<ApiContext> apiContexts = []
-    Set<ApiType> usedEnumerations = []
-    Set<ApiType> usedApiTypes = []
 }

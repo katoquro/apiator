@@ -2,12 +2,17 @@ rootProject.name = 'apiator'
 
 include ':core'
 include ':api'
+
 include ':provider:jax-rs-provider'
+
 include ':renderer:core-html-renderer'
 include ':renderer:core-json-renderer'
-include ':renderer:mapper:jackson-property-mapper'
-include ':modeltype:jax-rs-modeltype'
-include ':modeltype:j8-modeltype'
+
+include ':renderer:core-json-renderer:plugin:spi-plugin-core-json-renderer'
+include ':renderer:core-json-renderer:plugin:jakson-plugin-core-json-renderer'
+include ':renderer:core-json-renderer:plugin:jax-rs-plugin-core-json-renderer'
+include ':renderer:core-json-renderer:plugin:j8-plugin-core-json-renderer'
+
 include ':test:core-model-test'
 include ':test:jax-rs-model-test'
 include ':test:demo-model-test'

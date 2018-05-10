@@ -15,18 +15,21 @@
  */
 package com.ainrif.apiator.renderer.core.json.view
 
-import com.ainrif.apiator.core.model.ModelType
 import com.ainrif.apiator.core.model.api.ApiType
+import com.ainrif.apiator.renderer.core.json.CoreJsonRenderer
+import com.ainrif.apiator.renderer.plugin.spi.ModelType
 
 import javax.annotation.Nullable
 
 abstract class ModelTypeBasedView implements Comparable<ModelTypeBasedView> {
-    @Nullable String type
+    @Nullable
+    String type
     ModelType modelType
 
     ModelTypeBasedView(ApiType type) {
-        this.modelType = type.modelType
-        this.type = [ModelType.OBJECT, ModelType.ENUMERATION].any { it == type.modelType } ? type.rawType.name : null
+        this.modelType = CoreJsonRenderer.getTypeByClass(type.rawType)
+        this.type = [ModelType.OBJECT, ModelType.ENUMERATION]
+                .any { it == CoreJsonRenderer.getTypeByClass(type.rawType) } ? type.rawType.name : null
     }
 
     @Override
@@ -47,8 +50,8 @@ abstract class ModelTypeBasedView implements Comparable<ModelTypeBasedView> {
 
             if (type.array) {
                 this.basedOn = [new ApiTypeGenericView(type.componentApiType)]
-            } else if (type.generic) {
-                this.basedOn = type.actualTypeArguments.collect { new ApiTypeGenericView(it) }
+            } else if (type.actuallyParametrised) {
+                this.basedOn = type.actualParameters.collect { new ApiTypeGenericView(it) }
             } else {
                 this.basedOn = []
             }

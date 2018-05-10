@@ -27,6 +27,7 @@ public class ModelDto1<TV, TVB extends Collection, GENERIC_BOUNDED extends List<
     Set<String> setField;
     String[] arrayField;
     Iterable<?> iterableField;
+    Iterable iterableFiledWOTemplateParameter;
     TV typeVariableType;
     TVB typeVariableBoundedType;
     GENERIC_BOUNDED genericBounded;

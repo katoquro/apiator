@@ -17,9 +17,9 @@ package com.ainrif.apiator.test.smoke
 
 import com.ainrif.apiator.core.Apiator
 import com.ainrif.apiator.core.ApiatorConfig
-import com.ainrif.apiator.modeltype.jaxrs.JaxRsModelTypeResolver
 import com.ainrif.apiator.provider.jaxrs.JaxRsProvider
 import com.ainrif.apiator.renderer.core.html.CoreHtmlRenderer
+import com.ainrif.apiator.renderer.plugin.jaxrs.JaxRsModelTypePlugin
 import spock.lang.Specification
 
 class CoreHtmlRendererSmokeSpec extends Specification {
@@ -29,8 +29,10 @@ class CoreHtmlRendererSmokeSpec extends Specification {
                 new ApiatorConfig(
                         basePackage: 'com.ainrif.apiator.test.model.jaxrs.smoke',
                         provider: new JaxRsProvider(),
-                        renderer: new CoreHtmlRenderer(),
-                        modelTypeResolvers: [new JaxRsModelTypeResolver()]))
+                        renderer: new CoreHtmlRenderer({
+                            plugins << new JaxRsModelTypePlugin()
+                        }),
+                ))
 
         when:
         def actual = apiator.render()
