@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.renderer.plugin.spi;
+package com.ainrif.apiator.api.annotation;
 
-import javax.annotation.Nullable;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public interface ModelTypePlugin extends CoreJsonRendererPlugin {
-    /**
-     * @return null if this type cannot be resolved with given resolver
-     */
-    @Nullable
-    ModelType resolve(Class<?> type);
+/**
+ * It's used to extend api param information
+ * Default values mean not set
+ */
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface Param {
+    String defaultValue() default "";
 }

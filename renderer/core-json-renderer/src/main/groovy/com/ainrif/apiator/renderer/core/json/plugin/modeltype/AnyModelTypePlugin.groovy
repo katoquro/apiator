@@ -15,8 +15,8 @@
  */
 package com.ainrif.apiator.renderer.core.json.plugin.modeltype
 
-import com.ainrif.apiator.renderer.plugin.spi.ModelType
-import com.ainrif.apiator.renderer.plugin.spi.ModelTypePlugin
+import com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelType
+import com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelTypePlugin
 
 class AnyModelTypePlugin implements ModelTypePlugin {
     @Override

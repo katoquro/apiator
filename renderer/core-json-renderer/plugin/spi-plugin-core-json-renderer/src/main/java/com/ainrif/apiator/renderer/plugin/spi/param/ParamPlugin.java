@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.renderer.plugin.spi;
+package com.ainrif.apiator.renderer.plugin.spi.param;
 
-import com.ainrif.apiator.core.model.api.ApiField;
+import com.ainrif.apiator.core.model.api.ApiEndpointParam;
+import com.ainrif.apiator.renderer.plugin.spi.CoreJsonRendererPlugin;
 
-import java.util.Collection;
-
-public interface PropertyPlugin extends CoreJsonRendererPlugin {
-    Collection<ApiField> collectProperties(Class<?> type);
+public interface ParamPlugin extends CoreJsonRendererPlugin {
+    ParamViewData configure(ApiEndpointParam endpointParam);
 }

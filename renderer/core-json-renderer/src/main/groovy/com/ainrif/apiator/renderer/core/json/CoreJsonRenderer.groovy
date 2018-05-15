@@ -22,7 +22,12 @@ import com.ainrif.apiator.doclet.model.JavaDocInfo
 import com.ainrif.apiator.renderer.core.json.javadoc.JavaDocInfoIndexer
 import com.ainrif.apiator.renderer.core.json.plugin.DefaultCompositePlugin
 import com.ainrif.apiator.renderer.core.json.view.ApiSchemeView
-import com.ainrif.apiator.renderer.plugin.spi.*
+import com.ainrif.apiator.renderer.plugin.spi.CompositePlugin
+import com.ainrif.apiator.renderer.plugin.spi.CoreJsonRendererPlugin
+import com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelType
+import com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelTypePlugin
+import com.ainrif.apiator.renderer.plugin.spi.param.ParamPlugin
+import com.ainrif.apiator.renderer.plugin.spi.property.PropertyPlugin
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.PropertyAccessor
@@ -60,7 +65,7 @@ class CoreJsonRenderer implements Renderer {
         /**
          * List of plugins to customise renderer output <br>
          * Custom plugins can be add to the end of list or instead of defaults <br>
-         * For plugins which relay on order like {@link ModelTypePlugin} the last added plugins will be processed first
+         * For plugins which relay on order like {@link com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelTypePlugin} the last added plugins will be processed first
          */
         List<CoreJsonRendererPlugin> plugins = [new DefaultCompositePlugin()]
         /**
@@ -71,6 +76,7 @@ class CoreJsonRenderer implements Renderer {
 
     static class PluginsConfig {
         PropertyPlugin propertyPlugin
+        ParamPlugin paramPlugin
         List<ModelTypePlugin> modelTypePlugins = []
     }
 
@@ -96,6 +102,9 @@ class CoreJsonRenderer implements Renderer {
         def plugins = flattenCompositePlugins(config.plugins)
         plugins.each {
             switch (it) {
+                case ParamPlugin:
+                    pluginsConfig.paramPlugin = it
+                    break
                 case PropertyPlugin:
                     pluginsConfig.propertyPlugin = it
                     break

@@ -16,16 +16,19 @@
 
 package com.ainrif.apiator.renderer.core.json.plugin
 
-import com.ainrif.apiator.renderer.core.json.plugin.modeltype.DefaultModelTypeCompositePlugin
-import com.ainrif.apiator.renderer.plugin.spi.CompositePlugin
-import com.ainrif.apiator.renderer.plugin.spi.CoreJsonRendererPlugin
+import com.ainrif.apiator.api.annotation.Param
+import com.ainrif.apiator.core.model.api.ApiEndpointParam
+import com.ainrif.apiator.renderer.plugin.spi.param.ParamPlugin
+import com.ainrif.apiator.renderer.plugin.spi.param.ParamViewData
+import org.apache.commons.lang3.StringUtils
 
-class DefaultCompositePlugin implements CompositePlugin {
-
+class DefaultParamPlugin implements ParamPlugin {
     @Override
-    List<CoreJsonRendererPlugin> getPlugins() {
-        return [new DefaultPropertyPlugin(),
-                new DefaultParamPlugin(),
-                new DefaultModelTypeCompositePlugin()]
+    ParamViewData configure(ApiEndpointParam endpointParam) {
+        def defaultValue = endpointParam.annotations
+                .find { Param.isAssignableFrom(it.annotationType()) }
+                ?.with { StringUtils.trimToNull(it.asType(Param).defaultValue()) }
+
+        return new ParamViewData(defaultValue: defaultValue)
     }
 }

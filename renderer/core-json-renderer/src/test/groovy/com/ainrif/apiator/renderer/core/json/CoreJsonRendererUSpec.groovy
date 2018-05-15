@@ -16,9 +16,13 @@
 
 package com.ainrif.apiator.renderer.core.json
 
-import com.ainrif.apiator.renderer.core.json.plugin.DefaultModelTypeCompositePlugin
 import com.ainrif.apiator.renderer.core.json.plugin.modeltype.CustomUnresolvedType
-import com.ainrif.apiator.renderer.plugin.spi.*
+import com.ainrif.apiator.renderer.core.json.plugin.modeltype.DefaultModelTypeCompositePlugin
+import com.ainrif.apiator.renderer.plugin.spi.CompositePlugin
+import com.ainrif.apiator.renderer.plugin.spi.CoreJsonRendererPlugin
+import com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelType
+import com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelTypePlugin
+import com.ainrif.apiator.renderer.plugin.spi.property.PropertyPlugin
 import spock.lang.Specification
 
 class CoreJsonRendererUSpec extends Specification {

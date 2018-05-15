@@ -68,7 +68,7 @@ class JaxRsMethodStack extends MethodStack {
         def methodParams = this.last().parameters
 
         return getParametersAnnotationsLists().collectMany { index, annList ->
-            def reversedAnnList = annList.reverse()
+            List<? extends Annotation> reversedAnnList = annList.reverse()
 
             def found = reversedAnnList.find { annotation -> Context.isAssignableFrom(annotation.annotationType()) }
             if (found) {
@@ -85,9 +85,10 @@ class JaxRsMethodStack extends MethodStack {
                         name: found.value(),
                         type: new ApiType(methodParams[index].parameterizedType),
                         httpParamType: httpParamTypeFor(found.annotationType()),
-                        defaultValue: reversedAnnList.find {
-                            DefaultValue.isAssignableFrom(it.annotationType())
-                        }?.value()
+                        annotations: reversedAnnList
+//                        defaultValue: reversedAnnList.find {
+//                            DefaultValue.isAssignableFrom(it.annotationType())
+//                        }?.value()
                 )
 
                 return singletonList(result)
@@ -103,7 +104,8 @@ class JaxRsMethodStack extends MethodStack {
                             name: annotation.value(),
                             type: new ApiType(it.genericType),
                             httpParamType: httpParamTypeFor(annotation.annotationType()),
-                            defaultValue: AnnotationUtils.getAnnotation(it, DefaultValue)?.value()
+                            annotations: (it.annotations as List<? extends Annotation>) + reversedAnnList
+//                            defaultValue: AnnotationUtils.getAnnotation(it, DefaultValue)?.value()
                     )
                 }
             }
@@ -114,7 +116,7 @@ class JaxRsMethodStack extends MethodStack {
                     name: null,
                     type: new ApiType(methodParams[index].parameterizedType),
                     httpParamType: ApiEndpointParamType.BODY,
-                    defaultValue: null
+                    annotations: reversedAnnList
             )
 
             return singletonList(result)

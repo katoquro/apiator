@@ -15,6 +15,9 @@
  */
 package com.ainrif.apiator.core.model.api
 
+/**
+ * The values describes how request parameter should be passed to the server
+ */
 enum ApiEndpointParamType {
     PATH,
     QUERY,

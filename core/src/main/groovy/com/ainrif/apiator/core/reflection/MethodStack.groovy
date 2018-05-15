@@ -44,6 +44,15 @@ abstract class MethodStack extends ArrayList<Method> {
     abstract List<ApiEndpointParam> getParams()
 
     /**
+     * This method is used to merge apiator docs and java doc parser result
+     *
+     * @return not-unique identifier of this method
+     */
+    final MethodSignature getMethodSignature() {
+        return new MethodSignature(this.last())
+    }
+
+    /**
      * @see com.ainrif.apiator.api.annotation.ConcreteTypes
      * @return type of implementation or defined in annotation 
      */
@@ -59,18 +68,14 @@ abstract class MethodStack extends ArrayList<Method> {
      *
      * @return [ < param index > : [inherited annotations] ]
      */
-    Map<Integer, List<? extends Annotation>> getParametersAnnotationsLists() {
+    protected Map<Integer, List<? extends Annotation>> getParametersAnnotationsLists() {
         Map<Integer, List<? extends Annotation>> result = new HashMap<>().withDefault { [] }
         this.each {
             it.parameterAnnotations.eachWithIndex { Annotation[] entry, int i ->
-                result[i] += entry as List
+                result[i] += (entry as List<? extends Annotation>)
             }
         }
 
-        result
-    }
-
-    final MethodSignature getMethodSignature() {
-        return new MethodSignature(this.last())
+        return result
     }
 }

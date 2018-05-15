@@ -13,22 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.ainrif.apiator.renderer.core.json.plugin.modeltype
 
-import com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelType
-import spock.lang.Specification
+import com.ainrif.apiator.renderer.plugin.spi.CompositePlugin
+import com.ainrif.apiator.renderer.plugin.spi.CoreJsonRendererPlugin
 
-class AnyModelTypePluginSpec extends Specification {
-    def "resolve"() {
-        given:
-        def resolver = new AnyModelTypePlugin()
-
-        expect:
-        resolver.resolve(type) == expected
-
-        where:
-        type                 || expected
-        CustomUnresolvedType || null
-        Object               || ModelType.ANY
+class DefaultModelTypeCompositePlugin implements CompositePlugin {
+    @Override
+    List<CoreJsonRendererPlugin> getPlugins() {
+        return [
+                new AnyModelTypePlugin(),
+                new CollectionsModelTypePlugin(),
+                new BinaryModelTypePlugin(),
+                new OldDateModelTypePlugin(),
+                new CoreJavaModelTypePlugin()
+        ]
     }
 }

@@ -21,7 +21,7 @@ import com.ainrif.apiator.core.model.api.ApiType
 import com.ainrif.apiator.core.reflection.RUtils
 import com.ainrif.apiator.renderer.core.json.CoreJsonRenderer
 import com.ainrif.apiator.renderer.core.json.javadoc.JavaDocInfoIndexer
-import com.ainrif.apiator.renderer.plugin.spi.ModelType
+import com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelType
 import groovy.transform.Memoized
 
 import java.beans.Introspector
@@ -29,8 +29,8 @@ import java.lang.reflect.Field
 import java.lang.reflect.Modifier
 import java.util.function.Predicate
 
-import static com.ainrif.apiator.renderer.plugin.spi.ModelType.ENUMERATION
-import static com.ainrif.apiator.renderer.plugin.spi.ModelType.OBJECT
+import static com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelType.ENUMERATION
+import static com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelType.OBJECT
 
 class ApiSchemeView {
     ApiatorInfoView apiatorInfo

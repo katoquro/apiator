@@ -13,20 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.ainrif.apiator.renderer.plugin.jaxrs
 
-import com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelType
-import com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelTypePlugin
+import com.ainrif.apiator.core.model.api.ApiEndpointParam
+import com.ainrif.apiator.renderer.core.json.plugin.DefaultParamPlugin
+import com.ainrif.apiator.renderer.plugin.spi.param.ParamViewData
 
-import javax.ws.rs.core.MediaType
-import javax.ws.rs.core.Response
+import javax.ws.rs.DefaultValue
 
-class JaxRsModelTypePlugin implements ModelTypePlugin {
+class JaxRsParamPlugin extends DefaultParamPlugin {
     @Override
-    ModelType resolve(Class<?> type) {
-        if (Response.isAssignableFrom(type)) return ModelType.ANY
-        if (MediaType.isAssignableFrom(type)) return ModelType.STRING
+    ParamViewData configure(ApiEndpointParam endpointParam) {
+        def data = super.configure(endpointParam)
+        def defaultValue = endpointParam.annotations
+                .find { DefaultValue.isAssignableFrom(it.annotationType()) }
+                ?.with { it.asType(DefaultValue).value() }
 
-        return null
+        if (defaultValue) {
+            data.defaultValue = defaultValue
+        }
+
+        return data
     }
 }

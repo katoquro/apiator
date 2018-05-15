@@ -17,6 +17,7 @@ package com.ainrif.apiator.renderer.core.json.view
 
 import com.ainrif.apiator.core.model.api.ApiEndpointParam
 import com.ainrif.apiator.core.model.api.ApiEndpointParamType
+import com.ainrif.apiator.renderer.core.json.CoreJsonRenderer
 import com.ainrif.apiator.renderer.core.json.javadoc.ParamMergedInfo
 
 import javax.annotation.Nullable
@@ -36,7 +37,10 @@ class ApiEndpointParamView extends ModelTypeBasedView.ApiTypeGenericView
         this.description = paramInfo?.description
         this.httpParamType = endpointParam.httpParamType
         this.index = endpointParam.index
-        this.defaultValue = endpointParam.defaultValue
+
+        this.defaultValue = CoreJsonRenderer.pluginsConfig.paramPlugin
+                .configure(endpointParam)
+                .defaultValue
     }
 
     @Override

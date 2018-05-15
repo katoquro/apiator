@@ -15,7 +15,7 @@
  */
 package com.ainrif.apiator.renderer.core.json.plugin.modeltype
 
-import com.ainrif.apiator.renderer.plugin.spi.ModelType
+import com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelType
 import spock.lang.Specification
 
 class BinaryModelTypePluginSpec extends Specification {

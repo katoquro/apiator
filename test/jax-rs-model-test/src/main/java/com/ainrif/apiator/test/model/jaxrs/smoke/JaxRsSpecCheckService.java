@@ -16,6 +16,7 @@
 
 package com.ainrif.apiator.test.model.jaxrs.smoke;
 
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -28,7 +29,7 @@ public interface JaxRsSpecCheckService {
 
     @GET
     @Path("/{id}")
-    Object pathParam(@PathParam("id") String id);
+    Object pathParam(@PathParam("id") @DefaultValue("0") String id);
 
     @GET
     @Path("/get-concrete-dto-from-impl")

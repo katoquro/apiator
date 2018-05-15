@@ -13,22 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.renderer.core.json.plugin.modeltype
 
-import com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelType
-import spock.lang.Specification
+package com.ainrif.apiator.renderer.plugin.spi.property;
 
-class AnyModelTypePluginSpec extends Specification {
-    def "resolve"() {
-        given:
-        def resolver = new AnyModelTypePlugin()
+import com.ainrif.apiator.core.model.api.ApiField;
+import com.ainrif.apiator.renderer.plugin.spi.CoreJsonRendererPlugin;
 
-        expect:
-        resolver.resolve(type) == expected
+import java.util.Collection;
 
-        where:
-        type                 || expected
-        CustomUnresolvedType || null
-        Object               || ModelType.ANY
-    }
+public interface PropertyPlugin extends CoreJsonRendererPlugin {
+    Collection<ApiField> collectProperties(Class<?> type);
 }

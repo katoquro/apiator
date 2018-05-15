@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.renderer.plugin.spi;
+package com.ainrif.apiator.renderer.plugin.spi.modeltype;
 
 import java.util.ArrayList;
 import java.util.Arrays;

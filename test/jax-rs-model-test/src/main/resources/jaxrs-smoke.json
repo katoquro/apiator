@@ -160,6 +160,7 @@
           "params": [
             {
               "basedOn": [],
+              "defaultValue": "0",
               "httpParamType": "PATH",
               "index": 0,
               "modelType": "STRING",

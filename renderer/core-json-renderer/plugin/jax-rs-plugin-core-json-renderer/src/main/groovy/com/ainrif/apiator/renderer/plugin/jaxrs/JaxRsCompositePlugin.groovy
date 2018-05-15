@@ -14,21 +14,14 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.renderer.core.json.plugin
+package com.ainrif.apiator.renderer.plugin.jaxrs
 
-import com.ainrif.apiator.renderer.core.json.plugin.modeltype.*
 import com.ainrif.apiator.renderer.plugin.spi.CompositePlugin
 import com.ainrif.apiator.renderer.plugin.spi.CoreJsonRendererPlugin
 
-class DefaultModelTypeCompositePlugin implements CompositePlugin {
+class JaxRsCompositePlugin implements CompositePlugin {
     @Override
     List<CoreJsonRendererPlugin> getPlugins() {
-        return [
-                new AnyModelTypePlugin(),
-                new CollectionsModelTypePlugin(),
-                new BinaryModelTypePlugin(),
-                new OldDateModelTypePlugin(),
-                new CoreJavaModelTypePlugin()
-        ]
+        return [new JaxRsModelTypePlugin(), new JaxRsParamPlugin()]
     }
 }
