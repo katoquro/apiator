@@ -16,6 +16,7 @@
 
 package com.ainrif.apiator.renderer.core.json.plugin
 
+import com.ainrif.apiator.core.model.api.ApiType
 import com.ainrif.apiator.renderer.core.json.test.model.M_ConcreteInterface
 import com.ainrif.apiator.renderer.core.json.test.model.M_ConcreteType
 import com.ainrif.apiator.renderer.core.json.test.model.M_PropertiesWithClash
@@ -31,7 +32,7 @@ class DefaultPropertyPluginSpec extends Specification {
                              'publicBeanPropOnlySet']
 
         when:
-        def actual = mapper.collectProperties(M_ConcreteType)
+        def actual = mapper.collectProperties(new ApiType(M_ConcreteType))
 
         then:
         actual.size() == 4
@@ -44,7 +45,7 @@ class DefaultPropertyPluginSpec extends Specification {
         def expectedNames = ['interfaceOnlyGet']
 
         when:
-        def actual = mapper.collectProperties(M_ConcreteInterface)
+        def actual = mapper.collectProperties(new ApiType(M_ConcreteInterface))
 
         then:
         actual.size() == 1
@@ -57,7 +58,7 @@ class DefaultPropertyPluginSpec extends Specification {
         def expectedName = 'publicFieldWithOnlySet'
 
         when:
-        def actual = mapper.collectProperties(M_PropertiesWithClash)
+        def actual = mapper.collectProperties(new ApiType(M_PropertiesWithClash))
 
         then:
         actual.size() == 1

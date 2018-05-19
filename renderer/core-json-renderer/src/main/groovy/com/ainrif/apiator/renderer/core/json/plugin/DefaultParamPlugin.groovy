@@ -22,13 +22,28 @@ import com.ainrif.apiator.renderer.plugin.spi.param.ParamPlugin
 import com.ainrif.apiator.renderer.plugin.spi.param.ParamViewData
 import org.apache.commons.lang3.StringUtils
 
+import javax.annotation.Nullable
+
 class DefaultParamPlugin implements ParamPlugin {
     @Override
-    ParamViewData configure(ApiEndpointParam endpointParam) {
-        def defaultValue = endpointParam.annotations
+    ParamViewData process(ApiEndpointParam endpointParam) {
+        def result = new ParamViewData()
+        def annotation = endpointParam.annotations
                 .find { Param.isAssignableFrom(it.annotationType()) }
-                ?.with { StringUtils.trimToNull(it.asType(Param).defaultValue()) }
 
-        return new ParamViewData(defaultValue: defaultValue)
+        if (annotation) {
+            def paramAnnotation = annotation as Param
+            result.defaultValue = StringUtils.trimToNull(paramAnnotation.defaultValue())
+            result.optional = paramAnnotation.optional()
+        }
+
+        annotation = endpointParam.annotations
+                .find { Nullable.isAssignableFrom(it.annotationType()) }
+
+        if (annotation) {
+            result.optional = true
+        }
+
+        return result
     }
 }

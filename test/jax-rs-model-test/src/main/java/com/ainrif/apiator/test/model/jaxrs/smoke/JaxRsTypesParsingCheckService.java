@@ -17,10 +17,12 @@
 package com.ainrif.apiator.test.model.jaxrs.smoke;
 
 import com.ainrif.apiator.api.annotation.Api;
+import com.ainrif.apiator.api.annotation.Param;
 import com.ainrif.apiator.test.model.core.*;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 
 @Api
 @Path("/types")
@@ -49,4 +51,9 @@ public interface JaxRsTypesParsingCheckService {
     @POST
     @Path("/post-body-type_bounds")
     void checkTypeBounds(Dto06_TypeBounds dto);
+
+    @POST
+    @Path("/post-body-api_annotations/{param}")
+    void checkApiAnnotations(@PathParam("param") @Param(optional = true) String param,
+                             Dto08_ApiAnnotations dto);
 }

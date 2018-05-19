@@ -23,10 +23,17 @@ import java.lang.annotation.Target;
 
 /**
  * It's used to extend api param information
- * Default values mean not set
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({ElementType.PARAMETER, ElementType.FIELD})
 public @interface Param {
+    /**
+     * Empty means wasn't set
+     */
     String defaultValue() default "";
+
+    /**
+     * Marks param as not required for a request
+     */
+    boolean optional() default false;
 }

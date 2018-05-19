@@ -105,7 +105,6 @@ class JaxRsMethodStack extends MethodStack {
                             type: new ApiType(it.genericType),
                             httpParamType: httpParamTypeFor(annotation.annotationType()),
                             annotations: (it.annotations as List<? extends Annotation>) + reversedAnnList
-//                            defaultValue: AnnotationUtils.getAnnotation(it, DefaultValue)?.value()
                     )
                 }
             }

@@ -17,10 +17,13 @@
 package com.ainrif.apiator.renderer.plugin.spi.property;
 
 import com.ainrif.apiator.core.model.api.ApiField;
+import com.ainrif.apiator.core.model.api.ApiType;
 import com.ainrif.apiator.renderer.plugin.spi.CoreJsonRendererPlugin;
 
 import java.util.Collection;
 
 public interface PropertyPlugin extends CoreJsonRendererPlugin {
-    Collection<ApiField> collectProperties(Class<?> type);
+    Collection<ApiField> collectProperties(ApiType type);
+
+    PropertyViewData process(ApiField apiField);
 }

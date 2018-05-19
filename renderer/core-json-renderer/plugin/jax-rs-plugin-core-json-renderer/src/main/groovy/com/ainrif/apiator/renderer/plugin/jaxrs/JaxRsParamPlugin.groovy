@@ -24,8 +24,9 @@ import javax.ws.rs.DefaultValue
 
 class JaxRsParamPlugin extends DefaultParamPlugin {
     @Override
-    ParamViewData configure(ApiEndpointParam endpointParam) {
-        def data = super.configure(endpointParam)
+    ParamViewData process(ApiEndpointParam endpointParam) {
+        def data = super.process(endpointParam)
+
         def defaultValue = endpointParam.annotations
                 .find { DefaultValue.isAssignableFrom(it.annotationType()) }
                 ?.with { it.asType(DefaultValue).value() }

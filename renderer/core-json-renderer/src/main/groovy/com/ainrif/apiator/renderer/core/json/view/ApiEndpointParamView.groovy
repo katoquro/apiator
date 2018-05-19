@@ -29,6 +29,7 @@ class ApiEndpointParamView extends ModelTypeBasedView.ApiTypeGenericView
     ApiEndpointParamType httpParamType
     Integer index
     String defaultValue
+    boolean optional
 
     ApiEndpointParamView(ApiEndpointParam endpointParam, @Nullable ParamMergedInfo paramInfo) {
         super(endpointParam.type)
@@ -38,9 +39,11 @@ class ApiEndpointParamView extends ModelTypeBasedView.ApiTypeGenericView
         this.httpParamType = endpointParam.httpParamType
         this.index = endpointParam.index
 
-        this.defaultValue = CoreJsonRenderer.pluginsConfig.paramPlugin
-                .configure(endpointParam)
-                .defaultValue
+        def pluginData = CoreJsonRenderer.pluginsConfig.paramPlugin
+                .process(endpointParam)
+
+        this.defaultValue = pluginData.defaultValue
+        this.optional = pluginData.optional
     }
 
     @Override

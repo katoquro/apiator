@@ -13,17 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.model.api
 
-import java.lang.annotation.Annotation
+package com.ainrif.apiator.renderer.plugin.spi.property;
 
-class ApiField {
-    String name
+import javax.annotation.Nullable;
 
-    ApiType type
-    ApiType enclosingType
-    List<? extends Annotation> annotations
+public class PropertyViewData {
+    @Nullable
+    public String defaultValue;
 
-    boolean readable
-    boolean writable
+    public Boolean optional;
 }

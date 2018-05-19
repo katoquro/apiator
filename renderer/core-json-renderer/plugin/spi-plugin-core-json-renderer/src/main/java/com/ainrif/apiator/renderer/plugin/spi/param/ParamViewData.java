@@ -21,4 +21,6 @@ import javax.annotation.Nullable;
 public class ParamViewData {
     @Nullable
     public String defaultValue;
+
+    public Boolean optional;
 }

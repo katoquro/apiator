@@ -20,5 +20,5 @@ import com.ainrif.apiator.core.model.api.ApiEndpointParam;
 import com.ainrif.apiator.renderer.plugin.spi.CoreJsonRendererPlugin;
 
 public interface ParamPlugin extends CoreJsonRendererPlugin {
-    ParamViewData configure(ApiEndpointParam endpointParam);
+    ParamViewData process(ApiEndpointParam endpointParam);
 }

@@ -13,17 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core.model.api
 
-import java.lang.annotation.Annotation
+package com.ainrif.apiator.test.model.core;
 
-class ApiField {
-    String name
+import com.ainrif.apiator.api.annotation.Param;
 
-    ApiType type
-    ApiType enclosingType
-    List<? extends Annotation> annotations
+import javax.annotation.Nullable;
 
-    boolean readable
-    boolean writable
+public class Dto08_ApiAnnotations {
+    @Param(defaultValue = "defVal")
+    public String fieldWithDefaultValue;
+    @Param(optional = true)
+    public String optionalField;
+    @Nullable
+    public String optionalViaNullableField;
 }

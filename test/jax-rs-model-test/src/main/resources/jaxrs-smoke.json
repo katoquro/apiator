@@ -13,7 +13,8 @@
               "httpParamType": "QUERY",
               "index": 0,
               "modelType": "STRING",
-              "name": "id"
+              "name": "id",
+              "optional": false
             }
           ],
           "path": "/",
@@ -33,6 +34,7 @@
               "httpParamType": "BODY",
               "index": 0,
               "modelType": "OBJECT",
+              "optional": false,
               "type": "com.ainrif.apiator.test.model.core.Dto07_JavaDocField"
             }
           ],
@@ -164,7 +166,8 @@
               "httpParamType": "PATH",
               "index": 0,
               "modelType": "STRING",
-              "name": "id"
+              "name": "id",
+              "optional": false
             }
           ],
           "path": "/{id}",
@@ -190,10 +193,40 @@
               "httpParamType": "BODY",
               "index": 0,
               "modelType": "OBJECT",
+              "optional": false,
               "type": "com.ainrif.apiator.test.model.core.Dto04_AccessModifiers"
             }
           ],
           "path": "/post-body-access_modifiers",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "name": "checkApiAnnotations",
+          "params": [
+            {
+              "basedOn": [],
+              "httpParamType": "PATH",
+              "index": 0,
+              "modelType": "STRING",
+              "name": "param",
+              "optional": true
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "BODY",
+              "index": 1,
+              "modelType": "OBJECT",
+              "optional": false,
+              "type": "com.ainrif.apiator.test.model.core.Dto08_ApiAnnotations"
+            }
+          ],
+          "path": "/post-body-api_annotations/{param}",
           "returnTypes": [
             {
               "basedOn": [],
@@ -210,6 +243,7 @@
               "httpParamType": "BODY",
               "index": 0,
               "modelType": "OBJECT",
+              "optional": false,
               "type": "com.ainrif.apiator.test.model.core.Dto02_Complex"
             }
           ],
@@ -230,6 +264,7 @@
               "httpParamType": "BODY",
               "index": 0,
               "modelType": "OBJECT",
+              "optional": false,
               "type": "com.ainrif.apiator.test.model.core.Dto01_Plain"
             }
           ],
@@ -250,6 +285,7 @@
               "httpParamType": "BODY",
               "index": 0,
               "modelType": "OBJECT",
+              "optional": false,
               "type": "com.ainrif.apiator.test.model.core.Dto03_JavaBean"
             }
           ],
@@ -271,6 +307,7 @@
               "httpParamType": "BODY",
               "index": 0,
               "modelType": "OBJECT",
+              "optional": false,
               "type": "com.ainrif.apiator.test.model.core.Dto06_TypeBounds"
             }
           ],
@@ -296,6 +333,7 @@
               "httpParamType": "BODY",
               "index": 0,
               "modelType": "OBJECT",
+              "optional": false,
               "type": "com.ainrif.apiator.test.model.core.Dto05_TypeValue"
             }
           ],
@@ -330,6 +368,7 @@
           "basedOn": [],
           "modelType": "STRING",
           "name": "plainField",
+          "optional": false,
           "readable": true,
           "writable": true
         }
@@ -343,6 +382,7 @@
           "basedOn": [],
           "modelType": "STRING",
           "name": "plainField",
+          "optional": false,
           "readable": true,
           "writable": true
         },
@@ -350,6 +390,7 @@
           "basedOn": [],
           "modelType": "OBJECT",
           "name": "plainDtoField",
+          "optional": false,
           "readable": true,
           "type": "com.ainrif.apiator.test.model.core.Dto01_Plain",
           "writable": true
@@ -358,6 +399,7 @@
           "basedOn": [],
           "modelType": "OBJECT",
           "name": "typeValueDtoField",
+          "optional": false,
           "readable": true,
           "type": "com.ainrif.apiator.test.model.core.Dto05_TypeValue",
           "writable": true
@@ -366,6 +408,7 @@
           "basedOn": [],
           "modelType": "ENUMERATION",
           "name": "enumTypeField",
+          "optional": false,
           "readable": true,
           "type": "com.ainrif.apiator.test.model.core.EnumType",
           "writable": true
@@ -380,6 +423,7 @@
           "basedOn": [],
           "modelType": "STRING",
           "name": "withGetterAndSetterField",
+          "optional": false,
           "readable": true,
           "writable": true
         },
@@ -387,6 +431,7 @@
           "basedOn": [],
           "modelType": "STRING",
           "name": "withGetterField",
+          "optional": false,
           "readable": true,
           "writable": false
         },
@@ -394,6 +439,7 @@
           "basedOn": [],
           "modelType": "STRING",
           "name": "withSetterField",
+          "optional": false,
           "readable": false,
           "writable": true
         }
@@ -407,6 +453,7 @@
           "basedOn": [],
           "modelType": "STRING",
           "name": "publicField",
+          "optional": false,
           "readable": true,
           "writable": true
         }
@@ -420,6 +467,7 @@
           "basedOn": [],
           "modelType": "ANY",
           "name": "data",
+          "optional": false,
           "readable": true,
           "templateName": "T",
           "writable": true
@@ -441,6 +489,7 @@
           ],
           "modelType": "ARRAY",
           "name": "withExtendsBound",
+          "optional": false,
           "readable": true,
           "writable": false
         },
@@ -455,6 +504,7 @@
           ],
           "modelType": "ARRAY",
           "name": "withExtendsBoundFromClass",
+          "optional": false,
           "readable": false,
           "writable": true
         },
@@ -468,6 +518,7 @@
           ],
           "modelType": "ARRAY",
           "name": "withExtendsWildcardBound",
+          "optional": false,
           "readable": false,
           "writable": true
         },
@@ -480,6 +531,7 @@
           ],
           "modelType": "ARRAY",
           "name": "withSuperWildcardBound",
+          "optional": false,
           "readable": false,
           "writable": true
         }
@@ -493,6 +545,7 @@
           "basedOn": [],
           "modelType": "INTEGER",
           "name": "field",
+          "optional": false,
           "readable": true,
           "writable": true
         }
@@ -507,12 +560,44 @@
           "description": "Field-level javadoc",
           "modelType": "ANY",
           "name": "objectField",
+          "optional": false,
           "readable": true,
           "writable": true
         }
       ],
       "modelType": "OBJECT",
       "type": "com.ainrif.apiator.test.model.core.Dto07_JavaDocField"
+    },
+    {
+      "fields": [
+        {
+          "basedOn": [],
+          "defaultValue": "defVal",
+          "modelType": "STRING",
+          "name": "fieldWithDefaultValue",
+          "optional": false,
+          "readable": true,
+          "writable": true
+        },
+        {
+          "basedOn": [],
+          "modelType": "STRING",
+          "name": "optionalField",
+          "optional": true,
+          "readable": true,
+          "writable": true
+        },
+        {
+          "basedOn": [],
+          "modelType": "STRING",
+          "name": "optionalViaNullableField",
+          "optional": true,
+          "readable": true,
+          "writable": true
+        }
+      ],
+      "modelType": "OBJECT",
+      "type": "com.ainrif.apiator.test.model.core.Dto08_ApiAnnotations"
     }
   ],
   "usedEnumerations": [
