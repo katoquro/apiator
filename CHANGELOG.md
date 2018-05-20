@@ -5,6 +5,7 @@ v0.8.x - Renderer Plugins
 - new: info about optional params/fields in model and endpoints (`@Param`, javax `@Nullable`)   
 - new: support jackson annotation to override property names
 - improvement: source path detection now includes model classes
+- improvement: html renderer sources were refactored according to ui components 
 
 v0.7.x - Upgrade HTML View
 

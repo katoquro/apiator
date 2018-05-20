@@ -1,87 +1,77 @@
-<div class="target-marker" data-id="{{apiPath}}"></div>
-<div class="endpoints">
-    <div class="endpoints__name">{{splitCamelCase (getAfterLastDot name)}}</div>
-    {{#if description}}
-        <div class="endpoints__description">{{description}}</div>
-    {{/if}}
-</div>
+<div class="target-marker"
+     data-id="{{getIdForTargetMarkerOfEndpoint (hashToObject method=method apiPath=apiPath path=path)}}"></div>
+<div class="card endpoint endpoint_type_{{method}}" data-view-tab="standard">
 
-{{#each apiEndpoints}}
-    <div class="target-marker"
-         data-id="{{getIdForTargetMarkerOfEndpoint (hashToObject method=method apiPath=../apiPath path=path)}}"></div>
-    <div class="panel endpoint endpoint_type_{{method}}" data-type="standard">
+    <div class="card__header">
+        <span class="card__header-name">{{method}}</span>
+        <span class="card__header-name">{{apiPath}}{{path}}</span>
+        <span class="card__header-share copy-btn"
+              data-clipboard-text="{{getAbsoluteLinkToEndpoint
+                      (hashToObject method=method apiPath=apiPath path=path)}}">Copy link</span>
+        <span class="card__header-view-tab card__header-view-tab_active" data-view-tab="standard">Standard view</span>
+        <span class="card__header-view-tab" data-view-tab="tech">Tech view</span>
+    </div>
 
-        <div class="panel__header">
-            <span class="panel__header-name">{{method}}</span>
-            <span class="panel__header-name">{{../apiPath}}{{path}}</span>
-            <span class="panel__header-share copy-btn"
-                  data-clipboard-text="{{getAbsoluteLinkToEndpoint
-                          (hashToObject method=method apiPath=../apiPath path=path)}}">Copy link</span>
-            <span class="panel__header-view panel__header-view_active" data-type="standard">Standard view</span>
-            <span class="panel__header-view" data-type="tech">Tech view</span>
-        </div>
+    <div class="card__content card__content_standard">
+        {{#if description}}
+            <div class="card__content-item card__content-description">{{description}}</div>
+        {{/if}}
 
-        <div class="panel__content panel__content_standard">
-            {{#if description}}
-                <div class="panel__content-item panel__content-description">{{description}}</div>
-            {{/if}}
-
-            {{#if params}}
-                <div class="panel__content-item">
-                    <div class="panel__content-title">Parameters</div>
-                    <table class="table table_endpoint">
-                        <colgroup>
-                            <col width="25%">
-                            <col width="20%">
-                            <col width="25%">
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Parameter type</th>
-                            <th>Data type</th>
-                            <th>Default value</th>
-                            <th>Optional</th>
+        {{#if params}}
+            <div class="card__content-item">
+                <div class="card__content-title">Parameters</div>
+                <table class="table table_endpoint">
+                    <colgroup>
+                        <col width="25%">
+                        <col width="20%">
+                        <col width="25%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Parameter type</th>
+                        <th>Data type</th>
+                        <th>Default value</th>
+                        <th>Optional</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each params}}
+                        <tr class="param">
+                            <td>{{name}} {{#if required}}<span class="param__required">(required)</span>{{/if}}</td>
+                            <td class="param__http-type">{{httpParamType}}</td>
+                            <td>{{{renderTemplateTypes this}}}</td>
+                            <td>
+                                {{#if defaultValue}}<span class="param__default-value">{{defaultValue}}</span>
+                                {{else}}-{{/if}}
+                            </td>
+                            <td>{{#if optional}}<span class="param__optional">&#x2713;</span>{{else}}-{{/if}}</td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        {{#each params}}
-                            <tr class="param">
-                                <td>{{name}} {{#if required}}<span class="param__required">(required)</span>{{/if}}</td>
-                                <td class="param__http-type">{{httpParamType}}</td>
-                                <td>{{{renderTemplateTypes this}}}</td>
-                                <td>
-                                    {{#if defaultValue}}<span class="param__default-value">{{defaultValue}}</span>
-                                    {{else}}-{{/if}}
-                                </td>
-                                <td>{{#if optional}}<span class="param__optional">&#x2713;</span>{{else}}-{{/if}}</td>
-                            </tr>
-                        {{/each}}
-                        </tbody>
-                    </table>
-                </div>
-            {{/if}}
+                    {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        {{/if}}
 
-            <div class="panel__content-item">
-                <div class="panel__content-title">Responses</div>
-                {{#each returnTypes}}
-                    {{{renderTemplateTypes this}}}&nbsp;
-                {{/each}}
-            </div>
-        </div>
-
-        <div class="panel__content panel__content_tech">
-            <div class="panel__content-item panel__content-endpoint-method">
-                <div class="title">Java method</div>
-                <div class="name">{{getAfterLastDot ../name}}.{{name}}</div>
-                <div class="copy copy-btn"
-                     data-clipboard-text="{{../name}}#{{name}}">copy reference
-                </div>
-            </div>
-            <div class="panel__content-item panel__content-raw-view">
-                <div class="title">Raw view</div>
-                <pre class="viewer json">{{{highlightJSON this}}}</pre>
-            </div>
+        <div class="card__content-item">
+            <div class="card__content-title">Responses</div>
+            {{#each returnTypes}}
+                {{{renderTemplateTypes this}}}&nbsp;
+            {{/each}}
         </div>
     </div>
-{{/each}}
+
+    <div class="card__content card__content_tech">
+        <div class="card__content-item card__content-endpoint-method">
+            <div class="title">Java method</div>
+            <div class="name">{{getAfterLastDot apiName}}.{{name}}</div>
+            <div class="copy copy-btn"
+                 data-clipboard-text="{{apiName}}#{{name}}">copy reference
+            </div>
+        </div>
+        <div class="card__content-item card__content-raw-view">
+            <div class="title">Raw view</div>
+            <pre class="viewer json">{{{highlightJSON this}}}</pre>
+        </div>
+    </div>
+</div>

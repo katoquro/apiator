@@ -21,7 +21,7 @@ import com.ainrif.apiator.test.model.jaxrs.uidev.model.Magazine;
 import javax.ws.rs.*;
 import java.util.List;
 
-@Path("/books")
+@Path("/magazine")
 public class MagazineController {
     @POST
     public Magazine createMagazine(Magazine magazine) {

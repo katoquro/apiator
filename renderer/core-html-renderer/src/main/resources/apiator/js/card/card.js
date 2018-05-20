@@ -14,16 +14,20 @@
  * limitations under the License.
  */
 
-modulejs.define('main',
-    ['hbs', 'sidebar', 'card', 'link_processor', 'menu', 'modal'],
-    function (hbs, sidebar, card, link_processor, menu, modal) {
-        hbs.runMainRender();
+modulejs.define('card', function () {
+    function run() {
+        let $cardHeader = $('.card .card__header');
 
-        modulejs.require('search');
+        $cardHeader.find('.card__header-view-tab').on('click', event => {
+            const $this = $(event.currentTarget);
+            $this.siblings('.card__header-view-tab').removeClass('card__header-view-tab_active');
+            $this.addClass('card__header-view-tab_active');
 
-        sidebar.run();
-        card.run();
-        link_processor.run();
-        menu.run();
-        modal.run();
-    });
+            $this.parents('.card').attr('data-view-tab', $this.data('view-tab'));
+        });
+    }
+
+    return {
+        run: run
+    }
+});

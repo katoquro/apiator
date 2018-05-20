@@ -441,6 +441,10 @@
                 };
 
                 LiveReload.prototype.performAlert = function (message) {
+                    const faviconElement = document.querySelector('link[rel="icon"]');
+                    if (faviconElement) {
+                        faviconElement.href = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEnSURBVEhL7dO9SgNBGIXhsVUDQhoray2jlYhgQEFQsLJREBtbr8JOCIomkNZcgt6BjRcgWHgHNoqgKP7E9+gurOHLZmZn0+XAAzvLznc2ZNZ5pIoOHtHN+MY9DlBKLpEtsGwgKhP4gjU86wJRmYE1uNcVojIqKpxRkXfGMYeFhD5Ea3Cva6R7RC+Ym31Yg0I9Ywq5acLa7OsdmxiYMRQte4NXSRqVncEa1s8r1hGckLIXrKFwVHYKa3hKJXVER2UnsEp0upbhlVWs/F32jcoayJY8YQl5mYbmz2qRbvLJEfT8A+Z1Y0B2oOdbWoQUKYvQm/okqigk/4o+oZMzjOxBReda3CaLY2yXaBc30OxDuC18JDeG4Q6T+E0NOlHtEul/0S+pOOfcD3QFCu30cmsgAAAAAElFTkSuQmCC";
+                    }
                     return document.title = message.message;
                 };
 

@@ -1,4 +1,4 @@
-.panel {
+.card {
   font-size: 13px;
   line-height: 13px;
   background: @bg_dark;
@@ -7,13 +7,13 @@
   box-sizing: border-box;
   border-radius: 1px;
 
-  &[data-type="standard"] {
-    .panel__content_tech {
+  &[data-view-tab="standard"] {
+    .card__content_tech {
       display: none;
     }
   }
-  &[data-type="tech"] {
-    .panel__content_standard {
+  &[data-view-tab="tech"] {
+    .card__content_standard {
       display: none;
     }
   }
@@ -25,7 +25,7 @@
 
     &-name,
     &-share,
-    &-view {
+    &-view-tab {
       padding: 15px 20px;
     }
 
@@ -34,7 +34,7 @@
     }
 
     &-share,
-    &-view {
+    &-view-tab {
       &:hover {
         background-color: fade(@gray, 30%);
       }

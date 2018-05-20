@@ -14,30 +14,45 @@
  * limitations under the License.
  */
 
-modulejs.define('link_processor', ['sidebar'], function (sidebar) {
+modulejs.define('link_processor', ['sidebar', 'utils'], function (sidebar, utils) {
     function enableCopyBtns() {
         const clipboard = new Clipboard('.copy-btn');
-        clipboard.on('success', function (event) {
-            // todo tooltip about copying
+        clipboard.on('success', event => {
+            location.hash = utils.parseLink(event.text).hash;
         });
         clipboard.on('error', function (event) {
             // todo show input with message 'Press Ctrl+C' (OS related)
         });
-
     }
 
     function enableDataLinks() {
-        $(document).on('click', '[data-link]', function () {
-            location.hash = $(this).attr('data-link');
+        $(document).on('click', '[data-link]', event => {
+            location.hash = $(event.currentTarget).attr('data-link');
         });
 
-        $(window).on("hashchange", function (event) {
-            let newHash = _.last(event.originalEvent.newURL.split('#'));
-            let pageLinkTarget = document.querySelector(`[data-id='${newHash}']`);
+        $(window).on("hashchange", event => {
+            const newHash = _.last(event.originalEvent.newURL.split('#'));
+            const pageLinkTarget = document.querySelector(`[data-id='${newHash}']`);
             if (pageLinkTarget) {
-                $(".content").animate({
-                    scrollTop: pageLinkTarget.offsetTop
-                }, 700, 'swing');
+                const content = $(".content");
+                const target = $(pageLinkTarget);
+
+                const heightElementAfterTarget = target.next().outerHeight();
+                const heightElementAndTarget = target.outerHeight() + heightElementAfterTarget;
+
+                const targetTop = pageLinkTarget.offsetTop;
+                const elementBottom = targetTop + heightElementAndTarget;
+
+                const viewportTop = content.scrollTop();
+                const viewportBottom = viewportTop + $(window).height();
+
+                const isWholeVisible = targetTop > viewportTop && elementBottom < viewportBottom;
+
+                if (!isWholeVisible) {
+                    content.animate({
+                        scrollTop: targetTop
+                    }, 700, 'swing');
+                }
             }
         });
     }
@@ -124,7 +139,7 @@ modulejs.define('link_processor', ['sidebar'], function (sidebar) {
 
         if (!parsed.version()) {
             // no-op
-        } else if (1 == parsed.version()) {
+        } else if (1 === parsed.version()) {
             if (parsed.isEndpointLink()) {
                 sidebar.openGroupTitle($('.js_sidebar-title-endpoints'));
             }

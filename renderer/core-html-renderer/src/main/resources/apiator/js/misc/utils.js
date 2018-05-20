@@ -88,11 +88,10 @@ modulejs.define('utils', function () {
      * @param {string} type - full type name
      * @return {string}
      */
-    this.getAbsoluteLinkToType = function (type) {
-        var prefix = location.origin + location.pathname + location.search;
+    this.getAbsoluteLinkToType = type => {
+        const prefix = location.origin + location.pathname + location.search;
         return prefix + getPageLinkToType(type);
     };
-
 
     /**
      * Split Camel Case string into separate words and keep case of letters
@@ -102,11 +101,22 @@ modulejs.define('utils', function () {
      */
     this.splitCamelCase = function (string) {
         return string.replace(/[A-Z]/g, function (letter, index) {
-            if (0 != index) {
+            if (0 !== index) {
                 return ' ' + letter;
             }
             return letter;
         });
+    };
+
+    /**
+     * @param {string} link
+     * @return {HTMLAnchorElement}
+     */
+    this.parseLink = link => {
+        const l = document.createElement('a');
+        l.href = link;
+
+        return l;
     };
 
     return this;
