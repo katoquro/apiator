@@ -26,8 +26,8 @@ modulejs.define('link_processor', ['sidebar', 'utils'], function (sidebar, utils
     }
 
     function enableDataLinks() {
-        $(document).on('click', '[data-link]', function () {
-            location.hash = $(this).attr('data-link');
+        $(document).on('click', '[data-link]', event => {
+            location.hash = $(event.currentTarget).attr('data-link');
         });
 
         $(window).on("hashchange", event => {

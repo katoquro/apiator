@@ -15,14 +15,14 @@
  */
 
 modulejs.define('main',
-    ['hbs', 'sidebar', 'endpoint', 'link_processor', 'menu', 'modal'],
-    function (hbs, sidebar, endpoint, link_processor, menu, modal) {
+    ['hbs', 'sidebar', 'card', 'link_processor', 'menu', 'modal'],
+    function (hbs, sidebar, card, link_processor, menu, modal) {
         hbs.runMainRender();
 
         modulejs.require('search');
 
         sidebar.run();
-        endpoint.run();
+        card.run();
         link_processor.run();
         menu.run();
         modal.run();

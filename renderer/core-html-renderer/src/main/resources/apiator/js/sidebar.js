@@ -21,8 +21,8 @@ modulejs.define('sidebar', function () {
 
         var $apiTitleEndpoints = $sidebar.find('.js_sidebar-endpoints .api__title');
 
-        $apiTitleEndpoints.on('click', function (e) {
-            var $title = $(this);
+        $apiTitleEndpoints.on('click', event => {
+            var $title = $(event.currentTarget);
             var $apiMenu = $title.closest('.api');
 
             $apiMenu.toggleClass('api_active');
@@ -34,22 +34,22 @@ modulejs.define('sidebar', function () {
 
         var $apiToggleEndpoints = $sidebar.find('.js_sidebar-endpoints .api__toggle');
 
-        $apiToggleEndpoints.on('click', function (e) {
-            $(this)
+        $apiToggleEndpoints.on('click', event => {
+            $(event.currentTarget)
                 .closest('.api')
                 .toggleClass('api_active');
         });
 
         var $apiTitleModel = $sidebar.find('.js_sidebar-model .api__title');
 
-        $apiTitleModel.on('click', function (e) {
-            location.hash = $(this).data('link')
+        $apiTitleModel.on('click', event => {
+            location.hash = $(event.currentTarget).data('link')
         });
 
         var $groupTitle = $('.group__title');
 
-        $groupTitle.on('click', function (e) {
-            openGroupTitle($(this))
+        $groupTitle.on('click', event => {
+            openGroupTitle($(event.currentTarget))
         })
     }
 

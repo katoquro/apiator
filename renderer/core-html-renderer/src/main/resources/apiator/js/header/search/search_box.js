@@ -58,15 +58,15 @@ modulejs.define('search_box', [], function () {
         var suggest = $('.search__suggest').get()[0] || $('<ul class="search__suggest"></ul>');
 
         suggest
-            .on('mouseover', 'li', function () {
-                var newActiveIndex = $(this).index();
+            .on('mouseover', 'li', event => {
+                var newActiveIndex = $(event.currentTarget).index();
                 changeCursorPosition(newActiveIndex)
             })
-            .on('mouseout', 'li', function () {
-                $(this).removeClass(ACTIVE_CLASS);
+            .on('mouseout', 'li', event => {
+                $(event.currentTarget).removeClass(ACTIVE_CLASS);
             })
-            .on('click', 'li', function () {
-                var item = $(this).data('item');
+            .on('click', 'li', event => {
+                var item = $(event.currentTarget).data('item');
                 settings.onChangeFunc(new ChangeEvent(null, item), box);
             });
 

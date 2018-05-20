@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-modulejs.define('endpoint', function () {
-
+modulejs.define('card', function () {
     function run() {
         let $cardHeader = $('.card .card__header');
 
-        $cardHeader.find('.card__header-view').on('click', event => {
-            $(this).siblings('.card__header-view').removeClass('card__header-view_active');
-            $(this).addClass('card__header-view_active');
+        $cardHeader.find('.card__header-view-tab').on('click', event => {
+            const $this = $(event.currentTarget);
+            $this.siblings('.card__header-view-tab').removeClass('card__header-view-tab_active');
+            $this.addClass('card__header-view-tab_active');
 
-            $(this).parents('.card').attr('data-type', $(this).data('type'));
+            $this.parents('.card').attr('data-view-tab', $this.data('view-tab'));
         });
     }
 

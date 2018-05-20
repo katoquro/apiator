@@ -7,12 +7,12 @@
   box-sizing: border-box;
   border-radius: 1px;
 
-  &[data-type="standard"] {
+  &[data-view-tab="standard"] {
     .card__content_tech {
       display: none;
     }
   }
-  &[data-type="tech"] {
+  &[data-view-tab="tech"] {
     .card__content_standard {
       display: none;
     }
@@ -25,7 +25,7 @@
 
     &-name,
     &-share,
-    &-view {
+    &-view-tab {
       padding: 15px 20px;
     }
 
@@ -34,7 +34,7 @@
     }
 
     &-share,
-    &-view {
+    &-view-tab {
       &:hover {
         background-color: fade(@gray, 30%);
       }
