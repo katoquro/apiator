@@ -1,12 +1,23 @@
 <div class="content">
     {{#each apiContexts}}
-        {{> endpoint}}
+        <div class="target-marker" data-id="{{apiPath}}"></div>
+        <div class="endpoints">
+            <div class="endpoints__name">{{splitCamelCase (getAfterLastDot name)}}</div>
+            {{#if description}}
+                <div class="endpoints__description">{{description}}</div>
+            {{/if}}
+        </div>
+
+        {{#each apiEndpoints}}
+            {{> endpoint apiPath=../apiPath apiName=../name}}
+        {{/each}}
     {{/each}}
+
     {{#each usedApiTypes}}
         {{> type}}
     {{/each}}
+
     {{#each usedEnumerations}}
         {{> enum}}
     {{/each}}
-
 </div>

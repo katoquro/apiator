@@ -17,13 +17,13 @@
 modulejs.define('endpoint', function () {
 
     function run() {
-        let $endpointHeader = $('.panel .panel__header');
+        let $endpointHeader = $('.card .card__header');
 
-        $endpointHeader.find('.panel__header-view').on('click', function (e) {
-            $(this).siblings('.panel__header-view').removeClass('panel__header-view_active');
-            $(this).addClass('panel__header-view_active');
+        $endpointHeader.find('.card__header-view').on('click', function (e) {
+            $(this).siblings('.card__header-view').removeClass('card__header-view_active');
+            $(this).addClass('card__header-view_active');
 
-            $(this).parents('.panel').attr('data-type', $(this).data('type'));
+            $(this).parents('.card').attr('data-type', $(this).data('type'));
         });
     }
 

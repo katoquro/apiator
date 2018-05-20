@@ -45,11 +45,11 @@
   }
 }
 
-.panel__endpoint(@type, @color) {
+.card__endpoint(@type, @color) {
   .endpoint_type_@{type} {
     border-color: @color;
 
-    .panel {
+    .card {
       &__header {
         color: @color;
         border-color: fade(@color, 45%);
@@ -78,8 +78,8 @@
   }
 }
 
-.panel__endpoint(GET, @blue);
-.panel__endpoint(POST, @green);
-.panel__endpoint(PUT, @orange);
-.panel__endpoint(DELETE, @red);
-.panel__endpoint(PATCH, @orange);
+.card__endpoint(GET, @blue);
+.card__endpoint(POST, @green);
+.card__endpoint(PUT, @orange);
+.card__endpoint(DELETE, @red);
+.card__endpoint(PATCH, @orange);
