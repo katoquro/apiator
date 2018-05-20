@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.renderer.plugin.spi;
+package com.ainrif.apiator.renderer.plugin.jaxrs
 
-import javax.annotation.Nullable;
+import com.ainrif.apiator.renderer.plugin.spi.CompositePlugin
+import com.ainrif.apiator.renderer.plugin.spi.CoreJsonRendererPlugin
 
-public interface ModelTypePlugin extends CoreJsonRendererPlugin {
-    /**
-     * @return null if this type cannot be resolved with given resolver
-     */
-    @Nullable
-    ModelType resolve(Class<?> type);
+class JaxRsCompositePlugin implements CompositePlugin {
+    @Override
+    List<CoreJsonRendererPlugin> getPlugins() {
+        return [new JaxRsModelTypePlugin(), new JaxRsParamPlugin()]
+    }
 }

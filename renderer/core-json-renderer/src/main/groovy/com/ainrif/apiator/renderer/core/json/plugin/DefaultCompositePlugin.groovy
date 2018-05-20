@@ -16,6 +16,7 @@
 
 package com.ainrif.apiator.renderer.core.json.plugin
 
+import com.ainrif.apiator.renderer.core.json.plugin.modeltype.DefaultModelTypeCompositePlugin
 import com.ainrif.apiator.renderer.plugin.spi.CompositePlugin
 import com.ainrif.apiator.renderer.plugin.spi.CoreJsonRendererPlugin
 
@@ -23,6 +24,8 @@ class DefaultCompositePlugin implements CompositePlugin {
 
     @Override
     List<CoreJsonRendererPlugin> getPlugins() {
-        return [new DefaultPropertyPlugin(), new DefaultModelTypeCompositePlugin()]
+        return [new DefaultPropertyPlugin(),
+                new DefaultParamPlugin(),
+                new DefaultModelTypeCompositePlugin()]
     }
 }

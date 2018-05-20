@@ -17,13 +17,15 @@
             <div class="panel__content-title">Fields</div>
             <table class="table">
                 <colgroup>
-                    <col width="50%">
-                    <col width="50%">
+                    <col width="35%">
+                    <col width="35%">
                 </colgroup>
                 <thead>
                 <tr>
                     <th>Name</th>
                     <th>Date type</th>
+                    <th>Default value</th>
+                    <th>Optional</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -31,6 +33,11 @@
                     <tr>
                         <td>{{name}}</td>
                         <td>{{{renderTemplateTypes this}}}</td>
+                        <td>
+                            {{#if defaultValue}}<span class="param__default-value">{{defaultValue}}</span>
+                            {{else}}-{{/if}}
+                        </td>
+                        <td>{{#if optional}}<span class="param__optional">&#x2713;</span>{{else}}-{{/if}}</td>
                     </tr>
                 {{/each}}
                 </tbody>

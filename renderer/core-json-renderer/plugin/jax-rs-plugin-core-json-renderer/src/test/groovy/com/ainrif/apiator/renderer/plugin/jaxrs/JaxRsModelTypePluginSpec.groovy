@@ -15,8 +15,7 @@
  */
 package com.ainrif.apiator.renderer.plugin.jaxrs
 
-import com.ainrif.apiator.renderer.plugin.jaxrs.JaxRsModelTypePlugin
-import com.ainrif.apiator.renderer.plugin.spi.ModelType
+import com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelType
 import spock.lang.Specification
 import spock.lang.Unroll
 

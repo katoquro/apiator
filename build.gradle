@@ -45,7 +45,8 @@ ext.versionHolder = new VersionHolder(rootProject)
 ext.versions = [
         slf4j  : '1.7.9',
         groovy : '2.4.2',
-        jackson: '2.6.1'
+        jackson: '2.6.1',
+        jsr305 : '3.0.2'
 ]
 
 allprojects {

@@ -17,7 +17,8 @@
 package com.ainrif.apiator.renderer.core.json.plugin
 
 import com.ainrif.apiator.renderer.core.json.plugin.modeltype.CoreJavaModelTypePlugin
-import com.ainrif.apiator.renderer.plugin.spi.ModelTypePlugin
+import com.ainrif.apiator.renderer.core.json.plugin.modeltype.DefaultModelTypeCompositePlugin
+import com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelTypePlugin
 import org.reflections.Reflections
 import org.reflections.scanners.SubTypesScanner
 import org.reflections.util.ClasspathHelper

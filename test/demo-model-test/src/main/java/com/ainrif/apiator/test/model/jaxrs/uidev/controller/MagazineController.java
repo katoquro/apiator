@@ -15,6 +15,7 @@
  */
 package com.ainrif.apiator.test.model.jaxrs.uidev.controller;
 
+import com.ainrif.apiator.api.annotation.Param;
 import com.ainrif.apiator.test.model.jaxrs.uidev.model.Magazine;
 
 import javax.ws.rs.*;
@@ -34,7 +35,7 @@ public class MagazineController {
 
     @GET
     @Path("/{isbn}")
-    public Magazine getMagazine(@PathParam("isbn") String isbn) {
+    public Magazine getMagazine(@Param(defaultValue = "*") @PathParam("isbn") String isbn) {
         return null;
     }
 

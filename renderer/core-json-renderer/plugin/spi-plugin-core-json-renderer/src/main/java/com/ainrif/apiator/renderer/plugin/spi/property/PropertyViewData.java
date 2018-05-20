@@ -13,22 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.renderer.core.json.plugin.modeltype
 
-import com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelType
-import spock.lang.Specification
+package com.ainrif.apiator.renderer.plugin.spi.property;
 
-class AnyModelTypePluginSpec extends Specification {
-    def "resolve"() {
-        given:
-        def resolver = new AnyModelTypePlugin()
+import javax.annotation.Nullable;
 
-        expect:
-        resolver.resolve(type) == expected
+public class PropertyViewData {
+    @Nullable
+    public String defaultValue;
 
-        where:
-        type                 || expected
-        CustomUnresolvedType || null
-        Object               || ModelType.ANY
-    }
+    public Boolean optional;
 }

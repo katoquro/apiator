@@ -15,9 +15,15 @@
  */
 package com.ainrif.apiator.core.model.api
 
+import java.lang.annotation.Annotation
+
 class ApiField {
     String name
+
     ApiType type
+    ApiType enclosingType
+    List<? extends Annotation> annotations
+
     boolean readable
     boolean writable
 }

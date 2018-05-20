@@ -17,7 +17,7 @@ package com.ainrif.apiator.renderer.core.json.view
 
 import com.ainrif.apiator.core.model.api.ApiType
 import com.ainrif.apiator.renderer.core.json.CoreJsonRenderer
-import com.ainrif.apiator.renderer.plugin.spi.ModelType
+import com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelType
 
 import javax.annotation.Nullable
 

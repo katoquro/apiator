@@ -13,22 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.renderer.core.json.plugin.modeltype
 
-import com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelType
-import spock.lang.Specification
+package com.ainrif.apiator.api.annotation;
 
-class AnyModelTypePluginSpec extends Specification {
-    def "resolve"() {
-        given:
-        def resolver = new AnyModelTypePlugin()
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-        expect:
-        resolver.resolve(type) == expected
+/**
+ * It's used to extend api param information
+ */
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.PARAMETER, ElementType.FIELD})
+public @interface Param {
+    /**
+     * Empty means wasn't set
+     */
+    String defaultValue() default "";
 
-        where:
-        type                 || expected
-        CustomUnresolvedType || null
-        Object               || ModelType.ANY
-    }
+    /**
+     * Marks param as not required for a request
+     */
+    boolean optional() default false;
 }

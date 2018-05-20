@@ -15,11 +15,16 @@
  */
 package com.ainrif.apiator.test.model.jaxrs.uidev.model;
 
+import com.ainrif.apiator.api.annotation.Param;
+
+import static com.ainrif.apiator.test.model.jaxrs.uidev.model.Book.Status.DRAFT;
+
 public class Book extends Issue {
     private Author author;
     private Publisher publisher;
 
-    public Status status;
+    public @Param(defaultValue = "DRAFT")
+    Status status = DRAFT;
 
     public Long getAuthorId() {
         return author.getId();

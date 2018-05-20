@@ -17,6 +17,7 @@
 package com.ainrif.apiator.renderer.plugin.jackson
 
 import com.ainrif.apiator.core.model.api.ApiField
+import com.ainrif.apiator.core.model.api.ApiType
 import com.ainrif.apiator.renderer.plugin.jackson.test.model.M_JacksonProperties
 import spock.lang.Specification
 
@@ -33,7 +34,7 @@ class JacksonPropertyPluginSpec extends Specification {
                              'jackson_asymmetric_property']
 
         when:
-        def actual = mapper.collectProperties(M_JacksonProperties)
+        def actual = mapper.collectProperties(new ApiType(M_JacksonProperties))
 
         then:
         actual.size() == expectedNames.size()

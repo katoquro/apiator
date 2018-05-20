@@ -19,17 +19,16 @@
   .table_endpoint {
     .param {
 
-      &__required {
+      &__optional {
+        color: @text_green;
+      }
+
+      &__default-value {
+        font-weight: 700;
       }
 
       &__http-type {
         text-transform: lowercase;
-      }
-
-      &__model-type {
-        text-transform: lowercase;
-        color: @text_yellow;
-        display: inline-block;
       }
 
       &__type {

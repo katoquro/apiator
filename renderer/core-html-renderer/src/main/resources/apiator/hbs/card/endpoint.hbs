@@ -30,12 +30,18 @@
                 <div class="panel__content-item">
                     <div class="panel__content-title">Parameters</div>
                     <table class="table table_endpoint">
+                        <colgroup>
+                            <col width="25%">
+                            <col width="20%">
+                            <col width="25%">
+                        </colgroup>
                         <thead>
                         <tr>
                             <th>Name</th>
                             <th>Parameter type</th>
                             <th>Data type</th>
                             <th>Default value</th>
+                            <th>Optional</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -44,7 +50,11 @@
                                 <td>{{name}} {{#if required}}<span class="param__required">(required)</span>{{/if}}</td>
                                 <td class="param__http-type">{{httpParamType}}</td>
                                 <td>{{{renderTemplateTypes this}}}</td>
-                                <td>{{#if defaultValue}}{{defaultValue}}{{else}}-{{/if}}</td>
+                                <td>
+                                    {{#if defaultValue}}<span class="param__default-value">{{defaultValue}}</span>
+                                    {{else}}-{{/if}}
+                                </td>
+                                <td>{{#if optional}}<span class="param__optional">&#x2713;</span>{{else}}-{{/if}}</td>
                             </tr>
                         {{/each}}
                         </tbody>

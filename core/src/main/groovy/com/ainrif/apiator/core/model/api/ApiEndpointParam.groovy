@@ -15,10 +15,26 @@
  */
 package com.ainrif.apiator.core.model.api
 
+import java.lang.annotation.Annotation
+
 class ApiEndpointParam {
     ApiEndpointParamType httpParamType
+    /**
+     * index to order while rendering <br>
+     * {@code -1} if param order cannot be detected
+     */
     Integer index
-    String name // null for body param type
+    /**
+     * name to set param <br>
+     * {@code null} if param has type BODY
+     */
+    String name
+    /**
+     * Annotations inherited by this param form superclasses
+     */
+    List<? extends Annotation> annotations
+    /**
+     * Type from source code
+     */
     ApiType type
-    String defaultValue
 }

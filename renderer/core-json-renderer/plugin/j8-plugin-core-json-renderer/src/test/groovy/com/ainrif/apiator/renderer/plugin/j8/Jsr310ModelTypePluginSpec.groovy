@@ -16,8 +16,7 @@
 
 package com.ainrif.apiator.renderer.plugin.j8
 
-import com.ainrif.apiator.renderer.plugin.j8.Jsr310ModelTypePlugin
-import com.ainrif.apiator.renderer.plugin.spi.ModelType
+import com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelType
 import spock.lang.Specification
 import spock.lang.Unroll
 

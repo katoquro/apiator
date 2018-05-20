@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.renderer.plugin.spi;
+package com.ainrif.apiator.renderer.plugin.spi.modeltype;
 
-import com.ainrif.apiator.core.model.api.ApiField;
+import com.ainrif.apiator.renderer.plugin.spi.CoreJsonRendererPlugin;
 
-import java.util.Collection;
+import javax.annotation.Nullable;
 
-public interface PropertyPlugin extends CoreJsonRendererPlugin {
-    Collection<ApiField> collectProperties(Class<?> type);
+public interface ModelTypePlugin extends CoreJsonRendererPlugin {
+    /**
+     * @return null if this type cannot be resolved with given resolver
+     */
+    @Nullable
+    ModelType resolve(Class<?> type);
 }

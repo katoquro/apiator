@@ -16,17 +16,23 @@
 
 package com.ainrif.apiator.renderer.core.json.plugin
 
+import com.ainrif.apiator.api.annotation.Param
 import com.ainrif.apiator.core.model.api.ApiField
 import com.ainrif.apiator.core.model.api.ApiType
 import com.ainrif.apiator.core.reflection.RUtils
-import com.ainrif.apiator.renderer.plugin.spi.PropertyPlugin
+import com.ainrif.apiator.renderer.plugin.spi.property.PropertyPlugin
+import com.ainrif.apiator.renderer.plugin.spi.property.PropertyViewData
+import org.apache.commons.lang3.StringUtils
 
+import javax.annotation.Nullable
 import java.beans.Introspector
 import java.beans.PropertyDescriptor
+import java.lang.annotation.Annotation
 import java.lang.reflect.Field
 import java.lang.reflect.Modifier
 import java.util.function.Predicate
 
+import static java.util.Arrays.asList
 import static java.util.Collections.singletonMap
 import static java.util.Objects.nonNull
 
@@ -43,41 +49,81 @@ import static java.util.Objects.nonNull
 class DefaultPropertyPlugin implements PropertyPlugin {
 
     @Override
-    Collection<ApiField> collectProperties(Class<?> type) {
+    Collection<ApiField> collectProperties(ApiType apiType) {
+        def type = apiType.rawType
         def beanInfo = type.interface ?
                 Introspector.getBeanInfo(type) :
                 Introspector.getBeanInfo(type, Object)
 
         Map<String, ApiField> props = beanInfo.propertyDescriptors
-                .collectEntries this.&mapFromPropertyDescriptor
+                .collectEntries { mapFromPropertyDescriptor(it, type) }
 
         props += RUtils.getAllFields(type, { Modifier.isPublic(it.modifiers) } as Predicate)
-                .collectEntries this.&mapFromField
+                .collectEntries { mapFromField(it, type) }
 
         return props.values()
     }
 
-    protected Map<String, ApiField> mapFromPropertyDescriptor(PropertyDescriptor pd) {
+    @Override
+    PropertyViewData process(ApiField apiField) {
+        def result = new PropertyViewData()
+        def annotations = apiField.annotations
+
+        def annotation = annotations.find { Param.isAssignableFrom(it.annotationType()) }
+        if (annotation) {
+            def paramAnnotation = annotation as Param
+            result.defaultValue = StringUtils.trimToNull(paramAnnotation.defaultValue())
+            result.optional = paramAnnotation.optional()
+        }
+
+        annotation = annotations.find { Nullable.isAssignableFrom(it.annotationType()) }
+        if (annotation) {
+            result.optional = true
+        }
+
+        return result
+    }
+
+    protected Map<String, ApiField> mapFromPropertyDescriptor(PropertyDescriptor pd, Class<?> enclosingType) {
         def name = pd.name
-        def field = new ApiField(
-                name: name,
-                type: nonNull(pd.readMethod)
-                        ? new ApiType(pd.readMethod.genericReturnType)
-                        : new ApiType(pd.writeMethod.genericParameterTypes[0]),
-                readable: nonNull(pd.readMethod),
-                writable: nonNull(pd.writeMethod))
+        def field = createApiFieldPropertyDescriptor(name, pd, enclosingType)
 
         return singletonMap(name, field)
     }
 
-    protected Map<String, ApiField> mapFromField(Field f) {
-        def name = f.name
-        def field = new ApiField(
+    protected ApiField createApiFieldPropertyDescriptor(String name, PropertyDescriptor pd, Class<?> enclosingType) {
+        return new ApiField(
                 name: name,
-                type: new ApiType(f.genericType),
-                readable: true,
-                writable: true)
+                type: nonNull(pd.readMethod)
+                        ? new ApiType(pd.readMethod.genericReturnType)
+                        : new ApiType(pd.writeMethod.genericParameterTypes[0]),
+                enclosingType: new ApiType(enclosingType),
+                annotations: mergeAnnotationsFromPropertyDescriptor(pd),
+                readable: nonNull(pd.readMethod),
+                writable: nonNull(pd.writeMethod))
+    }
+
+    protected Map<String, ApiField> mapFromField(Field f, Class<?> enclosingType) {
+        def name = f.name
+        def field = createApiFieldClassField(name, f, enclosingType)
 
         return singletonMap(name, field)
+    }
+
+    protected ApiField createApiFieldClassField(String name, Field f, Class<?> enclosingType) {
+        return new ApiField(
+                name: name,
+                type: new ApiType(f.genericType),
+                enclosingType: new ApiType(enclosingType),
+                annotations: f.declaredAnnotations as List<? extends Annotation>,
+                readable: true,
+                writable: true)
+    }
+
+    private List<? extends Annotation> mergeAnnotationsFromPropertyDescriptor(PropertyDescriptor pd) {
+        List<Annotation> readMethodAnnotations = pd.readMethod ? asList(pd.readMethod.declaredAnnotations) : []
+        List<Annotation> writeMethodAnnotations = pd.writeMethod ? asList(pd.writeMethod.declaredAnnotations) : []
+
+        return readMethodAnnotations + writeMethodAnnotations
     }
 }

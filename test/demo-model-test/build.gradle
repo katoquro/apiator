@@ -1,4 +1,5 @@
 dependencies {
     compile "javax.ws.rs:javax.ws.rs-api:2.0.1"
+    compile "com.google.code.findbugs:jsr305:${versions.jsr305}"
     compileOnly project(':api')
 }

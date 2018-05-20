@@ -17,7 +17,6 @@
 package com.ainrif.apiator.renderer.plugin.jackson
 
 import com.ainrif.apiator.core.model.api.ApiField
-import com.ainrif.apiator.core.model.api.ApiType
 import com.ainrif.apiator.renderer.core.json.plugin.DefaultPropertyPlugin
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.springframework.core.annotation.AnnotationUtils
@@ -28,7 +27,6 @@ import java.lang.annotation.Annotation
 import java.lang.reflect.Field
 
 import static java.util.Collections.singletonMap
-import static java.util.Objects.nonNull
 
 /**
  * Use same rules like {@link DefaultPropertyPlugin} and
@@ -36,7 +34,7 @@ import static java.util.Objects.nonNull
  */
 class JacksonPropertyPlugin extends DefaultPropertyPlugin {
     @Override
-    protected Map<String, ApiField> mapFromPropertyDescriptor(PropertyDescriptor pd) {
+    protected Map<String, ApiField> mapFromPropertyDescriptor(PropertyDescriptor pd, Class<?> enclosingType) {
 
         def readName = pd.readMethod?.with {
             getNameFromAnnotation(AnnotationUtils.findAnnotation(it, JsonProperty), pd.name)
@@ -47,37 +45,23 @@ class JacksonPropertyPlugin extends DefaultPropertyPlugin {
         }
 
         if (readName && writeName && readName == writeName) {
-            return singletonMap(readName, fieldFromPropertyDescriptor(pd, readName))
+            return singletonMap(readName, createApiFieldPropertyDescriptor(readName, pd, enclosingType))
         } else {
             Map<String, ApiField> result = [:]
             if (readName) {
-                result.put(readName, fieldFromPropertyDescriptor(pd, readName))
+                result.put(readName, createApiFieldPropertyDescriptor(readName, pd, enclosingType))
             }
             if (writeName) {
-                result.put(writeName, fieldFromPropertyDescriptor(pd, writeName))
+                result.put(writeName, createApiFieldPropertyDescriptor(writeName, pd, enclosingType))
             }
             return result
         }
     }
 
-    protected ApiField fieldFromPropertyDescriptor(PropertyDescriptor pd, String name) {
-        new ApiField(
-                name: name,
-                type: nonNull(pd.readMethod)
-                        ? new ApiType(pd.readMethod.genericReturnType)
-                        : new ApiType(pd.writeMethod.genericParameterTypes[0]),
-                readable: nonNull(pd.readMethod),
-                writable: nonNull(pd.writeMethod))
-    }
-
     @Override
-    protected Map<String, ApiField> mapFromField(Field f) {
+    protected Map<String, ApiField> mapFromField(Field f, Class<?> enclosingType) {
         def name = getNameFromAnnotation(f.getDeclaredAnnotation(JsonProperty), f.name)
-        def field = new ApiField(
-                name: name,
-                type: new ApiType(f.genericType),
-                readable: true,
-                writable: true)
+        def field = createApiFieldClassField(name, f, enclosingType)
 
         return singletonMap(name, field)
     }

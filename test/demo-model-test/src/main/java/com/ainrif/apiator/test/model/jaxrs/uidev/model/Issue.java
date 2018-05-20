@@ -16,10 +16,14 @@
 
 package com.ainrif.apiator.test.model.jaxrs.uidev.model;
 
+import javax.annotation.Nullable;
+
 /**
  * Common type form library items
  */
 public class Issue {
     public String isbn;
     public String title;
+    @Nullable
+    public String secondTitle;
 }

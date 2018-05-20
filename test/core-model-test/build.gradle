@@ -1,0 +1,6 @@
+dependencies {
+    compileOnly project(':api')
+
+    // support javax.annotation.Nullable checks
+    compile "com.google.code.findbugs:jsr305:${versions.jsr305}"
+}
