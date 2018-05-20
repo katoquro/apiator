@@ -1,20 +1,20 @@
-v0.8.x
+v0.8.x - Renderer Plugins
 
 - new: plugins model for JSON renderer configuration
-- new: defaultValues for model types (@Param, jax-rs @DefaultValue)
-- new: info about optional params/fields in model and endpoints (@Param, javax @Nullable)   
+- new: defaultValues for model types (`@Param`, jax-rs `@DefaultValue`)
+- new: info about optional params/fields in model and endpoints (`@Param`, javax `@Nullable`)   
 - new: support jackson annotation to override property names
 - improvement: source path detection now includes model classes
 
-v0.7.x 
+v0.7.x - Upgrade HTML View
 
+- new : new annotation to allow to specify types for returns
+- new : tech views for enums and types
+- new : support of custom http verbs
+- fix : enums are included in model search by `!model`
 - update : transitive dependencies were reduced
-- add : new annotation to allow to specify types for returns
-- add : tech views for enums and types
-- add : support of custom http verbs
-- fix : enums are included in model search by !model
 
-v0.6.0 - Technical boost
+v0.6.x - Technical boost
 
 - update : core features were split across modules
 - update : project versioning system
@@ -22,75 +22,72 @@ v0.6.0 - Technical boost
 - update : Groovy code style
 - update : legal info 
 
-v0.5.1
+v0.5.x - Dark theme
 
+- new : JavaDoc Support
+- new : JsDoc descriptions for code completion 
+- fix : JDK classes introspection
 - fix : HTML renderer permalink restore state
-
-v0.5.0 - Dark theme
-
 - update : HTML renderer theme and design
 - update : fuzzy search
-- add : JavaDoc Support
-- add : JsDoc descriptions for code completion 
-- fix : JDK classes introspection
 
 v0.4.0 - HTML renderer update
 
-- update : HTML renderer dev kit
-- add : template names for api types
-- add : documentation and feedback links
-- add : raw endpoint view in HTML Renderer
-- add : graphic assets
+- new : template names for api types
+- new : documentation and feedback links
+- new : raw endpoint view in HTML Renderer
+- new : graphic assets
 - fix : permalink with GET params
+- update : HTML renderer dev kit
 
 v0.3.1 - inline
 
-- update : inline Core HTML Renderer dependencies
 - fix : full http path for endpoint card
+- update : inline Core HTML Renderer dependencies
 
 v0.3.0 - redesign
 
-- update : Core HTML Renderer redesign
-- infra : auto-deploy to Bintray from CI 
-- add : new ModelTypes 'SYSTEM' and 'ANY'
-- add : parsing of getters return types as ModelType for following introspection
-- add : @DefaultValues annotation support
-- add : info level logging about generation time 
+- new : new ModelTypes 'SYSTEM' and 'ANY'
+- new : parsing of getters return types as ModelType for following introspection
+- new : `@DefaultValues` annotation support
+- new : info level logging about generation time 
 - fix : Core JSON Renderer generation order
 - fix : endless recursive parsing of enum fields
-- fix : @Context shouldn't be parsed as body param
+- fix : `@Context` shouldn't be parsed as body param
 - fix : explicit generic introspection in return type
+- update : Core HTML Renderer redesign
+- improvement : auto-deploy to Bintray from CI 
 
 v0.2.2 - generics 
 
-- update : Core Renderer Model
-- infra : CI and build statuses
-- infra : gradle plugin to HTML Renderer development with Livereload
-- add : bridge methods support
-- add : GenericArrayType support  
-- add : nested generic types for generics of generics
-- add : support of custom Jax-RS http method annotations 
+- new : bridge methods support
+- new : GenericArrayType support  
+- new : nested generic types for generics of generics
+- new : support of custom Jax-RS http method annotations 
 - fix : WildcardType support
+- update : Core Renderer Model
+- improvement : infra - CI and build statuses
+- improvement : infra - gradle plugin to HTML Renderer development with Livereload
 
 v0.2.1 - stability
 
-- core model refactoring
-- add simple fuzzy search for HTML view
-- fix endpoint paths in HTML view
-- increase test coverage for core functionality
+- new : simple fuzzy search for HTML view
+- fix : endpoint paths in HTML view
+- improvement : core model refactoring
+- improvement : increase test coverage for core functionality
 
 v0.2.0 - HTML
 
-- rename Writer to Renderer
-- add core HTML renderer
-- add support of Jax-RS param names
-- add converter of Enums to ApiTypes
-- add README.md
-- fix body param recognition for Jax-RS
-- introspection fixes
+- new : core HTML renderer
+- new : support of Jax-RS param names
+- new : converter of Enums to ApiTypes
+- new : README.md
+- fix : body param recognition for Jax-RS
+- fix : introspection 
+- improvement : rename Writer to Renderer
 
 v0.1.0 - initial
 
-- add core model
-- add core JSON Writer
-- add base support of Jax-RS specification
+- new : core model
+- new : core JSON Writer
+- new : base support of Jax-RS specification
