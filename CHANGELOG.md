@@ -1,7 +1,9 @@
 v0.8.x
 
 - new: plugins model for JSON renderer configuration
-- add: support jackson annotation to override property names
+- new: defaultValues for model types (@Param, jax-rs @DefaultValue)
+- new: info about optional params/fields in model and endpoints (@Param, javax @Nullable)   
+- new: support jackson annotation to override property names
 - improvement: source path detection now includes model classes
 
 v0.7.x 
