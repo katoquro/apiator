@@ -15,6 +15,8 @@
  */
 package com.ainrif.apiator.test.model.jaxrs.uidev.model;
 
+import com.ainrif.apiator.api.annotation.Param;
+
 import java.util.Set;
 
 public class Author {
@@ -23,6 +25,8 @@ public class Author {
     private Set<Publisher> publishers;
 
     public String firstName;
+    @Param(optional = true)
+    public String patronymicName;
     public String lastName;
 
 

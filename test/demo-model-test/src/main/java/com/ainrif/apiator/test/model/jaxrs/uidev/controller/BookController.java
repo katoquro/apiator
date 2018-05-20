@@ -34,7 +34,7 @@ public class BookController {
 
     @GET
     @Path("/{isbn}")
-    public Book getBook(@PathParam("isbn") String isbn) {
+    public Book getBook(@DefaultValue("*") @PathParam("isbn") String isbn) {
         return null;
     }
 

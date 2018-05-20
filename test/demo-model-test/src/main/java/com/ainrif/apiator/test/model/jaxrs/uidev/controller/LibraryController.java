@@ -16,6 +16,7 @@
 package com.ainrif.apiator.test.model.jaxrs.uidev.controller;
 
 import com.ainrif.apiator.api.annotation.ConcreteTypes;
+import com.ainrif.apiator.api.annotation.Param;
 import com.ainrif.apiator.test.model.jaxrs.uidev.ADMIN;
 import com.ainrif.apiator.test.model.jaxrs.uidev.model.*;
 
@@ -30,7 +31,8 @@ public class LibraryController {
 
     @GET
     @Path("/books")
-    public List<Book> findBooks(@QueryParam("status") Book.Status status,
+    public List<Book> findBooks(@Param(optional = true)
+                                @QueryParam("status") Book.Status status,
                                 @QueryParam("title") String title) {
         return null;
     }
