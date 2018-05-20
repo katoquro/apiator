@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-modulejs.define('link_processor', ['sidebar'], function (sidebar) {
+modulejs.define('link_processor', ['sidebar', 'utils'], function (sidebar, utils) {
     function enableCopyBtns() {
         const clipboard = new Clipboard('.copy-btn');
-        clipboard.on('success', function (event) {
-            // todo tooltip about copying
+        clipboard.on('success', event => {
+            location.hash = utils.parseLink(event.text).hash;
         });
         clipboard.on('error', function (event) {
             // todo show input with message 'Press Ctrl+C' (OS related)
         });
-
     }
 
     function enableDataLinks() {
@@ -124,7 +123,7 @@ modulejs.define('link_processor', ['sidebar'], function (sidebar) {
 
         if (!parsed.version()) {
             // no-op
-        } else if (1 == parsed.version()) {
+        } else if (1 === parsed.version()) {
             if (parsed.isEndpointLink()) {
                 sidebar.openGroupTitle($('.js_sidebar-title-endpoints'));
             }
