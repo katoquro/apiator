@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2018 Ainrif <support@ainrif.com>
+ * Copyright 2014-2017 Ainrif <support@ainrif.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,31 @@
  * limitations under the License.
  */
 
-modulejs.define('endpoint', function () {
+@height: 50px;
 
-    function run() {
-        let $cardHeader = $('.card .card__header');
+.header {
+  height: @height;
+  background-color: @bg_light;
 
-        $cardHeader.find('.card__header-view').on('click', event => {
-            $(this).siblings('.card__header-view').removeClass('card__header-view_active');
-            $(this).addClass('card__header-view_active');
-
-            $(this).parents('.card').attr('data-type', $(this).data('type'));
-        });
+  &_block {
+    &_left,
+    &_right {
+      height: 100%;
+      display: inline-block;
+      vertical-align: middle;
     }
 
-    return {
-        run: run
+    &_left {
+      width: @sidebar_width;
+      padding: 0 20px;
     }
-});
+
+    &_right {
+      width: calc(~"100%" - @sidebar_width);
+      padding-left: 60px;
+      padding-right: 70px;
+      font-size: 14px;
+      line-height: @height;
+    }
+  }
+}

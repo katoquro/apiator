@@ -61,7 +61,7 @@ modulejs.define('hbs', ['utils'], function (utils) {
 
     // http://stackoverflow.com/questions/4810841/how-can-i-pretty-print-json-using-javascript
     Handlebars.registerHelper('highlightJSON', function (json) {
-        if (typeof json != 'string') {
+        if (typeof json !== 'string') {
             json = JSON.stringify(json, undefined, 4);
         }
 

@@ -1,39 +1,4 @@
-@height: 50px;
-
-.header {
-  height: @height;
-  background-color: @bg_light;
-
-  &_block {
-    &_left,
-    &_right {
-      height: 100%;
-      display: inline-block;
-      vertical-align: middle;
-    }
-
-    &_left {
-      width: @sidebar_width;
-      padding: 0 20px;
-    }
-
-    &_right {
-      width: calc(~"100%" - @sidebar_width);
-      padding-left: 60px;
-      padding-right: 70px;
-    }
-  }
-
-  &__menu { }
-
-  &__project {
-    font-size: 14px;
-    line-height: @height;
-  }
-}
-
 .menu {
-
   &__pic {
     width: 40px;
     height: 40px;

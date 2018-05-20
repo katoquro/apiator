@@ -37,7 +37,7 @@ modulejs.define('menu', ['cfg', 'modal'], function (cfg, modal) {
         $('.js__menu-item-whats-new').on('click', function () {
             $(this)
                 .removeClass('menu__items-item_notification')
-                .closest('.header__menu')
+                .closest('.menu')
                 .find('.menu__pic')
                 .removeClass('menu__pic_notification');
 
