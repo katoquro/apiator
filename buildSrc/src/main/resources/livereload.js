@@ -3,8 +3,8 @@
         if (!n[o]) {
             if (!t[o]) {
                 var a = typeof require == "function" && require;
-                if (!u && a)return a(o, !0);
-                if (i)return i(o, !0);
+                if (!u && a) return a(o, !0);
+                if (i) return i(o, !0);
                 var f = new Error("Cannot find module '" + o + "'");
                 throw f.code = "MODULE_NOT_FOUND", f
             }
@@ -18,7 +18,7 @@
     }
 
     var i = typeof require == "function" && require;
-    for (var o = 0; o < r.length; o++)s(r[o]);
+    for (var o = 0; o < r.length; o++) s(r[o]);
     return s
 })({
     1: [function (require, module, exports) {
@@ -441,7 +441,7 @@
                 };
 
                 LiveReload.prototype.performAlert = function (message) {
-                    return alert(message.message);
+                    return document.title = message.message;
                 };
 
                 LiveReload.prototype.shutDown = function () {
@@ -577,11 +577,11 @@
         (function () {
             var PROTOCOL_6, PROTOCOL_7, Parser, ProtocolError,
                 __indexOf = [].indexOf || function (item) {
-                        for (var i = 0, l = this.length; i < l; i++) {
-                            if (i in this && this[i] === item) return i;
-                        }
-                        return -1;
-                    };
+                    for (var i = 0, l = this.length; i < l; i++) {
+                        if (i in this && this[i] === item) return i;
+                    }
+                    return -1;
+                };
 
             exports.PROTOCOL_6 = PROTOCOL_6 = 'http://livereload.com/protocols/official-6';
 
@@ -816,7 +816,8 @@
                 };
 
                 Reloader.prototype.reloadImages = function (path) {
-                    var expando, img, selector, styleNames, styleSheet, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3, _results;
+                    var expando, img, selector, styleNames, styleSheet, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref,
+                        _ref1, _ref2, _ref3, _results;
                     expando = this.generateUniqueString();
                     _ref = this.document.images;
                     for (_i = 0, _len = _ref.length; _i < _len; _i++) {

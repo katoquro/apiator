@@ -54,9 +54,10 @@ class UiDevTask extends DefaultTask {
         def webServer = new LiveReloadServer(liveReloadPort, liveReloadPath)
 
         watchServerListeners.put(liveReloadPath, {
-            logger.lifecycle "[${LocalTime.now()}] resource update : ${liveReloadPath}"
+            def now = LocalTime.now()
+            logger.lifecycle "[${now}] resource update : ${liveReloadPath}"
 
-            String msg = LiveReloadProtocol.alert(liveReloadPath.toString())
+            String msg = LiveReloadProtocol.alert("${now.minute}:${now.second}")
             LiveReloadWebSocketHandler.broadcast(msg)
         })
 
