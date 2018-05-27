@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.renderer.core.json.javadoc
+package com.ainrif.apiator.doclet.javadoc
 
 import com.ainrif.apiator.core.model.api.ApiEndpoint
 import com.ainrif.apiator.core.model.api.ApiField

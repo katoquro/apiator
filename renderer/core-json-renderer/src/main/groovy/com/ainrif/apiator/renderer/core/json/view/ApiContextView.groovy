@@ -16,7 +16,7 @@
 package com.ainrif.apiator.renderer.core.json.view
 
 import com.ainrif.apiator.core.model.api.ApiContext
-import com.ainrif.apiator.renderer.core.json.javadoc.ClassMergedInfo
+import com.ainrif.apiator.doclet.javadoc.ClassMergedInfo
 
 import javax.annotation.Nullable
 

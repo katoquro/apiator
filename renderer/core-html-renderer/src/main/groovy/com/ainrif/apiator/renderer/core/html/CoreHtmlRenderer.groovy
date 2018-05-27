@@ -30,8 +30,6 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import static java.util.Collections.emptyMap
 
 class CoreHtmlRenderer implements Renderer {
-    private static def logger = LoggerFactory.getLogger(CoreHtmlRenderer)
-
     protected String js
     protected String css
     protected String hbs

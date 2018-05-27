@@ -14,6 +14,17 @@ buildscript {
     }
 }
 
+/**
+ * Class generates version based on branch name
+ * It's required for the project be maintained by git
+ *
+ * if branch is in `release` folder the version will be branch name w/o folder
+ * ex.: release/0.1.0 -> 0.1.0
+ *
+ * otherwise folder path slashes will be replaced with underscore and `-SNAPSHOT` will be add to version
+ * ex.: feature/refactoring -> feature_refactoring-SNAPSHOT
+ */
+// TODO katoquro: 26/05/2018 move to dev plugin and test 
 class VersionHolder {
     Grgit git
     String version
@@ -22,10 +33,9 @@ class VersionHolder {
     VersionHolder(Project rootProject) {
         git = new OpenOp(dir: rootProject.rootDir).call()
 
-        def branchName = git.branch.current.name
+        def branchName = git.branch.current().name
         def isInFolder = branchName.contains('/')
 
-        def nonReleaseVersion = branchName
         if (isInFolder) {
             def branchNameParts = branchName.split('/')
             if ('release' == branchNameParts[0]) {

@@ -19,7 +19,13 @@ import com.ainrif.apiator.core.model.api.ApiContext
 import com.ainrif.apiator.core.model.api.ApiEndpoint
 import com.ainrif.apiator.core.model.api.ApiScheme
 import com.ainrif.apiator.core.model.api.ClientApiInfo
+import com.ainrif.apiator.doclet.ApiatorDoclet
+import com.ainrif.apiator.doclet.SourcePathDetector
+import com.ainrif.apiator.doclet.javadoc.DocletInfoIndexer
+import com.ainrif.apiator.doclet.model.JavaDocInfo
 import com.google.common.base.Stopwatch
+import groovy.json.JsonSlurper
+import groovy.util.logging.Slf4j
 import org.reflections.Reflections
 import org.reflections.scanners.SubTypesScanner
 import org.reflections.scanners.TypeAnnotationsScanner
@@ -31,6 +37,7 @@ import org.slf4j.LoggerFactory
 
 import java.util.concurrent.TimeUnit
 
+@Slf4j
 class Apiator {
 
     private static final Logger logger = LoggerFactory.getLogger(Apiator)
@@ -46,7 +53,7 @@ class Apiator {
     }
 
     ApiScheme getScheme() {
-        scheme ?: {
+        return scheme ?: {
             def stopwatch = Stopwatch.createStarted()
             scheme = new ApiScheme(apiatorInfo: info, clientApiInfo: new ClientApiInfo(config))
 
@@ -73,10 +80,15 @@ class Apiator {
                 }
 
                 scheme.apiContexts << apiCtx
+
+                if (config.docletConfig.enabled) {
+                    scheme.docletIndex = createJavadocIndexer(config.docletConfig)
+                }
             }
 
             logger.info("Api Scheme generating took ${stopwatch.elapsed(TimeUnit.MILLISECONDS)}ms. ${apiClasses.size()} contexts were processed")
-            scheme
+
+            return scheme
         }()
     }
 
@@ -87,7 +99,7 @@ class Apiator {
         def render = config.renderer.render(scheme)
 
         logger.info("Scheme rendering took ${stopwatch.elapsed(TimeUnit.MILLISECONDS)}ms. ")
-        render
+        return render
     }
 
     protected Set<Class<?>> scanForApi() {
@@ -98,6 +110,37 @@ class Apiator {
                         .filterInputsBy(new FilterBuilder().includePackage(config.basePackage))
         )
 
-        reflections.getTypesAnnotatedWith(config.apiClass)
+        return reflections.getTypesAnnotatedWith(config.apiClass)
+    }
+
+    protected DocletInfoIndexer createJavadocIndexer(DocletConfig dConf) {
+        if (!dConf.sourcePath) {
+            logger.info('Source path is empty. An attempt to detect')
+            dConf.sourcePath = new SourcePathDetector(scheme).detect()
+        }
+
+        if (dConf.sourcePath) {
+            // TODO katoquro: 22/04/2018 support classpath search when all paths are wrong
+            dConf.sourcePath.split(SourcePathDetector.OS_PATH_DELIMITER)
+                    .findAll { !new File(it).exists() }
+                    .each { logger.warn("There are no source path like {}", it) }
+            try {
+                getClass().forName('com.sun.javadoc.Doclet')
+
+                def result = ApiatorDoclet.runDoclet(dConf.sourcePath, dConf.includeBasePackage, null)
+                if (0 != result.code) System.exit(result.code)
+
+                def filePath = result.outputFile
+                def javaDocInfo = new JsonSlurper().parse(new File(filePath)) as JavaDocInfo
+
+                return new DocletInfoIndexer(javaDocInfo.classes)
+            } catch (ClassNotFoundException ignore) {
+                logger.info("JavaDoc Spi was not found. tools.jar may be missing at classpath")
+            }
+        } else {
+            logger.info("Source path for Doclet was not detected. No Doclet info was found")
+        }
+
+        return new DocletInfoIndexer([:])
     }
 }

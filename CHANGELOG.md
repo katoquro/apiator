@@ -4,6 +4,8 @@ v0.8.x - Renderer Plugins
 - new: defaultValues for model types (`@Param`, jax-rs `@DefaultValue`)
 - new: info about optional params/fields in model and endpoints (`@Param`, javax `@Nullable`)   
 - new: support jackson annotation to override property names
+- new: all-in-one Apiator module (requires java 8)
+- update: doclet configuration was separated from Core JSON Renderer
 - improvement: source path detection now includes model classes
 - improvement: html renderer sources were refactored according to ui components 
 

@@ -16,9 +16,11 @@
 package com.ainrif.apiator.core.model.api
 
 import com.ainrif.apiator.core.ApiatorInfo
+import com.ainrif.apiator.doclet.javadoc.DocletInfoIndexer
 
 class ApiScheme {
     ApiatorInfo apiatorInfo
     ClientApiInfo clientApiInfo
     List<ApiContext> apiContexts = []
+    DocletInfoIndexer docletIndex = new DocletInfoIndexer([:])
 }
