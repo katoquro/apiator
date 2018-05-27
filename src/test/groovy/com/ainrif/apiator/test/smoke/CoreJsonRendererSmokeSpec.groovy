@@ -16,9 +16,10 @@
 package com.ainrif.apiator.test.smoke
 
 import com.ainrif.apiator.core.ApiatorConfig
+import com.ainrif.apiator.core.DocletConfig
+import com.ainrif.apiator.doclet.SourcePathDetector
 import com.ainrif.apiator.provider.jaxrs.JaxRsProvider
 import com.ainrif.apiator.renderer.core.json.CoreJsonRenderer
-import com.ainrif.apiator.renderer.core.json.SourcePathDetector
 import com.ainrif.apiator.renderer.plugin.jaxrs.JaxRsCompositePlugin
 import com.ainrif.apiator.test.TestingApiator
 import groovy.json.JsonSlurper
@@ -44,8 +45,10 @@ class CoreJsonRendererSmokeSpec extends Specification {
     ApiatorConfig getConfigWithJsonRenderer() {
         return new ApiatorConfig(
                 provider: new JaxRsProvider(),
+                docletConfig: new DocletConfig(
+                        sourcePath: buildSourcePath()
+                ),
                 renderer: new CoreJsonRenderer({
-                    sourcePath = buildSourcePath()
                     plugins << new JaxRsCompositePlugin()
                 }),
                 basePackage: 'com.ainrif.apiator.test.model.jaxrs.smoke',
@@ -63,7 +66,7 @@ class CoreJsonRendererSmokeSpec extends Specification {
     def "auto-detection of source paths"() {
         when:
         def config = configWithJsonRenderer
-        config.renderer.asType(CoreJsonRenderer).sourcePath = null
+        config.docletConfig.sourcePath = null
         def actual = new TestingApiator(config).render()
 
         then:

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.renderer.core.json
+package com.ainrif.apiator.doclet
 
 import com.ainrif.apiator.core.model.api.ApiScheme
 import org.apache.commons.lang3.ClassUtils

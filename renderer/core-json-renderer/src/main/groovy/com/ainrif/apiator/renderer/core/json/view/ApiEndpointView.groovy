@@ -16,7 +16,7 @@
 package com.ainrif.apiator.renderer.core.json.view
 
 import com.ainrif.apiator.core.model.api.ApiEndpoint
-import com.ainrif.apiator.renderer.core.json.javadoc.MethodMergedInfo
+import com.ainrif.apiator.doclet.javadoc.MethodMergedInfo
 
 import javax.annotation.Nullable
 

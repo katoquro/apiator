@@ -13,21 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.core
 
-import com.ainrif.apiator.api.annotation.Api
-import com.ainrif.apiator.core.spi.Renderer
-import com.ainrif.apiator.core.spi.WebServiceProvider
+package com.ainrif.apiator.doclet.javadoc
 
-import java.lang.annotation.Annotation
+import com.ainrif.apiator.doclet.model.ParamInfo
 
-class ApiatorConfig {
-    String basePackage = ''
-    WebServiceProvider provider = null
-    Renderer renderer = null
-    String basePath = '/api'
-    String apiVersion = '1.0.0-SNAPSHOT'
-    Class<Annotation> apiClass = Api
+import javax.annotation.Nullable
 
-    DocletConfig docletConfig = new DocletConfig()
+class ParamMergedInfo {
+    private List<ParamInfo> paramInfos
+
+    ParamMergedInfo(List<ParamInfo> paramInfos) {
+        this.paramInfos = paramInfos
+    }
+    String name
+    String description
+
+    @Nullable String getName() {
+        return paramInfos.findResult { it?.name }
+    }
+
+    @Nullable String getDescription() {
+        return paramInfos.findResult { it?.description }
+    }
 }

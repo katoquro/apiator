@@ -19,8 +19,8 @@ import com.ainrif.apiator.core.model.api.ApiEndpoint
 import com.ainrif.apiator.core.model.api.ApiScheme
 import com.ainrif.apiator.core.model.api.ApiType
 import com.ainrif.apiator.core.reflection.RUtils
+import com.ainrif.apiator.doclet.javadoc.DocletInfoIndexer
 import com.ainrif.apiator.renderer.core.json.CoreJsonRenderer
-import com.ainrif.apiator.renderer.core.json.javadoc.JavaDocInfoIndexer
 import com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelType
 import groovy.transform.Memoized
 
@@ -39,7 +39,7 @@ class ApiSchemeView {
     List<ApiEnumerationView> usedEnumerations = []
     List<ApiTypeView> usedApiTypes = []
 
-    ApiSchemeView(ApiScheme scheme, JavaDocInfoIndexer docInfo) {
+    ApiSchemeView(ApiScheme scheme, DocletInfoIndexer docInfo) {
         this.apiatorInfo = new ApiatorInfoView(scheme.apiatorInfo)
         this.clientApiInfo = RUtils.asMap(scheme.clientApiInfo)
         this.apiContexts = scheme.apiContexts

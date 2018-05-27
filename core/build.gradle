@@ -17,5 +17,6 @@ dependencies {
 
     //Doclets
     compile files(Jvm.current().toolsJar)
+    compile 'org.apache.commons:commons-lang3:3.7'
     //^^^
 }

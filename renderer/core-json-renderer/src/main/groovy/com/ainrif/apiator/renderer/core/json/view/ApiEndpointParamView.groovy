@@ -17,8 +17,8 @@ package com.ainrif.apiator.renderer.core.json.view
 
 import com.ainrif.apiator.core.model.api.ApiEndpointParam
 import com.ainrif.apiator.core.model.api.ApiEndpointParamType
+import com.ainrif.apiator.doclet.javadoc.ParamMergedInfo
 import com.ainrif.apiator.renderer.core.json.CoreJsonRenderer
-import com.ainrif.apiator.renderer.core.json.javadoc.ParamMergedInfo
 
 import javax.annotation.Nullable
 

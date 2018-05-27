@@ -14,26 +14,26 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.renderer.core.json.javadoc
+package com.ainrif.apiator.core
 
-import com.ainrif.apiator.doclet.model.ParamInfo
+/**
+ * Config for javadoc processor
+ */
+class DocletConfig {
+    /**
+     * if {@code false} Apiator skips doc comments parsing
+     */
+    boolean enabled = true
 
-import javax.annotation.Nullable
+    /**
+     * Path to sources separated with colons (:) or semicolon for Windows OS (;)
+     *
+     * If empty then Apiator will try to detect it by itself
+     */
+    String sourcePath
 
-class ParamMergedInfo {
-    private List<ParamInfo> paramInfos
-
-    ParamMergedInfo(List<ParamInfo> paramInfos) {
-        this.paramInfos = paramInfos
-    }
-    String name
-    String description
-
-    @Nullable String getName() {
-        return paramInfos.findResult { it?.name }
-    }
-
-    @Nullable String getDescription() {
-        return paramInfos.findResult { it?.description }
-    }
+    /**
+     * Given package is used to reduce amount of classes processed by doclet
+     */
+    String includeBasePackage = '.'
 }

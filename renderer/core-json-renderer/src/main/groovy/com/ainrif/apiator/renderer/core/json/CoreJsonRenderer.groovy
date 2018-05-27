@@ -17,9 +17,6 @@ package com.ainrif.apiator.renderer.core.json
 
 import com.ainrif.apiator.core.model.api.ApiScheme
 import com.ainrif.apiator.core.spi.Renderer
-import com.ainrif.apiator.doclet.ApiatorDoclet
-import com.ainrif.apiator.doclet.model.JavaDocInfo
-import com.ainrif.apiator.renderer.core.json.javadoc.JavaDocInfoIndexer
 import com.ainrif.apiator.renderer.core.json.plugin.DefaultCompositePlugin
 import com.ainrif.apiator.renderer.core.json.view.ApiSchemeView
 import com.ainrif.apiator.renderer.plugin.spi.CompositePlugin
@@ -35,7 +32,6 @@ import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.google.common.annotations.VisibleForTesting
-import groovy.json.JsonSlurper
 import groovy.transform.Memoized
 import groovy.transform.PackageScope
 import org.slf4j.Logger
@@ -44,8 +40,6 @@ import org.slf4j.LoggerFactory
 import static java.util.Collections.singletonList
 
 class CoreJsonRenderer implements Renderer {
-    private static final Logger logger = LoggerFactory.getLogger(CoreJsonRenderer)
-
     @Delegate
     Config config
 
@@ -53,25 +47,11 @@ class CoreJsonRenderer implements Renderer {
 
     static class Config {
         /**
-         * Path to sources separated with colons (:) or semicolon for Windows OS (;)
-         *
-         * By default renderer tries to detect if auto config is enabled
-         */
-        String sourcePath
-        /**
-         * Given package is used to reduce amount of classes processed by doclet
-         */
-        String docletBasePackage = '.'
-        /**
          * List of plugins to customise renderer output <br>
          * Custom plugins can be add to the end of list or instead of defaults <br>
          * For plugins which relay on order like {@link com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelTypePlugin} the last added plugins will be processed first
          */
         List<CoreJsonRendererPlugin> plugins = [new DefaultCompositePlugin()]
-        /**
-         * Enable auto configuration features
-         */
-        boolean autoConfig = true
     }
 
     static class PluginsConfig {
@@ -148,34 +128,7 @@ class CoreJsonRenderer implements Renderer {
 
     @Override
     String render(ApiScheme scheme) {
-        logger.debug('auto configuration: {}', autoConfig)
-        if (autoConfig) {
-            if (!sourcePath) {
-                sourcePath = new SourcePathDetector(scheme).detect()
-            }
-        }
-
-        def javaDocInfo = null
-        if (sourcePath) {
-            // TODO katoquro: 22/04/2018 support classpath search when all paths are wrong
-            sourcePath.split(SourcePathDetector.OS_PATH_DELIMITER)
-                    .findAll { !new File(it).exists() }
-                    .each { logger.warn("There are no source path like {}", it) }
-            try {
-                getClass().forName('com.sun.javadoc.Doclet')
-
-                def result = ApiatorDoclet.runDoclet(sourcePath, docletBasePackage, null)
-                if (0 != result.code) System.exit(result.code)
-
-                def filePath = result.outputFile
-                javaDocInfo = new JsonSlurper().parse(new File(filePath)) as JavaDocInfo
-
-            } catch (ClassNotFoundException ignore) {
-                logger.info("JavaDoc Spi was not found. tools.jar may be missing at classpath")
-            }
-        }
-
-        def apiScheme = new ApiSchemeView(scheme, new JavaDocInfoIndexer(javaDocInfo.classes))
+        def apiScheme = new ApiSchemeView(scheme, scheme.docletIndex)
 
         def mapper = new ObjectMapper()
         mapper.enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS)

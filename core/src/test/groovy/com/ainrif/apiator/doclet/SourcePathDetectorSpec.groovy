@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.renderer.core.json
+package com.ainrif.apiator.doclet;
 
 import com.ainrif.apiator.core.model.api.ApiContext
 import com.ainrif.apiator.core.model.api.ApiScheme
 import com.ainrif.apiator.core.model.api.ApiType
+import com.ainrif.apiator.doclet.SourcePathDetector
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static com.ainrif.apiator.renderer.core.json.SourcePathDetector.OS_PATH_DELIMITER
+import static com.ainrif.apiator.doclet.SourcePathDetector.OS_PATH_DELIMITER
 
 class SourcePathDetectorSpec extends Specification {
 

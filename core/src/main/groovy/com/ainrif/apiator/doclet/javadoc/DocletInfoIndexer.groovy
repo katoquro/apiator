@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.renderer.core.json.javadoc
+package com.ainrif.apiator.doclet.javadoc
 
 import com.ainrif.apiator.core.model.api.ApiContext
 import com.ainrif.apiator.core.model.api.ApiType
@@ -23,10 +23,10 @@ import com.ainrif.apiator.doclet.model.ClassInfo
 
 import javax.annotation.Nullable
 
-class JavaDocInfoIndexer {
+class DocletInfoIndexer {
     private Map<String, ClassInfo> classes
 
-    JavaDocInfoIndexer(Map<String, ClassInfo> classes) {
+    DocletInfoIndexer(Map<String, ClassInfo> classes) {
         this.classes = classes
     }
 
