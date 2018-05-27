@@ -1,0 +1,42 @@
+import apiator.ApiatorGradle
+import com.ainrif.apiator.api.annotation.Api
+import com.ainrif.apiator.provider.jaxrs.JaxRsProvider
+import com.ainrif.apiator.renderer.core.html.CoreHtmlRenderer
+import com.ainrif.apiator.renderer.plugin.jaxrs.JaxRsCompositePlugin
+
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+    }
+    dependencies {
+        classpath "com.ainrif.apiator:apiator-gradle-plugin:+"
+    }
+}
+
+apply plugin: 'groovy'
+
+group = 'com.ainrif.apiator'
+
+repositories {
+    mavenLocal()
+    jcenter()
+
+    maven { url "http://dl.bintray.com/ainrif/maven" }
+}
+
+ApiatorGradle.configureApiator(project) {
+    basePackage = 'com.ainrif.apiator.test'
+    apiClass = Api
+    provider = new JaxRsProvider()
+    renderer = new CoreHtmlRenderer({
+        toFile = './build/api.html'
+        plugins << new JaxRsCompositePlugin()
+    })
+}
+
+dependencies {
+    compile localGroovy()
+    compile "com.ainrif.apiator:api:feature+"
+    compile "javax.ws.rs:javax.ws.rs-api:2.0.1"
+}

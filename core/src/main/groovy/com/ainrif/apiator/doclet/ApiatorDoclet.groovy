@@ -35,23 +35,30 @@ class ApiatorDoclet {
 
     /**
      * @param sourcePath
+     * @param docletClassPath extra classpath
      * @param basePackage if null then '.' package will be used
      * @param outputFile if null then tmp file will be created
      * @return {@link Result}
      */
     static Result runDoclet(String sourcePath,
+                            @Nullable String docletClassPath,
                             @Nullable String basePackage,
                             @Nullable String outputFile) {
         outputFile = outputFile ?: createTempFile('apiator', 'doclet').with { it.deleteOnExit(); it }.absolutePath
         basePackage = basePackage ?: '.'
 
-        String[] javaDocArgs = ['-sourcepath', sourcePath,
-                                '-doclet', ApiatorDoclet.class.name,
-                                '-quiet',
-                                OF_PARAM, outputFile,
-                                '-subpackages', basePackage]
+        def javaDocArgs = ['-sourcepath', sourcePath,
+                           '-doclet', ApiatorDoclet.class.name,
+                           '-quiet',
+                           OF_PARAM, outputFile,
+                           '-subpackages', basePackage]
 
-        return new Result(Main.execute(javaDocArgs), outputFile)
+        if (docletClassPath) {
+            javaDocArgs.add('-classpath')
+            javaDocArgs.add(docletClassPath)
+        }
+
+        return new Result(Main.execute(javaDocArgs as String[]), outputFile)
     }
 
     static boolean start(RootDoc root) {

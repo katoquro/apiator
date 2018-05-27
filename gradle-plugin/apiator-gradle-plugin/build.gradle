@@ -1,0 +1,33 @@
+plugins {
+    id 'groovy'
+    id 'java-gradle-plugin'
+    id 'java-library'
+    id 'maven-publish'
+}
+
+// TODO katoquro: 27/05/2018 publication to bintray code 
+
+group = 'com.ainrif.apiator'
+
+repositories {
+    mavenLocal()
+    jcenter()
+
+    maven { url "http://dl.bintray.com/ainrif/maven" }
+}
+
+gradlePlugin {
+    plugins {
+        apiator {
+            id = "com.ainrif.apiator"
+            implementationClass = "com.ainrif.apiator.gradle.ApiatorGradlePlugin"
+        }
+    }
+}
+
+dependencies {
+    api 'com.ainrif.apiator:apiator-all:feature+', {
+        exclude group: 'org.codehaus.groovy', module: 'groovy-all'
+    }
+    compile localGroovy()
+}

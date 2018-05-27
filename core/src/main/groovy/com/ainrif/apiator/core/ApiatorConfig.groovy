@@ -22,11 +22,19 @@ import com.ainrif.apiator.core.spi.WebServiceProvider
 import java.lang.annotation.Annotation
 
 class ApiatorConfig {
+    /**
+     * Classes which are not in this package (or subpackages) are ignored
+     */
     String basePackage = ''
+
     WebServiceProvider provider = null
     Renderer renderer = null
-    String basePath = '/api'
+    String basePath = '/api' // TODO katoquro: 27/05/2018 revise usage logic
     String apiVersion = '1.0.0-SNAPSHOT'
+
+    /**
+     * Marker annotation to detect classes to parse
+     */
     Class<Annotation> apiClass = Api
 
     DocletConfig docletConfig = new DocletConfig()
