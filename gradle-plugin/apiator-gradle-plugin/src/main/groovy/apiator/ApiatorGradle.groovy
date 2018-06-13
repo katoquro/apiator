@@ -28,7 +28,7 @@ class ApiatorGradle {
      * @param project
      * @param configClosure
      */
-    static void configureApiator(Project project, @DelegatesTo(ApiatorConfig) Closure<Void> configClosure) {
+    static void configureApiator(Project project, @DelegatesTo(ApiatorConfig) Closure configClosure) {
         project.configure(project, hint(Project) {
             apply plugin: 'java'
             apply plugin: 'com.ainrif.apiator'
@@ -44,7 +44,26 @@ class ApiatorGradle {
 
                 configuredProject = project
                 config = apiatorConfig
+
+                configDump = createConfigDump(config)
+                classesDir = file(configuredProject.buildDir.absolutePath + '/classes')
+
+                runFileFlag = file(configuredProject.buildDir.absolutePath + '/apiator')
             })
         })
+    }
+
+    /**
+     * Rough check than config wasn't changed dramatically
+     * @param config
+     * @return string representation of key config properties
+     */
+    private static String createConfigDump(ApiatorConfig config) {
+        new StringBuilder('apiator-config-dump')
+                .append(config.basePackage)
+                .append(config.provider.class.canonicalName)
+                .append(config.renderer.class.canonicalName)
+                .append(config.apiClass.canonicalName)
+                .append(config.docletConfig.enabled)
     }
 }

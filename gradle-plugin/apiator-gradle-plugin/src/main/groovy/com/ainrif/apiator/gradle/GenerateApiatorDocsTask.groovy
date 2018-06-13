@@ -21,15 +21,16 @@ import com.ainrif.apiator.core.ApiatorConfig
 import com.ainrif.apiator.core.ApiatorInternalApi
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.SourceSet
-import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.*
 
 class GenerateApiatorDocsTask extends DefaultTask {
-    @Input
-    ApiatorConfig config
+    @Internal Project configuredProject
+    @Internal ApiatorConfig config
 
-    Project configuredProject
+    @Input String configDump
+    @InputDirectory File classesDir
+
+    @OutputFile File runFileFlag
 
     @TaskAction
     void action() {

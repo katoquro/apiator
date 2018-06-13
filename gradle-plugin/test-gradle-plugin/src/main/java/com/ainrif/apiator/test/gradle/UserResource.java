@@ -16,22 +16,8 @@
 
 package com.ainrif.apiator.test.gradle;
 
-
-import com.ainrif.apiator.api.annotation.Api;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-
-/**
- * Documented Api
- */
-@Api
-@Path("/api")
-public class EndpointApi {
-    @GET
-    @Path("/resource/{id}")
-    public UserResource getResource(@PathParam("id") String id) {
-        return null;
-    }
+public class UserResource {
+    public String id;
+    public String name;
+    public byte[] content;
 }
