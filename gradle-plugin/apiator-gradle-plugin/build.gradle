@@ -1,3 +1,12 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+    }
+}
+
 plugins {
     id 'groovy'
     id 'java-gradle-plugin'
@@ -5,9 +14,18 @@ plugins {
     id 'maven-publish'
 }
 
-// TODO katoquro: 27/05/2018 publication to bintray code 
+apply from: "$rootProject.projectDir/../../gradle/versions.gradle"
 
 group = 'com.ainrif.apiator'
+version = versionHolder.version
+
+task publishRelease {
+    onlyIf {
+        versionHolder.release
+    }
+}
+
+apply from: "$rootProject.projectDir/../../gradle/deploy.gradle"
 
 repositories {
     mavenLocal()
@@ -26,7 +44,7 @@ gradlePlugin {
 }
 
 dependencies {
-    api 'com.ainrif.apiator:apiator-all:feature+', {
+    api "com.ainrif.apiator:apiator-all:${versionHolder.version}", {
         exclude group: 'org.codehaus.groovy', module: 'groovy-all'
     }
     compile localGroovy()
