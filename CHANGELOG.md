@@ -1,5 +1,6 @@
 v0.8.x - Renderer Plugins
 
+- new: gradle plugin
 - new: plugins model for JSON renderer configuration
 - new: defaultValues for model types (`@Param`, jax-rs `@DefaultValue`)
 - new: info about optional params/fields in model and endpoints (`@Param`, javax `@Nullable`)   
