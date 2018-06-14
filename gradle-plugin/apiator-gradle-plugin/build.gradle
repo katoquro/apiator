@@ -1,0 +1,51 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+    }
+}
+
+plugins {
+    id 'groovy'
+    id 'java-gradle-plugin'
+    id 'java-library'
+    id 'maven-publish'
+}
+
+apply from: "$rootProject.projectDir/../../gradle/versions.gradle"
+
+group = 'com.ainrif.apiator'
+version = versionHolder.version
+
+task publishRelease {
+    onlyIf {
+        versionHolder.release
+    }
+}
+
+apply from: "$rootProject.projectDir/../../gradle/deploy.gradle"
+
+repositories {
+    mavenLocal()
+    jcenter()
+
+    maven { url "http://dl.bintray.com/ainrif/maven" }
+}
+
+gradlePlugin {
+    plugins {
+        apiator {
+            id = "com.ainrif.apiator"
+            implementationClass = "com.ainrif.apiator.gradle.ApiatorGradlePlugin"
+        }
+    }
+}
+
+dependencies {
+    api "com.ainrif.apiator:apiator-all:${versionHolder.version}", {
+        exclude group: 'org.codehaus.groovy', module: 'groovy-all'
+    }
+    compile localGroovy()
+}

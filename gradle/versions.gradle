@@ -1,0 +1,49 @@
+import org.ajoberstar.grgit.Grgit
+import org.ajoberstar.grgit.operation.OpenOp
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.ajoberstar:grgit:2.2.1'
+    }
+}
+
+/**
+ * Class generates version based on branch name
+ * It's required for the project be maintained by git
+ *
+ * if branch is in `release` folder the version will be branch name w/o folder
+ * ex.: release/0.1.0 -> 0.1.0
+ *
+ * otherwise folder path slashes will be replaced with underscore and `-SNAPSHOT` will be add to version
+ * ex.: feature/refactoring -> feature_refactoring-SNAPSHOT
+ */
+// TODO katoquro: 26/05/2018 move to dev plugin and test
+class VersionHolder {
+    Grgit git
+    String version
+    boolean release = false
+
+    VersionHolder(Project rootProject) {
+        git = new OpenOp(currentDir: rootProject.rootDir).call()
+
+        def branchName = git.branch.current().name
+        def isInFolder = branchName.contains('/')
+
+        if (isInFolder) {
+            def branchNameParts = branchName.split('/')
+            if ('release' == branchNameParts[0]) {
+                release = true
+                version = branchNameParts[1]
+            } else {
+                version = branchNameParts.join('_') + '-SNAPSHOT'
+            }
+        } else {
+            version = branchName + '-SNAPSHOT'
+        }
+    }
+}
+
+ext.versionHolder = new VersionHolder(rootProject)
