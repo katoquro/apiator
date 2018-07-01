@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
+package com.ainrif.apiator.test.gradle
 
-package com.ainrif.apiator.gradle
+import com.ainrif.apiator.api.annotation.Api
 
-import org.gradle.api.Plugin
-import org.gradle.api.Project
+import javax.ws.rs.GET
+import javax.ws.rs.Path
 
-class ApiatorGradlePlugin implements Plugin<Project> {
-    @Override
-    void apply(Project target) {
-        target.task('apiator',
-                group: 'documentation',
-                description: 'Generates documentation by scanning given classpath',
-                dependsOn: 'classes',
-                type: ApiatorGradleTask)
+@Api
+@Path("/groovy-api")
+class GroovyEndpointsApi {
+    @GET
+    @Path("/random")
+    Integer getResource() {
+        return null
     }
 }

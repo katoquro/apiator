@@ -8,6 +8,8 @@ buildscript {
     repositories {
         mavenLocal()
         jcenter()
+
+        maven { url "http://dl.bintray.com/ainrif/maven" }
     }
     dependencies {
         classpath "com.ainrif.apiator:apiator-gradle-plugin:+"
@@ -37,6 +39,6 @@ ApiatorGradle.configureApiator(project) {
 
 dependencies {
     compile localGroovy()
-    compile "com.ainrif.apiator:api:feature+"
+    compile "com.ainrif.apiator:api:0.+"
     compile "javax.ws.rs:javax.ws.rs-api:2.0.1"
 }

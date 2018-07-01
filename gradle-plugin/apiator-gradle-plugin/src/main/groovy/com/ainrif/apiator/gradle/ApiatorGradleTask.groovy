@@ -23,7 +23,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.tasks.*
 
-class GenerateApiatorDocsTask extends DefaultTask {
+class ApiatorGradleTask extends DefaultTask {
     @Internal Project configuredProject
     @Internal ApiatorConfig config
 

@@ -16,7 +16,7 @@
 package apiator
 
 import com.ainrif.apiator.core.ApiatorConfig
-import com.ainrif.apiator.gradle.GenerateApiatorDocsTask
+import com.ainrif.apiator.gradle.ApiatorGradleTask
 import org.gradle.api.Project
 
 import static com.ainrif.apiator.gradle.GroovyUtils.hint
@@ -33,7 +33,7 @@ class ApiatorGradle {
             apply plugin: 'java'
             apply plugin: 'com.ainrif.apiator'
 
-            configure(getTasksByName('generateApiatorDocs', false), hint(GenerateApiatorDocsTask) {
+            configure(getTasksByName('apiator', false), hint(ApiatorGradleTask) {
                 def apiatorConfig = new ApiatorConfig()
 
                 def closure = configClosure.clone() as Closure

@@ -5,10 +5,13 @@ apply from: "$rootProject.projectDir/gradle/deploy.gradle"
 dependencies {
     compile project(':api')
 
+    // TODO katoquro: 01/07/2018 custom build, replace with release >= 0.9.12
+    compile 'com.ainrif.screws.org.reflections:reflections:0.9.12-master-94f9d5a'
+    // ^^^
+
     compile "org.slf4j:slf4j-api:${versions.slf4j}"
     compile "org.codehaus.groovy:groovy-all:${versions.groovy}"
 
-    compile "org.reflections:reflections:0.9.11"
     compile "com.google.code.findbugs:jsr305:${versions.jsr305}"
     compile "javax.servlet:javax.servlet-api:3.1.0"
 
