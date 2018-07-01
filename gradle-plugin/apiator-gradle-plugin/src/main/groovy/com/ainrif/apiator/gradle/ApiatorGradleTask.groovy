@@ -27,10 +27,11 @@ class ApiatorGradleTask extends DefaultTask {
     @Internal Project configuredProject
     @Internal ApiatorConfig config
 
+    // TODO katoquro: 01/07/2018 use reflection to get fields and append simple names of their classes to dump
     @Input String configDump
     @InputDirectory File classesDir
 
-    @OutputFile File runFileFlag
+    @OutputFile File renderOutput
 
     @TaskAction
     void action() {
@@ -48,6 +49,6 @@ class ApiatorGradleTask extends DefaultTask {
         def apiator = new Apiator(config)
         ApiatorInternalApi.setExtraClassPath(apiator, extraUrls)
 
-        apiator.render()
+        renderOutput.write(apiator.render())
     }
 }

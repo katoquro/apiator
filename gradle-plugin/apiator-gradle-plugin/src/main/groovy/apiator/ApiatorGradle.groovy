@@ -48,7 +48,7 @@ class ApiatorGradle {
                 configDump = createConfigDump(config)
                 classesDir = file(configuredProject.buildDir.absolutePath + '/classes')
 
-                runFileFlag = file(configuredProject.buildDir.absolutePath + '/apiator')
+                renderOutput = file(configuredProject.buildDir.absolutePath + '/apiator-render-output')
             })
         })
     }
