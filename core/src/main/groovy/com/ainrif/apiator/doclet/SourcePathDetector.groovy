@@ -129,6 +129,7 @@ class SourcePathDetector {
                     it.apiEndpoints.collectMany {
                         (it.returnTypes*.type + it.params*.type)*.rawType
                                 .findAll { !ClassUtils.isPrimitiveOrWrapper(it) }
+                                .findAll { !it.isArray() }
                                 *.name
                                 .findAll { typeName -> JDK_PACKAGE_PREFIXES.every() { !typeName.startsWith(it) } }
                     }
