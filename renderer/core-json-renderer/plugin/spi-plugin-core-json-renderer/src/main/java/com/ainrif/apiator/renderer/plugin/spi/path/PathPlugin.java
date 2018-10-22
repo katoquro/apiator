@@ -14,19 +14,15 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.renderer.core.json.plugin
+package com.ainrif.apiator.renderer.plugin.spi.path;
 
-import com.ainrif.apiator.renderer.core.json.plugin.modeltype.DefaultModelTypeCompositePlugin
-import com.ainrif.apiator.renderer.plugin.spi.CompositePlugin
-import com.ainrif.apiator.renderer.plugin.spi.CoreJsonRendererPlugin
+import com.ainrif.apiator.renderer.plugin.spi.CoreJsonRendererPlugin;
 
-class DefaultCompositePlugin implements CompositePlugin {
+public interface PathPlugin extends CoreJsonRendererPlugin {
 
-    @Override
-    List<CoreJsonRendererPlugin> getPlugins() {
-        return [new DefaultPropertyPlugin(),
-                new DefaultParamPlugin(),
-                new DefaultPathPlugin(),
-                new DefaultModelTypeCompositePlugin()]
-    }
+    /**
+     * @param path from the source code
+     * @return transformed path
+     */
+    String transform(String path);
 }
