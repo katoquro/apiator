@@ -14,19 +14,21 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.renderer.core.json.plugin
+package com.ainrif.apiator.renderer.plugin.micronaut
 
-import com.ainrif.apiator.renderer.core.json.plugin.modeltype.DefaultModelTypeCompositePlugin
-import com.ainrif.apiator.renderer.plugin.spi.CompositePlugin
-import com.ainrif.apiator.renderer.plugin.spi.CoreJsonRendererPlugin
+import spock.lang.Specification
 
-class DefaultCompositePlugin implements CompositePlugin {
+class MicronautPathPluginSpec extends Specification {
+    def plugin = new MicronautPathPlugin()
 
-    @Override
-    List<CoreJsonRendererPlugin> getPlugins() {
-        return [new DefaultPropertyPlugin(),
-                new DefaultParamPlugin(),
-                new DefaultPathPlugin(),
-                new DefaultModelTypeCompositePlugin()]
+    def "path must contain only part before query params"() {
+        expect:
+        plugin.transform(uri) == expectedPath
+
+        where:
+        uri                   || expectedPath
+        '/books/{id}'         || '/books/{id}'
+        '/books?max'          || '/books'
+        '/books{?max,offset}' || '/books'
     }
 }

@@ -14,19 +14,14 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.renderer.core.json.plugin
+package com.ainrif.apiator.renderer.plugin.micronaut
 
-import com.ainrif.apiator.renderer.core.json.plugin.modeltype.DefaultModelTypeCompositePlugin
 import com.ainrif.apiator.renderer.plugin.spi.CompositePlugin
 import com.ainrif.apiator.renderer.plugin.spi.CoreJsonRendererPlugin
 
-class DefaultCompositePlugin implements CompositePlugin {
-
+class MicronautCompositePlugin implements CompositePlugin {
     @Override
     List<CoreJsonRendererPlugin> getPlugins() {
-        return [new DefaultPropertyPlugin(),
-                new DefaultParamPlugin(),
-                new DefaultPathPlugin(),
-                new DefaultModelTypeCompositePlugin()]
+        return [new MicronautPathPlugin()]
     }
 }

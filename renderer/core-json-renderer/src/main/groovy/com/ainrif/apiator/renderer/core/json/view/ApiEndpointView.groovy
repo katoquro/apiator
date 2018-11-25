@@ -17,6 +17,7 @@ package com.ainrif.apiator.renderer.core.json.view
 
 import com.ainrif.apiator.core.model.api.ApiEndpoint
 import com.ainrif.apiator.doclet.javadoc.MethodMergedInfo
+import com.ainrif.apiator.renderer.core.json.CoreJsonRenderer
 
 import javax.annotation.Nullable
 
@@ -31,7 +32,7 @@ class ApiEndpointView implements Comparable<ApiEndpointView> {
     ApiEndpointView(ApiEndpoint endpoint, @Nullable MethodMergedInfo methodInfo) {
         this.name = endpoint.name
         this.description = methodInfo?.description
-        this.path = endpoint.path
+        this.path = CoreJsonRenderer.pluginsConfig.pathPlugin.transform(endpoint.path)
         this.method = endpoint.method
         this.returnTypes = endpoint.returnTypes
                 .collect { new ApiEndpointReturnTypeView(it) }

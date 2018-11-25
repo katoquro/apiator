@@ -24,6 +24,7 @@ import com.ainrif.apiator.renderer.plugin.spi.CoreJsonRendererPlugin
 import com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelType
 import com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelTypePlugin
 import com.ainrif.apiator.renderer.plugin.spi.param.ParamPlugin
+import com.ainrif.apiator.renderer.plugin.spi.path.PathPlugin
 import com.ainrif.apiator.renderer.plugin.spi.property.PropertyPlugin
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.fasterxml.jackson.annotation.JsonInclude
@@ -34,8 +35,6 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.google.common.annotations.VisibleForTesting
 import groovy.transform.Memoized
 import groovy.transform.PackageScope
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 
 import static java.util.Collections.singletonList
 
@@ -57,6 +56,7 @@ class CoreJsonRenderer implements Renderer {
     static class PluginsConfig {
         PropertyPlugin propertyPlugin
         ParamPlugin paramPlugin
+        PathPlugin pathPlugin
         List<ModelTypePlugin> modelTypePlugins = []
     }
 
@@ -87,6 +87,9 @@ class CoreJsonRenderer implements Renderer {
                     break
                 case PropertyPlugin:
                     pluginsConfig.propertyPlugin = it
+                    break
+                case PathPlugin:
+                    pluginsConfig.pathPlugin = it
                     break
                 case ModelTypePlugin:
                     pluginsConfig.modelTypePlugins << it

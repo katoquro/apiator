@@ -53,8 +53,9 @@ abstract class MethodStack extends ArrayList<Method> {
     }
 
     /**
+     * @return type of implementation or defined in annotation
+     *
      * @see com.ainrif.apiator.api.annotation.ConcreteTypes
-     * @return type of implementation or defined in annotation 
      */
     List<ApiEndpointReturnType> getReturnTypes() {
         def leaf = this.last()
@@ -64,7 +65,8 @@ abstract class MethodStack extends ArrayList<Method> {
     }
 
     /**
-     * collects annotations from method parameters from hierarchy tree
+     * Collects annotations from method parameters from hierarchy tree in order from child to parent
+     * Annotation List can be empty if param is not annotated at all
      *
      * @return [ < param index > : [inherited annotations] ]
      */
@@ -75,6 +77,8 @@ abstract class MethodStack extends ArrayList<Method> {
                 result[i] += (entry as List<? extends Annotation>)
             }
         }
+
+        result.each { i, l -> l.reverse(true) }
 
         return result
     }

@@ -68,15 +68,13 @@ class JaxRsMethodStack extends MethodStack {
         def methodParams = this.last().parameters
 
         return getParametersAnnotationsLists().collectMany { index, annList ->
-            List<? extends Annotation> reversedAnnList = annList.reverse()
-
-            def found = reversedAnnList.find { annotation -> Context.isAssignableFrom(annotation.annotationType()) }
+            def found = annList.find { annotation -> Context.isAssignableFrom(annotation.annotationType()) }
             if (found) {
                 return emptyList()
             }
 
             // explicitly annotated params
-            found = reversedAnnList.find { annotation ->
+            found = annList.find { annotation ->
                 SIMPLE_PARAM_ANNOTATIONS.any { it.isAssignableFrom(annotation.annotationType()) }
             }
             if (found) {
@@ -85,17 +83,14 @@ class JaxRsMethodStack extends MethodStack {
                         name: found.value(),
                         type: new ApiType(methodParams[index].parameterizedType),
                         httpParamType: httpParamTypeFor(found.annotationType()),
-                        annotations: reversedAnnList
-//                        defaultValue: reversedAnnList.find {
-//                            DefaultValue.isAssignableFrom(it.annotationType())
-//                        }?.value()
+                        annotations: annList
                 )
 
                 return singletonList(result)
             }
 
             // complex BeanParams
-            found = reversedAnnList.find { annotation -> BeanParam.isAssignableFrom(annotation.annotationType()) }
+            found = annList.find { annotation -> BeanParam.isAssignableFrom(annotation.annotationType()) }
             if (found) {
                 return RUtils.getAllFields(methodParams[index].type, testFieldAnnotations).collect {
                     def annotation = it.annotations.find { SIMPLE_PARAM_ANNOTATIONS.contains(it.annotationType()) }
@@ -104,7 +99,7 @@ class JaxRsMethodStack extends MethodStack {
                             name: annotation.value(),
                             type: new ApiType(it.genericType),
                             httpParamType: httpParamTypeFor(annotation.annotationType()),
-                            annotations: (it.annotations as List<? extends Annotation>) + reversedAnnList
+                            annotations: (it.annotations as List<? extends Annotation>) + annList
                     )
                 }
             }
@@ -115,7 +110,7 @@ class JaxRsMethodStack extends MethodStack {
                     name: null,
                     type: new ApiType(methodParams[index].parameterizedType),
                     httpParamType: ApiEndpointParamType.BODY,
-                    annotations: reversedAnnList
+                    annotations: annList
             )
 
             return singletonList(result)
@@ -143,6 +138,6 @@ class JaxRsMethodStack extends MethodStack {
             default: throw new RuntimeException('UNSUPPORTED HTTP ENDPOINT PARAM')
         }
 
-        result
+        return result
     }
 }

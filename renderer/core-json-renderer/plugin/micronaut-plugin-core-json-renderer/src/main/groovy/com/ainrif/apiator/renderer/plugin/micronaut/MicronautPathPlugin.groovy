@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.renderer.core.json.plugin
+package com.ainrif.apiator.renderer.plugin.micronaut
 
-import com.ainrif.apiator.renderer.core.json.plugin.modeltype.DefaultModelTypeCompositePlugin
-import com.ainrif.apiator.renderer.plugin.spi.CompositePlugin
-import com.ainrif.apiator.renderer.plugin.spi.CoreJsonRendererPlugin
+import com.ainrif.apiator.renderer.plugin.spi.path.PathPlugin
 
-class DefaultCompositePlugin implements CompositePlugin {
-
+class MicronautPathPlugin implements PathPlugin {
     @Override
-    List<CoreJsonRendererPlugin> getPlugins() {
-        return [new DefaultPropertyPlugin(),
-                new DefaultParamPlugin(),
-                new DefaultPathPlugin(),
-                new DefaultModelTypeCompositePlugin()]
+    String transform(String path) {
+        def querySignIndex = path.indexOf('?')
+        if (-1 != querySignIndex) {
+            if (0 != querySignIndex && '{' == path[querySignIndex - 1]) {
+                querySignIndex--
+            }
+
+            return path.substring(0, querySignIndex)
+        }
+
+        return path
     }
 }

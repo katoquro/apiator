@@ -1,3 +1,5 @@
+compileJava.options.compilerArgs += '-parameters'
+
 dependencies {
     compileOnly project(':api')
 
