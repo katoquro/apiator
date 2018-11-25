@@ -1,6 +1,8 @@
 apply from: "$rootProject.projectDir/gradle/deploy.gradle"
 
 dependencies {
+    // this plugin extends default behaviour so we need more than spi
     compile project(':renderer:core-json-renderer')
+
     compile "com.fasterxml.jackson.core:jackson-annotations:${versions.jackson}"
 }

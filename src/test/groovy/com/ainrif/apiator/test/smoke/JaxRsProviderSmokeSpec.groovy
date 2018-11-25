@@ -28,11 +28,8 @@ import spock.lang.Specification
 
 import java.nio.file.Paths
 
-import static org.apache.commons.lang3.StringUtils.deleteWhitespace
-
-// TODO katoquro: 2018-11-25 extract common part to smoke provider independent functionality
-class CoreJsonRendererSmokeSpec extends Specification {
-    static final String smokeJson = CoreJsonRendererSmokeSpec.classLoader.getResource('jaxrs-smoke.json').text
+class JaxRsProviderSmokeSpec extends Specification {
+    static final String smokeJson = JaxRsProviderSmokeSpec.classLoader.getResource('jaxrs-smoke.json').text
 
     @Memoized
     static String buildSourcePath() {
@@ -55,38 +52,11 @@ class CoreJsonRendererSmokeSpec extends Specification {
         )
     }
 
-    def "fully configured renderer"() {
+    def "smoke of provider with maximum set of plugins"() {
         when:
         def actual = new TestingApiator(configWithJsonRenderer).render()
 
         then:
         new JsonSlurper().parseText(actual) == new JsonSlurper().parseText(smokeJson)
-    }
-
-    def "auto-detection of source paths"() {
-        when:
-        def config = configWithJsonRenderer
-        config.docletConfig.sourcePath = null
-        def actual = new TestingApiator(config).render()
-
-        then:
-        new JsonSlurper().parseText(actual) == new JsonSlurper().parseText(smokeJson)
-    }
-
-    def "renderer should produce the same result each time"() {
-        given:
-        def apiator1 = new TestingApiator(configWithJsonRenderer)
-        def apiator2 = new TestingApiator(configWithJsonRenderer)
-        def apiator3 = new TestingApiator(configWithJsonRenderer)
-
-        when:
-        def render1 = apiator1.render()
-        def render2 = apiator2.render()
-        def render3 = apiator3.render()
-
-        then:
-        render1 == render2
-        render2 == render3
-        deleteWhitespace(render3) == deleteWhitespace(smokeJson)
     }
 }

@@ -18,75 +18,47 @@ package com.ainrif.apiator.test.smoke
 import com.ainrif.apiator.core.ApiatorConfig
 import com.ainrif.apiator.core.DocletConfig
 import com.ainrif.apiator.doclet.SourcePathDetector
-import com.ainrif.apiator.provider.jaxrs.JaxRsProvider
+import com.ainrif.apiator.provider.micronaut.MicronautProvider
 import com.ainrif.apiator.renderer.core.json.CoreJsonRenderer
-import com.ainrif.apiator.renderer.plugin.jaxrs.JaxRsCompositePlugin
+import com.ainrif.apiator.renderer.plugin.micronaut.MicronautCompositePlugin
 import com.ainrif.apiator.test.TestingApiator
 import groovy.json.JsonSlurper
 import groovy.transform.Memoized
+import io.micronaut.http.annotation.Controller
 import spock.lang.Specification
 
 import java.nio.file.Paths
 
-import static org.apache.commons.lang3.StringUtils.deleteWhitespace
-
-// TODO katoquro: 2018-11-25 extract common part to smoke provider independent functionality
-class CoreJsonRendererSmokeSpec extends Specification {
-    static final String smokeJson = CoreJsonRendererSmokeSpec.classLoader.getResource('jaxrs-smoke.json').text
+class MicronautProviderSmokeSpec extends Specification {
+    static final String smokeJson = MicronautProviderSmokeSpec.classLoader.getResource('micronaut-smoke.json').text
 
     @Memoized
     static String buildSourcePath() {
         return [
-                Paths.get(System.getProperty('user.dir'), 'test', 'jax-rs-model-test', 'src', 'main', 'java'),
+                Paths.get(System.getProperty('user.dir'), 'test', 'micronaut-model-test', 'src', 'main', 'java'),
                 Paths.get(System.getProperty('user.dir'), 'test', 'core-model-test', 'src', 'main', 'java')
         ].join(SourcePathDetector.OS_PATH_DELIMITER)
     }
 
     ApiatorConfig getConfigWithJsonRenderer() {
         return new ApiatorConfig(
-                provider: new JaxRsProvider(),
+                provider: new MicronautProvider(),
                 docletConfig: new DocletConfig(
                         sourcePath: buildSourcePath()
                 ),
                 renderer: new CoreJsonRenderer({
-                    plugins << new JaxRsCompositePlugin()
+                    plugins << new MicronautCompositePlugin()
                 }),
-                basePackage: 'com.ainrif.apiator.test.model.jaxrs.smoke',
+                apiClass: Controller,
+                basePackage: 'com.ainrif.apiator.test.model.micronaut.smoke',
         )
     }
 
-    def "fully configured renderer"() {
+    def "smoke of provider with maximum set of plugins"() {
         when:
         def actual = new TestingApiator(configWithJsonRenderer).render()
 
         then:
         new JsonSlurper().parseText(actual) == new JsonSlurper().parseText(smokeJson)
-    }
-
-    def "auto-detection of source paths"() {
-        when:
-        def config = configWithJsonRenderer
-        config.docletConfig.sourcePath = null
-        def actual = new TestingApiator(config).render()
-
-        then:
-        new JsonSlurper().parseText(actual) == new JsonSlurper().parseText(smokeJson)
-    }
-
-    def "renderer should produce the same result each time"() {
-        given:
-        def apiator1 = new TestingApiator(configWithJsonRenderer)
-        def apiator2 = new TestingApiator(configWithJsonRenderer)
-        def apiator3 = new TestingApiator(configWithJsonRenderer)
-
-        when:
-        def render1 = apiator1.render()
-        def render2 = apiator2.render()
-        def render3 = apiator3.render()
-
-        then:
-        render1 == render2
-        render2 == render3
-        deleteWhitespace(render3) == deleteWhitespace(smokeJson)
     }
 }

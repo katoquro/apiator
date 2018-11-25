@@ -14,10 +14,11 @@ buildscript {
 apply from: "$rootProject.projectDir/gradle/versions.gradle"
 
 ext.versions = [
-        slf4j  : '1.7.9',
-        groovy : '2.4.2',
-        jackson: '2.6.1',
-        jsr305 : '3.0.2'
+        slf4j    : '1.7.9',
+        groovy   : '2.4.2',
+        jackson  : '2.6.1',
+        jsr305   : '3.0.2',
+        micronaut: '1.0.+'
 ]
 
 allprojects {
@@ -97,17 +98,11 @@ subprojects {
 }
 
 dependencies {
-    compile project(':core')
-    compile project(':api')
-    compile project(':provider:jax-rs-provider')
-    compile project(':renderer:core-html-renderer')
-    compile project(':renderer:core-json-renderer')
-    compile project(':renderer:core-json-renderer:plugin:spi-plugin-core-json-renderer')
-    compile project(':renderer:core-json-renderer:plugin:jakson-plugin-core-json-renderer')
-    compile project(':renderer:core-json-renderer:plugin:jax-rs-plugin-core-json-renderer')
-    compile project(':renderer:core-json-renderer:plugin:j8-plugin-core-json-renderer')
+    compile project(':apiator-all')
+
     compile project(':test:core-model-test')
     compile project(':test:jax-rs-model-test')
+    compile project(':test:micronaut-model-test')
     compile project(':test:demo-model-test')
 }
 

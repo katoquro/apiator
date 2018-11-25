@@ -13,50 +13,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.provider.jaxrs
+
+package com.ainrif.apiator.provider.micronaut
 
 import com.ainrif.apiator.core.reflection.ContextStack
 import com.ainrif.apiator.core.reflection.MethodStack
 import com.ainrif.apiator.core.reflection.RUtils
 import com.ainrif.apiator.core.spi.WebServiceProvider
+import io.micronaut.http.annotation.*
 
-import javax.ws.rs.*
-import javax.ws.rs.core.Context
 import java.lang.annotation.Annotation
 import java.lang.reflect.Modifier
 import java.util.function.Predicate
 
-class JaxRsProvider implements WebServiceProvider {
+class MicronautProvider implements WebServiceProvider {
 
-    List<Class<? extends Annotation>> wsAnnotations = [HttpMethod,
-                                                       POST,
-                                                       GET,
-                                                       PUT,
-                                                       DELETE,
-                                                       OPTIONS,
-                                                       HEAD,
+    List<Class<? extends Annotation>> wsAnnotations = [Controller,
+                                                       Post,
+                                                       Get,
+                                                       Put,
+                                                       Delete,
+                                                       Options,
+                                                       Head,
+                                                       Patch,
+                                                       Trace,
                                                        Produces,
                                                        Consumes,
-                                                       Path,
-                                                       PathParam,
-                                                       QueryParam,
-                                                       HeaderParam,
-                                                       CookieParam,
-                                                       FormParam,
-                                                       DefaultValue,
-                                                       BeanParam,
-                                                       Context]
+                                                       Header,
+                                                       Headers,
+                                                       CookieValue,
+                                                       QueryValue,
+                                                       Part,
+                                                       Body]
 
     @Override
     ContextStack getContextStack(Class<?> apiClass) {
-        return new JaxRsContextStack(RUtils.getAllSuperTypes(apiClass))
+        return new MicronautContextStack(RUtils.getAllSuperTypes(apiClass))
     }
 
     @Override
     List<MethodStack> getMethodStacks(ContextStack contextStack) {
-        def ctxStack = contextStack as JaxRsContextStack
+        def ctxStack = contextStack as MicronautContextStack
         return RUtils.getAllMethods(contextStack.last(), { Modifier.isPublic(it.modifiers) } as Predicate)
                 .findAll { it.value.any { method -> wsAnnotations.any { method.isAnnotationPresent(it) } } }
-                .collect { signature, methods -> new JaxRsMethodStack(methods, ctxStack) }
+                .collect { signature, methods -> new MicronautMethodStack(methods, ctxStack) }
     }
 }

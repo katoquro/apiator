@@ -1,0 +1,251 @@
+{
+  "apiContexts": [
+    {
+      "apiEndpoints": [
+        {
+          "method": "POST",
+          "name": "postWithCookieParam",
+          "params": [
+            {
+              "basedOn": [],
+              "httpParamType": "COOKIE",
+              "index": 0,
+              "modelType": "STRING",
+              "name": "cookie",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "BODY",
+              "index": 1,
+              "modelType": "OBJECT",
+              "optional": false,
+              "type": "com.ainrif.apiator.test.model.core.Dto02_Complex"
+            }
+          ],
+          "path": "/",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "OBJECT",
+              "type": "com.ainrif.apiator.test.model.core.Dto02_Complex"
+            }
+          ]
+        },
+        {
+          "method": "PATCH",
+          "name": "patch",
+          "params": [
+            {
+              "basedOn": [],
+              "httpParamType": "BODY",
+              "index": 0,
+              "modelType": "OBJECT",
+              "optional": false,
+              "type": "com.ainrif.apiator.test.model.core.Dto02_Complex"
+            }
+          ],
+          "path": "/patch",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "OBJECT",
+              "type": "com.ainrif.apiator.test.model.core.Dto02_Complex"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "name": "getWithParams",
+          "params": [
+            {
+              "basedOn": [],
+              "httpParamType": "QUERY",
+              "index": -1,
+              "modelType": "STRING",
+              "name": "plainField",
+              "optional": true
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "PATH",
+              "index": 0,
+              "modelType": "STRING",
+              "name": "id",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "QUERY",
+              "index": 1,
+              "modelType": "STRING",
+              "name": "option",
+              "optional": true
+            }
+          ],
+          "path": "/path/{id}",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "OBJECT",
+              "type": "com.ainrif.apiator.test.model.core.Dto02_Complex"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "name": "postWithCookieNamedParam",
+          "params": [
+            {
+              "basedOn": [],
+              "httpParamType": "PATH",
+              "index": 0,
+              "modelType": "STRING",
+              "name": "entity-id",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "BODY",
+              "index": 1,
+              "modelType": "OBJECT",
+              "optional": false,
+              "type": "com.ainrif.apiator.test.model.core.Dto02_Complex"
+            }
+          ],
+          "path": "/put/{entity-id}",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "OBJECT",
+              "type": "com.ainrif.apiator.test.model.core.Dto02_Complex"
+            }
+          ]
+        },
+        {
+          "method": "DELETE",
+          "name": "deleteWithPathParamAndVoidReturn",
+          "params": [
+            {
+              "basedOn": [],
+              "httpParamType": "PATH",
+              "index": 0,
+              "modelType": "STRING",
+              "name": "id",
+              "optional": false
+            }
+          ],
+          "path": "{id}",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        }
+      ],
+      "apiPath": "/controller",
+      "name": "com.ainrif.apiator.test.model.micronaut.smoke.MicronautControllerImpl"
+    }
+  ],
+  "apiatorInfo": {
+    "provider": "MicronautProvider",
+    "renderer": "CoreJsonRenderer",
+    "version": "SMOKE_VERSION"
+  },
+  "clientApiInfo": {
+    "basePath": "/api",
+    "version": "1.0.0-SNAPSHOT"
+  },
+  "usedApiTypes": [
+    {
+      "description": "Pojo class Level JavaDoc",
+      "fields": [
+        {
+          "basedOn": [],
+          "modelType": "STRING",
+          "name": "plainField",
+          "optional": false,
+          "readable": true,
+          "writable": true
+        }
+      ],
+      "modelType": "OBJECT",
+      "type": "com.ainrif.apiator.test.model.core.Dto01_Plain"
+    },
+    {
+      "fields": [
+        {
+          "basedOn": [],
+          "modelType": "STRING",
+          "name": "plainField",
+          "optional": false,
+          "readable": true,
+          "writable": true
+        },
+        {
+          "basedOn": [],
+          "modelType": "OBJECT",
+          "name": "plainDtoField",
+          "optional": false,
+          "readable": true,
+          "type": "com.ainrif.apiator.test.model.core.Dto01_Plain",
+          "writable": true
+        },
+        {
+          "basedOn": [],
+          "modelType": "OBJECT",
+          "name": "typeValueDtoField",
+          "optional": false,
+          "readable": true,
+          "type": "com.ainrif.apiator.test.model.core.Dto05_TypeValue",
+          "writable": true
+        },
+        {
+          "basedOn": [],
+          "modelType": "ENUMERATION",
+          "name": "enumTypeField",
+          "optional": false,
+          "readable": true,
+          "type": "com.ainrif.apiator.test.model.core.EnumType",
+          "writable": true
+        }
+      ],
+      "modelType": "OBJECT",
+      "type": "com.ainrif.apiator.test.model.core.Dto02_Complex"
+    },
+    {
+      "fields": [
+        {
+          "basedOn": [],
+          "modelType": "ANY",
+          "name": "data",
+          "optional": false,
+          "readable": true,
+          "templateName": "T",
+          "writable": true
+        }
+      ],
+      "modelType": "OBJECT",
+      "type": "com.ainrif.apiator.test.model.core.Dto05_TypeValue"
+    }
+  ],
+  "usedEnumerations": [
+    {
+      "modelType": "ENUMERATION",
+      "type": "com.ainrif.apiator.test.model.core.EnumType",
+      "values": [
+        "FIRST",
+        "SECOND",
+        "THIRD",
+        "FOURTH",
+        "FIFTH",
+        "SIXTH",
+        "SEVENTH",
+        "EIGHTH",
+        "NINTH",
+        "TENTH"
+      ]
+    }
+  ]
+}

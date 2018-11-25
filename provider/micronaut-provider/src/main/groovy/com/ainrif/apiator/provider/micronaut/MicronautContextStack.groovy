@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ainrif.apiator.provider.jaxrs
+
+package com.ainrif.apiator.provider.micronaut
 
 import com.ainrif.apiator.core.model.api.ApiType
 import com.ainrif.apiator.core.reflection.ContextStack
 import com.ainrif.apiator.core.reflection.RUtils
+import io.micronaut.http.annotation.Controller
 
-import javax.ws.rs.Path
-
-class JaxRsContextStack extends ContextStack {
-    JaxRsContextStack(Collection<? extends Class> collection) {
+class MicronautContextStack extends ContextStack {
+    protected MicronautContextStack(Collection<? extends Class> collection) {
         super(collection)
     }
 
@@ -33,7 +33,7 @@ class JaxRsContextStack extends ContextStack {
 
     @Override
     String getApiContextPath() {
-        return (RUtils.getAnnotationList(this, Path) ?: null)?.last()?.value() ?: ''
+        return (RUtils.getAnnotationList(this, Controller) ?: null)?.last()?.value() ?: ''
     }
 
     @Override

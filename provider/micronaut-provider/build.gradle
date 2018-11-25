@@ -1,0 +1,8 @@
+apply from: "$rootProject.projectDir/gradle/deploy.gradle"
+
+dependencies {
+    compile project(':core')
+    compileOnly "io.micronaut:micronaut-http:${versions.micronaut}"
+
+    testCompile project(':test:micronaut-model-test')
+}
