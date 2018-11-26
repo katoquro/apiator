@@ -2,6 +2,7 @@ v0.9.x
 
 - new: micronaut provider
 - new: path transformation plugin
+- improvement: reduce amount of file scans for javadoc 
 
 v0.8.x - Renderer Plugins
 

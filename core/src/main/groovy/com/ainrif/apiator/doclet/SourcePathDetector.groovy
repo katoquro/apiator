@@ -59,7 +59,7 @@ class SourcePathDetector {
             paths += detectionResult.first
             def detectedClassNames = detectionResult.second
 
-            def totalSize = classNames.size()
+            def totalSize = classNamesToFind.size()
             classNamesToFind -= detectedClassNames
             logger.debug('Source paths for {} of {} classes were detected on this step',
                     detectedClassNames.size(), totalSize)
@@ -82,7 +82,7 @@ class SourcePathDetector {
         }
 
         if (!paths) {
-            logger.warn('Skip auto configuration! Cannot find source class for Api Contexts: {}', classNames)
+            logger.warn('Skip auto configuration! Cannot find any source class for Api Contexts: {}', classNamesToFind)
             return null
         }
 
@@ -98,7 +98,7 @@ class SourcePathDetector {
         List<File> files = findClassFilesRecursively(sourcePath)
 
         Map<String, Path> classToSource = files.findResults { file ->
-            def className = classNames.findResult { file.absolutePath ==~ /.*?${it}\.java/ ? it : null }
+            def className = classNames.findResult { file.absolutePath ==~ /.*?${it}\.(java|groovy)/ ? it : null }
             className ? [(className): file.toPath()] : null
         }.collectEntries()
 
@@ -112,7 +112,7 @@ class SourcePathDetector {
     protected List<File> findClassFilesRecursively(String sourcePath) {
         List<File> files = []
         new File(sourcePath)
-                .eachDirRecurse { it.eachFileMatch(FILES, ~/.*?\.java$/) { files << it } }
+                .eachDirRecurse { it.eachFileMatch(FILES, ~/.*?\.(java|groovy)$/) { files << it } }
 
         return files
     }

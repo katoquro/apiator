@@ -78,10 +78,10 @@ class Apiator {
                 }
 
                 scheme.apiContexts << apiCtx
+            }
 
-                if (config.docletConfig.enabled) {
-                    scheme.docletIndex = createJavadocIndexer(config.docletConfig)
-                }
+            if (config.docletConfig.enabled) {
+                scheme.docletIndex = createJavadocIndexer(config.docletConfig)
             }
 
             log.info("Api Scheme generating took ${stopwatch.elapsed(TimeUnit.MILLISECONDS)}ms. ${apiClasses.size()} contexts were processed")
