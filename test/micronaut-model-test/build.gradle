@@ -4,4 +4,5 @@ dependencies {
     compile project(':test:core-model-test')
     compile project(':api')
     compile "io.micronaut:micronaut-http:${versions.micronaut}"
+    compile "io.micronaut:micronaut-aop:${versions.micronaut}"
 }

@@ -2,7 +2,9 @@ apply from: "$rootProject.projectDir/gradle/deploy.gradle"
 
 dependencies {
     compile project(':core')
-    compileOnly "io.micronaut:micronaut-http:${versions.micronaut}"
+    // TODO katoquro: 2018-11-27 use compileOnly when there will be solution for gradle plugin 
+    compile "io.micronaut:micronaut-http:${versions.micronaut}"
+    compile "io.micronaut:micronaut-aop:${versions.micronaut}"
 
     testCompile project(':test:micronaut-model-test')
 }

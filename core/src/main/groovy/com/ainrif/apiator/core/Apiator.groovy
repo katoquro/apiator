@@ -57,8 +57,10 @@ class Apiator {
 
             Set<Class<?>> apiClasses = scanForApi()
 
-            apiClasses.each {
-                def ctxStack = config.provider.getContextStack(it)
+            apiClasses.findResults {
+                return config.provider.getContextStack(it)
+            }
+            .collect { ctxStack ->
                 def apiCtx = new ApiContext(
                         name: ctxStack.name,
                         apiPath: ctxStack.apiContextPath,
@@ -77,8 +79,9 @@ class Apiator {
                     )
                 }
 
-                scheme.apiContexts << apiCtx
+                return apiCtx
             }
+            .with { scheme.apiContexts.addAll(it) }
 
             if (config.docletConfig.enabled) {
                 scheme.docletIndex = createJavadocIndexer(config.docletConfig)

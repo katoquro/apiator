@@ -18,8 +18,14 @@ package com.ainrif.apiator.core.spi
 import com.ainrif.apiator.core.reflection.ContextStack
 import com.ainrif.apiator.core.reflection.MethodStack
 
+import javax.annotation.Nullable
+
 interface WebServiceProvider {
-    ContextStack getContextStack(Class<?> apiClass)
+
+    /**
+     * @return null if given class should be skipped
+     */
+    @Nullable ContextStack getContextStack(Class<?> apiClass)
 
     List<MethodStack> getMethodStacks(ContextStack contextStack)
 }

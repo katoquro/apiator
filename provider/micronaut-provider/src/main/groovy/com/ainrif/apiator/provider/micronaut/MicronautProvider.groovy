@@ -20,6 +20,7 @@ import com.ainrif.apiator.core.reflection.ContextStack
 import com.ainrif.apiator.core.reflection.MethodStack
 import com.ainrif.apiator.core.reflection.RUtils
 import com.ainrif.apiator.core.spi.WebServiceProvider
+import io.micronaut.aop.Intercepted
 import io.micronaut.http.annotation.*
 
 import java.lang.annotation.Annotation
@@ -48,6 +49,10 @@ class MicronautProvider implements WebServiceProvider {
 
     @Override
     ContextStack getContextStack(Class<?> apiClass) {
+        if (Intercepted.isAssignableFrom(apiClass)) {
+            return null
+        }
+
         return new MicronautContextStack(RUtils.getAllSuperTypes(apiClass))
     }
 
