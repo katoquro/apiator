@@ -69,7 +69,7 @@ class ApiSchemeView {
         // all types used in params and return type form input data to start BFS collecting
         def nextLookup = (ae.params.collect { it.type } + ae.returnTypes*.type)
         while (nextLookup) {
-            // TODO katoquro: 08/05/2018 use collectMany 
+            // TODO katoquro: 08/05/2018 use collectMany
             def typesToLookup = nextLookup
                     .collectMany(collectApiTypesFromGenerics).toSet()
                     .collect(mapArraysToItsTypeApiType).toSet()
@@ -97,7 +97,7 @@ class ApiSchemeView {
     }
 
     protected static Closure<List<ApiType>> collectApiTypesFromFields = { ApiType type ->
-        RUtils.getAllFields(findFirstNotArrayType(type), testFieldIsPublicAndNotStatic)
+        RUtils.getAllDeclaredDynamicFields(findFirstNotArrayType(type), testFieldIsPublic)
                 .collect { new ApiType(it.genericType) } << type
     }
 
@@ -145,7 +145,7 @@ class ApiSchemeView {
                 Object != type.rawType && Enum != type.rawType
     }
 
-    protected static Predicate<Field> testFieldIsPublicAndNotStatic = {
-        Modifier.isPublic(it.modifiers) && !Modifier.isStatic(it.modifiers)
+    protected static Predicate<Field> testFieldIsPublic = {
+        Modifier.isPublic(it.modifiers)
     }
 }

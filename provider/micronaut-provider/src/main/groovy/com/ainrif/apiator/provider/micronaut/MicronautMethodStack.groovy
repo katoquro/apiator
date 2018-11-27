@@ -116,7 +116,7 @@ class MicronautMethodStack extends MethodStack {
             def paramIndex = findIndexOfParam(methodParams, paramAnnotations, var)
 
             if (var.exploded) {
-                def explodedFields = RUtils.getAllFields(methodParams[paramIndex].type).collect {
+                def explodedFields = RUtils.getAllDeclaredDynamicFields(methodParams[paramIndex].type).collect {
                     def nameAnnotation = paramAnnotations[paramIndex].find { annotation ->
                         QueryValue.isAssignableFrom(annotation.annotationType())
                     }

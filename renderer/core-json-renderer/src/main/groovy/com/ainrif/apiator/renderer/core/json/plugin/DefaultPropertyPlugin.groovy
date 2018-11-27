@@ -58,7 +58,7 @@ class DefaultPropertyPlugin implements PropertyPlugin {
         Map<String, ApiField> props = beanInfo.propertyDescriptors
                 .collectEntries { mapFromPropertyDescriptor(it, type) }
 
-        props += RUtils.getAllFields(type, { Modifier.isPublic(it.modifiers) } as Predicate)
+        props += RUtils.getAllDeclaredDynamicFields(type, { Modifier.isPublic(it.modifiers) } as Predicate)
                 .collectEntries { mapFromField(it, type) }
 
         return props.values()

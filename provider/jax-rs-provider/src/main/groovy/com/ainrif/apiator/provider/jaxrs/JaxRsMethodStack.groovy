@@ -92,7 +92,7 @@ class JaxRsMethodStack extends MethodStack {
             // complex BeanParams
             found = annList.find { annotation -> BeanParam.isAssignableFrom(annotation.annotationType()) }
             if (found) {
-                return RUtils.getAllFields(methodParams[index].type, testFieldAnnotations).collect {
+                return RUtils.getAllDeclaredDynamicFields(methodParams[index].type, testFieldAnnotations).collect {
                     def annotation = it.annotations.find { SIMPLE_PARAM_ANNOTATIONS.contains(it.annotationType()) }
                     new ApiEndpointParam(
                             index: -1,

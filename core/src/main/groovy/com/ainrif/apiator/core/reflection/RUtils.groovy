@@ -19,6 +19,7 @@ import java.lang.annotation.Annotation
 import java.lang.reflect.AnnotatedElement
 import java.lang.reflect.Field
 import java.lang.reflect.Method
+import java.lang.reflect.Modifier
 import java.util.function.Predicate
 
 final class RUtils {
@@ -92,7 +93,7 @@ final class RUtils {
      * @param predicates
      * @return fields from class and all parents
      */
-    static List<Field> getAllFields(final Class<?> type,
+    static List<Field> getAllFields(Class<?> type,
                                     Predicate<? super Field>... predicates) {
         def _clazz = type
         List<Field> fields = _clazz.interface ? [] : _clazz.declaredFields as List
@@ -104,6 +105,24 @@ final class RUtils {
         return fields.findAll { Field field ->
             predicates.every { it.test(field) }
         }
+    }
+
+    /**
+     * Shortcut for {@link #getAllFields(java.lang.Class, java.util.function.Predicate [ ])}
+     * with predicated to filter out transient and static fields
+     * @param type
+     * @return
+     */
+    static List<Field> getAllDeclaredDynamicFields(Class<?> type,
+                                                   Predicate<? super Field>... predicates) {
+        def filters = new Predicate<? super Field>[predicates.length + 1]
+        filters[0] = {
+            !Modifier.isStatic(it.modifiers) && !Modifier.isTransient(it.modifiers)
+        } as Predicate<? super Field>
+
+        System.arraycopy(predicates, 0, filters, 1, predicates.length);
+
+        return getAllFields(type, filters)
     }
 
     /**

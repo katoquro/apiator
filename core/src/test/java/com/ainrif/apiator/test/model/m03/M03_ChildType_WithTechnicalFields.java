@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/**
- * @see com.ainrif.apiator.core.reflection.RUtils#getAllFields(java.lang.Class, java.util.function.Predicate[])
- * @see com.ainrif.apiator.core.reflection.RUtils#getAllDeclaredDynamicFields(java.lang.Class, java.util.function.Predicate[])
- */
 package com.ainrif.apiator.test.model.m03;
+
+
+public class M03_ChildType_WithTechnicalFields extends M03_SuperAbstractClass {
+    public static int staticFiled;
+    public transient int transientField;
+}

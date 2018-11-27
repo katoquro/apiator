@@ -20,6 +20,8 @@ import com.ainrif.apiator.test.model.m01.*
 import com.ainrif.apiator.test.model.m02.M02_ChildType
 import com.ainrif.apiator.test.model.m02.M02_Dto
 import com.ainrif.apiator.test.model.m03.M03_ChildType
+import com.ainrif.apiator.test.model.m03.M03_ChildType_WithTechnicalFields
+import com.ainrif.apiator.test.model.m03.M03_SuperAbstractClass
 import com.ainrif.apiator.test.model.m04.AnnotationExample
 import com.ainrif.apiator.test.model.m04.M04_ChildType
 import com.ainrif.apiator.test.model.m04.M04_InterfaceType
@@ -127,6 +129,18 @@ class RUtilsSpec extends Specification {
 
         then:
         actual.size() == 2
+    }
+
+    def "getAllDeclaredDynamicFields; throw aways fields like static, transient etc"() {
+        given:
+        def expected = getAllFields(M03_SuperAbstractClass)
+
+        when:
+        def actual = getAllDeclaredDynamicFields(M03_ChildType_WithTechnicalFields)
+
+        then:
+        actual.size() == expected.size()
+        actual.containsAll(expected)
     }
 
     def "getAnnotationList"() {
