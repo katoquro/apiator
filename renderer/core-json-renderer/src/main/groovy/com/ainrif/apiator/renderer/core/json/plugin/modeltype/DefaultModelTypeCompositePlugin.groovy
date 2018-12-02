@@ -27,7 +27,8 @@ class DefaultModelTypeCompositePlugin implements CompositePlugin {
                 new CollectionsModelTypePlugin(),
                 new BinaryModelTypePlugin(),
                 new OldDateModelTypePlugin(),
-                new CoreJavaModelTypePlugin()
+                new CoreJavaModelTypePlugin(),
+                new Jsr310ModelTypePlugin(),
         ]
     }
 }

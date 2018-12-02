@@ -13,7 +13,6 @@ include ':renderer:core-json-renderer'
 
 include ':renderer:core-json-renderer:plugin:spi-plugin-core-json-renderer'
 include ':renderer:core-json-renderer:plugin:jakson-plugin-core-json-renderer'
-include ':renderer:core-json-renderer:plugin:j8-plugin-core-json-renderer'
 include ':renderer:core-json-renderer:plugin:jax-rs-plugin-core-json-renderer'
 include ':renderer:core-json-renderer:plugin:micronaut-plugin-core-json-renderer'
 

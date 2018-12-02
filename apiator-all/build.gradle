@@ -9,7 +9,6 @@ dependencies {
     compile project(':provider:micronaut-provider')
 
     compile project(':renderer:core-json-renderer:plugin:jakson-plugin-core-json-renderer')
-    compile project(':renderer:core-json-renderer:plugin:j8-plugin-core-json-renderer')
     compile project(':renderer:core-json-renderer:plugin:jax-rs-plugin-core-json-renderer')
     compile project(':renderer:core-json-renderer:plugin:micronaut-plugin-core-json-renderer')
 }

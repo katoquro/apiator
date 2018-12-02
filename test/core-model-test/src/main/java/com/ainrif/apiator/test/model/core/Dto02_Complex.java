@@ -16,6 +16,7 @@
 
 package com.ainrif.apiator.test.model.core;
 
+// TODO katoquro: 2018-12-03 add field with static nested class
 public class Dto02_Complex {
     public String plainField;
     public Dto01_Plain plainDtoField;
