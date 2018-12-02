@@ -15,6 +15,8 @@
  */
 package com.ainrif.apiator.core.reflection
 
+import java.beans.Introspector
+import java.beans.PropertyDescriptor
 import java.lang.annotation.Annotation
 import java.lang.reflect.AnnotatedElement
 import java.lang.reflect.Field
@@ -23,6 +25,8 @@ import java.lang.reflect.Modifier
 import java.util.function.Predicate
 
 final class RUtils {
+    private static final List<String> GROOVY_META_PROPS_NAMES = ['metaClass']
+
     /**
      * @param type for scan
      * @param predicates
@@ -141,9 +145,31 @@ final class RUtils {
      * @param pojo
      * @return for map values it calls {@link Object#toString()} if field is {@null} returns {@null}
      */
-    static Map<String, String> asMap(def pojo) {
+    static Map<String, String> asMap(Object pojo) {
         pojo.class.declaredFields
                 .findAll { !it.synthetic }
                 .collectEntries { [(it.name), pojo."$it.name"?.toString()] }
+    }
+
+    static List<PropertyDescriptor> introspectProperties(Class<?> type) {
+        List<PropertyDescriptor> propDescriptors
+
+        switch (type) {
+            case { type.interface }:
+                propDescriptors = Introspector.getBeanInfo(type).propertyDescriptors
+                break
+            case { Enum.isAssignableFrom(type) }:
+                propDescriptors = Introspector.getBeanInfo(type, Enum).propertyDescriptors
+                break
+            case { GroovyObject.isAssignableFrom(type) }:
+                propDescriptors = Introspector.getBeanInfo(type, Object)
+                        .propertyDescriptors
+                        .findAll { !GROOVY_META_PROPS_NAMES.contains(it.name) }
+                break
+            default:
+                propDescriptors = Introspector.getBeanInfo(type, Object).propertyDescriptors
+        }
+
+        return propDescriptors
     }
 }

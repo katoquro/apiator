@@ -25,7 +25,6 @@ import com.ainrif.apiator.renderer.plugin.spi.property.PropertyViewData
 import org.apache.commons.lang3.StringUtils
 
 import javax.annotation.Nullable
-import java.beans.Introspector
 import java.beans.PropertyDescriptor
 import java.lang.annotation.Annotation
 import java.lang.reflect.Field
@@ -47,16 +46,14 @@ import static java.util.Objects.nonNull
  * @return found properties
  */
 class DefaultPropertyPlugin implements PropertyPlugin {
-
     @Override
     Collection<ApiField> collectProperties(ApiType apiType) {
-        def type = apiType.rawType
-        def beanInfo = type.interface ?
-                Introspector.getBeanInfo(type) :
-                Introspector.getBeanInfo(type, Object)
 
-        Map<String, ApiField> props = beanInfo.propertyDescriptors
-                .collectEntries { mapFromPropertyDescriptor(it, type) }
+        def type = apiType.rawType
+
+        Map<String, ApiField> props = RUtils.introspectProperties(type).collectEntries {
+            mapFromPropertyDescriptor(it, type)
+        }
 
         props += RUtils.getAllDeclaredDynamicFields(type, { Modifier.isPublic(it.modifiers) } as Predicate)
                 .collectEntries { mapFromField(it, type) }

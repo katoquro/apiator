@@ -24,13 +24,13 @@ import com.ainrif.apiator.renderer.core.json.CoreJsonRenderer
 import com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelType
 import groovy.transform.Memoized
 
-import java.beans.Introspector
 import java.lang.reflect.Field
 import java.lang.reflect.Modifier
 import java.util.function.Predicate
 
 import static com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelType.ENUMERATION
 import static com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelType.OBJECT
+import static java.util.Collections.singletonList
 
 class ApiSchemeView {
     ApiatorInfoView apiatorInfo
@@ -105,11 +105,7 @@ class ApiSchemeView {
         def rawType = findFirstNotArrayType(type)
 
         if (!rawType.interface && !rawType.primitive && testTypeIsCustomModelType.call(new ApiType(rawType))) {
-            def beanInfo = rawType.enum ?
-                    Introspector.getBeanInfo(rawType, Enum) :
-                    Introspector.getBeanInfo(rawType, Object)
-
-            def typesFromGetters = beanInfo.propertyDescriptors
+            def typesFromGetters = RUtils.introspectProperties(rawType)
                     .findAll { it.readMethod }
                     .collect { it.readMethod.genericReturnType }
                     .collect { new ApiType(it) }
@@ -118,7 +114,7 @@ class ApiSchemeView {
 
             return typesFromGetters
         } else {
-            return [type]
+            return singletonList(type)
         }
     }
 

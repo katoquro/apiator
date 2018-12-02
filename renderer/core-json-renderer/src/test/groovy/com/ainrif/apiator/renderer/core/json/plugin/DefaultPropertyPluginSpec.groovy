@@ -19,6 +19,7 @@ package com.ainrif.apiator.renderer.core.json.plugin
 import com.ainrif.apiator.core.model.api.ApiType
 import com.ainrif.apiator.renderer.core.json.test.model.M_ConcreteInterface
 import com.ainrif.apiator.renderer.core.json.test.model.M_ConcreteType
+import com.ainrif.apiator.renderer.core.json.test.model.M_GroovyConcreteType
 import com.ainrif.apiator.renderer.core.json.test.model.M_PropertiesWithClash
 import spock.lang.Specification
 
@@ -46,6 +47,19 @@ class DefaultPropertyPluginSpec extends Specification {
 
         when:
         def actual = mapper.collectProperties(new ApiType(M_ConcreteInterface))
+
+        then:
+        actual.size() == 1
+        actual*.name.containsAll(expectedNames)
+    }
+
+    def "retrieve properties from POGO"() {
+        given:
+        def mapper = new DefaultPropertyPlugin()
+        def expectedNames = ['intField']
+
+        when:
+        def actual = mapper.collectProperties(new ApiType(M_GroovyConcreteType))
 
         then:
         actual.size() == 1
