@@ -1,5 +1,3 @@
-import org.gradle.internal.jvm.Jvm
-
 apply from: "$rootProject.projectDir/gradle/deploy.gradle"
 
 dependencies {
@@ -10,7 +8,8 @@ dependencies {
     // ^^^
 
     compile "org.slf4j:slf4j-api:${versions.slf4j}"
-    compile "org.codehaus.groovy:groovy-all:${versions.groovy}"
+    compile "org.codehaus.groovy:groovy:${versions.groovy}"
+    compile "org.codehaus.groovy:groovy-json:${versions.groovy}"
 
     compile "com.google.code.findbugs:jsr305:${versions.jsr305}"
     compile "javax.servlet:javax.servlet-api:3.1.0"
@@ -19,7 +18,8 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-databind:${versions.jackson}"
 
     //Doclets
-    compile files(Jvm.current().toolsJar)
-    compile 'org.apache.commons:commons-lang3:3.7'
+    // TODO katoquro: 20/06/19 deprecated #jdk9 
+    //compile files(Jvm.current().toolsJar)
+    compile "org.apache.commons:commons-lang3:${versions.lang3}"
     //^^^
 }
