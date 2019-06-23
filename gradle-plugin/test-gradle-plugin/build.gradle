@@ -1,5 +1,6 @@
 import apiator.ApiatorGradle
 import com.ainrif.apiator.api.annotation.Api
+import com.ainrif.apiator.core.DocletConfig
 import com.ainrif.apiator.provider.jaxrs.JaxRsProvider
 import com.ainrif.apiator.renderer.core.html.CoreHtmlRenderer
 import com.ainrif.apiator.renderer.plugin.jaxrs.JaxRsCompositePlugin
@@ -18,6 +19,9 @@ buildscript {
 
 apply plugin: 'groovy'
 
+sourceCompatibility = 1.11
+targetCompatibility = 1.11
+
 group = 'com.ainrif.apiator'
 
 repositories {
@@ -35,6 +39,7 @@ ApiatorGradle.configureApiator(project) {
         toFile = './build/api.html'
         plugins << new JaxRsCompositePlugin()
     })
+    docletConfig = new DocletConfig(includeBasePackage: 'com.ainrif')
 }
 
 dependencies {

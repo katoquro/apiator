@@ -43,7 +43,8 @@ class JaxRsProviderSmokeSpec extends Specification {
         return new ApiatorConfig(
                 provider: new JaxRsProvider(),
                 docletConfig: new DocletConfig(
-                        sourcePath: buildSourcePath()
+                        sourcePath: buildSourcePath(),
+                        includeBasePackage: 'com.ainrif'
                 ),
                 renderer: new CoreJsonRenderer({
                     plugins << new JaxRsCompositePlugin()

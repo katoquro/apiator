@@ -18,10 +18,12 @@ package com.ainrif.apiator.doclet
 
 import com.ainrif.apiator.doclet.model.JavaDocInfo
 import groovy.json.JsonSlurper
+import groovy.util.logging.Slf4j
 import spock.lang.Specification
 
 import java.nio.file.Paths
 
+@Slf4j
 class ApiatorDocletSpec extends Specification {
 
     def "smoke test; all information should be stored/restored correctly"() {
@@ -33,14 +35,22 @@ class ApiatorDocletSpec extends Specification {
 
         when:
         def result = ApiatorDoclet.runDoclet(sourcePath, null, basePackage, null)
-        def index = new JsonSlurper().parse(new File(result.outputFile)) as JavaDocInfo
+        def of = new File(result.outputFile)
+        def index = new JsonSlurper().parse(of) as JavaDocInfo
+        and:
+        log.info('Serialized data from doclet{}{}', System.lineSeparator(), of.text)
 
         then:
-        index.classes[testClassCanonicalName].description == 'class level doc'
+        index.classes[testClassCanonicalName].description == ['class level doc (first sentence).',
+                                                              ' <p>',
+                                                              ' body of class level doc',
+                                                              ' <p>',
+                                                              ' <!--html comment-->'].join(System.lineSeparator())
         index.classes[testClassCanonicalName].fields['stringField'].description == 'field level doc'
         def methodInfo = index.classes[testClassCanonicalName].methods['method_[java.lang.String, int]']
         methodInfo.description == 'method level doc'
-        methodInfo.params['stringParam'].description == '1st param doc'
+        methodInfo.params['stringParam'].description == '1st param doc' +
+                System.lineSeparator() + '                    second row of 1st param doc'
         methodInfo.params['intParam'].description == '2nd param doc'
     }
 }

@@ -18,8 +18,6 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-databind:${versions.jackson}"
 
     //Doclets
-    // TODO katoquro: 20/06/19 deprecated #jdk9 
-    //compile files(Jvm.current().toolsJar)
     compile "org.apache.commons:commons-lang3:${versions.lang3}"
     //^^^
 }

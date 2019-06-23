@@ -76,7 +76,7 @@ subprojects {
 
     def archiveReportsTask = task archiveReports(type: Zip) {
         from 'build/reports/tests'
-        appendix = 'tests_reports'
+        archiveAppendix.set('tests_reports')
         version = "${project.version}_${Instant.now()}"
         onlyIf {
             test.state.failure

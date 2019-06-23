@@ -17,6 +17,7 @@ package com.ainrif.apiator.test.smoke
 
 import com.ainrif.apiator.core.Apiator
 import com.ainrif.apiator.core.ApiatorConfig
+import com.ainrif.apiator.core.DocletConfig
 import com.ainrif.apiator.provider.jaxrs.JaxRsProvider
 import com.ainrif.apiator.renderer.core.html.CoreHtmlRenderer
 import com.ainrif.apiator.renderer.plugin.jaxrs.JaxRsCompositePlugin
@@ -32,6 +33,7 @@ class CoreHtmlRendererSmokeSpec extends Specification {
                         renderer: new CoreHtmlRenderer({
                             plugins << new JaxRsCompositePlugin()
                         }),
+                        docletConfig: new DocletConfig(includeBasePackage: 'com.ainrif')
                 ))
 
         when:
