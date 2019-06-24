@@ -17,7 +17,13 @@
 package com.ainrif.apiator.doclet;
 
 /**
- * class level doc
+ * class level doc (first sentence).
+ * <p>
+ * body of class level doc
+ * <p>
+ * <!--html comment-->
+ *
+ * @see DocletTestModel
  */
 public class DocletTestModel {
 
@@ -30,6 +36,7 @@ public class DocletTestModel {
      * method level doc
      *
      * @param stringParam 1st param doc
+     *                    second row of 1st param doc
      * @param intParam    2nd param doc
      * @return result param doc
      */

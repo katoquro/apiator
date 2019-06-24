@@ -21,10 +21,6 @@ import spock.lang.Unroll
 import java.lang.reflect.GenericArrayType
 import java.lang.reflect.ParameterizedType
 
-import static org.hamcrest.Matchers.containsInAnyOrder
-import static org.hamcrest.Matchers.equalTo
-import static spock.util.matcher.HamcrestSupport.that
-
 @Unroll
 class ApiTypeSpec extends Specification {
 
@@ -246,11 +242,13 @@ class ApiTypeSpec extends Specification {
     def "_flattenArgumentTypes; #inputType"() {
         given:
         def input = [new ApiType(ModelDto2.getDeclaredField(inputType).genericType)]
-        def expected = expectedTypes.collect { equalTo(new ApiType(it).rawType) }
+        def expected = expectedTypes.collect { new ApiType(it).rawType }
 
         expect:
-        that ApiType._flattenArgumentTypes(input).findAll { !it.array }.collect { it.rawType },
-                containsInAnyOrder(expected)
+        def types = ApiType._flattenArgumentTypes(input).findAll { !it.array }.collect { it.rawType }
+        types.size() == expected.size()
+        types.toSet().size() == expected.toSet().size()
+        types.containsAll(expected)
 
         where:
         inputType                    | expectedTypes

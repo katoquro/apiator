@@ -16,6 +16,9 @@ plugins {
 
 apply from: "$rootProject.projectDir/../../gradle/versions.gradle"
 
+sourceCompatibility = 1.11
+targetCompatibility = 1.11
+
 group = 'com.ainrif.apiator'
 version = versionHolder.version
 
@@ -44,8 +47,6 @@ gradlePlugin {
 }
 
 dependencies {
-    api "com.ainrif.apiator:apiator-all:${versionHolder.version}", {
-        exclude group: 'org.codehaus.groovy', module: 'groovy-all'
-    }
+    api "com.ainrif.apiator:apiator-all:${versionHolder.version}"
     compile localGroovy()
 }

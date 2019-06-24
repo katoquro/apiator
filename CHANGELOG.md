@@ -1,3 +1,10 @@
+v0.10.x
+
+- update: upgrade to JDK11
+- update: dependencies were updated
+- improvement: reduce scope for javadoc scan. Start package is required
+- improvement: JDK9 javadoc toolchain is used instead of rt tools jar
+
 v0.9.x 
 
 - new: micronaut provider

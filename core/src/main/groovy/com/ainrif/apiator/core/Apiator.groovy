@@ -34,6 +34,7 @@ import org.reflections.util.ClasspathHelper
 import org.reflections.util.ConfigurationBuilder
 import org.reflections.util.FilterBuilder
 
+import javax.tools.ToolProvider
 import java.util.concurrent.TimeUnit
 
 @Slf4j
@@ -57,33 +58,38 @@ class Apiator {
 
             Set<Class<?>> apiClasses = scanForApi()
 
-            apiClasses.findResults {
-                return config.provider.getContextStack(it)
-            }
-            .collect { ctxStack ->
-                def apiCtx = new ApiContext(
-                        name: ctxStack.name,
-                        apiPath: ctxStack.apiContextPath,
-                        apiType: ctxStack.apiType)
+            apiClasses
+                    .findResults {
+                        return config.provider.getContextStack(it)
+                    }
+                    .collect { ctxStack ->
+                        def apiCtx = new ApiContext(
+                                name: ctxStack.name,
+                                apiPath: ctxStack.apiContextPath,
+                                apiType: ctxStack.apiType)
 
-                apiCtx.apiEndpoints += config.provider
-                        .getMethodStacks(ctxStack)
-                        .collect {
-                    new ApiEndpoint(
-                            name: it.name,
-                            path: it.path,
-                            method: it.method,
-                            returnTypes: it.returnTypes,
-                            params: it.params,
-                            methodSignature: it.methodSignature
-                    )
-                }
+                        apiCtx.apiEndpoints += config.provider
+                                .getMethodStacks(ctxStack)
+                                .collect {
+                                    new ApiEndpoint(
+                                            name: it.name,
+                                            path: it.path,
+                                            method: it.method,
+                                            returnTypes: it.returnTypes,
+                                            params: it.params,
+                                            methodSignature: it.methodSignature
+                                    )
+                                }
 
-                return apiCtx
-            }
-            .with { scheme.apiContexts.addAll(it) }
+                        return apiCtx
+                    }
+                    .with { scheme.apiContexts.addAll(it) }
 
             if (config.docletConfig.enabled) {
+                if (!config.docletConfig.includeBasePackage) {
+                    throw new RuntimeException('includeBasePackage is required parameter for doclet data source')
+                }
+
                 scheme.docletIndex = createJavadocIndexer(config.docletConfig)
             }
 
@@ -141,19 +147,21 @@ class Apiator {
                         .join(SourcePathDetector.OS_PATH_DELIMITER)
             }
 
-            try {
-                getClass().forName('com.sun.javadoc.Doclet')
-
-                def result = ApiatorDoclet.runDoclet(dConf.sourcePath, docletClassPath, dConf.includeBasePackage, null)
-                if (0 != result.code) System.exit(result.code)
-
-                def filePath = result.outputFile
-                def javaDocInfo = new JsonSlurper().parse(new File(filePath)) as JavaDocInfo
-
-                return new DocletInfoIndexer(javaDocInfo.classes)
-            } catch (ClassNotFoundException ignore) {
-                log.info("JavaDoc Spi was not found. tools.jar may be missing at classpath")
+            if (!ToolProvider.getSystemDocumentationTool()) {
+                log.info("JavaDoc Spi was not found. Jdk11+ required")
+                return new DocletInfoIndexer([:])
             }
+
+            def result = ApiatorDoclet.runDoclet(dConf.sourcePath, docletClassPath, dConf.includeBasePackage, null)
+            if (!result.success) {
+                log.warn('Execution of doclet was unsuccessful. Doc source will be skipped')
+                return new DocletInfoIndexer([:])
+            }
+
+            def filePath = result.outputFile
+            def javaDocInfo = new JsonSlurper().parse(new File(filePath)) as JavaDocInfo
+
+            return new DocletInfoIndexer(javaDocInfo.classes)
         } else {
             log.info("Source path for Doclet was not detected. No Doclet info was found")
         }

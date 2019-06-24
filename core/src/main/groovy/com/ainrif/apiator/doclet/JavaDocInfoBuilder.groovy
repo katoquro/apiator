@@ -17,54 +17,87 @@
 package com.ainrif.apiator.doclet
 
 import com.ainrif.apiator.doclet.model.*
-import com.sun.javadoc.ClassDoc
-import com.sun.javadoc.FieldDoc
-import com.sun.javadoc.MethodDoc
+import com.sun.source.doctree.DocTree
+import com.sun.source.doctree.ParamTree
+import com.sun.source.doctree.TextTree
+import groovy.transform.CompileStatic
+import jdk.javadoc.doclet.DocletEnvironment
 
+import javax.lang.model.element.ExecutableElement
+import javax.lang.model.element.TypeElement
+import javax.lang.model.element.VariableElement
+
+@CompileStatic
 class JavaDocInfoBuilder {
+    DocletEnvironment docEnv
     JavaDocInfo content
 
-    JavaDocInfoBuilder(ClassDoc[] context) {
-        this.content = context.collect { processClass(it) }
-                .collectEntries { [ClassInfo.createKey(it), it] }
-                .with { new JavaDocInfo(classes: it) }
+    TextDocTreeVisitor visitor = new TextDocTreeVisitor()
+
+    JavaDocInfoBuilder(DocletEnvironment docEnv) {
+        this.docEnv = docEnv
+        this.content = docEnv.includedElements
+                .findAll { it instanceof TypeElement }
+                .collect { processClass(it as TypeElement) }
+                .collectEntries { Map.of(ClassInfo.createKey(it), it) }
+                .with { new JavaDocInfo(classes: it as Map<String, ClassInfo>) }
     }
 
-    private static ClassInfo processClass(ClassDoc context) {
+    private ClassInfo processClass(TypeElement typeCtx) {
         def result = new ClassInfo()
 
-        result.name = context.qualifiedTypeName()
-        result.description = context.commentText() ?: null
+        result.name = typeCtx.qualifiedName
 
-        result.methods = context.methods()
-                .collect { processMethod(it) }
-                .collectEntries { [MethodInfo.createKey(it), it] }
-
-        result.fields = context.fields()
-                .collect { processField(it) }
-                .collectEntries { [FieldInfo.createKey(it), it] }
-
-        return result
-    }
-
-    private static MethodInfo processMethod(MethodDoc methodDoc) {
-        def result = new MethodInfo()
-
-        result.name = methodDoc.name()
-        result.paramTypeNames = methodDoc.parameters()*.type()*.qualifiedTypeName()
-        result.description = methodDoc.commentText() ?: null
-
-        result.params = methodDoc.paramTags()
-                .collectEntries {
-            def info = new ParamInfo(name: it.parameterName(), description: it.parameterComment())
-
-            return [ParamInfo.createKey(info), info]
+        result.description = docEnv.docTrees.getDocCommentTree(typeCtx)?.with {
+            it.fullBody.each { it.accept(visitor, null) }
+                    .join('')
         }
 
+        result.methods = typeCtx.enclosedElements
+                .findAll { it instanceof ExecutableElement }
+                .collect { processMethod(it as ExecutableElement) }
+                .collectEntries { Map.of(MethodInfo.createKey(it), it) }
+
+        result.fields = typeCtx.enclosedElements
+                .findAll { it instanceof VariableElement }
+                .collect { processField(it as VariableElement) }
+                .collectEntries { Map.of(FieldInfo.createKey(it), it) }
+
         return result
     }
 
-    private static FieldInfo processField(FieldDoc fieldDoc) {
-        return new FieldInfo(name: fieldDoc.name(), description: fieldDoc.commentText() ?: null)
+    private MethodInfo processMethod(ExecutableElement methodCtx) {
+        def result = new MethodInfo()
+
+        result.name = methodCtx.simpleName
+        result.paramTypeNames = methodCtx.parameters*.asType()*.toString()
+        result.description = docEnv.docTrees.getDocCommentTree(methodCtx)?.with {
+            it.fullBody.each { it.accept(visitor, null) }
+                    .join('')
+        }
+
+        def paramMap = docEnv.docTrees.getDocCommentTree(methodCtx)?.with {
+            it.blockTags
+                    .findAll { DocTree.Kind.PARAM == it.kind }
+                    .collectEntries {
+                        def param = it as ParamTree
+                        def description = param.description
+                                .findAll { DocTree.Kind.TEXT == it.kind }
+                                .collect { (it as TextTree).body }
+                                .join('')
+                        def info = new ParamInfo(name: param.name.name.toString(), description: description)
+
+                        return Map.of(ParamInfo.createKey(info), info)
+                    } as Map<String, ParamInfo>
+        }
+
+        result.params = paramMap ?: Map.<String, ParamInfo> of()
+
+        return result
+    }
+
+    private FieldInfo processField(VariableElement fieldCtx) {
+        String description = docEnv.elementUtils.getDocComment(fieldCtx)?.trim() ?: null
+        return new FieldInfo(name: fieldCtx.simpleName.toString(), description: description)
     }
 }

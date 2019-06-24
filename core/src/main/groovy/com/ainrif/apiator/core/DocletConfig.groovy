@@ -32,8 +32,12 @@ class DocletConfig {
      */
     String sourcePath
 
+    // TODO katoquro: 23/06/19 thisk about base package from main config usage
     /**
-     * Given package is used to reduce amount of classes processed by doclet
+     * Base packages which will be scanned recursively to collect additional information from doc comments
+     * If there are more than 1 package the must be divided via column (:)
+     *
+     * Required if doclet enabled
      */
-    String includeBasePackage = '.'
+    String includeBasePackage
 }

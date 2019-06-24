@@ -34,9 +34,6 @@ import java.lang.reflect.Modifier
 import java.util.function.Predicate
 
 import static com.ainrif.apiator.core.reflection.RUtils.*
-import static org.hamcrest.Matchers.*
-import static spock.util.matcher.HamcrestSupport.expect
-import static spock.util.matcher.HamcrestSupport.that
 
 class RUtilsSpec extends Specification {
     def "getAllMethods"() {
@@ -51,12 +48,12 @@ class RUtilsSpec extends Specification {
         def map = getAllMethods(type, predicate)
 
         then: "count of all methods matched to predicate (public)"
-        expect map.keySet(), hasSize(5)
+        map.keySet().size() == 5
         and: "ordered from parent to child"
-        expect map[methodFromInterface].first().toString(), containsString("abstract")
-        expect map[methodFromInterface].last().toString(), not(containsString("abstract"))
+        map[methodFromInterface].first().toString().contains('abstract')
+        !map[methodFromInterface].last().toString().contains('abstract')
         and: "was not inherited from interface"
-        expect map[publicMethodWOInheritance], hasSize(1)
+        map[publicMethodWOInheritance].size() == 1
     }
 
     @Unroll
@@ -77,7 +74,7 @@ class RUtilsSpec extends Specification {
                  M07_ParentClassImpl]
     }
 
-    //todo not done
+    // TODO katoquro: 23/06/19 #not_implemented
     def "getAllMethods; should recognize override of generic interfaces method params"() {
         when:
         def type = M07_GenericInterfaceImpl
@@ -93,26 +90,34 @@ class RUtilsSpec extends Specification {
     }
 
     def "getAllSuperTypes"() {
-        expect:
-        that getAllSuperTypes(ChildType), contains(
-                GstInterface2,
-                GstInterface1,
-                StI1_Interface,
-                StInterface1,
-                ChildTypeInterface,
-                GrandSuperType,
-                SuperType,
-                ChildType)
+        def expected = [GstInterface2,
+                        GstInterface1,
+                        StI1_Interface,
+                        StInterface1,
+                        ChildTypeInterface,
+                        GrandSuperType,
+                        SuperType,
+                        ChildType]
+        when:
+        def actual = getAllSuperTypes(ChildType)
+
+        then:
+        actual.size() == expected.size()
+        actual.containsAll(expected)
     }
 
     def "getAllSuperClasses"() {
         expect:
-        that getAllSuperClasses(ChildType), contains(ChildType, SuperType, GrandSuperType)
+        getAllSuperClasses(ChildType).containsAll([ChildType, SuperType, GrandSuperType])
     }
 
     def "getAllSuperInterfaces"() {
         expect:
-        that getAllSuperInterfaces(ChildType), contains(ChildTypeInterface, StInterface1, StI1_Interface, GstInterface1, GstInterface2)
+        getAllSuperInterfaces(ChildType).containsAll([ChildTypeInterface,
+                                                      StInterface1,
+                                                      StI1_Interface,
+                                                      GstInterface1,
+                                                      GstInterface2])
     }
 
     def "getAllFields; w/o predicate"() {
