@@ -1,6 +1,6 @@
 apply plugin: 'com.jfrog.bintray'
 
-ext.sharedManifest = manifest {
+def sharedManifest = manifest {
     attributes 'Implementation-Vendor': group,
             'Implementation-Title': name,
             'Implementation-Version': version
@@ -13,7 +13,7 @@ jar {
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
+    archiveClassifier.set('sources')
     from sourceSets.main.allSource
     manifest {
         from sharedManifest
