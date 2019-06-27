@@ -1,3 +1,7 @@
+v0.11.x
+
+- improvement: html was moved to parcel.js
+
 v0.10.x
 
 - update: upgrade to JDK11

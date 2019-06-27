@@ -1,0 +1,29 @@
+{
+  "name": "resources",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "./node_modules/.bin/parcel index.html",
+    "posix-build": "rm -rf ./dist && ./node_modules/.bin/parcel build ./index.html && node posthtml.js",
+    "posix-build-ci": "rm -rf ./dist && npm ci && ./node_modules/.bin/parcel build ./index.html && node posthtml.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "clipboard": "^1.5.5",
+    "handlebars": "^4.0.12",
+    "jquery": "^3.3.1",
+    "lodash": "^4.17.11",
+    "normalize.css": "^8.0.1"
+  },
+  "devDependencies": {
+    "font-awesome": "^4.5.0",
+    "less": "^3.9.0",
+    "parcel-bundler": "^1.11.0",
+    "parcel-plugin-apiator": "file:parcel-plugin-apiator",
+    "posthtml-inline-assets": "^3.0.0"
+  }
+}
