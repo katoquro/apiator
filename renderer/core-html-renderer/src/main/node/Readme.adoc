@@ -1,0 +1,2 @@
+npm run posix-build
+./node_modules/.bin/parcel index.html

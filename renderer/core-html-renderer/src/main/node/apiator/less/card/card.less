@@ -1,0 +1,106 @@
+.card {
+  font-size: 13px;
+  line-height: 13px;
+  background: @bg_dark;
+  margin-bottom: 20px;
+  border: 1px solid @gray;
+  box-sizing: border-box;
+  border-radius: 1px;
+
+  &[data-view-tab="standard"] {
+    .card__content_tech {
+      display: none;
+    }
+  }
+
+  &[data-view-tab="tech"] {
+    .card__content_standard {
+      display: none;
+    }
+  }
+
+  &__header {
+    border-bottom: 1px solid desaturate(@gray, 20%);
+    display: flex;
+    cursor: pointer;
+
+    &-name,
+    &-share,
+    &-view-tab {
+      padding: 15px 20px;
+    }
+
+    &-share {
+      margin-left: auto;
+    }
+
+    &-share,
+    &-view-tab {
+      &:hover {
+        background-color: fade(@gray, 30%);
+      }
+
+      &_active {
+        background-color: fade(@gray, 20%);
+      }
+    }
+  }
+
+  &__content {
+    padding: 15px 20px;
+
+    &-description {
+      font-style: italic;
+    }
+
+    &-title {
+      text-transform: uppercase;
+      color: @text_light;
+      margin-bottom: 20px;
+    }
+  }
+
+  &__content-item {
+    padding: 15px 0;
+
+    &:first-child {
+      padding-top: 0;
+    }
+
+    &:last-child {
+      padding-bottom: 0;
+    }
+  }
+
+  &__content-raw-view,
+  &__content-endpoint-method {
+
+    .title {
+      text-transform: uppercase;
+      color: @text_light;
+      margin-bottom: 30px;
+    }
+
+    .name,
+    .copy {
+      display: inline-block;
+    }
+
+    .name {
+      color: @orange;
+    }
+
+    .copy {
+      border-bottom: 1px dashed;
+      margin-left: 30px;
+      cursor: pointer;
+    }
+
+    .viewer {
+      padding: 15px;
+      line-height: 15px;
+      background-color: fade(@bg_light, 50%);
+      border: 1px solid gray;
+    }
+  }
+}

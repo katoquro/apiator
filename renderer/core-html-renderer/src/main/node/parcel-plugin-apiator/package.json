@@ -1,0 +1,7 @@
+{
+  "name": "parcel-plugin-apiator",
+  "version": "0.0.0",
+  "description": "custom extensions for apiator html renderer",
+  "main": "index.js",
+  "license": "Apache-2.0"
+}

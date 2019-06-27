@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 Ainrif <ainrif@outlook.com>
+ * Copyright 2014-2019 Ainrif <support@ainrif.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,16 +21,36 @@ import com.ainrif.apiator.core.DocletConfig
 import com.ainrif.apiator.provider.jaxrs.JaxRsProvider
 import com.ainrif.apiator.renderer.core.json.CoreJsonRenderer
 import com.ainrif.apiator.renderer.plugin.jaxrs.JaxRsCompositePlugin
+import groovy.json.JsonOutput
 
 import javax.ws.rs.Path
+import java.time.LocalDate
 
 class GenerateJsonForUiDev {
-    static final String jaxrsPackage = 'com.ainrif.apiator.test.model.jaxrs.uidev'
+    static final String JAXRS_PACKAGE = 'com.ainrif.apiator.test.model.jaxrs.uidev'
+    static final String JS_PREFIX = 'window.apiatorJson = '
+    static final String COPYRIGHT = """
+        /*
+         * Copyright 2014-${LocalDate.now().year} Ainrif <support@ainrif.com>
+         *
+         * Licensed under the Apache License, Version 2.0 (the "License");
+         * you may not use this file except in compliance with the License.
+         * You may obtain a copy of the License at
+         *
+         *     http://www.apache.org/licenses/LICENSE-2.0
+         *
+         * Unless required by applicable law or agreed to in writing, software
+         * distributed under the License is distributed on an "AS IS" BASIS,
+         * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+         * See the License for the specific language governing permissions and
+         * limitations under the License.
+         */
+        """.stripIndent().trim()
 
     static void main(String[] args) {
-        def path = "${args[0]}/stub.json"
+        def path = "${args[0]}/renderer/core-html-renderer/src/main/node/apiator/js/apiatorJsonStub.js"
         def config = new ApiatorConfig(
-                basePackage: jaxrsPackage,
+                basePackage: JAXRS_PACKAGE,
                 apiClass: Path,
                 docletConfig: new DocletConfig(
                         includeBasePackage: 'com.ainrif.apiator'
@@ -40,6 +60,12 @@ class GenerateJsonForUiDev {
                     plugins << new JaxRsCompositePlugin()
                 }))
 
-        new File(path).write(new Apiator(config).render())
+        new File(path)
+                .write(COPYRIGHT +
+                        System.lineSeparator() * 2 +
+                        JS_PREFIX +
+                        JsonOutput.prettyPrint(new Apiator(config).render()) +
+                        ';'
+                )
     }
 }

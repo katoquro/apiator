@@ -1,0 +1,44 @@
+/*
+ * Copyright 2014-2017 Ainrif <support@ainrif.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@height: 50px;
+
+.header {
+  height: @height;
+  background-color: @bg_light;
+
+  &_block {
+    &_left,
+    &_right {
+      height: 100%;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    &_left {
+      width: @sidebar_width;
+      padding: 0 20px;
+    }
+
+    &_right {
+      width: calc(100% - @sidebar_width);
+      padding-left: 60px;
+      padding-right: 70px;
+      font-size: 14px;
+      line-height: @height;
+    }
+  }
+}

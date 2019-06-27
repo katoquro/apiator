@@ -101,8 +101,6 @@ dependencies {
     compile project(':test:demo-model-test')
 }
 
-apply from: "$rootProject.projectDir/gradle/uiDev.gradle"
-
 task publishGitTag {
     onlyIf {
         versionHolder.release
@@ -124,3 +122,9 @@ task publishGitTag {
 }
 
 publishRelease.dependsOn publishGitTag
+
+task generate_stub(type: JavaExec) {
+    main = 'gradle.GenerateJsonForUiDev'
+    classpath = sourceSets.test.runtimeClasspath
+    args project.rootDir.absolutePath
+}
