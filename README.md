@@ -11,7 +11,7 @@ Simple library for auto-documenting your java/groovy rest-api
   [artifact]: https://bintray.com/ainrif/maven/apiator/_latestVersion
   
   [artifact_img_snapshot]: https://img.shields.io/badge/JitPack-develop-blue.svg
-  [artifact_snapshot]: https://jitpack.io/#org.bitbucket.ainrif/apiator/develop-SNAPSHOT
+  [artifact_snapshot]: https://jitpack.io/#com.github.ainrif/apiator/develop-SNAPSHOT
   [build_img_develop]: https://semaphoreci.com/api/v1/ainrif/apiator/branches/develop/shields_badge.svg
   [build_develop]: https://semaphoreci.com/ainrif/apiator/branches/develop
 
@@ -21,7 +21,7 @@ You can find a draft of documentation [here](https://apiator.ainrif.com/) or loo
 
 ## How you can help
 
-* If you find some bugs please create an issue [here](https://bitbucket.org/ainrif/apiator/issues)
-* If you want to suggest feature also create an [issue](https://bitbucket.org/ainrif/apiator/issues)
+* If you find some bugs please create an issue [here](https://github.com/ainrif/apiator/issues)
+* If you want to suggest feature also create an [issue](https://github.com/ainrif/apiator/issues)
 * Or make a pool request with your feature
 * The repo mirror also available on [GitHub](https://github.com/katoquro/apiator)

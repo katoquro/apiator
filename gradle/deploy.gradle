@@ -42,9 +42,9 @@ bintray {
         repo = 'maven'
         userOrg = 'ainrif'
         name = rootProject.name
-        websiteUrl = 'https://bitbucket.org/ainrif/apiator'
-        issueTrackerUrl = 'https://bitbucket.org/ainrif/apiator/issues'
-        vcsUrl = 'https://bitbucket.org/ainrif/apiator.git'
+        websiteUrl = 'https://apiator.ainrif.com'
+        issueTrackerUrl = 'https://github.com/ainrif/apiator/issues'
+        vcsUrl = 'https://github.com/ainrif/apiator.git'
         licenses = ['Apache-2.0']
         publicDownloadNumbers = true
         version {

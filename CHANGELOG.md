@@ -2,6 +2,7 @@ v0.10.x
 
 - update: upgrade to JDK11
 - update: dependencies were updated
+- update: repo hosting changed from bitbucket to github
 - improvement: reduce scope for javadoc scan. Start package is required
 - improvement: JDK9 javadoc toolchain is used instead of rt tools jar
 
