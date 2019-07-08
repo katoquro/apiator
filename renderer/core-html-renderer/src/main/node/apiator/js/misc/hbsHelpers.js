@@ -70,7 +70,7 @@ Handlebars.registerHelper('toLowerCase', string => (string && typeof string === 
 
 Handlebars.registerHelper('getAfterLastDot', utils.getAfterLastDot);
 
-Handlebars.registerHelper('ifCond', (v1, v2, options) => {
+Handlebars.registerHelper('ifCond', function (v1, v2, options) {
     if (v1 === v2) {
         return options.fn(this);
     }
