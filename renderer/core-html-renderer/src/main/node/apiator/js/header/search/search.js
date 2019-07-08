@@ -21,7 +21,6 @@ import $ from 'jquery'
 import _ from 'lodash'
 
 import suggestItemHbs from '/apiator/hbs/header/search/suggest-item.hbs'
-// modulejs.define('search', ['utils', 'hbs', 'searcher', 'search_box'], function (utils, hbs, Searcher) {
 
 var endpointDataSet = _
     .chain(apiatorJson.apiContexts)
@@ -137,7 +136,12 @@ export function run() {
         },
         onChangeFunc: function (changeEvent, box) {
             box.clearSuggest();
-            var payload = changeEvent.item.payload;
+            let item = changeEvent.item;
+            if (!item) {
+                return
+            }
+
+            const payload = item.payload;
             if ('bang' === payload.showAs) {
                 box.getInput().val(payload.bang + ' ');
             } else if (changeEvent.key) {
@@ -162,5 +166,3 @@ export function run() {
     });
 
 }
-
-// });

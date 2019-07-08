@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "purge": "rm -rf ./dist && rm -rf ./node_modules",
     "dev": "./node_modules/.bin/parcel index.html",
     "posix-build": "rm -rf ./dist && ./node_modules/.bin/parcel build ./index.html && node posthtml.js",
     "posix-build-ci": "rm -rf ./dist && npm ci && ./node_modules/.bin/parcel build ./index.html && node posthtml.js"
@@ -14,8 +15,8 @@
   "license": "Apache-2.0",
   "dependencies": {
     "clipboard": "^1.5.5",
-    "handlebars": "^4.0.12",
-    "jquery": "^3.3.1",
+    "handlebars": "^4.1.0",
+    "jquery": "^3.4.0",
     "lodash": "^4.17.11",
     "normalize.css": "^8.0.1"
   },
