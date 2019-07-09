@@ -1,6 +1,6 @@
 # Apiator 
 
-Simple library for auto-documenting your java/groovy rest-api
+Auto API documenting for annotation based web frameworks on java/groovy 
 
 |               |                       Stable                      |                    develop-SNAPSHOT                    |
 |---------------|:-------------------------------------------------:|:------------------------------------------------------:|
@@ -17,11 +17,12 @@ Simple library for auto-documenting your java/groovy rest-api
 
 ## Getting started
 
-You can find a draft of documentation [here](https://apiator.ainrif.com/) or look into SmokeSpec.groovy
+All starting steps and many more can be found at [Doc Site](https://apiator.ainrif.com/). 
+
+In *SmokeSpec.groovy test you can find examples of configuration for different providers and renderers.
 
 ## How you can help
 
-* If you find some bugs please create an issue [here](https://github.com/ainrif/apiator/issues)
-* If you want to suggest feature also create an [issue](https://github.com/ainrif/apiator/issues)
+* If you find some bugs please create an [issue](https://github.com/ainrif/apiator/issues)
+* If you want to suggest feature create an [feature request](https://github.com/ainrif/apiator/issues)
 * Or make a pool request with your feature
-* The repo mirror also available on [GitHub](https://github.com/katoquro/apiator)
