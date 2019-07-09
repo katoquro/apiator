@@ -60,11 +60,13 @@ class GenerateJsonForUiDev {
                     plugins << new JaxRsCompositePlugin()
                 }))
 
+        def apiator = new Apiator(config)
+        apiator.@info.version = '0.0.0-dev_version'
         new File(path)
                 .write(COPYRIGHT +
                         System.lineSeparator() * 2 +
                         JS_PREFIX +
-                        JsonOutput.prettyPrint(new Apiator(config).render()) +
+                        JsonOutput.prettyPrint(apiator.render()) +
                         ';'
                 )
     }

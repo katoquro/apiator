@@ -687,7 +687,7 @@ window.apiatorJson = {
     "apiatorInfo": {
         "provider": "JaxRsProvider",
         "renderer": "CoreJsonRenderer",
-        "version": "feature_v10_html_renderer-SNAPSHOT"
+        "version": "0.0.0-dev_version"
     },
     "clientApiInfo": {
         "basePath": "/api",
