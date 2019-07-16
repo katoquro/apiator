@@ -73,7 +73,9 @@ class SourcePathDetector {
                     }
                     logger.debug('Step out to {} detect rest source paths', startDir)
                 } else {
-                    logger.warn('Some classes are note resoled to source path after {} steps to parent dir', MAX_STEP_OUT)
+                    logger.warn(
+                            'Some classes were not resolved into source path after {} steps out of parent dir',
+                            MAX_STEP_OUT)
                 }
             } else {
                 logger.info('All classes were resolved in {} steps', i + 1)
