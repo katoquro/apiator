@@ -22,7 +22,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
 //path is defined in implementation
-public interface JaxRsSpecCheckService {
+public interface JaxRsController {
     @CustomHttpVerb
     @Path("/custom-post")
     void supportCustomAnnotationsSubset();

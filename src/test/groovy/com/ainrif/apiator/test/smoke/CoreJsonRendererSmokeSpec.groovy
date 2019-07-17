@@ -30,9 +30,8 @@ import java.nio.file.Paths
 
 import static org.apache.commons.lang3.StringUtils.deleteWhitespace
 
-// TODO katoquro: 2018-11-25 extract common part to smoke provider independent functionality
 class CoreJsonRendererSmokeSpec extends Specification {
-    static final String smokeJson = CoreJsonRendererSmokeSpec.classLoader.getResource('jaxrs-smoke.json').text
+    static final String smokeJson = CoreJsonRendererSmokeSpec.classLoader.getResource('common-on-jaxrs-smoke.json').text
 
     @Memoized
     static String buildSourcePath() {
@@ -52,7 +51,7 @@ class CoreJsonRendererSmokeSpec extends Specification {
                 renderer: new CoreJsonRenderer({
                     plugins << new JaxRsCompositePlugin()
                 }),
-                basePackage: 'com.ainrif.apiator.test.model.jaxrs.smoke',
+                basePackage: 'com.ainrif.apiator.test.model.common_on_jaxrs.smoke',
         )
     }
 

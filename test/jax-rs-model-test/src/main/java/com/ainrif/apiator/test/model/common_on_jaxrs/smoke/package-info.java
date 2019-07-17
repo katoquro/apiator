@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2018 Ainrif <support@ainrif.com>
+ * Copyright 2014-2019 Ainrif <support@ainrif.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,8 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.test.model.core;
-
+// TODO katoquro: 16/07/19 create provider for test and use this model there
 /**
- * Class level JavaDoc
+ * Testing Model for integration testing of common features of introspection based on JAX-RS provider
  */
-public class Dto07_JavaDocField {
-    /**
-     * Field-level javadoc
-     */
-    public Object objectField;
-
-    public static class InheritClassDoc {
-    }
-}
+package com.ainrif.apiator.test.model.common_on_jaxrs.smoke;

@@ -16,9 +16,6 @@
 
 package com.ainrif.apiator.test.model.core;
 
-/**
- * Pojo class Level JavaDoc
- */
 public class Dto01_Plain {
     public String plainField;
 }

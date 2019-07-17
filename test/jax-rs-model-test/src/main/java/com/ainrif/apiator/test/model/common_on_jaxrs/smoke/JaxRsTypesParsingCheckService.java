@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.test.model.jaxrs.smoke;
+package com.ainrif.apiator.test.model.common_on_jaxrs.smoke;
 
 import com.ainrif.apiator.api.annotation.Api;
 import com.ainrif.apiator.api.annotation.Param;
@@ -53,7 +53,15 @@ public interface JaxRsTypesParsingCheckService {
     void checkTypeBounds(Dto06_TypeBounds dto);
 
     @POST
+    @Path("/post-body-type_bounds")
+    Dto07_JavaDocField.InheritClassDoc checkJavaDoc(Dto07_JavaDocField dto);
+
+    @POST
     @Path("/post-body-api_annotations/{param}")
     void checkApiAnnotations(@PathParam("param") @Param(optional = true) String param,
                              Dto08_ApiAnnotations dto);
+
+    @POST
+    @Path("/post-body-api_annotations")
+    void checkStaticFinalFields(Dto09_StaticFinalFields dto);
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.test.model.jaxrs.smoke;
+package com.ainrif.apiator.test.model.common_on_jaxrs.smoke;
 
 
 import com.ainrif.apiator.test.model.core.Dto07_JavaDocField;

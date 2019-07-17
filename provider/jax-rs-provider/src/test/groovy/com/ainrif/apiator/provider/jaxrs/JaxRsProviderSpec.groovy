@@ -15,14 +15,14 @@
  */
 package com.ainrif.apiator.provider.jaxrs
 
-import com.ainrif.apiator.test.model.jaxrs.smoke.JaxRsSpecCheckService
-import com.ainrif.apiator.test.model.jaxrs.smoke.JaxRsSpecCheckServiceImpl
+import com.ainrif.apiator.test.model.jaxrs.smoke.JaxRsController
+import com.ainrif.apiator.test.model.jaxrs.smoke.JaxRsControllerImpl
 import spock.lang.Specification
 
 class JaxRsProviderSpec extends Specification {
     def "getApiEndpoints"() {
         given:
-        def contextStack = new JaxRsContextStack([JaxRsSpecCheckService, JaxRsSpecCheckServiceImpl])
+        def contextStack = new JaxRsContextStack([JaxRsController, JaxRsControllerImpl])
         def provider = new JaxRsProvider()
         and:
         String[] expected = ['supportCustomAnnotationsSubset',

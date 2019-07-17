@@ -27,7 +27,7 @@ import java.util.List;
 
 @Api
 @Path("/spec-check")
-public class JaxRsSpecCheckServiceImpl implements JaxRsSpecCheckService {
+public class JaxRsControllerImpl implements JaxRsController {
     @Override
     public void supportCustomAnnotationsSubset() {
     }
