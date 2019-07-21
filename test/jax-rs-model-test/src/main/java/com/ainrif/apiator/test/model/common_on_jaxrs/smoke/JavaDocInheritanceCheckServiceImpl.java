@@ -14,31 +14,31 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.test.model.jaxrs.smoke;
+package com.ainrif.apiator.test.model.common_on_jaxrs.smoke;
 
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
+import com.ainrif.apiator.api.annotation.Api;
+import com.ainrif.apiator.test.model.core.Dto07_JavaDocField;
+
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 
-//path is defined in implementation
-public interface JaxRsSpecCheckService {
-    @CustomHttpVerb
-    @Path("/custom-post")
-    void supportCustomAnnotationsSubset();
+/**
+ * Class-level javadoc from impl
+ */
+@Api
+@Path("/inheritance")
+public class JavaDocInheritanceCheckServiceImpl implements JavaDocInheritanceCheckService {
+    @Override
+    public void checkJavaDocInheritance(String id) {
+    }
 
-    @GET
-    @Path("/{id}")
-    Object pathParam(@PathParam("id") @DefaultValue("0") String id);
+    /**
+     * override javadoc from interface
+     */
+    @Override
+    public void checkJavaDocOverride() {
+    }
 
-    @GET
-    @Path("/get-concrete-dto-from-impl")
-    Object getDtoFromImpl();
-
-    @GET
-    String pathFromImpl();
-
-    @GET
-    @Path("/return-abstract-type")
-    Object returnAbstractTypeWithConcreteTypesAnnotation();
+    @Override
+    public void checkJavaDocOnField(Dto07_JavaDocField dto) {
+    }
 }

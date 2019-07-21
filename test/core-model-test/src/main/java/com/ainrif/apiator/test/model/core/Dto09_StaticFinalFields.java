@@ -14,27 +14,10 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.test.model.jaxrs.smoke;
+package com.ainrif.apiator.test.model.core;
 
-import com.ainrif.apiator.api.annotation.Api;
-import com.ainrif.apiator.test.model.core.Dto07_JavaDocField;
-
-import javax.ws.rs.Path;
-
-/**
- * Class-level javadoc from impl
- */
-@Api
-@Path("/inheritance")
-public class JavaDocInheritanceCheckServiceImpl implements JavaDocInheritanceCheckService {
-    @Override
-    public void checkJavaDocInheritance(String id) {}
-
-    /**
-     * override javadoc from interface
-     */
-    @Override
-    public void checkJavaDocOverride() {}
-
-    @Override public void checkJavaDocOnField(Dto07_JavaDocField dto) {}
+public class Dto09_StaticFinalFields {
+    public static final String publicStaticFinal = "invisible";
+    public static String publicStatic = "invisible";
+    public final String publicFinal = "visible";
 }

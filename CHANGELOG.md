@@ -1,6 +1,7 @@
 v0.11.x
 
 - improvement: html was moved to parcel.js
+- improvement: smoke specs for jax-rs provider were refactored
 
 v0.10.x
 

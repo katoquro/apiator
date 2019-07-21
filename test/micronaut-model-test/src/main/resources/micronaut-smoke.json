@@ -159,7 +159,6 @@
   },
   "usedApiTypes": [
     {
-      "description": "Pojo class Level JavaDoc",
       "fields": [
         {
           "basedOn": [],

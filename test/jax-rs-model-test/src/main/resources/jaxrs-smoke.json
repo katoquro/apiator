@@ -3,201 +3,120 @@
     {
       "apiEndpoints": [
         {
-          "description": "Inherited method-level javadoc form interface",
           "method": "POST",
-          "name": "checkJavaDocInheritance",
+          "name": "checkParams",
           "params": [
             {
               "basedOn": [],
-              "description": "Inherited param-level javadoc",
-              "httpParamType": "QUERY",
-              "index": 0,
-              "modelType": "STRING",
-              "name": "id",
-              "optional": false
-            }
-          ],
-          "path": "/",
-          "returnTypes": [
-            {
-              "basedOn": [],
-              "modelType": "VOID"
-            }
-          ]
-        },
-        {
-          "method": "POST",
-          "name": "checkJavaDocOnField",
-          "params": [
-            {
-              "basedOn": [],
-              "httpParamType": "BODY",
-              "index": 0,
-              "modelType": "OBJECT",
-              "optional": false,
-              "type": "com.ainrif.apiator.test.model.core.Dto07_JavaDocField"
-            }
-          ],
-          "path": "/",
-          "returnTypes": [
-            {
-              "basedOn": [],
-              "modelType": "VOID"
-            }
-          ]
-        },
-        {
-          "description": "override javadoc from interface",
-          "method": "POST",
-          "name": "checkJavaDocOverride",
-          "params": [],
-          "path": "/",
-          "returnTypes": [
-            {
-              "basedOn": [],
-              "modelType": "VOID"
-            }
-          ]
-        }
-      ],
-      "apiPath": "/inheritance",
-      "description": "Class-level javadoc from impl",
-      "name": "com.ainrif.apiator.test.model.jaxrs.smoke.JavaDocInheritanceCheckServiceImpl"
-    },
-    {
-      "apiEndpoints": [
-        {
-          "method": "CUSTOMVERB",
-          "name": "supportCustomAnnotationsSubset",
-          "params": [],
-          "path": "/custom-post",
-          "returnTypes": [
-            {
-              "basedOn": [],
-              "modelType": "VOID"
-            }
-          ]
-        },
-        {
-          "method": "GET",
-          "name": "getDtoFromImpl",
-          "params": [],
-          "path": "/get-concrete-dto-from-impl",
-          "returnTypes": [
-            {
-              "basedOn": [],
-              "modelType": "OBJECT",
-              "type": "com.ainrif.apiator.test.model.core.Dto01_Plain"
-            }
-          ]
-        },
-        {
-          "method": "GET",
-          "name": "implicitHttpMethodDeclaration",
-          "params": [],
-          "path": "/get-method-by-default",
-          "returnTypes": [
-            {
-              "basedOn": [],
-              "modelType": "STRING"
-            }
-          ]
-        },
-        {
-          "method": "GET",
-          "name": "implOnlyEndpoint",
-          "params": [],
-          "path": "/impl-only-method",
-          "returnTypes": [
-            {
-              "basedOn": [
-                {
-                  "basedOn": [
-                    {
-                      "basedOn": [],
-                      "modelType": "OBJECT",
-                      "type": "com.ainrif.apiator.test.model.core.Dto01_Plain"
-                    }
-                  ],
-                  "modelType": "ARRAY"
-                }
-              ],
-              "modelType": "ARRAY"
-            }
-          ]
-        },
-        {
-          "method": "GET",
-          "name": "pathFromImpl",
-          "params": [],
-          "path": "/path-from-impl",
-          "returnTypes": [
-            {
-              "basedOn": [],
-              "modelType": "STRING"
-            }
-          ]
-        },
-        {
-          "method": "GET",
-          "name": "returnAbstractTypeWithConcreteTypesAnnotation",
-          "params": [],
-          "path": "/return-abstract-type",
-          "returnTypes": [
-            {
-              "basedOn": [],
-              "modelType": "OBJECT",
-              "type": "com.ainrif.apiator.test.model.core.Dto01_Plain"
-            },
-            {
-              "basedOn": [],
-              "modelType": "OBJECT",
-              "type": "com.ainrif.apiator.test.model.core.Dto02_Complex"
-            }
-          ]
-        },
-        {
-          "method": "GET",
-          "name": "pathParam",
-          "params": [
-            {
-              "basedOn": [],
-              "defaultValue": "0",
               "httpParamType": "PATH",
               "index": 0,
               "modelType": "STRING",
-              "name": "id",
+              "name": "p",
               "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "QUERY",
+              "index": 1,
+              "modelType": "STRING",
+              "name": "q",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "HEADER",
+              "index": 2,
+              "modelType": "STRING",
+              "name": "h",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "COOKIE",
+              "index": 3,
+              "modelType": "STRING",
+              "name": "c",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "FORM",
+              "index": 4,
+              "modelType": "STRING",
+              "name": "f",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "BODY",
+              "index": 5,
+              "modelType": "OBJECT",
+              "optional": false,
+              "type": "com.ainrif.apiator.test.model.core.Dto02_Complex"
             }
           ],
-          "path": "/{id}",
+          "path": "/checkParams/{p}",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "OBJECT",
+              "type": "com.ainrif.apiator.test.model.core.Dto00_MethodReturnDto"
+            }
+          ]
+        },
+        {
+          "method": "DELETE",
+          "name": "delete",
+          "params": [],
+          "path": "/delete",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "name": "fromChildClass",
+          "params": [],
+          "path": "/from-child-class",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "name": "get",
+          "params": [],
+          "path": "/get",
           "returnTypes": [
             {
               "basedOn": [],
               "modelType": "ANY"
             }
           ]
-        }
-      ],
-      "apiPath": "/spec-check",
-      "name": "com.ainrif.apiator.test.model.jaxrs.smoke.JaxRsSpecCheckServiceImpl"
-    },
-    {
-      "apiEndpoints": [
+        },
         {
-          "method": "POST",
-          "name": "checkAccessModifiersDto",
-          "params": [
+          "method": "HEAD",
+          "name": "head",
+          "params": [],
+          "path": "/head",
+          "returnTypes": [
             {
               "basedOn": [],
-              "httpParamType": "BODY",
-              "index": 0,
-              "modelType": "OBJECT",
-              "optional": false,
-              "type": "com.ainrif.apiator.test.model.core.Dto04_AccessModifiers"
+              "modelType": "VOID"
             }
-          ],
-          "path": "/post-body-access_modifiers",
+          ]
+        },
+        {
+          "method": "OPTIONS",
+          "name": "options",
+          "params": [],
+          "path": "/options",
           "returnTypes": [
             {
               "basedOn": [],
@@ -207,47 +126,137 @@
         },
         {
           "method": "POST",
-          "name": "checkApiAnnotations",
+          "name": "post",
+          "params": [],
+          "path": "/post",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "name": "put",
+          "params": [],
+          "path": "/put",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        }
+      ],
+      "apiPath": "/jax-rs",
+      "name": "com.ainrif.apiator.test.model.jaxrs.smoke.JaxRsControllerInheritance"
+    },
+    {
+      "apiEndpoints": [
+        {
+          "method": "POST",
+          "name": "checkParams",
           "params": [
             {
               "basedOn": [],
               "httpParamType": "PATH",
               "index": 0,
               "modelType": "STRING",
-              "name": "param",
-              "optional": true
+              "name": "p",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "QUERY",
+              "index": 1,
+              "modelType": "STRING",
+              "name": "q",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "HEADER",
+              "index": 2,
+              "modelType": "STRING",
+              "name": "h",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "COOKIE",
+              "index": 3,
+              "modelType": "STRING",
+              "name": "c",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "FORM",
+              "index": 4,
+              "modelType": "STRING",
+              "name": "f",
+              "optional": false
             },
             {
               "basedOn": [],
               "httpParamType": "BODY",
-              "index": 1,
-              "modelType": "OBJECT",
-              "optional": false,
-              "type": "com.ainrif.apiator.test.model.core.Dto08_ApiAnnotations"
-            }
-          ],
-          "path": "/post-body-api_annotations/{param}",
-          "returnTypes": [
-            {
-              "basedOn": [],
-              "modelType": "VOID"
-            }
-          ]
-        },
-        {
-          "method": "POST",
-          "name": "checkComplexBody",
-          "params": [
-            {
-              "basedOn": [],
-              "httpParamType": "BODY",
-              "index": 0,
+              "index": 5,
               "modelType": "OBJECT",
               "optional": false,
               "type": "com.ainrif.apiator.test.model.core.Dto02_Complex"
             }
           ],
-          "path": "/post-body-complex",
+          "path": "/checkParams-override/{p}",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "OBJECT",
+              "type": "com.ainrif.apiator.test.model.core.Dto00_MethodReturnDto"
+            }
+          ]
+        },
+        {
+          "method": "DELETE",
+          "name": "delete",
+          "params": [],
+          "path": "/delete-override",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "name": "get",
+          "params": [],
+          "path": "/get-override",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "ANY"
+            }
+          ]
+        },
+        {
+          "method": "HEAD",
+          "name": "head",
+          "params": [],
+          "path": "/head-override",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        },
+        {
+          "method": "OPTIONS",
+          "name": "options",
+          "params": [],
+          "path": "/options-override",
           "returnTypes": [
             {
               "basedOn": [],
@@ -257,18 +266,9 @@
         },
         {
           "method": "POST",
-          "name": "checkPlainBody",
-          "params": [
-            {
-              "basedOn": [],
-              "httpParamType": "BODY",
-              "index": 0,
-              "modelType": "OBJECT",
-              "optional": false,
-              "type": "com.ainrif.apiator.test.model.core.Dto01_Plain"
-            }
-          ],
-          "path": "/post-body-plain",
+          "name": "post",
+          "params": [],
+          "path": "/post-override",
           "returnTypes": [
             {
               "basedOn": [],
@@ -277,78 +277,125 @@
           ]
         },
         {
-          "method": "POST",
-          "name": "checkUpdate",
-          "params": [
-            {
-              "basedOn": [],
-              "httpParamType": "BODY",
-              "index": 0,
-              "modelType": "OBJECT",
-              "optional": false,
-              "type": "com.ainrif.apiator.test.model.core.Dto03_JavaBean"
-            }
-          ],
-          "path": "/post-body-read-body-javabean",
-          "returnTypes": [
-            {
-              "basedOn": [],
-              "modelType": "OBJECT",
-              "type": "com.ainrif.apiator.test.model.core.Dto03_JavaBean"
-            }
-          ]
-        },
-        {
-          "method": "POST",
-          "name": "checkTypeBounds",
-          "params": [
-            {
-              "basedOn": [],
-              "httpParamType": "BODY",
-              "index": 0,
-              "modelType": "OBJECT",
-              "optional": false,
-              "type": "com.ainrif.apiator.test.model.core.Dto06_TypeBounds"
-            }
-          ],
-          "path": "/post-body-type_bounds",
+          "method": "PUT",
+          "name": "put",
+          "params": [],
+          "path": "/put-override",
           "returnTypes": [
             {
               "basedOn": [],
               "modelType": "VOID"
-            }
-          ]
-        },
-        {
-          "method": "POST",
-          "name": "checkTypeValue",
-          "params": [
-            {
-              "basedOn": [
-                {
-                  "basedOn": [],
-                  "modelType": "INTEGER"
-                }
-              ],
-              "httpParamType": "BODY",
-              "index": 0,
-              "modelType": "OBJECT",
-              "optional": false,
-              "type": "com.ainrif.apiator.test.model.core.Dto05_TypeValue"
-            }
-          ],
-          "path": "/post-body-type_value",
-          "returnTypes": [
-            {
-              "basedOn": [],
-              "modelType": "OBJECT",
-              "type": "com.ainrif.apiator.test.model.core.Dto05_TypeValue"
             }
           ]
         }
       ],
-      "apiPath": "/types",
-      "name": "com.ainrif.apiator.test.model.jaxrs.smoke.JaxRsTypesParsingCheckService"
+      "apiPath": "/jax-rs-override",
+      "name": "com.ainrif.apiator.test.model.jaxrs.smoke.JaxRsControllerOverride"
+    },
+    {
+      "apiEndpoints": [
+        {
+          "method": "GET",
+          "name": "beanParam",
+          "params": [
+            {
+              "basedOn": [],
+              "httpParamType": "PATH",
+              "index": -1,
+              "modelType": "STRING",
+              "name": "p",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "QUERY",
+              "index": -1,
+              "modelType": "STRING",
+              "name": "q",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "HEADER",
+              "index": -1,
+              "modelType": "STRING",
+              "name": "h",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "COOKIE",
+              "index": -1,
+              "modelType": "STRING",
+              "name": "c",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "FORM",
+              "index": -1,
+              "modelType": "STRING",
+              "name": "f",
+              "optional": false
+            }
+          ],
+          "path": "/bean-param/{p}",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        },
+        {
+          "method": "CUSTOMVERB",
+          "name": "customHttpVerb",
+          "params": [],
+          "path": "/custom-http-verb",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "name": "defaultValue",
+          "params": [
+            {
+              "basedOn": [],
+              "defaultValue": "default",
+              "httpParamType": "QUERY",
+              "index": 0,
+              "modelType": "STRING",
+              "name": "q",
+              "optional": false
+            }
+          ],
+          "path": "/default-value",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "name": "implicitVerbGet",
+          "params": [],
+          "path": "/implicit-verb-get",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "STRING"
+            }
+          ]
+        }
+      ],
+      "apiPath": "jax-rs-specific",
+      "name": "com.ainrif.apiator.test.model.jaxrs.smoke.JaxRsSpecific"
     }
   ],
   "apiatorInfo": {
@@ -362,7 +409,21 @@
   },
   "usedApiTypes": [
     {
-      "description": "Pojo class Level JavaDoc",
+      "description": "This Dto must be present only as method return value to check that kind of introspection",
+      "fields": [
+        {
+          "basedOn": [],
+          "modelType": "STRING",
+          "name": "stringField",
+          "optional": false,
+          "readable": true,
+          "writable": true
+        }
+      ],
+      "modelType": "OBJECT",
+      "type": "com.ainrif.apiator.test.model.core.Dto00_MethodReturnDto"
+    },
+    {
       "fields": [
         {
           "basedOn": [],
@@ -421,50 +482,6 @@
       "fields": [
         {
           "basedOn": [],
-          "modelType": "STRING",
-          "name": "withGetterAndSetterField",
-          "optional": false,
-          "readable": true,
-          "writable": true
-        },
-        {
-          "basedOn": [],
-          "modelType": "STRING",
-          "name": "withGetterField",
-          "optional": false,
-          "readable": true,
-          "writable": false
-        },
-        {
-          "basedOn": [],
-          "modelType": "STRING",
-          "name": "withSetterField",
-          "optional": false,
-          "readable": false,
-          "writable": true
-        }
-      ],
-      "modelType": "OBJECT",
-      "type": "com.ainrif.apiator.test.model.core.Dto03_JavaBean"
-    },
-    {
-      "fields": [
-        {
-          "basedOn": [],
-          "modelType": "STRING",
-          "name": "publicField",
-          "optional": false,
-          "readable": true,
-          "writable": true
-        }
-      ],
-      "modelType": "OBJECT",
-      "type": "com.ainrif.apiator.test.model.core.Dto04_AccessModifiers"
-    },
-    {
-      "fields": [
-        {
-          "basedOn": [],
           "modelType": "ANY",
           "name": "data",
           "optional": false,
@@ -475,129 +492,6 @@
       ],
       "modelType": "OBJECT",
       "type": "com.ainrif.apiator.test.model.core.Dto05_TypeValue"
-    },
-    {
-      "fields": [
-        {
-          "basedOn": [
-            {
-              "basedOn": [],
-              "modelType": "OBJECT",
-              "templateName": "TE",
-              "type": "com.ainrif.apiator.test.model.core.Dto06_TypeBounds$GenericWildcardBound"
-            }
-          ],
-          "modelType": "ARRAY",
-          "name": "withExtendsBound",
-          "optional": false,
-          "readable": true,
-          "writable": false
-        },
-        {
-          "basedOn": [
-            {
-              "basedOn": [],
-              "modelType": "OBJECT",
-              "templateName": "TEC",
-              "type": "com.ainrif.apiator.test.model.core.Dto06_TypeBounds$GenericWildcardBound"
-            }
-          ],
-          "modelType": "ARRAY",
-          "name": "withExtendsBoundFromClass",
-          "optional": false,
-          "readable": false,
-          "writable": true
-        },
-        {
-          "basedOn": [
-            {
-              "basedOn": [],
-              "modelType": "OBJECT",
-              "type": "com.ainrif.apiator.test.model.core.Dto06_TypeBounds$GenericWildcardBound"
-            }
-          ],
-          "modelType": "ARRAY",
-          "name": "withExtendsWildcardBound",
-          "optional": false,
-          "readable": false,
-          "writable": true
-        },
-        {
-          "basedOn": [
-            {
-              "basedOn": [],
-              "modelType": "ANY"
-            }
-          ],
-          "modelType": "ARRAY",
-          "name": "withSuperWildcardBound",
-          "optional": false,
-          "readable": false,
-          "writable": true
-        }
-      ],
-      "modelType": "OBJECT",
-      "type": "com.ainrif.apiator.test.model.core.Dto06_TypeBounds"
-    },
-    {
-      "fields": [
-        {
-          "basedOn": [],
-          "modelType": "INTEGER",
-          "name": "field",
-          "optional": false,
-          "readable": true,
-          "writable": true
-        }
-      ],
-      "modelType": "OBJECT",
-      "type": "com.ainrif.apiator.test.model.core.Dto06_TypeBounds$GenericWildcardBound"
-    },
-    {
-      "fields": [
-        {
-          "basedOn": [],
-          "description": "Field-level javadoc",
-          "modelType": "ANY",
-          "name": "objectField",
-          "optional": false,
-          "readable": true,
-          "writable": true
-        }
-      ],
-      "modelType": "OBJECT",
-      "type": "com.ainrif.apiator.test.model.core.Dto07_JavaDocField"
-    },
-    {
-      "fields": [
-        {
-          "basedOn": [],
-          "defaultValue": "defVal",
-          "modelType": "STRING",
-          "name": "fieldWithDefaultValue",
-          "optional": false,
-          "readable": true,
-          "writable": true
-        },
-        {
-          "basedOn": [],
-          "modelType": "STRING",
-          "name": "optionalField",
-          "optional": true,
-          "readable": true,
-          "writable": true
-        },
-        {
-          "basedOn": [],
-          "modelType": "STRING",
-          "name": "optionalViaNullableField",
-          "optional": true,
-          "readable": true,
-          "writable": true
-        }
-      ],
-      "modelType": "OBJECT",
-      "type": "com.ainrif.apiator.test.model.core.Dto08_ApiAnnotations"
     }
   ],
   "usedEnumerations": [

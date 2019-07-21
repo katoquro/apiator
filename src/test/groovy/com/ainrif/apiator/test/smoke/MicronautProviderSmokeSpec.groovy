@@ -55,9 +55,10 @@ class MicronautProviderSmokeSpec extends Specification {
         )
     }
 
-    def "smoke of provider with maximum set of plugins"() {
+    def "smoke of provider with default set of plugins"() {
         when:
         def actual = new TestingApiator(configWithJsonRenderer).render()
+        println actual
 
         then:
         new JsonSlurper().parseText(actual) == new JsonSlurper().parseText(smokeJson)

@@ -15,23 +15,24 @@
  */
 package com.ainrif.apiator.provider.jaxrs
 
-import com.ainrif.apiator.test.model.jaxrs.smoke.JaxRsSpecCheckService
-import com.ainrif.apiator.test.model.jaxrs.smoke.JaxRsSpecCheckServiceImpl
+import com.ainrif.apiator.test.model.jaxrs.smoke.JaxRsController
+import com.ainrif.apiator.test.model.jaxrs.smoke.JaxRsControllerInheritance
 import spock.lang.Specification
 
 class JaxRsProviderSpec extends Specification {
-    def "getApiEndpoints"() {
+    def "method stack should be generated for jax-rs type context"() {
         given:
-        def contextStack = new JaxRsContextStack([JaxRsSpecCheckService, JaxRsSpecCheckServiceImpl])
+        def contextStack = new JaxRsContextStack([JaxRsController, JaxRsControllerInheritance])
         def provider = new JaxRsProvider()
         and:
-        String[] expected = ['supportCustomAnnotationsSubset',
-                             'pathParam',
-                             'getDtoFromImpl',
-                             'pathFromImpl',
-                             'implOnlyEndpoint',
-                             'implicitHttpMethodDeclaration',
-                             'returnAbstractTypeWithConcreteTypesAnnotation']
+        String[] expected = ['post',
+                             'get',
+                             'put',
+                             'delete',
+                             'options',
+                             'head',
+                             'checkParams',
+                             'fromChildClass']
 
         when:
         def actual = provider.getMethodStacks(contextStack)
