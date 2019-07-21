@@ -16,29 +16,44 @@
 
 package com.ainrif.apiator.test.model.jaxrs.smoke;
 
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import com.ainrif.apiator.test.model.core.Dto00_MethodReturnDto;
+import com.ainrif.apiator.test.model.core.Dto02_Complex;
 
-//path is defined in implementation
+import javax.ws.rs.*;
+
+@Path("/jax-rs")
 public interface JaxRsController {
-    @CustomHttpVerb
-    @Path("/custom-post")
-    void supportCustomAnnotationsSubset();
+
+    @POST
+    @Path("/post")
+    void post();
 
     @GET
-    @Path("/{id}")
-    Object pathParam(@PathParam("id") @DefaultValue("0") String id);
+    @Path("/get")
+    Object get();
 
-    @GET
-    @Path("/get-concrete-dto-from-impl")
-    Object getDtoFromImpl();
+    @PUT
+    @Path("/put")
+    void put();
 
-    @GET
-    String pathFromImpl();
+    @DELETE
+    @Path("/delete")
+    void delete();
 
-    @GET
-    @Path("/return-abstract-type")
-    Object returnAbstractTypeWithConcreteTypesAnnotation();
+    @OPTIONS
+    @Path("/options")
+    void options();
+
+    @HEAD
+    @Path("/head")
+    void head();
+
+    @POST
+    @Path("/checkParams/{p}")
+    Dto00_MethodReturnDto checkParams(@PathParam("p") String p,
+                                      @QueryParam("q") String q,
+                                      @HeaderParam("h") String h,
+                                      @CookieParam("c") String c,
+                                      @FormParam("f") String f,
+                                      Dto02_Complex body);
 }

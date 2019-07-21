@@ -26,7 +26,7 @@ import javax.ws.rs.PathParam;
 
 @Api
 @Path("/types")
-public interface JaxRsTypesParsingCheckService {
+public interface ApiTypeIntrospectionService {
 
     @POST
     @Path("/post-body-plain")

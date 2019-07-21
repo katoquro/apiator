@@ -3,6 +3,52 @@
     {
       "apiEndpoints": [
         {
+          "method": "GET",
+          "name": "concreteTypesAnnotation",
+          "params": [],
+          "path": "/concrete-types-annotation",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "OBJECT",
+              "type": "com.ainrif.apiator.test.model.core.Dto00_MethodReturnDto"
+            },
+            {
+              "basedOn": [],
+              "modelType": "OBJECT",
+              "type": "com.ainrif.apiator.test.model.core.Dto01_Plain"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "name": "paramAnnotation",
+          "params": [
+            {
+              "basedOn": [],
+              "defaultValue": "default",
+              "httpParamType": "QUERY",
+              "index": 0,
+              "modelType": "STRING",
+              "name": "q",
+              "optional": true
+            }
+          ],
+          "path": "/param-annotation",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        }
+      ],
+      "apiPath": "/apiator-api",
+      "name": "com.ainrif.apiator.test.model.common_on_jaxrs.smoke.ApiatorApiAnnotationsService"
+    },
+    {
+      "apiEndpoints": [
+        {
           "description": "Inherited method-level javadoc form interface",
           "method": "POST",
           "name": "checkJavaDocInheritance",
@@ -273,7 +319,7 @@
         }
       ],
       "apiPath": "/types",
-      "name": "com.ainrif.apiator.test.model.common_on_jaxrs.smoke.JaxRsTypesParsingCheckService"
+      "name": "com.ainrif.apiator.test.model.common_on_jaxrs.smoke.ApiTypeIntrospectionService"
     }
   ],
   "apiatorInfo": {
@@ -286,6 +332,21 @@
     "version": "1.0.0-SNAPSHOT"
   },
   "usedApiTypes": [
+    {
+      "description": "This Dto must be present only as method return value to check that kind of introspection",
+      "fields": [
+        {
+          "basedOn": [],
+          "modelType": "STRING",
+          "name": "stringField",
+          "optional": false,
+          "readable": true,
+          "writable": true
+        }
+      ],
+      "modelType": "OBJECT",
+      "type": "com.ainrif.apiator.test.model.core.Dto00_MethodReturnDto"
+    },
     {
       "fields": [
         {

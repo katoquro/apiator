@@ -3,10 +3,72 @@
     {
       "apiEndpoints": [
         {
-          "method": "CUSTOMVERB",
-          "name": "supportCustomAnnotationsSubset",
+          "method": "POST",
+          "name": "checkParams",
+          "params": [
+            {
+              "basedOn": [],
+              "httpParamType": "PATH",
+              "index": 0,
+              "modelType": "STRING",
+              "name": "p",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "QUERY",
+              "index": 1,
+              "modelType": "STRING",
+              "name": "q",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "HEADER",
+              "index": 2,
+              "modelType": "STRING",
+              "name": "h",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "COOKIE",
+              "index": 3,
+              "modelType": "STRING",
+              "name": "c",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "FORM",
+              "index": 4,
+              "modelType": "STRING",
+              "name": "f",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "BODY",
+              "index": 5,
+              "modelType": "OBJECT",
+              "optional": false,
+              "type": "com.ainrif.apiator.test.model.core.Dto02_Complex"
+            }
+          ],
+          "path": "/checkParams/{p}",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "OBJECT",
+              "type": "com.ainrif.apiator.test.model.core.Dto00_MethodReturnDto"
+            }
+          ]
+        },
+        {
+          "method": "DELETE",
+          "name": "delete",
           "params": [],
-          "path": "/custom-post",
+          "path": "/delete",
           "returnTypes": [
             {
               "basedOn": [],
@@ -16,107 +78,324 @@
         },
         {
           "method": "GET",
-          "name": "getDtoFromImpl",
+          "name": "fromChildClass",
           "params": [],
-          "path": "/get-concrete-dto-from-impl",
+          "path": "/from-child-class",
           "returnTypes": [
             {
               "basedOn": [],
-              "modelType": "OBJECT",
-              "type": "com.ainrif.apiator.test.model.core.Dto01_Plain"
+              "modelType": "VOID"
             }
           ]
         },
         {
           "method": "GET",
-          "name": "implicitHttpMethodDeclaration",
+          "name": "get",
           "params": [],
-          "path": "/get-method-by-default",
-          "returnTypes": [
-            {
-              "basedOn": [],
-              "modelType": "STRING"
-            }
-          ]
-        },
-        {
-          "method": "GET",
-          "name": "implOnlyEndpoint",
-          "params": [],
-          "path": "/impl-only-method",
-          "returnTypes": [
-            {
-              "basedOn": [
-                {
-                  "basedOn": [
-                    {
-                      "basedOn": [],
-                      "modelType": "OBJECT",
-                      "type": "com.ainrif.apiator.test.model.core.Dto01_Plain"
-                    }
-                  ],
-                  "modelType": "ARRAY"
-                }
-              ],
-              "modelType": "ARRAY"
-            }
-          ]
-        },
-        {
-          "method": "GET",
-          "name": "pathFromImpl",
-          "params": [],
-          "path": "/path-from-impl",
-          "returnTypes": [
-            {
-              "basedOn": [],
-              "modelType": "STRING"
-            }
-          ]
-        },
-        {
-          "method": "GET",
-          "name": "returnAbstractTypeWithConcreteTypesAnnotation",
-          "params": [],
-          "path": "/return-abstract-type",
-          "returnTypes": [
-            {
-              "basedOn": [],
-              "modelType": "OBJECT",
-              "type": "com.ainrif.apiator.test.model.core.Dto01_Plain"
-            },
-            {
-              "basedOn": [],
-              "modelType": "OBJECT",
-              "type": "com.ainrif.apiator.test.model.core.Dto02_Complex"
-            }
-          ]
-        },
-        {
-          "method": "GET",
-          "name": "pathParam",
-          "params": [
-            {
-              "basedOn": [],
-              "defaultValue": "0",
-              "httpParamType": "PATH",
-              "index": 0,
-              "modelType": "STRING",
-              "name": "id",
-              "optional": false
-            }
-          ],
-          "path": "/{id}",
+          "path": "/get",
           "returnTypes": [
             {
               "basedOn": [],
               "modelType": "ANY"
             }
           ]
+        },
+        {
+          "method": "HEAD",
+          "name": "head",
+          "params": [],
+          "path": "/head",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        },
+        {
+          "method": "OPTIONS",
+          "name": "options",
+          "params": [],
+          "path": "/options",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "name": "post",
+          "params": [],
+          "path": "/post",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "name": "put",
+          "params": [],
+          "path": "/put",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
         }
       ],
-      "apiPath": "/spec-check",
-      "name": "com.ainrif.apiator.test.model.jaxrs.smoke.JaxRsControllerImpl"
+      "apiPath": "/jax-rs",
+      "name": "com.ainrif.apiator.test.model.jaxrs.smoke.JaxRsControllerInheritance"
+    },
+    {
+      "apiEndpoints": [
+        {
+          "method": "POST",
+          "name": "checkParams",
+          "params": [
+            {
+              "basedOn": [],
+              "httpParamType": "PATH",
+              "index": 0,
+              "modelType": "STRING",
+              "name": "p",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "QUERY",
+              "index": 1,
+              "modelType": "STRING",
+              "name": "q",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "HEADER",
+              "index": 2,
+              "modelType": "STRING",
+              "name": "h",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "COOKIE",
+              "index": 3,
+              "modelType": "STRING",
+              "name": "c",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "FORM",
+              "index": 4,
+              "modelType": "STRING",
+              "name": "f",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "BODY",
+              "index": 5,
+              "modelType": "OBJECT",
+              "optional": false,
+              "type": "com.ainrif.apiator.test.model.core.Dto02_Complex"
+            }
+          ],
+          "path": "/checkParams-override/{p}",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "OBJECT",
+              "type": "com.ainrif.apiator.test.model.core.Dto00_MethodReturnDto"
+            }
+          ]
+        },
+        {
+          "method": "DELETE",
+          "name": "delete",
+          "params": [],
+          "path": "/delete-override",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "name": "get",
+          "params": [],
+          "path": "/get-override",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "ANY"
+            }
+          ]
+        },
+        {
+          "method": "HEAD",
+          "name": "head",
+          "params": [],
+          "path": "/head-override",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        },
+        {
+          "method": "OPTIONS",
+          "name": "options",
+          "params": [],
+          "path": "/options-override",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "name": "post",
+          "params": [],
+          "path": "/post-override",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "name": "put",
+          "params": [],
+          "path": "/put-override",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        }
+      ],
+      "apiPath": "/jax-rs-override",
+      "name": "com.ainrif.apiator.test.model.jaxrs.smoke.JaxRsControllerOverride"
+    },
+    {
+      "apiEndpoints": [
+        {
+          "method": "GET",
+          "name": "beanParam",
+          "params": [
+            {
+              "basedOn": [],
+              "httpParamType": "PATH",
+              "index": -1,
+              "modelType": "STRING",
+              "name": "p",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "QUERY",
+              "index": -1,
+              "modelType": "STRING",
+              "name": "q",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "HEADER",
+              "index": -1,
+              "modelType": "STRING",
+              "name": "h",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "COOKIE",
+              "index": -1,
+              "modelType": "STRING",
+              "name": "c",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "FORM",
+              "index": -1,
+              "modelType": "STRING",
+              "name": "f",
+              "optional": false
+            }
+          ],
+          "path": "/bean-param/{p}",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        },
+        {
+          "method": "CUSTOMVERB",
+          "name": "customHttpVerb",
+          "params": [],
+          "path": "/custom-http-verb",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "name": "defaultValue",
+          "params": [
+            {
+              "basedOn": [],
+              "defaultValue": "default",
+              "httpParamType": "QUERY",
+              "index": 0,
+              "modelType": "STRING",
+              "name": "q",
+              "optional": false
+            }
+          ],
+          "path": "/default-value",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "name": "implicitVerbGet",
+          "params": [],
+          "path": "/implicit-verb-get",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "STRING"
+            }
+          ]
+        }
+      ],
+      "apiPath": "jax-rs-specific",
+      "name": "com.ainrif.apiator.test.model.jaxrs.smoke.JaxRsSpecific"
     }
   ],
   "apiatorInfo": {
@@ -129,6 +408,21 @@
     "version": "1.0.0-SNAPSHOT"
   },
   "usedApiTypes": [
+    {
+      "description": "This Dto must be present only as method return value to check that kind of introspection",
+      "fields": [
+        {
+          "basedOn": [],
+          "modelType": "STRING",
+          "name": "stringField",
+          "optional": false,
+          "readable": true,
+          "writable": true
+        }
+      ],
+      "modelType": "OBJECT",
+      "type": "com.ainrif.apiator.test.model.core.Dto00_MethodReturnDto"
+    },
     {
       "fields": [
         {
