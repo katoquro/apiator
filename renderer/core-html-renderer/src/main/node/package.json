@@ -8,11 +8,19 @@
     "purge": "rm -rf ./dist && rm -rf ./node_modules",
     "dev": "./node_modules/.bin/parcel index.html",
     "posix-build": "rm -rf ./dist && ./node_modules/.bin/parcel build ./index.html && node posthtml.js",
-    "posix-build-ci": "rm -rf ./dist && npm ci && ./node_modules/.bin/parcel build ./index.html && node posthtml.js"
+    "posix-build-ci": "rm -rf ./dist && npm ci && ./node_modules/.bin/parcel build ./index.html && node posthtml.js",
+    "size": "npm run posix-build && size-limit"
   },
   "keywords": [],
   "author": "",
   "license": "Apache-2.0",
+  "size-limit": [
+    {
+      "webpack": false,
+      "path": "dist/*.js",
+      "limit": "1000 ms"
+    }
+  ],
   "dependencies": {
     "clipboard": "^1.5.5",
     "handlebars": "^4.1.0",
@@ -25,6 +33,7 @@
     "less": "^3.9.0",
     "parcel-bundler": "^1.11.0",
     "parcel-plugin-apiator": "file:parcel-plugin-apiator",
-    "posthtml-inline-assets": "^3.0.0"
+    "posthtml-inline-assets": "^3.0.0",
+    "size-limit": "^1.3.7"
   }
 }
