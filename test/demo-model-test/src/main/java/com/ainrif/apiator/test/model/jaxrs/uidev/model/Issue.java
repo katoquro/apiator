@@ -24,6 +24,7 @@ import javax.annotation.Nullable;
 public class Issue {
     public String isbn;
     public String title;
+    public Language language;
     @Nullable
     public String secondTitle;
 }

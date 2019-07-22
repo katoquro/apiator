@@ -814,6 +814,17 @@ window.apiatorJson = {
                     "basedOn": [
                         
                     ],
+                    "modelType": "ENUMERATION",
+                    "name": "language",
+                    "optional": false,
+                    "readable": true,
+                    "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Language",
+                    "writable": true
+                },
+                {
+                    "basedOn": [
+                        
+                    ],
                     "modelType": "STRING",
                     "name": "secondTitle",
                     "optional": true,
@@ -865,6 +876,17 @@ window.apiatorJson = {
                     "name": "title",
                     "optional": false,
                     "readable": true,
+                    "writable": true
+                },
+                {
+                    "basedOn": [
+                        
+                    ],
+                    "modelType": "ENUMERATION",
+                    "name": "language",
+                    "optional": false,
+                    "readable": true,
+                    "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Language",
                     "writable": true
                 },
                 {
@@ -932,6 +954,28 @@ window.apiatorJson = {
                 "PUBLISHED",
                 "DRAFT",
                 "REPRINT"
+            ]
+        },
+        {
+            "modelType": "ENUMERATION",
+            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Language",
+            "values": [
+                "EN",
+                "ES",
+                "ZH",
+                "PT",
+                "RU",
+                "HI",
+                "AR",
+                "JA",
+                "FR",
+                "DE",
+                "ID",
+                "TR",
+                "IT",
+                "PL",
+                "BE",
+                "UK"
             ]
         }
     ]
