@@ -1,0 +1,29 @@
+== Development Guide
+
+Requirements: 
+
+- JDK 11 to build and test all Apiator modules
+- Node.js 10 to develop Core Html Renderer 
+
+=== Core HTML renderer
+
+The `package.json` is located in source root of html renderer view - `renderer/core-html-renderer/src/main/node`.
+To run dev version on http://localhost:1234 execute next commands: 
+
+[source,sh]
+----
+; npm i
+; npm run dev
+----
+
+Html renderer is based on Json Render so there is a prepared dataset (json) which represents all features available in Apiator.
+It's located at `renderer/core-html-renderer/src/main/node/apiator/js/apiatorJsonStub.js` and is used by default in dev mode.
+There is a task from root gradle project to regenerate this json:
+
+[source,sh]
+----
+; # use wrapper version according to your OS 
+; ./gradlew generate_stub
+----
+
+The generated stub can be committed into the repo as is without additional formating to keep history of changes.

@@ -1,0 +1,24 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.9.2'
+    }
+}
+
+// http://asciidoctor.org/docs/asciidoctor-gradle-plugin/
+apply plugin: 'org.asciidoctor.convert'
+
+asciidoctor {
+    sources {
+        include 'index.adoc'
+    }
+    resources {
+        from('src/docs/html')
+        from('src/docs/img') {
+            into './img'
+        }
+    }
+}

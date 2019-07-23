@@ -1,0 +1,31 @@
+== User Guide
+
+Default representation of Apiator collected data is class ApiScheme.
+It contains all API method (with class hierarchy) and meta information from annotations (from provider) and JavaDoc.
+It's difficult to use such data in a raw view therefore there are renderers.
+
+Let's look at the following example (written on groovy to reduce amount of lines):
+
+[source,groovy]
+----
+Apiator apiator = new Apiator(
+    new ApiatorConfig(
+            basePackage: 'com.ainrif.apiator.test.model.jaxrs.smoke',
+            provider: new JaxRsProvider(),
+            renderer: new CoreHtmlRenderer({
+                plugins << new JaxRsCompositePlugin()
+            }),
+            docletConfig: new DocletConfig(includeBasePackage: 'com.ainrif')
+    )
+)
+----
+
+This code configuration uses: 
+
+- link:#_providers[Provider] which understands jax-rs frameworks, 
+- link:#_renderers[Render] which produces html view for api 
+- link:#_core_json_renderer__plugins[Plugin] for renderer that adds special model types for jax-rs frameworks
+- link:#_javadoc_support[Doclet support] and required base package to scan.
+
+NOTE: For additional configuration params you can look at configuration classes and read the doc.
+      Available components are described in corresponding chapters of current doc.

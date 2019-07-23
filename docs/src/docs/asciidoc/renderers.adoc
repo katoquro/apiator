@@ -1,0 +1,274 @@
+:multiply: *
+
+== Renderers
+
+Renderers describe how does Apiator output should look. 
+In general renderers are transformers from internal Apiator scheme to something like JSON, XML, HTML, etc.
+
+[#_core_json_renderer]
+=== Core JSON renderer
+
+This renderer is a JSON representation of internal Apiator Schema. 
+It can be used as input source data for other renderers (like link:#_core_html_renderer[HTML Renderer])
+or for comparison of different api versions. +
+The result output can be customized with link:#_core_json_renderer__plugins[Plugins]
+
+==== Model description
+
+The top level of resulting JSON represents next data:
+
+- apiContexts - list of all contexts that were found (usually coincides with the class in java)
+- apiatorInfo - technical information about Apiator version and settings
+- clientApiInfo - additional information provided by Api creator
+- usedApiTypes - list of business domain objects
+- usedEnumerations - list of enums (sets of string constants)
+
+===== JSON Representation of Api Type
+
+NOTE: *Api Type* - the common abstraction for all the complex types (not : `STRING`, `LONG`, `ARRAY`... ) +
+All _Api Types_ which are used as params or return types obey the link:#_model_type[Model Type] abstraction
+
+Basic structure of _Api Type_ includes only two fields
+
+- modelType - one of Model Type set
+- type - string with Api Type name (only if modelType is `OBJECT`)
+
+Additional fields of _Api Type_  are used for _Templates Types_ (aka Java Generics)
+
+- basedOn - array of Templates, structure of nested objects is also Template Type
+- templateName - name of template variable used in source code
+
+NOTE: Many of others Types inherit the _Template type_ structure
+
+===== Api Context
+
+NOTE: JSON fields with value `null` are omitted in result output. They are presented in the next example only in demo purpose.
+
+[source,json]
+----
+{
+  "apiContexts": [
+    {
+      "apiEndpoints": [
+        /*...*/
+        {
+          "description": "Method level javadoc",
+          "method": "GET", // <1>
+          "name": "getAuthors", // <2>
+          "params": [ // <3>
+            {
+              "basedOn": [], // <4>
+              "description": "Param level javadoc",
+              "defaultValue": null,
+              "httpParamType": "QUERY",
+              "index": 0,
+              "modelType": "STRING",
+              "name": "search",
+              "templateName": null,
+              "type": null
+            }
+          ],
+          "path": "/", // <5>
+          "returnTypes": [{
+            "basedOn": [ // <4>
+              {
+                "basedOn": [],
+                "modelType": "OBJECT",
+                "templateName": null,
+                "type": "org.example.library.Author"
+              }
+            ],
+            "modelType": "ARRAY",
+            "templateName": null,
+            "type": null
+          }]
+        },
+        /*...*/
+      ],
+      "apiPath": "/library", // <6>
+      "description": "Some info from JavaDoc",
+      "name": "org.example.library.controllers.LibraryController"
+    },
+    /*...*/
+  ]
+  /*...*/
+}
+----
+
+<1> name of HTTP method to call this endpoint
+<2> handler name in a source code
+<3> available parameterization for this endpoint
+<4> template type information (like Generics in Java)
+<5> path to endpoint related to context path (6)
+<6> prefix path to the endpoint
+
+===== Used Api Types and Enumerations
+
+Example of JSON representation:
+[source,json]
+----
+{
+ "fields": [
+   {
+     "basedOn": [],
+     "modelType": "LONG",
+     "name": "id",
+     "readable": true,
+     "writable": false
+   },
+   {
+     "basedOn": [],
+     "modelType": "STRING",
+     "name": "firstName",
+     "readable": true,
+     "writable": true
+   },
+   /*...*/
+ ],
+ "modelType": "OBJECT",
+ "type": "org.example.library.Author"
+}
+----
+
+`readable/writable` mean that server have getters / setters for those fields (or they are public in java terms)
+
+Enumeration is kind of Api type:
+[source,json]
+----
+{
+  "modelType": "ENUMERATION",
+  "type": "org.example.library.Book$Status",
+  "values": [
+    "PUBLISHED",
+    "DRAFT",
+    "REPRINT"
+  ]
+}
+----
+
+[#_model_type]
+==== Model Type
+
+_Model Types_ are Apiator internal types which exists to classify every processed object
+
+[cols="1,1,2" options="header"]
+|===
+|ModelType |Example |Description
+
+
+| `VOID` `BOOLEAN` `BYTE` `INTEGER` `LONG` `FLOAT` `DOUBLE` `STRING`
+| `java.lang.Long` `long` `java.lang.String`
+| correspond to native JDK types
+
+| `DICTIONARY` `ARRAY` `SET`
+| `java.util.Map` `String[]` `java.util.Set`
+| describe different types of collections
+
+| `DATE` `BINARY`
+| `java.util.Date` `byte[]` `java.io.InputStream`
+| custom types which can be represented as well known format
+
+| `ENUMERATION`
+| `java.lang.Thread.State`
+| class which describes inheritors of `java.lang.Enum`
+
+| `OBJECT`
+| `org.UserDto` (user-defined class)
+| this model type is used for custom classes which are exposed via API as part of interface. 
+  Such classes will be introspected recursively to determine types of their fields
+
+| `ANY`
+| `java.lang.Object`
+| this type means Apiator cannot get useful info about such class. 
+  It is type for general classes.
+
+| `SYSTEM`
+| `java.lang.Class` `java.lang.reflect.Field`
+| internal type. 
+  Is used to show that given class shouldn't be introspected. 
+  If such type have appeared in you documentation in most cases it means you API exposes some language dependent internals
+
+|===
+
+[#_core_json_renderer__plugins]
+==== Plugins
+
+Plugins are generic mechanism to extend and override link:_core_json_renderer[Core JSON Renderer] behavior.
+
+All plugins implement `CoreJsonRendererPlugin` interface and can be combined in `CompositePlugin` for ease of use.
+
+NOTE: Plugins with *suffix* `{multiply}CompositePlugin` contain all available plugins with it's *prefix* .
+      I.E.: **JaxRs**CompositePlugin contains JaxRs**ModelTypePlugin**, JaxRs**ParamPlugin**...
+
+[#_model_type_plugin]
+===== ModelTypePlugin
+
+These plugins encapsulate the logic of classes to _Model Types_ matching.
+The matching goes while _Model Type_ wouldn't be found or plugins run out. 
+From one plugin to another along the chain.
+
+The `ModelTypePlugin` interface contains only one method returning whether `ModelType` or `null`. 
+If plugin returns `null` next plugin will be used.
+
+NOTE: The order of this type of Plugins is important. 
+      So non-default plugins are processed first, i.e. in LIFO order of addition
+
+The plugins are *ON* by default `DefaultModelTypeCompositePlugin`:
+
+- AnyModelTypePlugin
+- CollectionsModelTypePlugin
+- BinaryModelTypePlugin
+- OldDateModelTypePlugin
+- CoreJavaModelTypePlugin
+- Jsr310ModelTypePlugin
+
+And some custom plugins which can be used to extend amount of known types
+
+- JaxRsModelTypePlugin
+
+[#_propery_plugin]
+===== PropertyPlugin
+
+This type of plugin allows to customize fields representation of model objects.
+By default _Properties_ are public fields and properties in terms of JavaBeans (get{multiply} & set{multiply} methods)
+
+Available Plugins:
+
+- JacksonPropertyPlugin - support link:https://github.com/FasterXML/jackson[Jackson] property annotations
+
+[#_param_plugin]
+===== ParamPlugin
+
+`ParamPlugins` allows to extend information about endpoint param (like default value or optional).
+
+Available Plugins:
+
+- JaxRsParamPlugin - supports `@DefaultValue`
+
+[#_core_html_renderer]
+=== Core HTML renderer
+
+Reference HTML representation of Apiator results. 
+This renderer produces the most complete graphic interface according to core model. 
+Html Render extends configuration from Json Renderer with path to output file.
+
+==== Interface description
+
+image::html_rederer_description.jpg[interface description]
+
+. Fuzzy search
+. List of Endpoints
+. Menu with used Api Types
+. Card of Endpoint (detailed view)
+
+===== Card of Endpoint
+
+Show generic information about http endpoint and provides navigation links
+
+image::endpoint_card.jpg[endpoint card]
+
+===== Card of Api Type
+
+Describes model fields and types in terms of link:#_model_type[Model Type]
+
+image::api_type_card.jpg[api type card]

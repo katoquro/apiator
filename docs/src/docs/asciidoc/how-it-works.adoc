@@ -1,0 +1,43 @@
+== How it works
+
+This part contains high level description of major Apiator features and mechanics
+
+=== Introspection
+
+When Apiator starts to work it scans your source code in search of known web services configurations. 
+The information is collected from source code like: 
+
+- used classes in request as params
+- types of response as a return value 
+- specific annotations
+- hierarchy of classes
+- JavaDoc descriptions 
+
+Such process when source code tells about itself are called _introspection_.
+In this case we don't expect any specific information for Apiator.
+
+There are several introspection types:
+
+- on classes -- when Apiator retrieves information like properties (based on accessibility, i.e. on public getters, setters and fields) or templates (checking class hierarchy and generics).
+- on web service provider -- if web services provider uses annotations for configuration then Apiator will use them to get info about endpoints.
+- on JavaDoc -- we collect JavaDoc and attach them everywhere it is possible :)
+
+=== Core annotations
+
+Annotation can be found in module `api` and can be used fot providing of additional information or for the overrides.
+ 
+Available annotations:
+
+- Api - marker is used to highlight classes to scans
+- ConcreteTypes - overrides return value from endpoint method
+- Param - set additional meta about param usage
+
+=== JavaDoc support
+
+Apiator can gather some information from your JavaDoc comments.
+With help of it you can provide description for your Api Contexts (classes), Endpoints (methods) and Params (method arguments).
+
+There are two modes:
+
+- set paths to sources manually (the fastest one for the huge projects with a lot of source roots)
+- auto-search according to found Api classes (default, suitable for small projects with small depth of nested modules)

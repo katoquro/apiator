@@ -29,6 +29,9 @@ ext.versions = [
 allprojects {
     apply plugin: 'groovy'
 
+    sourceCompatibility = 1.11
+    targetCompatibility = 1.11
+
     group = 'com.ainrif.apiator'
     version = versionHolder.version
 
@@ -70,9 +73,6 @@ allprojects {
 
 subprojects {
     apply plugin: 'maven-publish'
-
-    sourceCompatibility = 1.11
-    targetCompatibility = 1.11
 
     def archiveReportsTask = task archiveReports(type: Zip) {
         from 'build/reports/tests'
