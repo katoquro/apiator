@@ -909,6 +909,7 @@ window.apiatorJson = {
                     "basedOn": [
                         
                     ],
+                    "description": "Unique Id across the whole library",
                     "modelType": "LONG",
                     "name": "uid",
                     "optional": false,
@@ -934,6 +935,7 @@ window.apiatorJson = {
                             "modelType": "STRING"
                         }
                     ],
+                    "description": "List of ISBN numbers that belong to Publisher",
                     "modelType": "ARRAY",
                     "name": "isbns",
                     "optional": false,

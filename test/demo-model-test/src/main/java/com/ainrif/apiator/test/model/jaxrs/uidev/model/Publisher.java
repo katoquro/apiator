@@ -18,9 +18,16 @@ package com.ainrif.apiator.test.model.jaxrs.uidev.model;
 import java.util.List;
 
 public class Publisher {
+    /**
+     * Unique Id across the whole library
+     */
     protected Long uid;
 
     public String title;
+
+    /**
+     * List of ISBN numbers that belong to Publisher
+     */
     public List<String> isbns;
 
     public Long getUid() {
