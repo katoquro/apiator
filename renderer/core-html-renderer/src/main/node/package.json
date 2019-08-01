@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run dev && ./node_modules/.bin/cypress run",
     "purge": "rm -rf ./dist && rm -rf ./node_modules",
     "dev": "./node_modules/.bin/parcel index.html",
     "posix-build": "rm -rf ./dist && ./node_modules/.bin/parcel build ./index.html && node posthtml.js",
@@ -29,6 +29,8 @@
     "normalize.css": "^8.0.1"
   },
   "devDependencies": {
+    "cypress": "^3.4.0",
+    "eslint": "^6.1.0",
     "font-awesome": "^4.5.0",
     "less": "^3.9.0",
     "parcel-bundler": "^1.11.0",
