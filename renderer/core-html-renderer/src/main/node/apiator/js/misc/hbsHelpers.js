@@ -25,8 +25,6 @@ import endpointHbs from '/apiator/hbs/card/endpoint.hbs'
 import enumHbs from '/apiator/hbs/card/enum.hbs'
 import typeHbs from '/apiator/hbs/card/type.hbs'
 
-import headerHbs from '/apiator/hbs/header/header.hbs'
-import menuHbs from '/apiator/hbs/header/menu.hbs'
 import suggestItemHbs from '/apiator/hbs/header/search/suggest-item.hbs'
 
 import faviconHbs from '/apiator/hbs/misc/favicon.hbs'
@@ -115,8 +113,6 @@ Handlebars.registerPartial('endpoint', endpointHbs);
 Handlebars.registerPartial('enum', enumHbs);
 Handlebars.registerPartial('type', typeHbs);
 
-Handlebars.registerPartial('header', headerHbs);
-Handlebars.registerPartial('menu', menuHbs);
 Handlebars.registerPartial('suggest-item', suggestItemHbs);
 
 Handlebars.registerPartial('favicon', faviconHbs);
