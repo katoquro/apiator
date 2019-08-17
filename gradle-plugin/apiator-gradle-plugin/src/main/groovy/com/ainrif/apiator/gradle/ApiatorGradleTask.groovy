@@ -16,39 +16,19 @@
 
 package com.ainrif.apiator.gradle
 
-import com.ainrif.apiator.core.Apiator
-import com.ainrif.apiator.core.ApiatorConfig
-import com.ainrif.apiator.core.ApiatorInternalApi
-import org.gradle.api.DefaultTask
-import org.gradle.api.Project
+import org.gradle.api.file.FileTree
 import org.gradle.api.tasks.*
 
-class ApiatorGradleTask extends DefaultTask {
-    @Internal Project configuredProject
-    @Internal ApiatorConfig config
+class ApiatorGradleTask extends JavaExec {
+    @InputFiles
+    FileTree classesDir
 
-    // TODO katoquro: 01/07/2018 use reflection to get fields and append simple names of their classes to dump
-    @Input String configDump
-    @InputDirectory File classesDir
+    @OutputDirectory
+    File renderOutput
 
-    @OutputFile File renderOutput
+    @Input
+    String runnerClass
 
     @TaskAction
-    void action() {
-        def sourcesUrls = configuredProject.sourceSets['main']
-                .asType(SourceSet)
-                .output.classesDirs.files
-                .collect { it.toURI().toURL() }
-
-        def runtimeCpUrls = configuredProject.configurations['runtimeClasspath']
-                .files
-                .collect { it.toURI().toURL() }
-
-        def extraUrls = (sourcesUrls + runtimeCpUrls) as URL[]
-
-        def apiator = new Apiator(config)
-        ApiatorInternalApi.setExtraClassPath(apiator, extraUrls)
-
-        renderOutput.write(apiator.render())
-    }
+    void action() {}
 }

@@ -14,10 +14,19 @@
  * limitations under the License.
  */
 
-package com.ainrif.apiator.core
+package com.ainrif.apiator.gradle
 
-class ApiatorInternalApi {
-    static void setExtraClassPath(Apiator apiator, URL[] urls) {
-        apiator.extraClassPath = urls
+class GradleUtils {
+    /**
+     * Give a closure hint of delegate
+     * There are no type checks. Use it only to get IDE sourcecode highlight
+     *
+     * @param type to highlight delegate
+     * @param c closure with delegate
+     * @return closure passed to parameter
+     */
+    static <T> Closure<?> hint(@DelegatesTo.Target Class<T> type,
+                               @DelegatesTo(strategy = Closure.DELEGATE_FIRST, genericTypeIndex = 0) final Closure<?> c) {
+        return c
     }
 }

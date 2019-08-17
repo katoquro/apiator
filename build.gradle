@@ -43,6 +43,7 @@ allprojects {
 
     repositories {
         mavenLocal()
+        mavenCentral()
         jcenter()
 
         maven { url "http://dl.bintray.com/ainrif/maven" }
