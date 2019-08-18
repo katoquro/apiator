@@ -31,7 +31,7 @@ class CoreHtmlRenderer implements Renderer {
     @Delegate
     final Config config
 
-    private static class Config extends CoreJsonRenderer.Config {
+    static class Config extends CoreJsonRenderer.Config {
         String toFile
     }
 

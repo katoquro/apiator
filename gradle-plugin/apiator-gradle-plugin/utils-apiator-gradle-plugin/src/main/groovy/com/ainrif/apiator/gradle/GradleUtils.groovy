@@ -29,4 +29,16 @@ class GradleUtils {
                                @DelegatesTo(strategy = Closure.DELEGATE_FIRST, genericTypeIndex = 0) final Closure<?> c) {
         return c
     }
+
+    static void assertArg(boolean successCondition, GString message) {
+        if (!successCondition) {
+            throw new IllegalArgumentException(message)
+        }
+    }
+
+    static void assertArg(boolean successCondition, String message) {
+        if (!successCondition) {
+            throw new IllegalArgumentException(message)
+        }
+    }
 }

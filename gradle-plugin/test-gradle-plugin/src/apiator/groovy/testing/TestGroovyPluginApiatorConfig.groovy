@@ -1,3 +1,5 @@
+package testing
+
 import apiator.ApiatorGradleRunner
 import com.ainrif.apiator.api.annotation.Api
 import com.ainrif.apiator.core.Apiator
@@ -7,7 +9,7 @@ import com.ainrif.apiator.provider.jaxrs.JaxRsProvider
 import com.ainrif.apiator.renderer.core.html.CoreHtmlRenderer
 import com.ainrif.apiator.renderer.plugin.jaxrs.JaxRsCompositePlugin
 
-class TestPluginApiatorConfig extends ApiatorGradleRunner {
+class TestGroovyPluginApiatorConfig extends ApiatorGradleRunner {
     @Override
     void execute() {
         def config = new ApiatorConfig().with {

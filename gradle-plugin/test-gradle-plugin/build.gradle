@@ -12,6 +12,10 @@ buildscript {
 
 apply plugin: 'com.ainrif.apiator'
 
+if (!project.hasProperty('java.build')) {
+    apply plugin: 'groovy'
+}
+
 sourceCompatibility = 1.11
 targetCompatibility = 1.11
 
@@ -25,14 +29,22 @@ repositories {
 }
 
 apiator {
-    runnerClass = 'TestPluginApiatorConfig'
+    runnerClass = project.hasProperty('java.build') ?
+            'testing.TestingJavaPluginApiatorConfig' :
+            'testing.TestGroovyPluginApiatorConfig'
 }
 
 dependencies {
-    // TODO katoquro: 17/08/19 #plugin avoid apiator-all usage
-    apiatorCompile "com.ainrif.apiator:apiator-all:0.+"
-    compile localGroovy()
-    // TODO katoquro: 17/08/19 #plugin replace with always last version '+'
-    compile "com.ainrif.apiator:api:0.+"
+    apiatorCompile "com.ainrif.apiator:core"
+    apiatorCompile "com.ainrif.apiator:jax-rs-provider"
+    apiatorCompile "com.ainrif.apiator:jax-rs-plugin-core-json-renderer"
+    apiatorCompile "com.ainrif.apiator:core-html-renderer"
+
+
+    compile "com.ainrif.apiator:api"
     compile "javax.ws.rs:javax.ws.rs-api:2.0.1"
+
+    if (!project.hasProperty('java.build')) {
+        compile "org.codehaus.groovy:groovy:2.5.7"
+    }
 }

@@ -18,73 +18,102 @@ package com.ainrif.apiator.gradle
 import com.ainrif.apiator.gradle.internal.ApiatorInternalRunner
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.Configuration
-import org.gradle.api.internal.project.ProjectInternal
-import org.gradle.api.plugins.GroovyPlugin
-import org.gradle.api.plugins.JavaBasePlugin
+import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.api.tasks.SourceSet
 import org.gradle.internal.cleanup.BuildOutputCleanupRegistry
 
 import static GradleUtils.hint
+import static com.ainrif.apiator.gradle.GradleUtils.assertArg
 
 class ApiatorGradlePlugin implements Plugin<Project> {
+
+    private static List<String> apiatorModules = ['core',
+                                                  'api',
+
+                                                  'jax-rs-provider',
+                                                  'micronaut-provider',
+
+                                                  'core-html-renderer',
+                                                  'core-json-renderer',
+
+                                                  'spi-plugin-core-json-renderer',
+                                                  'jakson-plugin-core-json-renderer',
+                                                  'jax-rs-plugin-core-json-renderer',
+                                                  'micronaut-plugin-core-json-renderer']
+
     @Override
-    void apply(Project target) {
-        target.getPluginManager().apply(JavaBasePlugin)
+    void apply(Project prj) {
+        prj.getPluginManager().apply(JavaPlugin)
 
-        def javaPluginConvention = target.getConvention().getPlugin(JavaPluginConvention)
+        def javaPluginConvention = prj.getConvention().getPlugin(JavaPluginConvention)
 
-        SourceSet apiatorSourceSet = javaPluginConvention.sourceSets.create('apiator')
+        javaPluginConvention.sourceSets.register('apiator').configure({ apiatorSourceSet ->
+            prj.configurations
+                    .findAll { it.name.startsWith('apiator') }
+                    .each { it.extendsFrom(prj.configurations.getByName((it.name - 'apiator').uncapitalize())) }
 
-        // TODO katoquro: 17/08/19 #plugin try ti reduce to java plugin
-        target.getPluginManager().apply(GroovyPlugin)
+            configureDependencyConstraints(prj)
+            configureClasspath(prj, javaPluginConvention, apiatorSourceSet)
 
-        ProjectInternal javaProject = javaPluginConvention.project
+            prj.getServices().get(BuildOutputCleanupRegistry).registerOutputs(apiatorSourceSet.getOutput())
+
+            prj.tasks.register('apiator', ApiatorGradleTask, hint(ApiatorGradleTask) {
+                group = 'documentation'
+                description = 'Generates documentation by scanning given classpath'
+                dependsOn = ['classes']
+
+                classesDir = apiatorSourceSet.allSource.asFileTree
+                renderOutput = new File(prj.buildDir, 'apiator')
+                renderOutput.mkdir()
+
+                classpath = apiatorSourceSet.runtimeClasspath
+                main = ApiatorInternalRunner.canonicalName
+
+                systemProperty('org.slf4j.simpleLogger.logFile', 'System.out')
+                systemProperty('org.slf4j.simpleLogger.defaultLogLevel', 'info')
+
+                doFirst {
+                    assertArg(runnerClass && !runnerClass.isBlank(), "'runnerClass' must be set for apiator task")
+
+                    args = [renderOutput.absolutePath, runnerClass]
+                }
+            })
+        })
+    }
+
+    private Object configureDependencyConstraints(Project prj) {
+        def apiatorVersion = ApiatorGradlePlugin.package.implementationVersion
+        prj.dependencies.constraints.add('compile', "com.ainrif.apiator:api:${apiatorVersion}")
+
+        prj.configurations.maybeCreate('apiatorCompile').with {
+            def apiatorVersionConstraints = apiatorModules.collect {
+                prj.dependencies.constraints.create(group: 'com.ainrif.apiator', name: it, version: apiatorVersion)
+            }
+
+            dependencyConstraints.addAll(apiatorVersionConstraints)
+
+            dependencies.with {
+                add(prj.dependencies.create("com.ainrif.apiator:utils-apiator-gradle-plugin"))
+                add(prj.dependencies.create("org.slf4j:jcl-over-slf4j:1.7.26"))
+                add(prj.dependencies.create("org.slf4j:log4j-over-slf4j:1.7.26"))
+                add(prj.dependencies.create("org.slf4j:slf4j-simple:1.7.26"))
+            }
+
+            exclude(group: 'commons-logging')
+            exclude(group: 'ch.qos.logback')
+            exclude(group: 'org.apache.logging.log4j')
+            exclude(group: 'org.slf4j', module: 'slf4j-log4j12')
+        }
+    }
+
+    private void configureClasspath(Project prj, JavaPluginConvention javaPluginConvention, SourceSet apiatorSourceSet) {
         SourceSet mainSourceSet = javaPluginConvention.sourceSets.getByName(SourceSet.MAIN_SOURCE_SET_NAME)
 
-        apiatorSourceSet.compileClasspath =
-                javaProject.objects.fileCollection().from(mainSourceSet.output, javaProject.configurations.getByName('apiatorCompileClasspath'))
-        apiatorSourceSet.runtimeClasspath =
-                javaProject.objects.fileCollection().from(apiatorSourceSet.output, mainSourceSet.output, javaProject.configurations.getByName('apiatorRuntimeClasspath'))
+        def apiatorCompile = prj.configurations.maybeCreate('apiatorCompileClasspath')
+        def apiatorRuntime = prj.configurations.maybeCreate('apiatorRuntimeClasspath')
 
-        // TODO katoquro: 17/08/19 #plugin freeze version
-        target.configurations.getByName('apiatorCompile').dependencies.with {
-            add(target.dependencies.create("com.ainrif.apiator:utils-apiator-gradle-plugin:+"))
-            add(target.dependencies.create("org.slf4j:jcl-over-slf4j:1.7.26"))
-            add(target.dependencies.create("org.slf4j:log4j-over-slf4j:1.7.26"))
-
-            // TODO katoquro: 17/08/19 #plugin configure logging provider by excluding rest of them
-            add(target.dependencies.create("ch.qos.logback:logback-classic:1.2.3"))
-        }
-
-        target.configurations
-                .findAll { it.name.startsWith('apiator') }
-                .each { it.extendsFrom(target.configurations.getByName((it.name - 'apiator').uncapitalize())) }
-
-        // TODO katoquro: 17/08/19 #plugin exclude other loggers here
-        target.configurations.all { Configuration c ->
-            c.exclude(group: 'commons-logging')
-            c.exclude(group: 'org.apache.logging.log4j')
-            c.exclude(group: 'org.slf4j', module: 'slf4j-log4j12')
-        }
-
-        target.getServices().get(BuildOutputCleanupRegistry).registerOutputs(apiatorSourceSet.getOutput())
-
-        target.tasks.create('apiator', ApiatorGradleTask, hint(ApiatorGradleTask) {
-            group = 'documentation'
-            description = 'Generates documentation by scanning given classpath'
-            dependsOn = ['classes']
-
-            classesDir = apiatorSourceSet.allSource.asFileTree
-            renderOutput = new File(target.buildDir, 'apiator')
-            renderOutput.mkdir()
-
-            classpath = apiatorSourceSet.runtimeClasspath
-            main = ApiatorInternalRunner.canonicalName
-            doFirst {
-                args = [renderOutput.absolutePath, runnerClass]
-            }
-        })
+        apiatorSourceSet.compileClasspath = prj.objects.fileCollection().from(mainSourceSet.output, apiatorCompile)
+        apiatorSourceSet.runtimeClasspath = prj.objects.fileCollection().from(mainSourceSet.output, apiatorSourceSet.output, apiatorRuntime)
     }
 }
