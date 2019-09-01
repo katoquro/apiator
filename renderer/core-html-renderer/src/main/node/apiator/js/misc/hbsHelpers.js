@@ -31,7 +31,6 @@ import faviconHbs from '/apiator/hbs/misc/favicon.hbs'
 import modalHbs from '/apiator/hbs/misc/modal.hbs'
 
 import mainHbs from '/apiator/hbs/main.hbs'
-import sidebarHbs from '/apiator/hbs/sidebar.hbs'
 import contentHbs from '/apiator/hbs/content.hbs'
 
 /**
@@ -118,7 +117,6 @@ Handlebars.registerPartial('suggest-item', suggestItemHbs);
 Handlebars.registerPartial('favicon', faviconHbs);
 Handlebars.registerPartial('modal', modalHbs);
 
-Handlebars.registerPartial('sidebar', sidebarHbs);
 Handlebars.registerPartial('content', contentHbs);
 
 /**

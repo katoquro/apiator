@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npm run dev && ./node_modules/.bin/cypress run",
+    "test": "npm start && ./node_modules/.bin/cypress run",
     "purge": "rm -rf ./dist && rm -rf ./node_modules",
     "start": "./node_modules/.bin/parcel --no-hmr index.html",
     "posix-build": "rm -rf ./dist && ./node_modules/.bin/parcel build ./index.html && node posthtml.js",

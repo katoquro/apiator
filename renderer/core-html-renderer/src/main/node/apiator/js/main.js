@@ -15,13 +15,13 @@
  */
 import render from './misc/hbsHelpers';
 import { run as runSearch } from './header/search/search';
-import { run as runSidebar } from './sidebar';
 import { run as runCard } from './card/card';
 import { run as linkProcessorRun } from './misc/linkProcessor'
 import { run as modalRun } from './misc/modal';
 import embeddings from './misc/embeddings'
 
 import header from '../components/header/header';
+import sidebar from '../components/sidebar/sidebar';
 
 import { router } from "./router/Router.js";
 
@@ -29,9 +29,9 @@ embeddings();
 
 render(apiatorJson);
 header();
+sidebar();
 runSearch();
 
-runSidebar();
 runCard();
 linkProcessorRun();
 router.navigate(location.hash);
