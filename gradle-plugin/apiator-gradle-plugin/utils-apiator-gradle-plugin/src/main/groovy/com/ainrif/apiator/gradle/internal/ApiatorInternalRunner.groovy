@@ -11,13 +11,16 @@ class ApiatorInternalRunner {
 
         def runnerClass = Class.forName(configurationClass)
         assertArg(ApiatorGradleRunner.isAssignableFrom(runnerClass),
-                "Runner class (${configurationClass}) must extend ${ApiatorGradleRunner.canonicalName} " +
+                "Runner class (${configurationClass}) must implement ${ApiatorGradleRunner.canonicalName} " +
                         "and have default constructor")
 
-        def runner = runnerClass.getConstructor().newInstance() as ApiatorGradleRunner
+        ApiatorGradleRunner runner
+        try {
+            runner = runnerClass.getConstructor().newInstance() as ApiatorGradleRunner
+        } catch (NoSuchMethodException ignore) {
+            throw new IllegalArgumentException("${configurationClass} must have zero-arg constructor")
+        }
 
-        runner.apiatorBuildDir = new File(buildApiatorDir)
-
-        runner.execute()
+        runner.execute(new File(buildApiatorDir))
     }
 }

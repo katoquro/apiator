@@ -11,7 +11,8 @@ image::main_window.jpg[Apiator Window]
 
 == Why Apiator?
 
-In our team we prefer to use tools that make life of developer easier. Apiator is one of them.
+In our team we prefer to use tools that make life of developer easier.
+Apiator is one of them.
 It helps you to build entire API documentation with minimal configuration.
 
 The motivation is to take information about API usage directly from a source code
@@ -48,7 +49,7 @@ The main class of apiator is `Apiator` 😉 and it can be configured via `Apiato
 By default `ApiatorConfig` is set up to search for classes annotated with `com.ainrif.apiator.api.annotation.Api`.
 So you must select only type of link:#_providers[web service provider] and type of link:#_renderers[renderer], f.e.:
 
-[source,java]
+[source,groovy]
 ----
 ApiatorConfig config = new ApiatorConfig();
 config.provider = new JaxRsProvider();
@@ -59,12 +60,16 @@ String html = new Apiator(config).render();
 
 The result string will be a `html` which is "all in one" document so you can save it and serve from http server as is.
 
+NOTE: More examples of configuration can be found at corresponding `*SmokeSpec`
+
 === How to run with ...
 
 Apiator can be used as a library in a classpath of application that you need to document.
 Good choice is to incorporate apiator into your build process to deliver documentation with application together.
 
 ==== Gradle plugin
+
+Minimum requirement - Gradle 5.3
 
 The Apiator Gradle plugin is published in the same link:#_getting_a_binary[repo] with apiator.
 So you have to add it to build script classpath in root `build.gradle`:
@@ -80,26 +85,38 @@ buildscript {
         classpath 'com.ainrif.apiator:apiator-gradle-plugin:<apiator-version>'
     }
 }
+
+apply plugin: 'com.ainrif.apiator'
 ----
 
-After it you can configure Apiator in _entry point_ module (module which includes others to start app):
+After it you can configure Apiator in the required module (which classpath contains all endpoints):
 
 [source,groovy]
 ----
-import apiator.ApiatorGradle
-
-ApiatorGradle.configureApiator(project) {
-    // configure ApiatorConfig fields
+apiator {
+    runnerClass = 'path.to.ApiatorRunner' // <1>
 }
 ----
 
-And generated files can be added to resources to be served at runtime as static files
+<1> full name of the class which implements `ApiatorGradleRunner` and have default (or zero-arg) constructor
+
+Class which implements `ApiatorGradleRunner` will created and call for documentation generation.
+In implemented method `ApiatorGradleRunner#execute(...)` you have to configure and run Apiator.
+
+NOTE: Complete configuration examples can be found at `testing-gradle-plugin` module in classes
+      `TestingJavaPluginApiatorConfig` for Java and `TestGroovyPluginApiatorConfig` for Groovy
+
+To separate the dependencies of Apiator from project dependencies the additional Gradle SourceSet can be used.
+`apiator` SourceSet have its own classpath which extends `main` can be configured via `apiatorCompile` in gradle.
+See the `build.gradle` file of `testing-gradle-plugin` module.
 
 ==== As a library
 
-NEED EXAMPLE
+Apiator can be used as a standard library.
+Everything you need is to download all necessary libraries and run them in the same `classpath` with you endpoint classes.
 
-// TODO
+NOTE: If you need to extend `classpath` at runtime you can do it with incubating functionality `Apiator#setExtraClassPath(URL[])`.
+      Extra `classpath` will be available during scanning and javadoc parsing.
 
 == Features overview
 
@@ -125,11 +142,10 @@ and watch the difference between versions
 
 . HTML representation
 +
-In a few moments you can get such view of your API
-(go to detailed link:#_core_html_renderer[description]):
+In a few moments you can get such view of your API (go to detailed link:#_core_html_renderer[description]):
 +
 
-image::main_window.jpg[title="HTML representation", align="center", width="400", link="{imagesdir}/main_window.jpg"]
+image::main_window.jpg[title="HTML representation",align="center",width="400",link="{imagesdir}/main_window.jpg"]
 
 . JavaDoc processing
 +

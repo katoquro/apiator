@@ -11,11 +11,11 @@ import com.ainrif.apiator.renderer.plugin.jaxrs.JaxRsCompositePlugin;
 
 import java.io.File;
 
-public class TestingJavaPluginApiatorConfig extends ApiatorGradleRunner {
+public class TestingJavaPluginApiatorConfig implements ApiatorGradleRunner {
     @Override
-    public void execute() {
+    public void execute(File apiatorBuildDir) {
         CoreHtmlRenderer renderer = new CoreHtmlRenderer();
-        renderer.getConfig().setToFile(new File(getApiatorBuildDir(), "api.html").getAbsolutePath());
+        renderer.getConfig().setToFile(new File(apiatorBuildDir, "api.html").getAbsolutePath());
         renderer.getConfig().getPlugins().add(new JaxRsCompositePlugin());
 
         DocletConfig docletConfig = new DocletConfig();

@@ -25,8 +25,8 @@ import com.ainrif.apiator.doclet.javadoc.DocletInfoIndexer
 import com.ainrif.apiator.doclet.model.JavaDocInfo
 import com.google.common.base.Stopwatch
 import groovy.json.JsonSlurper
-import groovy.transform.PackageScope
 import groovy.util.logging.Slf4j
+import org.apache.groovy.lang.annotation.Incubating
 import org.reflections.Reflections
 import org.reflections.scanners.SubTypesScanner
 import org.reflections.scanners.TypeAnnotationsScanner
@@ -173,7 +173,7 @@ class Apiator {
      * Given urls will be used as extra classpath during generation
      * @param urls correspond to requirements {@link URLClassLoader}
      */
-    @PackageScope
+    @Incubating
     void setExtraClassPath(URL[] urls) {
         this.extraClassPath = urls
     }
