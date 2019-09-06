@@ -4,6 +4,8 @@ dependencies {
     compile project(':core')
     compile project(':renderer:core-json-renderer')
 
+    compile "org.codehaus.groovy:groovy-nio:${versions.groovy}"
+
     testCompile project(':provider:jax-rs-provider')
 }
 

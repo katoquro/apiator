@@ -16,7 +16,7 @@
 
 package com.ainrif.apiator.gradle
 
-class GroovyUtils {
+class GradleUtils {
     /**
      * Give a closure hint of delegate
      * There are no type checks. Use it only to get IDE sourcecode highlight
@@ -28,5 +28,17 @@ class GroovyUtils {
     static <T> Closure<?> hint(@DelegatesTo.Target Class<T> type,
                                @DelegatesTo(strategy = Closure.DELEGATE_FIRST, genericTypeIndex = 0) final Closure<?> c) {
         return c
+    }
+
+    static void assertArg(boolean successCondition, GString message) {
+        if (!successCondition) {
+            throw new IllegalArgumentException(message)
+        }
+    }
+
+    static void assertArg(boolean successCondition, String message) {
+        if (!successCondition) {
+            throw new IllegalArgumentException(message)
+        }
     }
 }

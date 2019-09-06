@@ -1,10 +1,3 @@
-import apiator.ApiatorGradle
-import com.ainrif.apiator.api.annotation.Api
-import com.ainrif.apiator.core.DocletConfig
-import com.ainrif.apiator.provider.jaxrs.JaxRsProvider
-import com.ainrif.apiator.renderer.core.html.CoreHtmlRenderer
-import com.ainrif.apiator.renderer.plugin.jaxrs.JaxRsCompositePlugin
-
 buildscript {
     repositories {
         mavenLocal()
@@ -17,7 +10,11 @@ buildscript {
     }
 }
 
-apply plugin: 'groovy'
+apply plugin: 'com.ainrif.apiator'
+
+if (!project.hasProperty('java.build')) {
+    apply plugin: 'groovy'
+}
 
 sourceCompatibility = 1.11
 targetCompatibility = 1.11
@@ -31,19 +28,23 @@ repositories {
     maven { url "http://dl.bintray.com/ainrif/maven" }
 }
 
-ApiatorGradle.configureApiator(project) {
-    basePackage = 'com.ainrif.apiator.test'
-    apiClass = Api
-    provider = new JaxRsProvider()
-    renderer = new CoreHtmlRenderer({
-        toFile = './build/api.html'
-        plugins << new JaxRsCompositePlugin()
-    })
-    docletConfig = new DocletConfig(includeBasePackage: 'com.ainrif')
+apiator {
+    runnerClass = project.hasProperty('java.build') ?
+            'testing.TestingJavaPluginApiatorConfig' :
+            'testing.TestGroovyPluginApiatorConfig'
 }
 
 dependencies {
-    compile localGroovy()
-    compile "com.ainrif.apiator:api:0.+"
+    apiatorCompile "com.ainrif.apiator:core"
+    apiatorCompile "com.ainrif.apiator:jax-rs-provider"
+    apiatorCompile "com.ainrif.apiator:jax-rs-plugin-core-json-renderer"
+    apiatorCompile "com.ainrif.apiator:core-html-renderer"
+
+
+    compile "com.ainrif.apiator:api"
     compile "javax.ws.rs:javax.ws.rs-api:2.0.1"
+
+    if (!project.hasProperty('java.build')) {
+        compile "org.codehaus.groovy:groovy:2.5.7"
+    }
 }

@@ -43,6 +43,7 @@ allprojects {
 
     repositories {
         mavenLocal()
+        mavenCentral()
         jcenter()
 
         maven { url "http://dl.bintray.com/ainrif/maven" }
@@ -93,7 +94,14 @@ subprojects {
 }
 
 dependencies {
-    compile project(':apiator-all')
+    compile project(':api')
+    compile project(':renderer:core-html-renderer')
+    compile project(':provider:jax-rs-provider')
+    compile project(':provider:micronaut-provider')
+
+    compile project(':renderer:core-json-renderer:plugin:jakson-plugin-core-json-renderer')
+    compile project(':renderer:core-json-renderer:plugin:jax-rs-plugin-core-json-renderer')
+    compile project(':renderer:core-json-renderer:plugin:micronaut-plugin-core-json-renderer')
 
     compile project(':test:core-model-test')
     compile project(':test:jax-rs-model-test')

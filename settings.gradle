@@ -1,6 +1,6 @@
 rootProject.name = 'apiator'
 
-include ':apiator-all'
+// NOTE! Do not forget add production modules to version constraint in gradle plugin 
 
 include ':core'
 include ':api'

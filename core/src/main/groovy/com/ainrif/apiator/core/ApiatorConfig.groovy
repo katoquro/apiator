@@ -35,7 +35,7 @@ class ApiatorConfig {
     /**
      * Marker annotation to detect classes to parse
      */
-    Class<Annotation> apiClass = Api
+    Class<? extends Annotation> apiClass = Api
 
     DocletConfig docletConfig = new DocletConfig()
 }
