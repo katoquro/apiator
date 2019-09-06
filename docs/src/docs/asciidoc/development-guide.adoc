@@ -2,6 +2,7 @@
 
 Requirements: 
 
+- Gradle 5.3 to build apiator plugin
 - JDK 11 to build and test all Apiator modules
 - Node.js 10 to develop Core Html Renderer 
 
