@@ -117,6 +117,55 @@ const parseLink = link => {
     return l;
 };
 
+const renderTemplate = (type) => {
+    let result = '';
+
+    if (type.type) {
+        result += '<a data-link="' + getPageLinkToType(type.type) + '" class="type-view__model">'
+            + getAfterLastDot(type.type) + '</a>'
+    } else {
+        result += '<div class="type-view__modeltype">'
+            + type.modelType + '</div>'
+    }
+
+    if (type.basedOn.length) {
+        result += ' of (';
+
+        type.basedOn.forEach((it) => {
+            result += renderTemplate(it);
+            result += ', '
+        });
+
+        result = result.slice(0, -2);
+        result += ')';
+    }
+
+    return result;
+};
+
+const highlightJSON = (json) => {
+    if (typeof json !== 'string') {
+        json = JSON.stringify(json, undefined, 4);
+    }
+
+    json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+        let cls = 'json__value_number';
+        if (/^"/.test(match)) {
+            if (/:$/.test(match)) {
+                cls = 'json__key';
+            } else {
+                cls = 'json__value_string';
+            }
+        } else if (/true|false/.test(match)) {
+            cls = 'json__value_boolean';
+        } else if (/null/.test(match)) {
+            cls = 'null';
+        }
+        return '<span class="' + cls + '">' + match + '</span>';
+    }).replace(/(\r\n|\n|\r)/gm, '<br>');
+};
+
 export {
     getAfterLastDot,
     getIdForTargetMarkerOfEndpoint,
@@ -126,5 +175,7 @@ export {
     getPageLinkToType,
     getAbsoluteLinkToType,
     splitCamelCase,
-    parseLink
+    parseLink,
+    renderTemplate,
+    highlightJSON
 }

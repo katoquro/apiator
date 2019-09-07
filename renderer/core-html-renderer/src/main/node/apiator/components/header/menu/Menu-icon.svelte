@@ -1,5 +1,5 @@
 <script>
-    import Icon from './bw_favicon.png';
+    import Icon from './bw_favicon.webp';
 
     export let menuState;
     export let hasUpdates;
@@ -13,6 +13,6 @@
 
 <div
     on:click={handleClick}
-    style="background-image: url({icon})"
+    style="background-image: url({Icon})"
     class="menu__pic {hasUpdates ? 'menu__pic_notification' : ''}">
 </div>

@@ -22,14 +22,18 @@ import embeddings from './misc/embeddings'
 
 import header from '../components/header/header';
 import sidebar from '../components/sidebar/sidebar';
+import content from '../components/content';
 
 import { router } from "./router/Router.js";
 
 embeddings();
 
 render(apiatorJson);
+
 header();
 sidebar();
+content();
+
 runSearch();
 
 runCard();

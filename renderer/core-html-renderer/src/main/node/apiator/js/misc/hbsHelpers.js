@@ -21,17 +21,12 @@ import _ from 'lodash'
 
 import * as utils from '/apiator/js/misc/utils';
 
-import endpointHbs from '/apiator/hbs/card/endpoint.hbs'
-import enumHbs from '/apiator/hbs/card/enum.hbs'
-import typeHbs from '/apiator/hbs/card/type.hbs'
-
 import suggestItemHbs from '/apiator/hbs/header/search/suggest-item.hbs'
 
 import faviconHbs from '/apiator/hbs/misc/favicon.hbs'
 import modalHbs from '/apiator/hbs/misc/modal.hbs'
 
 import mainHbs from '/apiator/hbs/main.hbs'
-import contentHbs from '/apiator/hbs/content.hbs'
 
 /**
  * @param {Apiator.EndpointType|Apiator.BasicType} type
@@ -108,16 +103,10 @@ Handlebars.registerHelper('splitCamelCase', utils.splitCamelCase);
 
 Handlebars.registerHelper('hashToObject', options => options.hash);
 
-Handlebars.registerPartial('endpoint', endpointHbs);
-Handlebars.registerPartial('enum', enumHbs);
-Handlebars.registerPartial('type', typeHbs);
-
 Handlebars.registerPartial('suggest-item', suggestItemHbs);
 
 Handlebars.registerPartial('favicon', faviconHbs);
 Handlebars.registerPartial('modal', modalHbs);
-
-Handlebars.registerPartial('content', contentHbs);
 
 /**
  *
