@@ -7,18 +7,25 @@
     } from '../../../services/services';
 
     export let enumeration;
+    let activeTab = 'standard';
+
+    const handleTabClick = (event) => {
+        if (event.target.classList.contains('card__header-view-tab')) {
+            activeTab = event.target.getAttribute('data-view-tab');
+        }
+    };
 
     const { type, description, values } = enumeration;
 </script>
 
 <div class="target-marker" data-id={getIdForTargetMarkerOfModel(type)}></div>
-<div class="card" data-view-tab="standard">
-    <div class="card__header">
+<div class="card" data-view-tab={activeTab}>
+    <div on:click={handleTabClick} class="card__header">
         <span class="card__header-name">{getAfterLastDot(type)}</span>
         <span class="card__header-share copy-btn" data-clipboard-text={getAbsoluteLinkToType(type)}>Copy link</span>
 
-        <span class="card__header-view-tab card__header-view-tab_active" data-view-tab="standard">Standard view</span>
-        <span class="card__header-view-tab" data-view-tab="tech">Tech view</span>
+        <span class="card__header-view-tab {activeTab === 'standard' ? 'card__header-view-tab_active' : ''}" data-view-tab="standard">Standard view</span>
+        <span class="card__header-view-tab {activeTab === 'tech' ? 'card__header-view-tab_active' : ''}" data-view-tab="tech">Tech view</span>
     </div>
 
     <div class="card__content card__content_standard">

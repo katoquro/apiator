@@ -132,6 +132,7 @@ export function run() {
             return searcher.search(pattern, indexType);
         },
         renderSuggestFunc: function (item) {
+            debugger;
             return fuzzyTemplate(item.payload)
         },
         onChangeFunc: function (changeEvent, box) {

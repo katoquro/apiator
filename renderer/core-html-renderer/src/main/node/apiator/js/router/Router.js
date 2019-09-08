@@ -91,29 +91,29 @@ export class Router {
      * @param {PermalinkV1Parser} parsed
      */
     static __sidebarRouter(parsed) {
-        // if (!parsed.getPageLink()) {
-        //     $('.api .api__toggle')
-        //         .first()
-        //         .closest('.api')
-        //         .addClass('api_active')
-        // }
-        //
-        // if (!parsed.version()) {
-        //     // no-op
-        // } else if (1 === parsed.version()) {
-        //     if (parsed.isEndpointLink()) {
-        //         sidebar.openGroupTitle($('.js_sidebar-title-endpoints'));
-        //     }
-        //     if (parsed.isModelLink()) {
-        //         sidebar.openGroupTitle($('.js_sidebar-title-model'));
-        //     }
-        //
-        //     $('.sidebar span[data-link="' + parsed.getPageLink() + '"]')
-        //         .closest('.api')
-        //         .toggleClass('api_active')
-        //         .get(0)
-        //         .scrollIntoView(true);
-        // }
+        if (!parsed.getPageLink()) {
+            $('.api .api__toggle')
+                .first()
+                .closest('.api')
+                .addClass('api_active')
+        }
+
+        if (!parsed.version()) {
+            // no-op
+        } else if (1 === parsed.version()) {
+            if (parsed.isEndpointLink()) {
+                sidebar.openGroupTitle($('.js_sidebar-title-endpoints'));
+            }
+            if (parsed.isModelLink()) {
+                sidebar.openGroupTitle($('.js_sidebar-title-model'));
+            }
+
+            $('.sidebar span[data-link="' + parsed.getPageLink() + '"]')
+                .closest('.api')
+                .toggleClass('api_active')
+                .get(0)
+                .scrollIntoView(true);
+        }
     }
 
     /**

@@ -15,7 +15,6 @@
  */
 import render from './misc/hbsHelpers';
 import { run as runSearch } from './header/search/search';
-import { run as runCard } from './card/card';
 import { run as linkProcessorRun } from './misc/linkProcessor'
 import { run as modalRun } from './misc/modal';
 import embeddings from './misc/embeddings'
@@ -36,7 +35,6 @@ content();
 
 runSearch();
 
-runCard();
 linkProcessorRun();
 router.navigate(location.hash);
 
