@@ -25,5 +25,8 @@ A clear and concise description of what you expected to happen.
 **Workaround (optional)**
 A way how to deal with problem while fix is not released.
 
+**Do you have a PR for this issue?**
+PR number starting from `#`
+
 **Additional context**
 Add any other context or screenshots about the problem here.

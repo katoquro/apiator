@@ -1,13 +1,15 @@
-= Apiator Documentation (v0.10.x)
+= Apiator Documentation (v0.12.x)
 :toc: left
 :toc-title: Table of Adventures
 :source-highlighter: coderay
 :toclevels: 3
 :imagesdir: /img
 
-Apiator is API Documentation Generator written on http://www.groovy-lang.org/[Groovy].
+Apiator is API Documentation Generator written in http://www.groovy-lang.org/[Groovy].
 
-image::main_window.jpg[Apiator Window]
+image::repo_logo.png[Apiator Logo]
+
+Follow us on link:https://github.com/ainrif/apiator[GitHub]
 
 == Why Apiator?
 
@@ -142,10 +144,10 @@ and watch the difference between versions
 
 . HTML representation
 +
-In a few moments you can get such view of your API (go to detailed link:#_core_html_renderer[description]):
+In a few moments you API will converted into human friendly page (go to detailed link:#_core_html_renderer[description]):
 +
 
-image::main_window.jpg[title="HTML representation",align="center",width="400",link="{imagesdir}/main_window.jpg"]
+image::main_window.jpg[title="HTML representation",align="center",width="550",window="_blank",link="{imagesdir}/main_window.jpg"]
 
 . JavaDoc processing
 +
