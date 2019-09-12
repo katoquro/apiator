@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "target": "apiator-docs",
     "public": "build/asciidoc/html5"
   }
 }
