@@ -25,7 +25,10 @@ You can override or extends almost every functionality of Аpiator with help of 
 
 == Getting started
 
-Apiator is built with JDK 11 so it's minimum required api level of source code and build tool-chain
+Apiator is built with JDK 11 so it's minimum required api of build tool-chain to run.
+JDK (not JRE) is required.
+The minimum level for the compiled classes of your project is JDK 8.
+So you can build you project and run apiator with two independent JDK versions.
 
 [#_getting_a_binary]
 === Getting a binary
@@ -118,7 +121,7 @@ Apiator can be used as a standard library.
 Everything you need is to download all necessary libraries and run them in the same `classpath` with you endpoint classes.
 
 NOTE: If you need to extend `classpath` at runtime you can do it with incubating functionality `Apiator#setExtraClassPath(URL[])`.
-      Extra `classpath` will be available during scanning and javadoc parsing.
+Extra `classpath` will be available during scanning and javadoc parsing.
 
 == Features overview
 

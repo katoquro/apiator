@@ -29,8 +29,8 @@ ext.versions = [
 allprojects {
     apply plugin: 'groovy'
 
-    sourceCompatibility = 1.11
-    targetCompatibility = 1.11
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
 
     group = 'com.ainrif.apiator'
     version = versionHolder.version

@@ -19,8 +19,8 @@ apply from: "$rootProject.projectDir/../../gradle/versions.gradle"
 allprojects {
     apply plugin: 'java'
 
-    sourceCompatibility = 1.11
-    targetCompatibility = 1.11
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
 
     group = 'com.ainrif.apiator'
     version = versionHolder.version

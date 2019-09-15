@@ -18,6 +18,7 @@ package com.ainrif.apiator.gradle
 import com.ainrif.apiator.gradle.internal.ApiatorInternalRunner
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.repositories.MavenArtifactRepository
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.api.tasks.SourceSet
@@ -30,6 +31,8 @@ class ApiatorGradlePlugin implements Plugin<Project> {
 
     private static List<String> apiatorModules = ['core',
                                                   'api',
+
+                                                  'utils-apiator-gradle-plugin',
 
                                                   'jax-rs-provider',
                                                   'micronaut-provider',
@@ -85,6 +88,10 @@ class ApiatorGradlePlugin implements Plugin<Project> {
     private Object configureDependencyConstraints(Project prj) {
         def apiatorVersion = ApiatorGradlePlugin.package.implementationVersion
         prj.dependencies.constraints.add('compile', "com.ainrif.apiator:api:${apiatorVersion}")
+
+        prj.repositories.maven(hint(MavenArtifactRepository) {
+            url = "http://dl.bintray.com/ainrif/maven"
+        })
 
         prj.configurations.maybeCreate('apiatorCompile').with {
             def apiatorVersionConstraints = apiatorModules.collect {
