@@ -1,12 +1,12 @@
 <script>
-    import { showModal } from '../../../../js/misc/modal.js'
+    import { isModalVisible } from '../../../../stores/modal';
     import { createEventDispatcher } from 'svelte';
 
     export let hasUpdates;
 
     const dispatch = createEventDispatcher();
     const handleWhatsNewItemClick = () => dispatch('check-updates');
-    const handleThanksItemClick = () => showModal();
+    const handleThanksItemClick = () => isModalVisible.set(true);
 </script>
 
 <ul class="menu__items">
@@ -30,7 +30,7 @@
         <a href="https://github.com/ainrif/apiator/issues" target="_blank"
            class="menu__items-item-link">Report an Issue</a>
     </li>
-    <li on:click={handleThanksItemClick} class="menu__items-item js__menu-item-thanks">
+    <li on:click|stopPropagation={handleThanksItemClick} class="menu__items-item js__menu-item-thanks">
         <i class="menu__items-item-icon fa fa-heart" aria-hidden="true"></i>
         <span>Thanks</span>
     </li>

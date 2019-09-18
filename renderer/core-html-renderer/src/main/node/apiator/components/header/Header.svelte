@@ -69,22 +69,23 @@
 
 </script>
 
-<Menu/>
-<div class="header_block_right">
-    <form class="search" role="search">
-        <input
-                on:keyup={handleKeyUp}
-                on:keydown={handleKeyDown}
-                on:click={handleClick}
-                bind:value={$searchValue}
-                type="text"
-                class="search__input"
-                id="fuzzy-input"
-                autocomplete="off"
-                placeholder="Search or start with '!'">
-        {#if $suggestedItems.length}
-            <Suggest items={$suggestedItems}></Suggest>
-        {/if}
-    </form>
+<div class="header">
+    <Menu/>
+    <div class="header_block_right">
+        <form class="search" role="search">
+            <input
+                    on:keyup={handleKeyUp}
+                    on:keydown={handleKeyDown}
+                    on:click={handleClick}
+                    bind:value={$searchValue}
+                    type="text"
+                    class="search__input"
+                    id="fuzzy-input"
+                    autocomplete="off"
+                    placeholder="Search or start with '!'">
+            {#if $suggestedItems.length}
+                <Suggest items={$suggestedItems}></Suggest>
+            {/if}
+        </form>
+    </div>
 </div>
-

@@ -8,7 +8,7 @@
     "purge": "rm -rf ./dist && rm -rf ./node_modules",
     "start": "./node_modules/.bin/parcel --no-hmr index.html",
     "posix-build": "rm -rf ./dist && ./node_modules/.bin/parcel build ./index.html && node posthtml.js",
-    "posix-build-ci": "rm -rf ./dist && npm ci && npm run test && ./node_modules/.bin/parcel build ./index.html && node posthtml.js",
+    "posix-build-ci": "rm -rf ./dist && npm ci && ./node_modules/.bin/parcel build ./index.html && node posthtml.js",
     "size": "npm run posix-build && size-limit"
   },
   "keywords": [],
@@ -29,7 +29,8 @@
     "handlebars": "^4.1.0",
     "jquery": "^3.4.0",
     "lodash": "^4.17.13",
-    "normalize.css": "^8.0.1"
+    "normalize.css": "^8.0.1",
+    "sv": "^0.4.2"
   },
   "devDependencies": {
     "cypress": "^3.4.0",

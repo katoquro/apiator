@@ -1,4 +1,10 @@
-<div class="modal">
+<script>
+    import { isModalVisible } from '../../stores/modal';
+
+    const onClick = () => isModalVisible.set(false);
+</script>
+
+<div on:click={onClick} class="modal">
     <div class="modal__content">
         <div class="modal__content-header">
             Thanks &#x1F495;
