@@ -32,7 +32,6 @@ import org.springframework.core.annotation.AnnotationUtils
 
 import java.lang.annotation.Annotation
 import java.lang.reflect.Method
-import java.lang.reflect.Parameter
 
 class MicronautMethodStack extends MethodStack {
 
@@ -99,7 +98,7 @@ class MicronautMethodStack extends MethodStack {
         List<ApiEndpointParam> result = []
 
         pathTmpl.variables.each { var ->
-            def paramIndex = findIndexOfParam(methodParams, paramAnnotations, var)
+            int paramIndex = findIndexOfParam(paramAnnotations, var)
 
             result << new ApiEndpointParam(
                     index: paramIndex,
@@ -113,7 +112,7 @@ class MicronautMethodStack extends MethodStack {
         }
 
         queryTmpl.variables.each { var ->
-            def paramIndex = findIndexOfParam(methodParams, paramAnnotations, var)
+            def paramIndex = findIndexOfParam(paramAnnotations, var)
 
             if (var.exploded) {
                 def explodedFields = RUtils.getAllDeclaredDynamicFields(methodParams[paramIndex].type).collect {
@@ -146,6 +145,8 @@ class MicronautMethodStack extends MethodStack {
             paramAnnotations.remove(paramIndex)
         }
 
+        Map<Integer, List<String>> parametersNameLists = getParametersNameLists()
+
         List<ApiEndpointParam> remainingParamTypes = paramAnnotations.findAll { index, annList ->
             def paramType = methodParams[index].type
             def isMicronautSystemType = [HttpRequest, HttpHeaders, HttpParameters, Cookies].any {
@@ -160,7 +161,10 @@ class MicronautMethodStack extends MethodStack {
             if (found) {
                 return new ApiEndpointParam(
                         index: index,
-                        name: found.value() ?: param.namePresent ? param.name : null,
+                        name: found.value() ?:
+                                !parametersNameLists[index].empty ?
+                                        parametersNameLists[index].find() :
+                                        null,
                         type: new ApiType(param.parameterizedType),
                         httpParamType: httpParamTypeFor(found.annotationType()),
                         annotations: annList
@@ -182,13 +186,15 @@ class MicronautMethodStack extends MethodStack {
         return result
     }
 
-    private int findIndexOfParam(Parameter[] methodParams,
-                                 Map<Integer, List<? extends Annotation>> annotations,
+    private int findIndexOfParam(Map<Integer, List<? extends Annotation>> annotations,
                                  UriMatchVariable var) {
-        def result = methodParams.findIndexOf { it.namePresent && it.name == var.name }
+        for (m in this.reverse(false)) {
+            def methodParams = m.parameters
+            def result = methodParams.findIndexOf { it.namePresent && it.name == var.name }
 
-        if (-1 != result) {
-            return result
+            if (-1 != result) {
+                return result
+            }
         }
 
         Integer foundIdxFromAnnotations = annotations.findResult { idx, annList ->

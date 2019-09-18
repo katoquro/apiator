@@ -22,6 +22,7 @@ import com.ainrif.apiator.core.model.api.ApiType
 
 import java.lang.annotation.Annotation
 import java.lang.reflect.Method
+import java.lang.reflect.Parameter
 
 import static java.util.Collections.singletonList
 import static org.springframework.core.annotation.AnnotationUtils.findAnnotation
@@ -65,7 +66,7 @@ abstract class MethodStack extends ArrayList<Method> {
     }
 
     /**
-     * Collects annotations from method parameters from hierarchy tree in order from child to parent
+     * Collects annotations from method parameters from hierarchy tree in order from child to parent.
      * Annotation List can be empty if param is not annotated at all
      *
      * @return [ < param index > : [inherited annotations] ]
@@ -75,6 +76,28 @@ abstract class MethodStack extends ArrayList<Method> {
         this.each {
             it.parameterAnnotations.eachWithIndex { Annotation[] entry, int i ->
                 result[i] += (entry as List<? extends Annotation>)
+            }
+        }
+
+        result.each { i, l -> l.reverse(true) }
+
+        return result
+    }
+
+    /**
+     * Collect method parameter names from stack in order from child to parent.
+     * This method collects only names provided by class, i.e. compile args like `-parameters` (for java) were used.
+     * Parameter names list can be empty if there are no information provided by compiler.
+     *
+     * @return [ < param index > : [param names] ]
+     */
+    protected Map<Integer, List<String>> getParametersNameLists() {
+        Map<Integer, List<String>> result = new HashMap<>().withDefault { new ArrayList<String>() }
+        this.each {
+            it.parameters.eachWithIndex { Parameter p, int i ->
+                if (p.namePresent) {
+                    result[i] << p.name
+                }
             }
         }
 
