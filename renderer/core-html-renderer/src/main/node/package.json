@@ -26,7 +26,6 @@
   ],
   "dependencies": {
     "clipboard": "^1.5.5",
-    "handlebars": "^4.1.0",
     "jquery": "^3.4.0",
     "lodash": "^4.17.13",
     "normalize.css": "^8.0.1",

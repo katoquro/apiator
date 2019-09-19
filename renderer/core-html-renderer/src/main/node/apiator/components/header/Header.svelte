@@ -37,16 +37,21 @@
     function handleKeyDown(event) {
         switch (event.keyCode) {
             case KEYS.ENTER: {
-                onChange(event.keyCode, $suggestedItems[$activeItemIndex]);
+                onChange(event.keyCode, $suggestedItems[$activeItemIndex].payload);
 
                 break;
             }
             case KEYS.UP:
-                activeItemIndex.update(index => index - 1);
+                if ($activeItemIndex > 0) {
+                    activeItemIndex.update(index => index - 1);
+                }
 
                 break;
             case KEYS.DOWN: {
-                activeItemIndex.update(index => index + 1);
+
+                if ($activeItemIndex < $suggestedItems.length - 1) {
+                    activeItemIndex.update(index => index + 1);
+                }
 
                 break;
             }

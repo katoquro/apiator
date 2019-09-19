@@ -3,6 +3,8 @@
 
     export let type;
 
+    console.log(type);
+
     function handleClick() {
         location.hash = getPageLinkToType(type.type);
     }

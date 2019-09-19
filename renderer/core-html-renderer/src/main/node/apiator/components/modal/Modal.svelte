@@ -1,5 +1,5 @@
 <script>
-    import { isModalVisible } from '../../stores/modal';
+    import { isModalVisible } from '../../stores/single-store';
 
     const onClick = () => isModalVisible.set(false);
 </script>

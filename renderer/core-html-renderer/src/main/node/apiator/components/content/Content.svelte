@@ -1,8 +1,8 @@
 <script>
-    import { splitCamelCase, getAfterLastDot } from '../services/services';
-    import EndpointCard from './cards/endpoint/Endpoint.svelte';
-    import EnumCard from './cards/enum/Enum.svelte';
-    import TypeCard from './cards/type/Type.svelte';
+    import { splitCamelCase, getAfterLastDot } from '../../services/services';
+    import EndpointCard from '../cards/endpoint/Endpoint.svelte';
+    import EnumCard from '../cards/enum/Enum.svelte';
+    import TypeCard from '../cards/type/Type.svelte';
 
     const { apiContexts, usedApiTypes, usedEnumerations } = window.apiatorJson;
     const getGroupName = (name) => splitCamelCase(getAfterLastDot(name));

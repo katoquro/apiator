@@ -113,29 +113,29 @@ export function onChange(key, item) {
     searchValue.set('');
     suggestedItems.set([]);
 
+    console.log(item);
+
     if (!item) {
         return
     }
 
-    const payload = item.payload;
-
-    if ('bang' === payload.showAs) {
-        searchValue.set(payload.bang + ' ');
+    if ('bang' === item.showAs) {
+        searchValue.set(item.bang + ' ');
     } else if (key) {
         let navigateTo;
 
-        switch (payload.showAs) {
+        switch (item.showAs) {
             case 'endpoint':
-                navigateTo = getPageLinkToEndpoint(payload);
+                navigateTo = getPageLinkToEndpoint(item);
                 break;
             case 'model':
-                navigateTo = getPageLinkToType(payload.type);
+                navigateTo = getPageLinkToType(item.type);
                 break;
             case 'enum':
-                navigateTo = getPageLinkToType(payload.type);
+                navigateTo = getPageLinkToType(item.type);
                 break;
             default:
-                throw new Error('Not supported payload type')
+                throw new Error('Not supported item type')
         }
 
         location.hash = navigateTo;

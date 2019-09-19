@@ -1,5 +1,5 @@
 <script>
-    import { isModalVisible } from '../../../../stores/modal';
+    import { isModalVisible } from '../../../../stores/single-store';
     import { createEventDispatcher } from 'svelte';
 
     export let hasUpdates;

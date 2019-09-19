@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import * as utils from '/apiator/js/misc/utils.js'
+import { parseLink } from '../../services/services';
 import $ from 'jquery'
 import _ from 'lodash'
 import Clipboard from 'clipboard'
@@ -22,7 +22,7 @@ import Clipboard from 'clipboard'
 function enableCopyBtns() {
     const clipboard = new Clipboard('.copy-btn');
     clipboard.on('success', event => {
-        location.hash = utils.parseLink(event.text).hash;
+        location.hash = parseLink(event.text).hash;
     });
     clipboard.on('error', function (event) {
         // todo show input with message 'Press Ctrl+C' (OS related)

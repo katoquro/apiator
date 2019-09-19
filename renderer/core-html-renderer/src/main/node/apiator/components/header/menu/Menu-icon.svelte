@@ -1,14 +1,12 @@
 <script>
+    import { isMenuOpen } from '../../../stores/single-store';
     import Icon from './bw_favicon.webp';
 
-    export let menuState;
     export let hasUpdates;
 
     const icon = `data:image/png;base64,${Icon}`;
 
-    const handleClick = () => {
-        menuState = !menuState;
-    }
+    const handleClick = () => isMenuOpen.set(!$isMenuOpen);
 </script>
 
 <div

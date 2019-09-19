@@ -20,7 +20,7 @@
     const { description, fields } = type;
 </script>
 
-<div class="target-marker" data-id={getIdForTargetMarkerOfModel(type)}></div>
+<div class="target-marker" data-id={getIdForTargetMarkerOfModel(type.type)}></div>
 <div class="card type" data-view-tab={activeTab}>
     <div on:click={handleTabClick} class="card__header">
         <span class="card__header-name">{getAfterLastDot(type.type)}</span>
@@ -52,24 +52,24 @@
                 </thead>
                 <tbody>
                 {#each fields as field}
-                <tr>
-                    <td>{field.name}</td>
-                    <td>{@html renderTemplate(field)}</td>
-                    <td>
-                        {#if field.defaultValue}
-                            <span class="param__default-value">{field.defaultValue}</span>
-                        {:else}
-                            -
-                        {/if}
-                    </td>
-                    <td>
-                        {#if field.optional}
-                            <span class="param__optional">&#x2713;</span>
-                        {:else}
-                            -
-                        {/if}
-                    </td>
-                </tr>
+                    <tr>
+                        <td>{field.name}</td>
+                        <td>{@html renderTemplate(field)}</td>
+                        <td>
+                            {#if field.defaultValue}
+                                <span class="param__default-value">{field.defaultValue}</span>
+                            {:else}
+                                -
+                            {/if}
+                        </td>
+                        <td>
+                            {#if field.optional}
+                                <span class="param__optional">&#x2713;</span>
+                            {:else}
+                                -
+                            {/if}
+                        </td>
+                    </tr>
                 {/each}
                 </tbody>
             </table>
@@ -87,11 +87,13 @@
             </div>
         </div>
 
-        <div class="card__content card__content_tech">
-            <div class="card__content-item card__content-raw-view">
-                <div class="title">Raw view</div>
-                <pre class="viewer json">{@html highlightJSON(type)}</pre>
-            </div>
+    </div>
+
+    <div class="card__content card__content_tech">
+        <div class="card__content-item card__content-raw-view">
+            <div class="title">Raw view</div>
+            <pre class="viewer json">{@html highlightJSON(type)}</pre>
         </div>
     </div>
+
 </div>
