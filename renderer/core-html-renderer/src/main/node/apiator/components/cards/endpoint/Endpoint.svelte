@@ -73,7 +73,11 @@
                     {#each params as param}
                         <tr class="param">
                             <td>
-                                {param.name}
+                                {#if param.name}
+                                    {param.name}
+                                {:else}
+                                    -
+                                {/if}
                                 {#if param.required}
                                     <span class="param__required">(required)</span>
                                 {/if}

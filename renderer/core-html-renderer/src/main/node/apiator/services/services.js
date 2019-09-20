@@ -106,17 +106,6 @@ const splitCamelCase = function (string) {
     });
 };
 
-/**
- * @param {string} link
- * @return {HTMLAnchorElement}
- */
-const parseLink = link => {
-    const l = document.createElement('a');
-    l.href = link;
-
-    return l;
-};
-
 const renderTemplate = (type) => {
     let result = '';
 
@@ -175,7 +164,6 @@ export {
     getPageLinkToType,
     getAbsoluteLinkToType,
     splitCamelCase,
-    parseLink,
     renderTemplate,
     highlightJSON
 }
