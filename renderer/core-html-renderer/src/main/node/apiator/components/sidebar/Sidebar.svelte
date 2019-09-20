@@ -5,10 +5,7 @@
 
     const { apiContexts, usedApiTypes, usedEnumerations } = window.apiatorJson;
 
-
-    console.log(usedEnumerations);
-
-    const handleGroupTitleClick = (event) => {
+        const handleGroupTitleClick = (event) => {
         event.currentTarget.nextElementSibling.classList.toggle('group__content_active');
     }
 

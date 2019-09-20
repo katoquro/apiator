@@ -5,7 +5,10 @@
 
     let isActiveItem = false;
 
-    const toggleActiveItem = () => isActiveItem = !isActiveItem;
+    const toggleActiveItem = () => {
+        debugger;
+        isActiveItem = !isActiveItem;
+    };
 
     const handleApiTitleClick = () => {
         if (isActiveItem) {
@@ -14,7 +17,7 @@
     };
 </script>
 
-<li on:click|capture={toggleActiveItem} class="api {isActiveItem ? 'api_active' : ''}">
+<li on:click={toggleActiveItem} class="api {isActiveItem ? 'api_active' : ''}">
     <div class="api__header">
         <span on:click={handleApiTitleClick} class="api__title">
             {context.apiPath}
