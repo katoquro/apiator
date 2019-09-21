@@ -4,6 +4,7 @@ v0.12.x
 - new: CONTRIBUTING.md
 - fix: Memoization issue which could lead to hang up during schema rendering
 - improvement: UI stack was moved to Svelte.js
+- improvement: Micronaut support
 
 v0.11.x
 

@@ -37,7 +37,7 @@ public class MicronautControllerImpl implements MicronautController {
     }
 
     @Override
-    public Dto02_Complex postWithCookieNamedParam(String id, Dto02_Complex body) {
+    public Dto02_Complex postWithCookieNamedParam(String path, String id, Dto02_Complex body) {
         return null;
     }
 

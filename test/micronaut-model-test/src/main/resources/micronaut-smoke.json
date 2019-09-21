@@ -101,19 +101,27 @@
               "httpParamType": "PATH",
               "index": 0,
               "modelType": "STRING",
+              "name": "path",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "PATH",
+              "index": 1,
+              "modelType": "STRING",
               "name": "entity-id",
               "optional": false
             },
             {
               "basedOn": [],
               "httpParamType": "BODY",
-              "index": 1,
+              "index": 2,
               "modelType": "OBJECT",
               "optional": false,
               "type": "com.ainrif.apiator.test.model.core.Dto02_Complex"
             }
           ],
-          "path": "/put/{entity-id}",
+          "path": "/put/{path}/{entity-id}",
           "returnTypes": [
             {
               "basedOn": [],

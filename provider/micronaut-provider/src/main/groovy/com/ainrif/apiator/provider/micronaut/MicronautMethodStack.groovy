@@ -74,6 +74,9 @@ class MicronautMethodStack extends MethodStack {
         return methodOpt.annotationType().simpleName.toUpperCase()
     }
 
+    /**
+     * https://docs.micronaut.io/latest/guide/index.html#_variables_resolution
+     */
     @Override
     List<ApiEndpointParam> getParams() {
         String rawPath = this.path
@@ -112,7 +115,7 @@ class MicronautMethodStack extends MethodStack {
         }
 
         queryTmpl.variables.each { var ->
-            def paramIndex = findIndexOfParam(paramAnnotations, var)
+            int paramIndex = findIndexOfParam(paramAnnotations, var)
 
             if (var.exploded) {
                 def explodedFields = RUtils.getAllDeclaredDynamicFields(methodParams[paramIndex].type).collect {
@@ -171,14 +174,21 @@ class MicronautMethodStack extends MethodStack {
                 )
             }
 
-            // BODY param (not annotated fallback)
-            return new ApiEndpointParam(
-                    index: index,
-                    name: null,
-                    type: new ApiType(param.parameterizedType),
-                    httpParamType: ApiEndpointParamType.BODY,
-                    annotations: annList
-            )
+            def foundBody = annList.find { Body.isAssignableFrom(it.annotationType()) }
+            if (foundBody) {
+                // BODY param (not annotated fallback)
+                return new ApiEndpointParam(
+                        index: index,
+                        name: null,
+                        type: new ApiType(param.parameterizedType),
+                        httpParamType: ApiEndpointParamType.BODY,
+                        annotations: annList
+                )
+            }
+
+            throw new RuntimeException('No corresponding params type were found for ' +
+                    "method params with index(${index}) annotated with path(${this.path}) in class(${context.name})" +
+                    'Please check method signature and annotations or try to compile with `-parameters` flag.')
         }
 
         result.addAll(remainingParamTypes)
@@ -198,7 +208,7 @@ class MicronautMethodStack extends MethodStack {
         }
 
         Integer foundIdxFromAnnotations = annotations.findResult { idx, annList ->
-            def found = annList.find { ann -> QueryValue.isAssignableFrom(ann.annotationType()) }
+            def found = annList.find { ann -> [QueryValue, PathVariable].contains(ann.annotationType()) }
             if (found && found.asType(QueryValue).value() == var.name) {
                 return idx
             }
