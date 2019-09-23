@@ -51,7 +51,17 @@ class Apiator {
         this.info = new ApiatorInfo(config)
     }
 
-    ApiScheme getScheme() {
+    String render() {
+        def scheme = getScheme()
+        def stopwatch = Stopwatch.createStarted()
+
+        def render = config.renderer.render(scheme)
+
+        log.info('Scheme rendering took {}ms.', stopwatch.elapsed(TimeUnit.MILLISECONDS))
+        return render
+    }
+
+    protected ApiScheme getScheme() {
         return scheme ?: {
             def stopwatch = Stopwatch.createStarted()
             scheme = new ApiScheme(apiatorInfo: info, clientApiInfo: new ClientApiInfo(config))
@@ -93,20 +103,12 @@ class Apiator {
                 scheme.docletIndex = createJavadocIndexer(config.docletConfig)
             }
 
-            log.info("Api Scheme generating took ${stopwatch.elapsed(TimeUnit.MILLISECONDS)}ms. ${apiClasses.size()} contexts were processed")
+            log.info('Api Scheme generating took {}ms. {} contexts were processed',
+                    stopwatch.elapsed(TimeUnit.MILLISECONDS),
+                    apiClasses.size())
 
             return scheme
         }()
-    }
-
-    String render() {
-        def scheme = getScheme()
-        def stopwatch = Stopwatch.createStarted()
-
-        def render = config.renderer.render(scheme)
-
-        log.info("Scheme rendering took ${stopwatch.elapsed(TimeUnit.MILLISECONDS)}ms. ")
-        return render
     }
 
     protected Set<Class<?>> scanForApi() {
@@ -138,7 +140,7 @@ class Apiator {
             // TODO katoquro: 22/04/2018 support classpath search when all paths are wrong
             dConf.sourcePath.split(SourcePathDetector.OS_PATH_DELIMITER)
                     .findAll { !new File(it).exists() }
-                    .each { log.warn("There are no source path like {}", it) }
+                    .each { log.warn('There are no source path like {}', it) }
 
             def docletClassPath = null
             if (extraClassPath) {
@@ -148,7 +150,7 @@ class Apiator {
             }
 
             if (!ToolProvider.getSystemDocumentationTool()) {
-                log.info("JavaDoc Spi was not found. Jdk11+ required")
+                log.info('JavaDoc Spi was not found. Jdk11+ required')
                 return new DocletInfoIndexer([:])
             }
 
@@ -163,7 +165,7 @@ class Apiator {
 
             return new DocletInfoIndexer(javaDocInfo.classes)
         } else {
-            log.info("Source path for Doclet was not detected. No Doclet info was found")
+            log.info('Source path for Doclet was not detected. No Doclet info was found')
         }
 
         return new DocletInfoIndexer([:])

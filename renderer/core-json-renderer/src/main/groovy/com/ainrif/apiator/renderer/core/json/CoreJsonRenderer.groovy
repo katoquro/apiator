@@ -71,11 +71,6 @@ class CoreJsonRenderer implements Renderer {
         init()
     }
 
-    CoreJsonRenderer() {
-        this.config = new Config()
-        init()
-    }
-
     protected init() {
         pluginsConfig = new PluginsConfig()
 
