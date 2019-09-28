@@ -33,6 +33,27 @@
           ]
         },
         {
+          "method": "POST",
+          "name": "expandedBodyParam",
+          "params": [
+            {
+              "basedOn": [],
+              "httpParamType": "BODY",
+              "index": -1,
+              "modelType": "OBJECT",
+              "optional": false,
+              "type": "adhoc_type.MicronautControllerImplExpandedBodyParam"
+            }
+          ],
+          "path": "/micronaut/expanded-body",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        },
+        {
           "method": "PATCH",
           "name": "patch",
           "params": [
@@ -101,19 +122,27 @@
               "httpParamType": "PATH",
               "index": 0,
               "modelType": "STRING",
+              "name": "path",
+              "optional": false
+            },
+            {
+              "basedOn": [],
+              "httpParamType": "PATH",
+              "index": 1,
+              "modelType": "STRING",
               "name": "entity-id",
               "optional": false
             },
             {
               "basedOn": [],
               "httpParamType": "BODY",
-              "index": 1,
+              "index": 2,
               "modelType": "OBJECT",
               "optional": false,
               "type": "com.ainrif.apiator.test.model.core.Dto02_Complex"
             }
           ],
-          "path": "/put/{entity-id}",
+          "path": "/put/{path}/{entity-id}",
           "returnTypes": [
             {
               "basedOn": [],
@@ -158,6 +187,20 @@
     "version": "1.0.0-SNAPSHOT"
   },
   "usedApiTypes": [
+    {
+      "fields": [
+        {
+          "basedOn": [],
+          "modelType": "STRING",
+          "name": "name",
+          "optional": false,
+          "readable": false,
+          "writable": true
+        }
+      ],
+      "modelType": "OBJECT",
+      "type": "adhoc_type.MicronautControllerImplExpandedBodyParam"
+    },
     {
       "fields": [
         {

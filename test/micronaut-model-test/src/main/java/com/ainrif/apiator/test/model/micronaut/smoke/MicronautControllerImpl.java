@@ -18,7 +18,9 @@ package com.ainrif.apiator.test.model.micronaut.smoke;
 
 import com.ainrif.apiator.test.model.core.Dto01_Plain;
 import com.ainrif.apiator.test.model.core.Dto02_Complex;
+import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Post;
 
 import javax.annotation.Nullable;
 
@@ -37,7 +39,7 @@ public class MicronautControllerImpl implements MicronautController {
     }
 
     @Override
-    public Dto02_Complex postWithCookieNamedParam(String id, Dto02_Complex body) {
+    public Dto02_Complex postWithCookieNamedParam(String path, String id, Dto02_Complex body) {
         return null;
     }
 
@@ -48,5 +50,9 @@ public class MicronautControllerImpl implements MicronautController {
     @Override
     public Dto02_Complex patch(Dto02_Complex body) {
         return null;
+    }
+
+    @Post("/micronaut/expanded-body")
+    public void expandedBodyParam(@Body("name") String name) {
     }
 }

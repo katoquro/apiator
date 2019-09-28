@@ -14,9 +14,11 @@ import java.io.File;
 public class TestingJavaPluginApiatorConfig implements ApiatorGradleRunner {
     @Override
     public void execute(File apiatorBuildDir) {
-        CoreHtmlRenderer renderer = new CoreHtmlRenderer();
-        renderer.getConfig().setToFile(new File(apiatorBuildDir, "api.html").getAbsolutePath());
-        renderer.getConfig().getPlugins().add(new JaxRsCompositePlugin());
+        CoreHtmlRenderer.Config rendererConfig = new CoreHtmlRenderer.Config();
+        rendererConfig.setToFile(new File(apiatorBuildDir, "api.html").getAbsolutePath());
+        rendererConfig.getPlugins().add(new JaxRsCompositePlugin());
+
+        CoreHtmlRenderer renderer = new CoreHtmlRenderer(rendererConfig);
 
         DocletConfig docletConfig = new DocletConfig();
         docletConfig.setIncludeBasePackage("com.ainrif");

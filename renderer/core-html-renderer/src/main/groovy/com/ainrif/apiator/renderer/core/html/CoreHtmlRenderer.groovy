@@ -36,16 +36,12 @@ class CoreHtmlRenderer implements Renderer {
     }
 
     CoreHtmlRenderer(@DelegatesTo(Config) Closure configurator) {
-        this()
+        this.config = new Config()
         this.config.with configurator
     }
 
     CoreHtmlRenderer(Config config) {
         this.config = config
-    }
-
-    CoreHtmlRenderer() {
-        this.config = new Config()
     }
 
     @Override

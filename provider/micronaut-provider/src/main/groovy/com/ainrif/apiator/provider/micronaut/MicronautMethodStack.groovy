@@ -28,12 +28,19 @@ import io.micronaut.http.annotation.*
 import io.micronaut.http.cookie.Cookies
 import io.micronaut.http.uri.UriMatchTemplate
 import io.micronaut.http.uri.UriMatchVariable
+import net.bytebuddy.ByteBuddy
+import net.bytebuddy.description.modifier.Visibility
 import org.springframework.core.annotation.AnnotationUtils
 
 import java.lang.annotation.Annotation
 import java.lang.reflect.Method
+import java.lang.reflect.Modifier
+import java.lang.reflect.Type
 
 class MicronautMethodStack extends MethodStack {
+    private static COMPILE_WITH_PARAMS_MSG = 'Please check method signature and annotations or try to compile with ' +
+            '`-parameters` flag for java code or ' +
+            '`--parameters` flag for groovy code (since Gradle 6.1.0) '
 
     List<Class<? extends Annotation>> ENDPOINT_PATH_ANNOTATIONS = [Post,
                                                                    Get,
@@ -74,6 +81,9 @@ class MicronautMethodStack extends MethodStack {
         return methodOpt.annotationType().simpleName.toUpperCase()
     }
 
+    /**
+     * https://docs.micronaut.io/latest/guide/index.html#_variables_resolution
+     */
     @Override
     List<ApiEndpointParam> getParams() {
         String rawPath = this.path
@@ -112,7 +122,7 @@ class MicronautMethodStack extends MethodStack {
         }
 
         queryTmpl.variables.each { var ->
-            def paramIndex = findIndexOfParam(paramAnnotations, var)
+            int paramIndex = findIndexOfParam(paramAnnotations, var)
 
             if (var.exploded) {
                 def explodedFields = RUtils.getAllDeclaredDynamicFields(methodParams[paramIndex].type).collect {
@@ -147,41 +157,93 @@ class MicronautMethodStack extends MethodStack {
 
         Map<Integer, List<String>> parametersNameLists = getParametersNameLists()
 
-        List<ApiEndpointParam> remainingParamTypes = paramAnnotations.findAll { index, annList ->
-            def paramType = methodParams[index].type
-            def isMicronautSystemType = [HttpRequest, HttpHeaders, HttpParameters, Cookies].any {
-                it.isAssignableFrom(paramType)
-            }
+        Map<String, Type> expandedBodyParams = [:]
 
-            return !isMicronautSystemType
-        }.collect { index, annList ->
-            def param = methodParams[index]
+        List<ApiEndpointParam> remainingParamTypes = paramAnnotations
+                .findAll { index, annList ->
+                    def paramType = methodParams[index].type
+                    def isMicronautSystemType = [HttpRequest, HttpHeaders, HttpParameters, Cookies].any {
+                        it.isAssignableFrom(paramType)
+                    }
 
-            def found = annList.find { [QueryValue, CookieValue, Header, Part].contains(it.annotationType()) }
-            if (found) {
-                return new ApiEndpointParam(
-                        index: index,
-                        name: found.value() ?:
-                                !parametersNameLists[index].empty ?
-                                        parametersNameLists[index].find() :
-                                        null,
-                        type: new ApiType(param.parameterizedType),
-                        httpParamType: httpParamTypeFor(found.annotationType()),
-                        annotations: annList
-                )
-            }
+                    return !isMicronautSystemType
+                }
+                .collect { index, annList ->
+                    def param = methodParams[index]
 
-            // BODY param (not annotated fallback)
-            return new ApiEndpointParam(
-                    index: index,
-                    name: null,
-                    type: new ApiType(param.parameterizedType),
-                    httpParamType: ApiEndpointParamType.BODY,
-                    annotations: annList
-            )
-        }
+                    def found = annList.find { [QueryValue, CookieValue, Header, Part].contains(it.annotationType()) }
+                    if (found) {
+                        return new ApiEndpointParam(
+                                index: index,
+                                name: found.value() ?:
+                                        !parametersNameLists[index].empty ?
+                                                parametersNameLists[index].find() :
+                                                null,
+                                type: new ApiType(param.parameterizedType),
+                                httpParamType: httpParamTypeFor(found.annotationType()),
+                                annotations: annList
+                        )
+                    }
+
+                    def bodyAnnotations = annList.findAll { Body.isAssignableFrom(it.annotationType()) }
+                    def foundBody = bodyAnnotations.find { it.asType(Body).value().empty }
+                    if (foundBody) {
+                        return new ApiEndpointParam(
+                                index: index,
+                                name: null,
+                                type: new ApiType(param.parameterizedType),
+                                httpParamType: ApiEndpointParamType.BODY,
+                                annotations: annList
+                        )
+                    }
+
+                    // https://docs.micronaut.io/latest/guide/index.html#_variables_resolution
+                    def bodyParamAnnotation = bodyAnnotations.find { !it.asType(Body).value().empty }
+                    String bodyParamName = bodyParamAnnotation?.value() ?:
+                            parametersNameLists[index].empty ?
+                                    null :
+                                    parametersNameLists[index].find()
+
+                    if (bodyParamName) {
+                        expandedBodyParams[bodyParamName] = param.parameterizedType
+                        return null
+                    }
+
+                    throw new RuntimeException('No corresponding params type were found for method params with ' +
+                            "index(${index}) annotated with path(${this.path}) in class(${context.name}). " +
+                            COMPILE_WITH_PARAMS_MSG
+                    )
+                }
+                .findAll()
 
         result.addAll(remainingParamTypes)
+
+        if (expandedBodyParams) {
+            def typeName = 'adhoc_type.' + context.last().simpleName + getName().capitalize()
+
+            def genClass = new ByteBuddy()
+                    .makeInterface()
+                    .merge(Visibility.PUBLIC)
+                    .name(typeName)
+
+            for (def pair : expandedBodyParams) {
+                String name = pair.key
+                Type type = pair.value
+                genClass = genClass.defineMethod('set' + name.capitalize(), Void.TYPE, Modifier.PUBLIC)
+                        .withParameters(type)
+                        .withoutCode()
+            }
+
+            def generated = genClass.make()
+                    .load(getClass().getClassLoader())
+                    .getLoaded()
+
+            result.add(new ApiEndpointParam(
+                    index: -1,
+                    name: null,
+                    type: new ApiType(generated),
+                    httpParamType: ApiEndpointParamType.BODY))
+        }
 
         return result
     }
@@ -198,7 +260,7 @@ class MicronautMethodStack extends MethodStack {
         }
 
         Integer foundIdxFromAnnotations = annotations.findResult { idx, annList ->
-            def found = annList.find { ann -> QueryValue.isAssignableFrom(ann.annotationType()) }
+            def found = annList.find { ann -> [QueryValue, PathVariable].contains(ann.annotationType()) }
             if (found && found.asType(QueryValue).value() == var.name) {
                 return idx
             }
@@ -206,11 +268,10 @@ class MicronautMethodStack extends MethodStack {
             return null
         }
 
-
         if (null == foundIdxFromAnnotations) {
             throw new RuntimeException('No corresponding query or path params were found for ' +
-                    "variable '${var.name}' in path ${this.path}. " +
-                    'Please check method signature and annotations or try to compile with `-parameters` flag.')
+                    "variable(${var.name})' in path(${this.path}) of method(${this.last().name}) " +
+                    COMPILE_WITH_PARAMS_MSG)
         }
 
         return foundIdxFromAnnotations
