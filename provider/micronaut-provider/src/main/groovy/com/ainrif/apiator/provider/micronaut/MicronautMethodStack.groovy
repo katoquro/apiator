@@ -69,7 +69,10 @@ class MicronautMethodStack extends MethodStack {
             AnnotationUtils.findAnnotation(this.last(), it)
         }
 
-        return pathOpt?.value() ?: pathOpt?.uri() ?: '/'
+        def value = pathOpt.value() as String
+        def uri = pathOpt.uri() as String
+
+        return (value.length() <=> uri.length()) >= 0 ? value : uri
     }
 
     @Override
