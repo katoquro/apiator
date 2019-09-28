@@ -93,7 +93,7 @@ class ApiSchemeView {
     }
 
     protected static Closure<List<ApiType>> collectApiTypesFromGenerics = { ApiType type ->
-        type.actuallyParametrised ? type.flattenArgumentTypes() << type : [type]
+        return (type.flattenArgumentTypes() + type)
     }
 
     protected static Closure<List<ApiType>> collectApiTypesFromFields = { ApiType type ->

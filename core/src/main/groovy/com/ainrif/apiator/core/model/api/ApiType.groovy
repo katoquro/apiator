@@ -21,7 +21,7 @@ import java.lang.reflect.*
 
 class ApiType {
 
-    protected Type type
+    protected final Type type
 
     ApiType(Type type) {
         this.type = type
@@ -136,8 +136,7 @@ class ApiType {
      * input: <br>
      * {@code List < Map < String , Integer > >}  <br>
      * result: <br>
-     * set of {@code [List , Map, Integer, String]}
-     *
+     * set of {@code [Map, Integer, String]}
      *
      * @return list which represents all generic args including generic type
      */

@@ -241,28 +241,28 @@ class ApiTypeSpec extends Specification {
 
     def "_flattenArgumentTypes; #inputType"() {
         given:
-        def input = [new ApiType(ModelDto2.getDeclaredField(inputType).genericType)]
+        def input = new ApiType(ModelDto2.getDeclaredField(inputType).genericType)
         def expected = expectedTypes.collect { new ApiType(it).rawType }
 
         expect:
-        def types = ApiType._flattenArgumentTypes(input).findAll { !it.array }.collect { it.rawType }
+        def types = input.flattenArgumentTypes().findAll { !it.array }.collect { it.rawType }
         types.size() == expected.size()
         types.toSet().size() == expected.toSet().size()
         types.containsAll(expected)
 
         where:
         inputType                    | expectedTypes
-        'objectField'                | [Object]
-        'listGEnumField'             | [List, ModelEnum]
-        'listGStringField'           | [List, String]
-        'listGSetGStringField'       | [List, Set, String]
-        'listGTVField'               | [List, Object]
-        'listGTVBField'              | [List, Collection]
-        'listGIterableGTVBField'     | [List, Iterable, Collection]
-        'listGSetArrayField'         | [List, Set, String]
-        'listGStringArray'           | [List, String]
-        'listGenericBounded'         | [List, List] // todo #generic-bound generic of last list
-        'mapGSetGStringAndGTVBField' | [Map, Set, String, Collection]
+        'objectField'                | []
+        'listGEnumField'             | [ModelEnum]
+        'listGStringField'           | [String]
+        'listGSetGStringField'       | [Set, String]
+        'listGTVField'               | [Object]
+        'listGTVBField'              | [Collection]
+        'listGIterableGTVBField'     | [Iterable, Collection]
+        'listGSetArrayField'         | [Set, String]
+        'listGStringArray'           | [String]
+        'listGenericBounded'         | [List] // todo #generic-bound generic of last list
+        'mapGSetGStringAndGTVBField' | [Set, String, Collection]
     }
 
     def "flattenArgumentTypes; w/o generic type"() {
