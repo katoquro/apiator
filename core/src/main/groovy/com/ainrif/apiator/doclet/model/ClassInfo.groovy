@@ -16,6 +16,8 @@
 
 package com.ainrif.apiator.doclet.model
 
+import com.ainrif.apiator.core.model.api.ApiType
+
 class ClassInfo {
     String name
     String description
@@ -26,7 +28,7 @@ class ClassInfo {
         return info.name
     }
 
-    static String createKey(Class<?> apiType) {
-        return apiType.canonicalName
+    static String createKey(ApiType apiType) {
+        return apiType.rawType.canonicalName
     }
 }

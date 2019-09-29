@@ -37,7 +37,7 @@ class DocletInfoIndexer {
 
     @Nullable
     ClassMergedInfo getClassMergedInfo(ApiType apiType) {
-        List<ClassInfo> typeHierarchy = RUtils.getAllSuperTypes(apiType.rawType)
+        List<ClassInfo> typeHierarchy = RUtils.getAllSuperTypes(apiType)
                 .findResults { classes[ClassInfo.createKey(it)] }
                 .asType(List)
                 .reverse()

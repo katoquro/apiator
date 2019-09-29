@@ -15,8 +15,8 @@
  */
 
 /**
- * @see com.ainrif.apiator.core.reflection.RUtils#getAllSuperTypes(java.lang.Class)
- * @see com.ainrif.apiator.core.reflection.RUtils#getAllSuperClasses(java.lang.Class)
- * @see com.ainrif.apiator.core.reflection.RUtils#getAllSuperInterfaces(java.lang.Class)
+ * @see com.ainrif.apiator.core.reflection.RUtils#getAllSuperTypes(com.ainrif.apiator.core.model.api.ApiType)
+ * @see com.ainrif.apiator.core.reflection.RUtils#getAllSuperClasses(com.ainrif.apiator.core.model.api.ApiType)
+ * @see com.ainrif.apiator.core.reflection.RUtils#getAllSuperInterfaces(com.ainrif.apiator.core.model.api.ApiType)
  */
 package com.ainrif.apiator.test.model.m01;

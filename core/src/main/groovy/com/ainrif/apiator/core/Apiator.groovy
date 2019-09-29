@@ -15,10 +15,7 @@
  */
 package com.ainrif.apiator.core
 
-import com.ainrif.apiator.core.model.api.ApiContext
-import com.ainrif.apiator.core.model.api.ApiEndpoint
-import com.ainrif.apiator.core.model.api.ApiScheme
-import com.ainrif.apiator.core.model.api.ClientApiInfo
+import com.ainrif.apiator.core.model.api.*
 import com.ainrif.apiator.doclet.ApiatorDoclet
 import com.ainrif.apiator.doclet.SourcePathDetector
 import com.ainrif.apiator.doclet.javadoc.DocletInfoIndexer
@@ -69,9 +66,7 @@ class Apiator {
             Set<Class<?>> apiClasses = scanForApi()
 
             apiClasses
-                    .findResults {
-                        return config.provider.getContextStack(it)
-                    }
+                    .findResults { config.provider.getContextStack(new ApiType(it)) }
                     .collect { ctxStack ->
                         def apiCtx = new ApiContext(
                                 name: ctxStack.name,

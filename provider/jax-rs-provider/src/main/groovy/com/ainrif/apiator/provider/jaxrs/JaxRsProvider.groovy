@@ -15,6 +15,7 @@
  */
 package com.ainrif.apiator.provider.jaxrs
 
+import com.ainrif.apiator.core.model.api.ApiType
 import com.ainrif.apiator.core.reflection.ContextStack
 import com.ainrif.apiator.core.reflection.MethodStack
 import com.ainrif.apiator.core.reflection.RUtils
@@ -48,14 +49,14 @@ class JaxRsProvider implements WebServiceProvider {
                                                        Context]
 
     @Override
-    ContextStack getContextStack(Class<?> apiClass) {
+    ContextStack getContextStack(ApiType apiClass) {
         return new JaxRsContextStack(RUtils.getAllSuperTypes(apiClass))
     }
 
     @Override
     List<MethodStack> getMethodStacks(ContextStack contextStack) {
         def ctxStack = contextStack as JaxRsContextStack
-        return RUtils.getAllMethods(contextStack.last(), { Modifier.isPublic(it.modifiers) } as Predicate)
+        return RUtils.getAllMethods(contextStack.apiType, { Modifier.isPublic(it.modifiers) } as Predicate)
                 .findAll { it.value.any { method -> wsAnnotations.any { method.isAnnotationPresent(it) } } }
                 .collect { signature, methods -> new JaxRsMethodStack(methods, ctxStack) }
     }

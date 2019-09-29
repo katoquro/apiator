@@ -16,6 +16,7 @@
 
 package com.ainrif.apiator.provider.micronaut
 
+import com.ainrif.apiator.core.model.api.ApiType
 import com.ainrif.apiator.core.reflection.ContextStack
 import com.ainrif.apiator.core.reflection.MethodStack
 import com.ainrif.apiator.core.reflection.RUtils
@@ -48,8 +49,8 @@ class MicronautProvider implements WebServiceProvider {
                                                        Body]
 
     @Override
-    ContextStack getContextStack(Class<?> apiClass) {
-        if (Intercepted.isAssignableFrom(apiClass)) {
+    ContextStack getContextStack(ApiType apiClass) {
+        if (Intercepted.isAssignableFrom(apiClass.rawType)) {
             return null
         }
 
@@ -59,7 +60,7 @@ class MicronautProvider implements WebServiceProvider {
     @Override
     List<MethodStack> getMethodStacks(ContextStack contextStack) {
         def ctxStack = contextStack as MicronautContextStack
-        return RUtils.getAllMethods(contextStack.last(), { Modifier.isPublic(it.modifiers) } as Predicate)
+        return RUtils.getAllMethods(contextStack.apiType, { Modifier.isPublic(it.modifiers) } as Predicate)
                 .findAll { it.value.any { method -> wsAnnotations.any { method.isAnnotationPresent(it) } } }
                 .collect { signature, methods -> new MicronautMethodStack(methods, ctxStack) }
     }

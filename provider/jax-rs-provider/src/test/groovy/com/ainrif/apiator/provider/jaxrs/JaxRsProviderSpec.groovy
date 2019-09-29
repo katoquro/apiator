@@ -15,6 +15,7 @@
  */
 package com.ainrif.apiator.provider.jaxrs
 
+import com.ainrif.apiator.core.model.api.ApiType
 import com.ainrif.apiator.test.model.jaxrs.smoke.JaxRsController
 import com.ainrif.apiator.test.model.jaxrs.smoke.JaxRsControllerInheritance
 import spock.lang.Specification
@@ -22,7 +23,9 @@ import spock.lang.Specification
 class JaxRsProviderSpec extends Specification {
     def "method stack should be generated for jax-rs type context"() {
         given:
-        def contextStack = new JaxRsContextStack([JaxRsController, JaxRsControllerInheritance])
+        def contextStack = new JaxRsContextStack([JaxRsController, JaxRsControllerInheritance].collect {
+            new ApiType(it)
+        })
         def provider = new JaxRsProvider()
         and:
         String[] expected = ['post',

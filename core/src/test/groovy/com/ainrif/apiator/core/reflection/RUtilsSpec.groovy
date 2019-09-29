@@ -38,7 +38,7 @@ import static com.ainrif.apiator.core.reflection.RUtils.*
 class RUtilsSpec extends Specification {
     def "getAllMethods"() {
         given:
-        Class type = M02_ChildType
+        def type = new ApiType(M02_ChildType)
         Predicate<Method> predicate = { Modifier.isPublic(it.modifiers) }
         and:
         def methodFromInterface = new MethodSignature(M02_ChildType.getMethod("inDtoOutObj", M02_Dto))
@@ -65,19 +65,19 @@ class RUtilsSpec extends Specification {
         actual.size() == 1
         def methods = actual.values()[0]
         methods.size() == 2
-        methods[1].declaringClass == type
+        methods[1].declaringClass == type.rawType
 
         where:
         type << [M07_PlainInterfaceImpl,
                  M07_AbstractClassImpl,
                  M07_InterfaceDefaultImpl,
-                 M07_ParentClassImpl]
+                 M07_ParentClassImpl].collect { new ApiType(it) }
     }
 
     // TODO katoquro: 23/06/19 #not_implemented
     def "getAllMethods; should recognize override of generic interfaces method params"() {
         when:
-        def type = M07_GenericInterfaceImpl
+        def type = new ApiType(M07_GenericInterfaceImpl)
         def actual = getAllMethods(type)
 
         then:
@@ -97,9 +97,9 @@ class RUtilsSpec extends Specification {
                         ChildTypeInterface,
                         GrandSuperType,
                         SuperType,
-                        ChildType]
+                        ChildType].collect { new ApiType(it) }
         when:
-        def actual = getAllSuperTypes(ChildType)
+        def actual = getAllSuperTypes(new ApiType(ChildType))
 
         then:
         actual.size() == expected.size()
@@ -108,16 +108,17 @@ class RUtilsSpec extends Specification {
 
     def "getAllSuperClasses"() {
         expect:
-        getAllSuperClasses(ChildType).containsAll([ChildType, SuperType, GrandSuperType])
+        getAllSuperClasses(new ApiType(ChildType))
+                .containsAll([ChildType, SuperType, GrandSuperType].collect { new ApiType(it) })
     }
 
     def "getAllSuperInterfaces"() {
         expect:
-        getAllSuperInterfaces(ChildType).containsAll([ChildTypeInterface,
-                                                      StInterface1,
-                                                      StI1_Interface,
-                                                      GstInterface1,
-                                                      GstInterface2])
+        getAllSuperInterfaces(new ApiType(ChildType)).containsAll([ChildTypeInterface,
+                                                                   StInterface1,
+                                                                   StI1_Interface,
+                                                                   GstInterface1,
+                                                                   GstInterface2].collect { new ApiType(it) })
     }
 
     def "getAllFields; w/o predicate"() {
@@ -150,10 +151,10 @@ class RUtilsSpec extends Specification {
 
     def "getAnnotationList"() {
         given:
-        def contextStack = new TestContextStack([M04_ChildType, M04_InterfaceType])
+        def contextStack = new TestContextStack([M04_ChildType, M04_InterfaceType].collect { new ApiType(it) })
 
         when:
-        def actual = getAnnotationList(contextStack, AnnotationExample)
+        def actual = getAnnotationList(contextStack*.rawType, AnnotationExample)
 
         then:
         actual.size() == 2
@@ -166,7 +167,7 @@ class RUtilsSpec extends Specification {
     }
 
     static class TestContextStack extends ContextStack {
-        protected TestContextStack(Collection<? extends Class> collection) {
+        protected TestContextStack(Collection<ApiType> collection) {
             super(collection)
         }
 
@@ -182,7 +183,7 @@ class RUtilsSpec extends Specification {
 
         @Override
         ApiType getApiType() {
-            return null
+            return last()
         }
     }
 

@@ -222,7 +222,7 @@ class MicronautMethodStack extends MethodStack {
         result.addAll(remainingParamTypes)
 
         if (expandedBodyParams) {
-            def typeName = 'adhoc_type.' + context.last().simpleName + getName().capitalize()
+            def typeName = 'adhoc_type.' + context.apiType.rawType.simpleName + getName().capitalize()
 
             def genClass = new ByteBuddy()
                     .makeInterface()

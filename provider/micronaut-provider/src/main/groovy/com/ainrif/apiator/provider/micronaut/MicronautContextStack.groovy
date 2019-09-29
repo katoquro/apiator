@@ -22,22 +22,22 @@ import com.ainrif.apiator.core.reflection.RUtils
 import io.micronaut.http.annotation.Controller
 
 class MicronautContextStack extends ContextStack {
-    protected MicronautContextStack(Collection<? extends Class> collection) {
+    protected MicronautContextStack(Collection<ApiType> collection) {
         super(collection)
     }
 
     @Override
     String getName() {
-        return this.last().canonicalName
+        return last().rawType.canonicalName
     }
 
     @Override
     String getApiContextPath() {
-        return (RUtils.getAnnotationList(this, Controller) ?: null)?.last()?.value() ?: ''
+        return (RUtils.getAnnotationList(this*.rawType, Controller) ?: null)?.last()?.value() ?: ''
     }
 
     @Override
     ApiType getApiType() {
-        return new ApiType(this.last())
+        return last()
     }
 }

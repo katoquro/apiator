@@ -22,22 +22,22 @@ import com.ainrif.apiator.core.reflection.RUtils
 import javax.ws.rs.Path
 
 class JaxRsContextStack extends ContextStack {
-    JaxRsContextStack(Collection<? extends Class> collection) {
+    JaxRsContextStack(Collection<ApiType> collection) {
         super(collection)
     }
 
     @Override
     String getName() {
-        return this.last().canonicalName
+        return last().rawType.canonicalName
     }
 
     @Override
     String getApiContextPath() {
-        return (RUtils.getAnnotationList(this, Path) ?: null)?.last()?.value() ?: ''
+        return (RUtils.getAnnotationList(this*.rawType, Path) ?: null)?.last()?.value() ?: ''
     }
 
     @Override
     ApiType getApiType() {
-        return new ApiType(this.last())
+        return last()
     }
 }

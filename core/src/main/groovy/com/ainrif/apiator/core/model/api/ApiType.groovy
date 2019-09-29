@@ -15,15 +15,19 @@
  */
 package com.ainrif.apiator.core.model.api
 
+
 import groovy.transform.Memoized
 
 import java.lang.reflect.*
+
+import static java.util.Objects.requireNonNull
 
 class ApiType {
 
     protected final Type type
 
     ApiType(Type type) {
+        requireNonNull(type, 'Given Type cannot be null')
         this.type = type
     }
 

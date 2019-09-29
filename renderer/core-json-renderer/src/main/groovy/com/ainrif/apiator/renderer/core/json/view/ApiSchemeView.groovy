@@ -51,12 +51,12 @@ class ApiSchemeView {
                 .unique { at1, at2 -> at1.equalsIgnoreActualParams(at2) ? 0 : 1 }
 
         this.usedEnumerations = allUsedTypes
-                .findAll { ENUMERATION == CoreJsonRenderer.getTypeByClass(it.rawType) }
+                .findAll { ENUMERATION == CoreJsonRenderer.getTypeByClass(it) }
                 .collect { new ApiEnumerationView(it, docInfo?.getClassMergedInfo(it)) }
                 .sort(true)
 
         this.usedApiTypes = allUsedTypes
-                .findAll { OBJECT == CoreJsonRenderer.getTypeByClass(it.rawType) }
+                .findAll { OBJECT == CoreJsonRenderer.getTypeByClass(it) }
                 .collect { new ApiTypeView(it, docInfo?.getClassMergedInfo(it)) }
                 .sort(true)
     }
@@ -86,7 +86,7 @@ class ApiSchemeView {
             types += typesToLookup
             types += typesFromFields
 
-            nextLookup = typesFromFields.findAll { OBJECT == CoreJsonRenderer.getTypeByClass(it.rawType) || it.generic }
+            nextLookup = typesFromFields.findAll { OBJECT == CoreJsonRenderer.getTypeByClass(it) || it.generic }
         }
 
         return types
@@ -124,7 +124,7 @@ class ApiSchemeView {
             targetType = targetType.componentType
         }
 
-        targetType
+        return targetType
     }
 
     protected static Closure<ApiType> mapArraysToItsTypeApiType = { ApiType type ->
@@ -132,12 +132,12 @@ class ApiSchemeView {
     }
 
     protected static Closure<Boolean> testTypeIsNotPrimitive = { ApiType type ->
-        ModelType.notPrimitiveTypes.any { it == CoreJsonRenderer.getTypeByClass(type.rawType) } &&
+        ModelType.notPrimitiveTypes.any { it == CoreJsonRenderer.getTypeByClass(type) } &&
                 Object != type.rawType && Enum != type.rawType
     }
 
     protected static Closure<Boolean> testTypeIsCustomModelType = { ApiType type ->
-        ModelType.customModelTypes.any { it == CoreJsonRenderer.getTypeByClass(type.rawType) } &&
+        ModelType.customModelTypes.any { it == CoreJsonRenderer.getTypeByClass(type) } &&
                 Object != type.rawType && Enum != type.rawType
     }
 

@@ -15,6 +15,9 @@
  */
 package com.ainrif.apiator.core.reflection
 
+
+import com.ainrif.apiator.core.model.api.ApiType
+
 import java.beans.Introspector
 import java.beans.PropertyDescriptor
 import java.lang.annotation.Annotation
@@ -32,20 +35,18 @@ final class RUtils {
      * @param predicates
      * @return methods grouped by signature from parent to child
      */
-    static Map<MethodSignature, List<Method>> getAllMethods(final Class<?> type,
+    static Map<MethodSignature, List<Method>> getAllMethods(final ApiType type,
                                                             Predicate<? super Method>... predicates) {
         Map<MethodSignature, List<Method>> map = [:].withDefault { [] }
 
-        getAllSuperTypes(type)
-                .each
-                {
-                    it.declaredMethods
-                            .findAll { !it.bridge }
-                            .findAll { method -> predicates.every { it.test(method) } }
-                            .each { method -> map[new MethodSignature(method)] << (method) }
-                }
+        getAllSuperTypes(type).each {
+            it.rawType.declaredMethods
+                    .findAll { !it.bridge }
+                    .findAll { method -> predicates.every { it.test(method) } }
+                    .each { method -> map[new MethodSignature(method)] << (method) }
+        }
 
-        map
+        return map
     }
 
     /**
@@ -53,8 +54,8 @@ final class RUtils {
      * @return all classes from {@link Object} (exclusive) to {@code type}.
      * Interfaces -> SuperClasses -> type
      */
-    static List<Class<?>> getAllSuperTypes(final Class<?> type) {
-        (getAllSuperClasses(type) + getAllSuperInterfaces(type))
+    static List<ApiType> getAllSuperTypes(ApiType type) {
+        return (getAllSuperClasses(type) + getAllSuperInterfaces(type))
                 .asType(List)
                 .reverse()
     }
@@ -63,33 +64,40 @@ final class RUtils {
      * @param type for scan
      * @return all classes from {@code type} to {@link Object} (exclusive the last)
      */
-    protected static List<Class> getAllSuperClasses(final Class<?> type) {
-        List<Class<?>> classes = []
-        if (type && type != Object) {
-            classes << type
-            classes += getAllSuperClasses(type.superclass)
+    protected static List<ApiType> getAllSuperClasses(ApiType type) {
+        List<ApiType> result = []
+        if (type.rawType != Object) {
+            result << type
+
+            def superclass = type.rawType.superclass
+            if (superclass) {
+                result += getAllSuperClasses(new ApiType(superclass))
+            }
         }
 
-        classes
+        return result
     }
 
     /**
      * @param type for scan
      * @return all interfaces from {@code type} to {@link Object} (exclusive the last) by DFS
      */
-    protected static List<Class> getAllSuperInterfaces(final Class<?> type) {
-        List<Class<?>> interfaces = []
+    protected static List<ApiType> getAllSuperInterfaces(ApiType type) {
+        List<ApiType> result = []
 
-        if (type && type != Object) {
-            if (type.isInterface()) {
-                interfaces << type
+        if (type.rawType != Object) {
+            if (type.rawType.isInterface()) {
+                result << type
             }
-            type.interfaces.each { interfaces += getAllSuperInterfaces(it) }
+            type.rawType.interfaces.each { result += getAllSuperInterfaces(new ApiType(it)) }
 
-            interfaces += getAllSuperInterfaces(type.superclass)
+            def superclass = type.rawType.superclass
+            if (superclass) {
+                result += getAllSuperInterfaces(new ApiType(superclass))
+            }
         }
 
-        interfaces
+        return result
     }
 
     /**
@@ -134,8 +142,9 @@ final class RUtils {
      *
      * @param annotationClass
      */
-    static <A extends Annotation, E extends AnnotatedElement> List<A> getAnnotationList(List<E> elements, Class<A> annotationClass) {
-        elements.findAll { it.isAnnotationPresent(annotationClass) }
+    static <A extends Annotation, E extends AnnotatedElement> List<A> getAnnotationList(List<E> elements,
+                                                                                        Class<A> annotationClass) {
+        return elements.findAll { it.isAnnotationPresent(annotationClass) }
                 .collect { it.getAnnotation(annotationClass) }
     }
 
@@ -146,7 +155,7 @@ final class RUtils {
      * @return for map values it calls {@link Object#toString()} if field is {@null} returns {@null}
      */
     static Map<String, String> asMap(Object pojo) {
-        pojo.class.declaredFields
+        return pojo.class.declaredFields
                 .findAll { !it.synthetic }
                 .collectEntries { [(it.name), pojo."$it.name"?.toString()] }
     }

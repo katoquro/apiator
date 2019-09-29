@@ -16,6 +16,7 @@
 package com.ainrif.apiator.renderer.core.json
 
 import com.ainrif.apiator.core.model.api.ApiScheme
+import com.ainrif.apiator.core.model.api.ApiType
 import com.ainrif.apiator.core.spi.Renderer
 import com.ainrif.apiator.renderer.core.json.plugin.DefaultCompositePlugin
 import com.ainrif.apiator.renderer.core.json.view.ApiSchemeView
@@ -109,8 +110,8 @@ class CoreJsonRenderer implements Renderer {
     }
 
     @Memoized
-    static ModelType getTypeByClass(Class<?> type) {
-        internalTypeByClass(type)
+    static ModelType getTypeByClass(ApiType type) {
+        return internalTypeByClass(type.rawType)
     }
 
     @PackageScope
