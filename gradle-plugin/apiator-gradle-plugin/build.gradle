@@ -14,7 +14,7 @@ plugins {
     id 'maven-publish'
 }
 
-apply from: "$rootProject.projectDir/../../gradle/versions.gradle"
+apply from: "$rootDir/../../gradle/versions.gradle"
 
 allprojects {
     apply plugin: 'java'
@@ -40,7 +40,7 @@ allprojects {
     }
 }
 
-apply from: "$rootProject.projectDir/../../gradle/deploy.gradle"
+apply from: "$rootDir/../../gradle/deploy.gradle"
 
 gradlePlugin {
     plugins {

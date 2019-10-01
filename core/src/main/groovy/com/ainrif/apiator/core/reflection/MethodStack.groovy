@@ -72,10 +72,10 @@ abstract class MethodStack extends ArrayList<Method> {
      * @return [ < param index > : [inherited annotations] ]
      */
     protected Map<Integer, List<? extends Annotation>> getParametersAnnotationsLists() {
-        Map<Integer, List<? extends Annotation>> result = new HashMap<>().withDefault { [] }
+        def result = new HashMap<Integer, List<? extends Annotation>>().withDefault { [] }
         this.each {
-            it.parameterAnnotations.eachWithIndex { Annotation[] entry, int i ->
-                result[i] += (entry as List<? extends Annotation>)
+            (it.parameterAnnotations as List<Annotation[]>).eachWithIndex { Annotation[] entry, int i ->
+                result[i].addAll(entry as List)
             }
         }
 
@@ -92,7 +92,7 @@ abstract class MethodStack extends ArrayList<Method> {
      * @return [ < param index > : [param names] ]
      */
     protected Map<Integer, List<String>> getParametersNameLists() {
-        Map<Integer, List<String>> result = new HashMap<>().withDefault { new ArrayList<String>() }
+        def result = new HashMap<Integer, List<String>>().withDefault { [] }
         this.each {
             it.parameters.eachWithIndex { Parameter p, int i ->
                 if (p.namePresent) {

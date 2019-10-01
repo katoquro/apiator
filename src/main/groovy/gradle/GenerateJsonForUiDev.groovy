@@ -22,10 +22,12 @@ import com.ainrif.apiator.provider.jaxrs.JaxRsProvider
 import com.ainrif.apiator.renderer.core.json.CoreJsonRenderer
 import com.ainrif.apiator.renderer.plugin.jaxrs.JaxRsCompositePlugin
 import groovy.json.JsonOutput
+import groovy.transform.CompileDynamic
 
 import javax.ws.rs.Path
 import java.time.LocalDate
 
+@CompileDynamic
 class GenerateJsonForUiDev {
     static final String JAXRS_PACKAGE = 'com.ainrif.apiator.test.model.jaxrs.uidev'
     static final String JS_PREFIX = 'window.apiatorJson = '

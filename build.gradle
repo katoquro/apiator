@@ -11,7 +11,7 @@ buildscript {
     }
 }
 
-apply from: "$rootProject.projectDir/gradle/versions.gradle"
+apply from: "$rootDir/gradle/versions.gradle"
 
 ext.versions = [
         slf4j    : '1.7.26',
@@ -28,6 +28,12 @@ ext.versions = [
 
 allprojects {
     apply plugin: 'groovy'
+
+    compileGroovy {
+        configure(groovyOptions) {
+            configurationScript = file("$rootDir/gradle/compiler-config.groovy")
+        }
+    }
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8

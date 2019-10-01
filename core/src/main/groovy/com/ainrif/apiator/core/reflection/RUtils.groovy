@@ -17,6 +17,7 @@ package com.ainrif.apiator.core.reflection
 
 
 import com.ainrif.apiator.core.model.api.ApiType
+import groovy.transform.CompileDynamic
 
 import java.beans.Introspector
 import java.beans.PropertyDescriptor
@@ -128,8 +129,8 @@ final class RUtils {
     static List<Field> getAllDeclaredDynamicFields(Class<?> type,
                                                    Predicate<? super Field>... predicates) {
         def filters = new Predicate<? super Field>[predicates.length + 1]
-        filters[0] = {
-            !Modifier.isStatic(it.modifiers) && !Modifier.isTransient(it.modifiers)
+        filters[0] = { Field f ->
+            !Modifier.isStatic(f.modifiers) && !Modifier.isTransient(f.modifiers)
         } as Predicate<? super Field>
 
         System.arraycopy(predicates, 0, filters, 1, predicates.length);
@@ -154,6 +155,7 @@ final class RUtils {
      * @param pojo
      * @return for map values it calls {@link Object#toString()} if field is {@null} returns {@null}
      */
+    @CompileDynamic
     static Map<String, String> asMap(Object pojo) {
         return pojo.class.declaredFields
                 .findAll { !it.synthetic }
@@ -165,18 +167,18 @@ final class RUtils {
 
         switch (type) {
             case { type.interface }:
-                propDescriptors = Introspector.getBeanInfo(type).propertyDescriptors
+                propDescriptors = Introspector.getBeanInfo(type).propertyDescriptors as List
                 break
             case { Enum.isAssignableFrom(type) }:
-                propDescriptors = Introspector.getBeanInfo(type, Enum).propertyDescriptors
+                propDescriptors = Introspector.getBeanInfo(type, Enum).propertyDescriptors as List
                 break
             case { GroovyObject.isAssignableFrom(type) }:
                 propDescriptors = Introspector.getBeanInfo(type, Object)
                         .propertyDescriptors
-                        .findAll { !GROOVY_META_PROPS_NAMES.contains(it.name) }
+                        .findAll { !GROOVY_META_PROPS_NAMES.contains(it.name) } as List
                 break
             default:
-                propDescriptors = Introspector.getBeanInfo(type, Object).propertyDescriptors
+                propDescriptors = Introspector.getBeanInfo(type, Object).propertyDescriptors as List
         }
 
         return propDescriptors

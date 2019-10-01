@@ -28,5 +28,5 @@ interface WebServiceProvider {
      */
     @Nullable ContextStack getContextStack(ApiType apiClass)
 
-    List<MethodStack> getMethodStacks(ContextStack contextStack)
+    List<? extends MethodStack> getMethodStacks(ContextStack contextStack)
 }

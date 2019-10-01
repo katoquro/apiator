@@ -29,7 +29,7 @@ class CoreJsonRendererUSpec extends Specification {
 
     def "composite plugins can be nested ans should be flatten properly"() {
         given:
-        List<CoreJsonRendererPlugin> plugins = [
+        List<? extends CoreJsonRendererPlugin> plugins = [
                 { type -> } as PropertyPlugin,
                 { [{ [{ type -> } as PropertyPlugin] } as CompositePlugin] } as CompositePlugin,
         ]

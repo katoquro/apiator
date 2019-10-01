@@ -92,16 +92,17 @@ class ApiSchemeView {
         return types
     }
 
-    protected static Closure<List<ApiType>> collectApiTypesFromGenerics = { ApiType type ->
-        return (type.flattenArgumentTypes() + type)
+    protected static Closure<Collection<ApiType>> collectApiTypesFromGenerics = { ApiType type ->
+        return (type.flattenArgumentTypes() + type).asCollection()
     }
 
-    protected static Closure<List<ApiType>> collectApiTypesFromFields = { ApiType type ->
-        RUtils.getAllDeclaredDynamicFields(findFirstNotArrayType(type), testFieldIsPublic)
-                .collect { new ApiType(it.genericType) } << type
+    protected static Closure<Collection<ApiType>> collectApiTypesFromFields = { ApiType type ->
+        def fromFields = RUtils.getAllDeclaredDynamicFields(findFirstNotArrayType(type), testFieldIsPublic)
+                .collect { new ApiType(it.genericType) }
+        return (fromFields + type).asCollection()
     }
 
-    protected static Closure<List<ApiType>> collectApiTypesFromGetters = { ApiType type ->
+    protected static Closure<Collection<ApiType>> collectApiTypesFromGetters = { ApiType type ->
         def rawType = findFirstNotArrayType(type)
 
         if (!rawType.interface && !rawType.primitive && testTypeIsCustomModelType.call(new ApiType(rawType))) {
@@ -112,9 +113,9 @@ class ApiSchemeView {
 
             typesFromGetters << type
 
-            return typesFromGetters
+            return typesFromGetters.asCollection()
         } else {
-            return singletonList(type)
+            return singletonList(type).asCollection()
         }
     }
 
@@ -141,7 +142,7 @@ class ApiSchemeView {
                 Object != type.rawType && Enum != type.rawType
     }
 
-    protected static Predicate<Field> testFieldIsPublic = {
-        Modifier.isPublic(it.modifiers)
-    }
+    protected static Predicate<Field> testFieldIsPublic = { Field f ->
+        Modifier.isPublic(f.modifiers)
+    } as Predicate
 }

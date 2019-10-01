@@ -21,6 +21,7 @@ import com.ainrif.apiator.core.model.api.ApiEndpointParamType
 import com.ainrif.apiator.core.model.api.ApiType
 import com.ainrif.apiator.core.reflection.MethodStack
 import com.ainrif.apiator.core.reflection.RUtils
+import groovy.transform.CompileDynamic
 import io.micronaut.http.HttpHeaders
 import io.micronaut.http.HttpParameters
 import io.micronaut.http.HttpRequest
@@ -63,6 +64,7 @@ class MicronautMethodStack extends MethodStack {
         return this.last().name
     }
 
+    @CompileDynamic
     @Override
     String getPath() {
         Annotation pathOpt = ENDPOINT_PATH_ANNOTATIONS.findResult {
@@ -87,6 +89,7 @@ class MicronautMethodStack extends MethodStack {
     /**
      * https://docs.micronaut.io/latest/guide/index.html#_variables_resolution
      */
+    @CompileDynamic
     @Override
     List<ApiEndpointParam> getParams() {
         String rawPath = this.path
@@ -245,7 +248,10 @@ class MicronautMethodStack extends MethodStack {
                     index: -1,
                     name: null,
                     type: new ApiType(generated),
-                    httpParamType: ApiEndpointParamType.BODY))
+                    httpParamType: ApiEndpointParamType.BODY,
+                    // TODO katoquro: 1/10/19 think about combining annotations from params
+                    annotations: []
+            ))
         }
 
         return result

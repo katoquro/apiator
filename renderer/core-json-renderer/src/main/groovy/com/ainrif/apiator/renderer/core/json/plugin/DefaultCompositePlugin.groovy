@@ -23,10 +23,10 @@ import com.ainrif.apiator.renderer.plugin.spi.CoreJsonRendererPlugin
 class DefaultCompositePlugin implements CompositePlugin {
 
     @Override
-    List<CoreJsonRendererPlugin> getPlugins() {
+    List<? extends CoreJsonRendererPlugin> getPlugins() {
         return [new DefaultPropertyPlugin(),
                 new DefaultParamPlugin(),
                 new DefaultPathPlugin(),
-                new DefaultModelTypeCompositePlugin()]
+                new DefaultModelTypeCompositePlugin()] as List<CoreJsonRendererPlugin>
     }
 }

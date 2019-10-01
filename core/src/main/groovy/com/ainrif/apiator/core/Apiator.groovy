@@ -137,7 +137,7 @@ class Apiator {
                     .findAll { !new File(it).exists() }
                     .each { log.warn('There are no source path like {}', it) }
 
-            def docletClassPath = null
+            String docletClassPath = null
             if (extraClassPath) {
                 docletClassPath = extraClassPath.findAll { new File(it.file).exists() }
                         .collect { it.file }
@@ -149,12 +149,13 @@ class Apiator {
                 return new DocletInfoIndexer([:])
             }
 
-            def result = ApiatorDoclet.runDoclet(dConf.sourcePath, docletClassPath, dConf.includeBasePackage, null)
+            def result = ApiatorDoclet.runDoclet(dConf.sourcePath, docletClassPath, dConf.includeBasePackage)
             if (!result.success) {
                 log.warn('Execution of doclet was unsuccessful. Doc source will be skipped')
                 return new DocletInfoIndexer([:])
             }
 
+            // TODO katoquro: 1/10/19 consider using of jackson parser to replace compile dynamic for mapping
             def filePath = result.outputFile
             def javaDocInfo = new JsonSlurper().parse(new File(filePath)) as JavaDocInfo
 

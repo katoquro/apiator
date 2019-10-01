@@ -25,6 +25,7 @@ import io.micronaut.aop.Intercepted
 import io.micronaut.http.annotation.*
 
 import java.lang.annotation.Annotation
+import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 import java.util.function.Predicate
 
@@ -58,9 +59,9 @@ class MicronautProvider implements WebServiceProvider {
     }
 
     @Override
-    List<MethodStack> getMethodStacks(ContextStack contextStack) {
+    List<? extends MethodStack> getMethodStacks(ContextStack contextStack) {
         def ctxStack = contextStack as MicronautContextStack
-        return RUtils.getAllMethods(contextStack.apiType, { Modifier.isPublic(it.modifiers) } as Predicate)
+        return RUtils.getAllMethods(contextStack.apiType, { Method m -> Modifier.isPublic(m.modifiers) } as Predicate)
                 .findAll { it.value.any { method -> wsAnnotations.any { method.isAnnotationPresent(it) } } }
                 .collect { signature, methods -> new MicronautMethodStack(methods, ctxStack) }
     }

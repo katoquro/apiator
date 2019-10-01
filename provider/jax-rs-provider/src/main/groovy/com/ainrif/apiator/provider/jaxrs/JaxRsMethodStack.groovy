@@ -21,6 +21,7 @@ import com.ainrif.apiator.core.model.api.ApiEndpointParamType
 import com.ainrif.apiator.core.model.api.ApiType
 import com.ainrif.apiator.core.reflection.MethodStack
 import com.ainrif.apiator.core.reflection.RUtils
+import groovy.transform.CompileDynamic
 import org.springframework.core.annotation.AnnotationUtils
 
 import javax.ws.rs.*
@@ -35,10 +36,12 @@ import static java.util.Collections.singletonList
 
 class JaxRsMethodStack extends MethodStack {
 
-    private final static def SIMPLE_PARAM_ANNOTATIONS = [PathParam, FormParam, QueryParam, HeaderParam, CookieParam]
-    private final static Predicate<Field> testFieldAnnotations = { field ->
+    private final static List<Class<? extends Annotation>> SIMPLE_PARAM_ANNOTATIONS =
+            [PathParam, FormParam, QueryParam, HeaderParam, CookieParam]
+
+    private final static Predicate<Field> testFieldAnnotations = { Field field ->
         SIMPLE_PARAM_ANNOTATIONS.any { field.isAnnotationPresent(it) }
-    }
+    } as Predicate
 
     private JaxRsContextStack context
 
@@ -63,6 +66,7 @@ class JaxRsMethodStack extends MethodStack {
     }
 
     //todo tests for annotated body params
+    @CompileDynamic
     @Override
     List<ApiEndpointParam> getParams() {
         def methodParams = this.last().parameters

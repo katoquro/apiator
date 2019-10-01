@@ -51,7 +51,7 @@ class CoreJsonRenderer implements Renderer {
          * Custom plugins can be add to the end of list or instead of defaults <br>
          * For plugins which relay on order like {@link com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelTypePlugin} the last added plugins will be processed first
          */
-        List<CoreJsonRendererPlugin> plugins = [new DefaultCompositePlugin()]
+        List<CoreJsonRendererPlugin> plugins = new ArrayList<>([new DefaultCompositePlugin()])
     }
 
     static class PluginsConfig {
@@ -79,16 +79,16 @@ class CoreJsonRenderer implements Renderer {
         plugins.each {
             switch (it) {
                 case ParamPlugin:
-                    pluginsConfig.paramPlugin = it
+                    pluginsConfig.paramPlugin = it as ParamPlugin
                     break
                 case PropertyPlugin:
-                    pluginsConfig.propertyPlugin = it
+                    pluginsConfig.propertyPlugin = it as PropertyPlugin
                     break
                 case PathPlugin:
-                    pluginsConfig.pathPlugin = it
+                    pluginsConfig.pathPlugin = it as PathPlugin
                     break
                 case ModelTypePlugin:
-                    pluginsConfig.modelTypePlugins << it
+                    pluginsConfig.modelTypePlugins << (it as ModelTypePlugin)
                     break
                 default:
                     throw new RuntimeException("Unsupported Plugin type: ${it.class.name}")
@@ -99,12 +99,12 @@ class CoreJsonRenderer implements Renderer {
         pluginsConfig.modelTypePlugins.reverse(true)
     }
 
-    static List<CoreJsonRendererPlugin> flattenCompositePlugins(List<CoreJsonRendererPlugin> plugins) {
+    static List<? extends CoreJsonRendererPlugin> flattenCompositePlugins(List<? super CoreJsonRendererPlugin> plugins) {
         return plugins.collectMany {
             if (it instanceof CompositePlugin) {
                 return flattenCompositePlugins(it.plugins)
             } else {
-                return singletonList(it)
+                return singletonList(it as CoreJsonRendererPlugin)
             }
         }
     }

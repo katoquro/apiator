@@ -34,7 +34,7 @@ class ApiatorDocletSpec extends Specification {
         def testClassCanonicalName = DocletTestModel.class.canonicalName
 
         when:
-        def result = ApiatorDoclet.runDoclet(sourcePath, null, basePackage, null)
+        def result = ApiatorDoclet.runDoclet(sourcePath, null, basePackage)
         def of = new File(result.outputFile)
         def index = new JsonSlurper().parse(of) as JavaDocInfo
         and:

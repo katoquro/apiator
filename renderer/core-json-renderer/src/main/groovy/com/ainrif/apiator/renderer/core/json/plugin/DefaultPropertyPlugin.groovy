@@ -55,7 +55,7 @@ class DefaultPropertyPlugin implements PropertyPlugin {
             mapFromPropertyDescriptor(it, type)
         }
 
-        props += RUtils.getAllDeclaredDynamicFields(type, { Modifier.isPublic(it.modifiers) } as Predicate)
+        props += RUtils.getAllDeclaredDynamicFields(type, { Field f -> Modifier.isPublic(f.modifiers) } as Predicate)
                 .collectEntries { mapFromField(it, type) }
 
         return props.values()

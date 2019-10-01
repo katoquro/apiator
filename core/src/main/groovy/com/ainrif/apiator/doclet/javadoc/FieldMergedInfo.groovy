@@ -17,9 +17,11 @@
 package com.ainrif.apiator.doclet.javadoc
 
 import com.ainrif.apiator.doclet.model.FieldInfo
+import groovy.transform.CompileDynamic
 
 import javax.annotation.Nullable
 
+@CompileDynamic
 class FieldMergedInfo {
     private List<FieldInfo> fieldInfos
 
