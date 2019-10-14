@@ -20,9 +20,9 @@ import com.ainrif.apiator.core.model.api.ApiType
 /**
  * List of classes from parent (interface/superclass) to child (implementation)
  */
-abstract class ContextStack extends ArrayList<Class> {
+abstract class ContextStack extends ArrayList<ApiType> {
 
-    protected ContextStack(Collection<? extends Class> collection) {
+    protected ContextStack(Collection<ApiType> collection) {
         super(collection)
     }
 

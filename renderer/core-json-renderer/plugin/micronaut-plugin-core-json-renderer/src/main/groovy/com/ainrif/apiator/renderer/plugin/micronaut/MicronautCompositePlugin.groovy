@@ -21,7 +21,7 @@ import com.ainrif.apiator.renderer.plugin.spi.CoreJsonRendererPlugin
 
 class MicronautCompositePlugin implements CompositePlugin {
     @Override
-    List<CoreJsonRendererPlugin> getPlugins() {
-        return [new MicronautPathPlugin()]
+    List<? extends CoreJsonRendererPlugin> getPlugins() {
+        return [new MicronautPathPlugin()] as List<CoreJsonRendererPlugin>
     }
 }

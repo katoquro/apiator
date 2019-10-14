@@ -20,14 +20,12 @@ import com.ainrif.apiator.doclet.model.*
 import com.sun.source.doctree.DocTree
 import com.sun.source.doctree.ParamTree
 import com.sun.source.doctree.TextTree
-import groovy.transform.CompileStatic
 import jdk.javadoc.doclet.DocletEnvironment
 
 import javax.lang.model.element.ExecutableElement
 import javax.lang.model.element.TypeElement
 import javax.lang.model.element.VariableElement
 
-@CompileStatic
 class JavaDocInfoBuilder {
     DocletEnvironment docEnv
     JavaDocInfo content

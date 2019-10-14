@@ -15,6 +15,7 @@
  */
 package com.ainrif.apiator.core.spi
 
+import com.ainrif.apiator.core.model.api.ApiType
 import com.ainrif.apiator.core.reflection.ContextStack
 import com.ainrif.apiator.core.reflection.MethodStack
 
@@ -25,7 +26,7 @@ interface WebServiceProvider {
     /**
      * @return null if given class should be skipped
      */
-    @Nullable ContextStack getContextStack(Class<?> apiClass)
+    @Nullable ContextStack getContextStack(ApiType apiClass)
 
-    List<MethodStack> getMethodStacks(ContextStack contextStack)
+    List<? extends MethodStack> getMethodStacks(ContextStack contextStack)
 }

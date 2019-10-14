@@ -21,14 +21,12 @@ import com.ainrif.apiator.renderer.plugin.spi.CoreJsonRendererPlugin
 
 class DefaultModelTypeCompositePlugin implements CompositePlugin {
     @Override
-    List<CoreJsonRendererPlugin> getPlugins() {
-        return [
-                new AnyModelTypePlugin(),
+    List<? extends CoreJsonRendererPlugin> getPlugins() {
+        return [new AnyModelTypePlugin(),
                 new CollectionsModelTypePlugin(),
                 new BinaryModelTypePlugin(),
                 new OldDateModelTypePlugin(),
                 new CoreJavaModelTypePlugin(),
-                new Jsr310ModelTypePlugin(),
-        ]
+                new Jsr310ModelTypePlugin()]
     }
 }

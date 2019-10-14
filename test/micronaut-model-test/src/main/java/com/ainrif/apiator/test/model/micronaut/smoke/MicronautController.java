@@ -11,7 +11,7 @@ public interface MicronautController {
     @Post()
     Dto02_Complex postWithCookieParam(@CookieValue String cookie, @Body Dto02_Complex body);
 
-    @Get("/path/{id}{?option}{&exploded*}")
+    @Get(uri = "/path/{id}{?option}{&exploded*}")
     Dto02_Complex getWithParams(String id, @Nullable String option, @Nullable Dto01_Plain exploded);
 
     @Put("/put/{path}/{entity-id}")

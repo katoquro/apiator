@@ -33,11 +33,11 @@ public enum ModelType {
 
     SYSTEM;
 
-    public static ModelType[] customModelTypes = {OBJECT, ENUMERATION};
+    public final static ModelType[] customModelTypes = {OBJECT, ENUMERATION};
 
-    public static ModelType[] primitiveTypes = {VOID, BOOLEAN, BYTE, INTEGER, LONG, FLOAT, DOUBLE, STRING};
+    public final static ModelType[] primitiveTypes = {VOID, BOOLEAN, BYTE, INTEGER, LONG, FLOAT, DOUBLE, STRING};
 
-    public static ModelType[] notPrimitiveTypes = calcNotPrimitiveTypes();
+    public final static ModelType[] notPrimitiveTypes = calcNotPrimitiveTypes();
 
     private static ModelType[] calcNotPrimitiveTypes() {
         List<ModelType> values = new ArrayList<>(Arrays.asList(values()));

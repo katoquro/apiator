@@ -5,6 +5,7 @@ v0.12.x
 - fix: Memoization issue which could lead to hang up during schema rendering
 - improvement: UI stack was moved to Svelte.js
 - improvement: Micronaut request parameters support
+- improvement: Using static compilation for the most of code
 
 v0.11.x
 

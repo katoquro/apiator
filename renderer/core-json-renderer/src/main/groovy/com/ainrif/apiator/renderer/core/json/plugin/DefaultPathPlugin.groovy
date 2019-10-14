@@ -21,6 +21,24 @@ import com.ainrif.apiator.renderer.plugin.spi.path.PathPlugin
 class DefaultPathPlugin implements PathPlugin {
     @Override
     String transform(String path) {
-        return path
+        return normalizePath(path)
+    }
+
+    static String normalizePath(String path) {
+        def result = []
+
+        for (def it in path.split('/')) {
+            if (!it || it == '.') {
+                continue
+            }
+
+            if (it != '..') {
+                result.add(it)
+            } else if (result.size()) {
+                result.removeLast()
+            }
+        }
+
+        return '/' + result.join('/')
     }
 }

@@ -21,9 +21,11 @@ import com.ainrif.apiator.core.model.api.ApiField
 import com.ainrif.apiator.doclet.model.ClassInfo
 import com.ainrif.apiator.doclet.model.FieldInfo
 import com.ainrif.apiator.doclet.model.MethodInfo
+import groovy.transform.CompileDynamic
 
 import javax.annotation.Nullable
 
+@CompileDynamic
 class ClassMergedInfo {
     private List<ClassInfo> classInfos
 

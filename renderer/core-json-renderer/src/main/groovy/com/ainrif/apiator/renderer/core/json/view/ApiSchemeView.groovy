@@ -51,12 +51,12 @@ class ApiSchemeView {
                 .unique { at1, at2 -> at1.equalsIgnoreActualParams(at2) ? 0 : 1 }
 
         this.usedEnumerations = allUsedTypes
-                .findAll { ENUMERATION == CoreJsonRenderer.getTypeByClass(it.rawType) }
+                .findAll { ENUMERATION == CoreJsonRenderer.getTypeByClass(it) }
                 .collect { new ApiEnumerationView(it, docInfo?.getClassMergedInfo(it)) }
                 .sort(true)
 
         this.usedApiTypes = allUsedTypes
-                .findAll { OBJECT == CoreJsonRenderer.getTypeByClass(it.rawType) }
+                .findAll { OBJECT == CoreJsonRenderer.getTypeByClass(it) }
                 .collect { new ApiTypeView(it, docInfo?.getClassMergedInfo(it)) }
                 .sort(true)
     }
@@ -86,22 +86,23 @@ class ApiSchemeView {
             types += typesToLookup
             types += typesFromFields
 
-            nextLookup = typesFromFields.findAll { OBJECT == CoreJsonRenderer.getTypeByClass(it.rawType) || it.generic }
+            nextLookup = typesFromFields.findAll { OBJECT == CoreJsonRenderer.getTypeByClass(it) || it.generic }
         }
 
         return types
     }
 
-    protected static Closure<List<ApiType>> collectApiTypesFromGenerics = { ApiType type ->
-        return (type.flattenArgumentTypes() + type)
+    protected static Closure<Collection<ApiType>> collectApiTypesFromGenerics = { ApiType type ->
+        return (type.flattenArgumentTypes() + type).asCollection()
     }
 
-    protected static Closure<List<ApiType>> collectApiTypesFromFields = { ApiType type ->
-        RUtils.getAllDeclaredDynamicFields(findFirstNotArrayType(type), testFieldIsPublic)
-                .collect { new ApiType(it.genericType) } << type
+    protected static Closure<Collection<ApiType>> collectApiTypesFromFields = { ApiType type ->
+        def fromFields = RUtils.getAllDeclaredDynamicFields(findFirstNotArrayType(type), testFieldIsPublic)
+                .collect { new ApiType(it.genericType) }
+        return (fromFields + type).asCollection()
     }
 
-    protected static Closure<List<ApiType>> collectApiTypesFromGetters = { ApiType type ->
+    protected static Closure<Collection<ApiType>> collectApiTypesFromGetters = { ApiType type ->
         def rawType = findFirstNotArrayType(type)
 
         if (!rawType.interface && !rawType.primitive && testTypeIsCustomModelType.call(new ApiType(rawType))) {
@@ -112,9 +113,9 @@ class ApiSchemeView {
 
             typesFromGetters << type
 
-            return typesFromGetters
+            return typesFromGetters.asCollection()
         } else {
-            return singletonList(type)
+            return singletonList(type).asCollection()
         }
     }
 
@@ -124,7 +125,7 @@ class ApiSchemeView {
             targetType = targetType.componentType
         }
 
-        targetType
+        return targetType
     }
 
     protected static Closure<ApiType> mapArraysToItsTypeApiType = { ApiType type ->
@@ -132,16 +133,16 @@ class ApiSchemeView {
     }
 
     protected static Closure<Boolean> testTypeIsNotPrimitive = { ApiType type ->
-        ModelType.notPrimitiveTypes.any { it == CoreJsonRenderer.getTypeByClass(type.rawType) } &&
+        ModelType.notPrimitiveTypes.any { it == CoreJsonRenderer.getTypeByClass(type) } &&
                 Object != type.rawType && Enum != type.rawType
     }
 
     protected static Closure<Boolean> testTypeIsCustomModelType = { ApiType type ->
-        ModelType.customModelTypes.any { it == CoreJsonRenderer.getTypeByClass(type.rawType) } &&
+        ModelType.customModelTypes.any { it == CoreJsonRenderer.getTypeByClass(type) } &&
                 Object != type.rawType && Enum != type.rawType
     }
 
-    protected static Predicate<Field> testFieldIsPublic = {
-        Modifier.isPublic(it.modifiers)
-    }
+    protected static Predicate<Field> testFieldIsPublic = { Field f ->
+        Modifier.isPublic(f.modifiers)
+    } as Predicate
 }

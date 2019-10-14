@@ -21,7 +21,7 @@ import com.ainrif.apiator.renderer.plugin.spi.CoreJsonRendererPlugin
 
 class JaxRsCompositePlugin implements CompositePlugin {
     @Override
-    List<CoreJsonRendererPlugin> getPlugins() {
-        return [new JaxRsModelTypePlugin(), new JaxRsParamPlugin()]
+    List<? extends CoreJsonRendererPlugin> getPlugins() {
+        return [new JaxRsModelTypePlugin(), new JaxRsParamPlugin()] as List<CoreJsonRendererPlugin>
     }
 }

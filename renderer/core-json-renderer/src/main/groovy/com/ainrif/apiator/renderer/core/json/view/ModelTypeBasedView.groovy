@@ -27,9 +27,9 @@ abstract class ModelTypeBasedView implements Comparable<ModelTypeBasedView> {
     ModelType modelType
 
     ModelTypeBasedView(ApiType type) {
-        this.modelType = CoreJsonRenderer.getTypeByClass(type.rawType)
+        this.modelType = CoreJsonRenderer.getTypeByClass(type)
         this.type = [ModelType.OBJECT, ModelType.ENUMERATION]
-                .any { it == CoreJsonRenderer.getTypeByClass(type.rawType) } ? type.rawType.name : null
+                .any { it == CoreJsonRenderer.getTypeByClass(type) } ? type.rawType.name : null
     }
 
     @Override

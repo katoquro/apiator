@@ -17,7 +17,6 @@
 package com.ainrif.apiator.doclet
 
 import groovy.json.JsonBuilder
-import groovy.transform.CompileStatic
 import groovy.transform.Immutable
 import groovy.util.logging.Slf4j
 import jdk.javadoc.doclet.Doclet
@@ -32,7 +31,6 @@ import javax.tools.ToolProvider
 import static java.io.File.createTempFile
 
 @Slf4j
-@CompileStatic
 class ApiatorDoclet implements Doclet {
     public static final String OF_PARAM = '--output-file'
 
@@ -119,9 +117,8 @@ class ApiatorDoclet implements Doclet {
      */
     static Result runDoclet(String sourcePath,
                             @Nullable String docletClassPath,
-                            String basePackage,
-                            @Nullable String outputFile) {
-        outputFile = outputFile ?: createTempFile('apiator', 'doclet').with { it.deleteOnExit(); it }.absolutePath
+                            String basePackage) {
+        String outputFile = createTempFile('apiator', 'doclet').with { it.deleteOnExit(); it }.absolutePath
 
         def javaDocArgs = ['-sourcepath', sourcePath,
                            '-doclet', ApiatorDoclet.class.name,

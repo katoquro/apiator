@@ -16,6 +16,7 @@
 
 package com.ainrif.apiator.provider.micronaut
 
+import com.ainrif.apiator.core.model.api.ApiType
 import com.ainrif.apiator.core.reflection.ContextStack
 import com.ainrif.apiator.core.reflection.MethodStack
 import com.ainrif.apiator.core.reflection.RUtils
@@ -24,6 +25,7 @@ import io.micronaut.aop.Intercepted
 import io.micronaut.http.annotation.*
 
 import java.lang.annotation.Annotation
+import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 import java.util.function.Predicate
 
@@ -48,8 +50,8 @@ class MicronautProvider implements WebServiceProvider {
                                                        Body]
 
     @Override
-    ContextStack getContextStack(Class<?> apiClass) {
-        if (Intercepted.isAssignableFrom(apiClass)) {
+    ContextStack getContextStack(ApiType apiClass) {
+        if (Intercepted.isAssignableFrom(apiClass.rawType)) {
             return null
         }
 
@@ -57,9 +59,9 @@ class MicronautProvider implements WebServiceProvider {
     }
 
     @Override
-    List<MethodStack> getMethodStacks(ContextStack contextStack) {
+    List<? extends MethodStack> getMethodStacks(ContextStack contextStack) {
         def ctxStack = contextStack as MicronautContextStack
-        return RUtils.getAllMethods(contextStack.last(), { Modifier.isPublic(it.modifiers) } as Predicate)
+        return RUtils.getAllMethods(contextStack.apiType, { Method m -> Modifier.isPublic(m.modifiers) } as Predicate)
                 .findAll { it.value.any { method -> wsAnnotations.any { method.isAnnotationPresent(it) } } }
                 .collect { signature, methods -> new MicronautMethodStack(methods, ctxStack) }
     }

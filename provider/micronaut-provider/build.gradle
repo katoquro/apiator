@@ -1,4 +1,4 @@
-apply from: "$rootProject.projectDir/gradle/deploy.gradle"
+apply from: "$rootDir/gradle/deploy.gradle"
 
 dependencies {
     compile project(':core')

@@ -20,9 +20,11 @@ import com.ainrif.apiator.core.model.api.ApiContext
 import com.ainrif.apiator.core.model.api.ApiType
 import com.ainrif.apiator.core.reflection.RUtils
 import com.ainrif.apiator.doclet.model.ClassInfo
+import groovy.transform.CompileDynamic
 
 import javax.annotation.Nullable
 
+@CompileDynamic
 class DocletInfoIndexer {
     private Map<String, ClassInfo> classes
 
@@ -37,7 +39,7 @@ class DocletInfoIndexer {
 
     @Nullable
     ClassMergedInfo getClassMergedInfo(ApiType apiType) {
-        List<ClassInfo> typeHierarchy = RUtils.getAllSuperTypes(apiType.rawType)
+        List<ClassInfo> typeHierarchy = RUtils.getAllSuperTypes(apiType)
                 .findResults { classes[ClassInfo.createKey(it)] }
                 .asType(List)
                 .reverse()
