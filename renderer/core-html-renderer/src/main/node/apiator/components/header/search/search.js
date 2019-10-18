@@ -55,7 +55,7 @@ let enumDataSet = _
                 showAs: 'enum',
                 type: it.type,
                 simpleName: _.last(typeNames),
-                enclosingType: 2 == typeNames.length ? typeNames[0] : null
+                enclosingType: 2 === typeNames.length ? typeNames[0] : null
             }
         }
     })
@@ -112,8 +112,6 @@ export function search(input) {
 export function onChange(key, item) {
     searchValue.set('');
     suggestedItems.set([]);
-
-    console.log(item);
 
     if (!item) {
         return

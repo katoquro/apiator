@@ -25,15 +25,14 @@
         {#each context.apiEndpoints as endpoint}
             <EndpointCard endpoint={endpoint} apiPath={context.apiPath} apiName={context.name}></EndpointCard>
         {/each}
-
-        {#each usedApiTypes as type}
-            <TypeCard type={type}></TypeCard>
-        {/each}
-
-        {#each usedEnumerations as enumeration}
-            <EnumCard enumeration={enumeration}></EnumCard>
-        {/each}
         </div>
+    {/each}
+    {#each usedApiTypes as type}
+        <TypeCard type={type}></TypeCard>
+    {/each}
+
+    {#each usedEnumerations as enumeration}
+        <EnumCard enumeration={enumeration}></EnumCard>
     {/each}
 </div>
 
