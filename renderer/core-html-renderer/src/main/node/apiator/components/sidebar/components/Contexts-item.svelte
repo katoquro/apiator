@@ -6,12 +6,11 @@
     let isActiveItem = false;
 
     const toggleActiveItem = () => {
-        debugger;
         isActiveItem = !isActiveItem;
     };
 
     const handleApiTitleClick = () => {
-        if (isActiveItem) {
+        if (!isActiveItem) {
             location.hash = `#${context.apiPath}`;
         }
     };

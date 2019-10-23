@@ -56,6 +56,7 @@
                 break;
             }
             default:
+                activeItemIndex.set(0);
                 return;
         }
 
@@ -87,7 +88,8 @@
                     class="search__input"
                     id="fuzzy-input"
                     autocomplete="off"
-                    placeholder="Search or start with '!'">
+                    placeholder="Search or start with '!'"
+                    autofocus>
             {#if $suggestedItems.length}
                 <Suggest items={$suggestedItems}></Suggest>
             {/if}

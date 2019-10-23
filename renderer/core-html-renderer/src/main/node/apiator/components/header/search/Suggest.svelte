@@ -9,7 +9,7 @@
 </script>
 
 <ul class="search__suggest">
-    {#each items as item, index}
+    {#each items as item, index (item.index)}
         <SuggestItem
                 on:mouseOverForward={handleMouseOver(index)}
                 isActive={$activeItemIndex === index}

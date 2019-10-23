@@ -37,12 +37,12 @@
         </a>
     {/if}
     {#if isModel}
-        <a data-link={getPageLinkToType(item)}>
+        <a data-link={getPageLinkToType(item.type)}>
             <span class="endpoint">{simpleName}</span>
         </a>
     {/if}
     {#if isEnum}
-        <a data-link={getPageLinkToType(item)}>
+        <a data-link={getPageLinkToType(item.type)}>
             <span class="endpoint">{simpleName}
                 {#if enclosingType}
                     at {enclosingType}

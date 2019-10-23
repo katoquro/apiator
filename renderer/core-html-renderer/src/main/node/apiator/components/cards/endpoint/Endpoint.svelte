@@ -84,7 +84,7 @@
                             </td>
 
                             <td class="param__http-type">{param.httpParamType}</td>
-                                <td>{@html renderTemplate(param)}</td>
+                            <td>{@html renderTemplate(param)}</td>
                             <td>
                                 {#if param.defaultValue}
                                     <span class="param__default-value">{param.defaultValue}</span>
@@ -119,12 +119,12 @@
             <div class="title">Java method</div>
             <div class="name">{getAfterLastDot(apiName)}.{endpoint.name}</div>
             <div class="copy copy-btn"
-                 data-clipboard-text="{{apiName}}#{{name}}">copy reference
+                 data-clipboard-text="{apiName}#{endpoint.name}">copy reference
             </div>
         </div>
         <div class="card__content-item card__content-raw-view">
             <div class="title">Raw view</div>
-            <pre class="viewer json">{@html highlightJSON(endpoint)}}}</pre>
+            <pre class="viewer json">{@html highlightJSON(endpoint)}</pre>
         </div>
     </div>
 </div>

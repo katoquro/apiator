@@ -1,9 +1,9 @@
 import { searchValue, suggestedItems } from './stores';
-import { getPageLinkToType, getPageLinkToEndpoint } from '../../../services/services';
+import { getPageLinkToEndpoint, getPageLinkToType } from '../../../services/services';
 import Searcher from './searcher';
 import _ from "lodash";
 
-let endpointDataSet = _
+const endpointDataSet = _
     .chain(apiatorJson.apiContexts)
     .flatMap(function (context) {
         let apiPath = context.apiPath;
@@ -26,7 +26,7 @@ let endpointDataSet = _
     })
     .value();
 
-let modelDataSet = _
+const modelDataSet = _
     .chain(apiatorJson.usedApiTypes)
     .map(function (it) {
         return {
@@ -42,7 +42,7 @@ let modelDataSet = _
     })
     .value();
 
-let enumDataSet = _
+const enumDataSet = _
     .chain(apiatorJson.usedEnumerations)
     .map(function (it) {
         let typeNames = _.split(_.last(_.split(it.type, '.')), '$');
@@ -61,7 +61,7 @@ let enumDataSet = _
     })
     .value();
 
-let bangDataSet = _
+const bangDataSet = _
     .chain([
         ['endpoint', 'Search trough url addresses'],
         ['model', 'Search trough model & enum names']])
@@ -80,7 +80,7 @@ let bangDataSet = _
     })
     .value();
 
-let searcher = new Searcher({})
+const searcher = new Searcher({})
     .addToDataSet(endpointDataSet)
     .addToDataSet(modelDataSet)
     .addToDataSet(enumDataSet)

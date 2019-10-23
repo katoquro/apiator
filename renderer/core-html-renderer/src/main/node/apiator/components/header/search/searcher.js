@@ -24,7 +24,7 @@ export default function Searcher(_options) {
         hitsCount: 10
     }, _options);
 
-    var dataSet = [];
+    let dataSet = [];
 
     this.search = function (pattern, indexType) {
         pattern = normalizePattern(pattern);
@@ -56,17 +56,17 @@ export default function Searcher(_options) {
             return -1;
         }
 
-        var score = 0;
-        var pi = 0;
-        var si = 0;
-        var prev_si = -1;
+        let score = 0;
+        let pi = 0;
+        let si = 0;
+        let prev_si = -1;
 
         while (pi < pattern.length && si < str.length) {
             if (pattern[pi].toLowerCase() === str[si].toLowerCase()) {
                 // chars distance
                 score += 1 / (si - prev_si + 1);
 
-                // same case
+                // the same letter case
                 if (pattern[pi] === str[si]) {
                     score += 0.5;
                 }
