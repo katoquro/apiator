@@ -26,21 +26,41 @@
   ],
   "dependencies": {
     "clipboard": "^1.5.5",
+    "g": "^2.0.1",
     "jquery": "^3.4.0",
     "lodash": "^4.17.13",
     "normalize.css": "^8.0.1",
     "sv": "^0.4.2"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.3",
     "cypress": "^3.4.1",
-    "eslint": "^6.1.0",
+    "eslint": "^6.5.1",
+    "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-svelte3": "^2.7.3",
     "font-awesome": "^4.5.0",
+    "husky": "^3.0.9",
     "less": "^3.9.0",
+    "lint-staged": "^9.4.2",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-apiator": "file:parcel-plugin-apiator",
     "parcel-plugin-svelte": "^3.0.1",
     "posthtml-inline-assets": "^3.0.0",
+    "prettier": "^1.18.2",
+    "prettier-plugin-svelte": "^0.7.0",
     "size-limit": "^2.1.6",
     "svelte": "^3.6.11"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.(js|svelte)": [
+      "prettier --write --plugin-search-dir=.",
+      "git add"
+    ]
   }
 }
