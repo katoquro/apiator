@@ -18,6 +18,7 @@
         enclosingType,
         name,
         description,
+        type,
     } = item;
 
     const dispatch = createEventDispatcher();
@@ -42,12 +43,12 @@
         </a>
     {/if}
     {#if isModel}
-        <a data-link={getPageLinkToType(item.type)}>
+        <a data-link={getPageLinkToType(type)}>
             <span class="endpoint">{simpleName}</span>
         </a>
     {/if}
     {#if isEnum}
-        <a data-link={getPageLinkToType(item.type)}>
+        <a data-link={getPageLinkToType(type)}>
             <span class="endpoint">
                 {simpleName}
                 {#if enclosingType}at {enclosingType}{/if}
