@@ -22,6 +22,15 @@
                 for js/html magic in severe backend environment. It was hard and
                 curious!
             </p>
+            <p>
+                <em>
+                    <a href="https://github.com/zelenkoff" target="_blank">
+                        Evgeniy Zelenkov
+                    </a>
+                </em>
+                for the fast and furious upgrade of the Web stack. It can be a
+                good start for the long journey!
+            </p>
         </div>
     </div>
 </div>
