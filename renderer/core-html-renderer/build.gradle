@@ -19,7 +19,7 @@ def buildHtmlTask = tasks.create('buildHtml', Exec) {
     outputs.file nodeBuildDir.resolve('apiator.min.html')
 
     it.workingDir nodeSrcPath
-    it.commandLine 'npm', 'run', 'posix-build-ci'
+    it.commandLine 'npm', 'run', 'posix-build'
 }
 
 jar.dependsOn buildHtmlTask
