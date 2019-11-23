@@ -21,3 +21,6 @@ blocks:
           - 'alias gw=''./gradlew --console=plain --no-daemon'' '
           - export JS_HOME=./renderer/core-html-renderer/src/main/node/
           - checkout
+      secrets:
+        - name: gradle-properties
+        - name: semaphoreci_id_rsa
