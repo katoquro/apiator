@@ -1,0 +1,29 @@
+version: v1.0
+name: docs-deploy
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: Deploy
+    task:
+      jobs:
+        - name: Firebase Hosting
+          commands:
+            - gw asciidoctor -p ./docs
+            - cd docs
+            - firebase use apiator-8fcef
+            - firebase target:apply hosting apiator-docs apiator-docs
+            - firebase deploy --token "$FIREBASE_TOKEN" --non-interactive
+      prologue:
+        commands:
+          - sem-version java 11
+          - sem-version node 8
+          - nvm install v10.16.0
+          - nvm use v10.16.0
+          - npm install -g firebase-tools
+          - 'alias gw=''./gradlew --console=plain --no-daemon'' '
+          - export JS_HOME=./renderer/core-html-renderer/src/main/node/
+          - checkout
+      secrets:
+        - name: firebase_ci_token	

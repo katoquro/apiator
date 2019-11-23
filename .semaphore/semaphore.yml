@@ -1,0 +1,40 @@
+version: v1.0
+name: Java
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+
+blocks:
+  - name: Gradle
+    task:
+      jobs:
+        - name: build and test
+          commands:
+            - '(cd ${JS_HOME}; npm ci)'
+            - gw clean build publishToMavenLocal
+            - '(cd ${JS_HOME}; npm run test-ci)'
+            - gw build apiator -p ./gradle-plugin/test-gradle-plugin
+            - >-
+              gw build apiator -p ./gradle-plugin/test-gradle-plugin
+              -Pjava.build
+      prologue:
+        commands:
+          - sem-version java 11
+          - sem-version node 8
+          - nvm install v10.16.0
+          - nvm use v10.16.0
+          - 'alias gw=''./gradlew --console=plain --no-daemon'' '
+          - export JS_HOME=./renderer/core-html-renderer/src/main/node/
+          - checkout
+execution_time_limit:
+  minutes: 10
+promotions:
+  - name: Deploy to Bintray
+    pipeline_file: bintray-deploy.yml
+    auto_promote:
+      when: result = 'passed' and branch =~ '^release\/'
+  - name: Docs Deploy
+    pipeline_file: docs-deploy.yml
+    auto_promote:
+      when: result = 'passed' and branch =~ '^(develop|release\/)'
