@@ -50,7 +50,7 @@ class GenerateJsonForUiDev {
         """.stripIndent().trim()
 
     static void main(String[] args) {
-        def path = "${args[0]}/renderer/core-html-renderer/src/main/node/apiator/js/apiatorJsonStub.js"
+        def path = "${args[0]}/renderer/core-html-renderer/src/main/node/src/js/apiatorJsonStub.js"
         def config = new ApiatorConfig(
                 basePackage: JAXRS_PACKAGE,
                 apiClass: Path,
