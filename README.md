@@ -25,12 +25,12 @@ Currently supported frameworks are:
 
 ## Getting started
 
-Apiator is available as a [Gradle Plugin](https://apiator.ainrif.com/#_gradle_plugin).
+Apiator is available as a [Gradle Plugin](https://docs.apiator.info/#_gradle_plugin).
 
 Another way to use is programmatic configuration.
 In `*SmokeSpec.groovy` test you can find examples for different providers and renderers.
 
-All starting steps and many more can be found at [Doc Site](https://apiator.ainrif.com/#_getting_a_binary).
+All starting steps and many more can be found at [Doc Site](https://docs.apiator.info/#_getting_a_binary).
 
 ## How you can help
 

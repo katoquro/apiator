@@ -24,7 +24,7 @@
     <li class="menu__items-item">
         <i class="menu__items-item-icon fa fa-book" aria-hidden="true" />
         <a
-            href="https://apiator.ainrif.com"
+            href="https://docs.apiator.info"
             target="_blank"
             class="menu__items-item-link">
             Documentation

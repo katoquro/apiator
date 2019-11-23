@@ -42,7 +42,7 @@ bintray {
         repo = 'maven'
         userOrg = 'ainrif'
         name = rootProject.name
-        websiteUrl = 'https://apiator.ainrif.com'
+        websiteUrl = 'https://apiator.info'
         issueTrackerUrl = 'https://github.com/ainrif/apiator/issues'
         vcsUrl = 'https://github.com/ainrif/apiator.git'
         licenses = ['Apache-2.0']
