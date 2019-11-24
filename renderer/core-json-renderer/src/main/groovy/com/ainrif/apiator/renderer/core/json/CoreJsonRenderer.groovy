@@ -33,7 +33,6 @@ import com.fasterxml.jackson.annotation.PropertyAccessor
 import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
-import com.google.common.annotations.VisibleForTesting
 import groovy.transform.Memoized
 import groovy.transform.PackageScope
 
@@ -114,8 +113,8 @@ class CoreJsonRenderer implements Renderer {
         return internalTypeByClass(type.rawType)
     }
 
+    // VisibleForTesting
     @PackageScope
-    @VisibleForTesting
     static ModelType internalTypeByClass(Class<?> type) {
         for (ModelTypePlugin mtr : pluginsConfig.modelTypePlugins) {
             def resolved = mtr.resolve(type)

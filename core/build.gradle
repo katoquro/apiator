@@ -3,9 +3,7 @@ apply from: "$rootDir/gradle/deploy.gradle"
 dependencies {
     compile project(':api')
 
-    // TODO katoquro: 01/07/2018 custom build, replace with release >= 0.9.12
-    compile 'com.ainrif.screws.org.reflections:reflections:0.9.12-master-94f9d5a'
-    // ^^^
+    compile 'io.github.classgraph:classgraph:4.8.54'
 
     compile "org.slf4j:slf4j-api:${versions.slf4j}"
     compile "org.codehaus.groovy:groovy:${versions.groovy}"

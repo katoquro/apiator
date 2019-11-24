@@ -19,28 +19,23 @@ package com.ainrif.apiator.renderer.core.json.plugin
 import com.ainrif.apiator.renderer.core.json.plugin.modeltype.CoreJavaModelTypePlugin
 import com.ainrif.apiator.renderer.core.json.plugin.modeltype.DefaultModelTypeCompositePlugin
 import com.ainrif.apiator.renderer.plugin.spi.modeltype.ModelTypePlugin
-import org.reflections.Reflections
-import org.reflections.scanners.SubTypesScanner
-import org.reflections.util.ClasspathHelper
-import org.reflections.util.ConfigurationBuilder
-import org.reflections.util.FilterBuilder
+import io.github.classgraph.ClassGraph
 import spock.lang.Specification
 
 class DefaultModelTypeCompositePluginSpec extends Specification {
     def "default init should include all core resolvers"() {
         given:
         def corePackage = CoreJavaModelTypePlugin.package.name
-        Reflections reflections = new Reflections(
-                new ConfigurationBuilder()
-                        .addUrls(ClasspathHelper.forPackage(corePackage))
-                        .setScanners(new SubTypesScanner())
-                        .filterInputsBy(new FilterBuilder().includePackage(corePackage))
-        )
 
-        def corePluginsCount = reflections.getSubTypesOf(ModelTypePlugin).size()
+        def corePlugins = new ClassGraph()
+                .enableClassInfo()
+                .whitelistPackages(corePackage)
+                .scan()
+                .withCloseable {
+                    it.getClassesImplementing(ModelTypePlugin.name)
+                }
 
         expect:
-        new DefaultModelTypeCompositePlugin().plugins.size() == corePluginsCount
+        new DefaultModelTypeCompositePlugin().plugins.size() == corePlugins.size()
     }
-
 }

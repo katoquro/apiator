@@ -1,3 +1,9 @@
+v0.13.x - Performance optimisations
+
+- new : home site apiator.info and doc page docs.apiator.info
+- improvement: "Reflections" classpath scanner was replaced with parallel ClassGraph
+- improvement: CI & CD pipelines were split
+
 v0.12.x
 
 - new: Gradle plugin with dedicated source set for configuration

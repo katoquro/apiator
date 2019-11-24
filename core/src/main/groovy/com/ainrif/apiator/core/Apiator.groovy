@@ -20,16 +20,13 @@ import com.ainrif.apiator.doclet.ApiatorDoclet
 import com.ainrif.apiator.doclet.SourcePathDetector
 import com.ainrif.apiator.doclet.javadoc.DocletInfoIndexer
 import com.ainrif.apiator.doclet.model.JavaDocInfo
-import com.google.common.base.Stopwatch
 import groovy.json.JsonSlurper
 import groovy.util.logging.Slf4j
+import io.github.classgraph.ClassGraph
+import io.github.classgraph.ClassInfoList
+import io.github.classgraph.ScanResult
+import org.apache.commons.lang3.time.StopWatch
 import org.apache.groovy.lang.annotation.Incubating
-import org.reflections.Reflections
-import org.reflections.scanners.SubTypesScanner
-import org.reflections.scanners.TypeAnnotationsScanner
-import org.reflections.util.ClasspathHelper
-import org.reflections.util.ConfigurationBuilder
-import org.reflections.util.FilterBuilder
 
 import javax.tools.ToolProvider
 import java.util.concurrent.TimeUnit
@@ -50,17 +47,17 @@ class Apiator {
 
     String render() {
         def scheme = getScheme()
-        def stopwatch = Stopwatch.createStarted()
+        def stopwatch = StopWatch.createStarted()
 
         def render = config.renderer.render(scheme)
 
-        log.info('Scheme rendering took {}ms.', stopwatch.elapsed(TimeUnit.MILLISECONDS))
+        log.info('Scheme rendering took {}ms.', stopwatch.getTime(TimeUnit.MILLISECONDS))
         return render
     }
 
     protected ApiScheme getScheme() {
         return scheme ?: {
-            def stopwatch = Stopwatch.createStarted()
+            def stopwatch = StopWatch.createStarted()
             scheme = new ApiScheme(apiatorInfo: info, clientApiInfo: new ClientApiInfo(config))
 
             Set<Class<?>> apiClasses = scanForApi()
@@ -99,7 +96,7 @@ class Apiator {
             }
 
             log.info('Api Scheme generating took {}ms. {} contexts were processed',
-                    stopwatch.elapsed(TimeUnit.MILLISECONDS),
+                    stopwatch.getTime(TimeUnit.MILLISECONDS),
                     apiClasses.size())
 
             return scheme
@@ -107,22 +104,19 @@ class Apiator {
     }
 
     protected Set<Class<?>> scanForApi() {
-        def configurationBuilder = new ConfigurationBuilder()
-                .setScanners(new TypeAnnotationsScanner(), new SubTypesScanner())
-                .filterInputsBy(new FilterBuilder().includePackage(config.basePackage))
+        def scanner = new ClassGraph()
+                .enableAllInfo()
+                .whitelistPackages(config.basePackage)
 
         if (extraClassPath) {
             def additionalClassLoader = new URLClassLoader(extraClassPath, Apiator.classLoader)
-            configurationBuilder
-                    .addClassLoader(additionalClassLoader)
-                    .addUrls(ClasspathHelper.forPackage(config.basePackage, additionalClassLoader))
-        } else {
-            configurationBuilder
-                    .addUrls(ClasspathHelper.forPackage(config.basePackage))
+            scanner.addClassLoader(additionalClassLoader)
         }
 
-        return new Reflections(configurationBuilder)
-                .getTypesAnnotatedWith(config.apiClass)
+        return scanner.scan().withCloseable { ScanResult scanResult ->
+            ClassInfoList apiClassesInfo = scanResult.getClassesWithAnnotation(config.apiClass.name)
+            return apiClassesInfo.loadClasses() as Set
+        }
     }
 
     protected DocletInfoIndexer createJavadocIndexer(DocletConfig dConf) {
