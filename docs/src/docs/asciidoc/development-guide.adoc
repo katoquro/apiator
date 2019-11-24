@@ -18,7 +18,7 @@ To run dev version on http://localhost:1234 execute next commands:
 ----
 
 Html renderer is based on Json Render so there is a prepared dataset (json) which represents all features available in Apiator.
-It's located at `renderer/core-html-renderer/src/main/node/apiator/js/apiatorJsonStub.js` and is used by default in dev mode.
+It's located at `renderer/core-html-renderer/src/main/node/src/js/apiatorJsonStub.js` and is used by default in dev mode.
 There is a task from root gradle project to regenerate this json:
 
 [source,sh]

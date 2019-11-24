@@ -30,6 +30,7 @@ import java.time.LocalDate
 @CompileDynamic
 class GenerateJsonForUiDev {
     static final String JAXRS_PACKAGE = 'com.ainrif.apiator.test.model.jaxrs.uidev'
+    static final String PRETTIER_IGNORE = '// prettier-ignore'
     static final String JS_PREFIX = 'window.apiatorJson = '
     static final String COPYRIGHT = """
         /*
@@ -67,6 +68,7 @@ class GenerateJsonForUiDev {
         new File(path)
                 .write(COPYRIGHT +
                         System.lineSeparator() * 2 +
+                        PRETTIER_IGNORE + System.lineSeparator() +
                         JS_PREFIX +
                         JsonOutput.prettyPrint(apiator.render()) +
                         ';'

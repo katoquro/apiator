@@ -14,866 +14,972 @@
  * limitations under the License.
  */
 
+// prettier-ignore
 window.apiatorJson = {
-    apiContexts: [
+    "apiContexts": [
         {
-            apiEndpoints: [
+            "apiEndpoints": [
                 {
-                    method: 'GET',
-                    name: 'getAuthors',
-                    params: [
+                    "method": "GET",
+                    "name": "getAuthors",
+                    "params": [
                         {
-                            basedOn: [],
-                            httpParamType: 'QUERY',
-                            index: 0,
-                            modelType: 'STRING',
-                            name: 'search',
-                            optional: false,
-                        },
-                    ],
-                    path: '/',
-                    returnTypes: [
-                        {
-                            basedOn: [
-                                {
-                                    basedOn: [],
-                                    modelType: 'OBJECT',
-                                    type:
-                                        'com.ainrif.apiator.test.model.jaxrs.uidev.model.Author',
-                                },
+                            "basedOn": [
+                                
                             ],
-                            modelType: 'ARRAY',
-                        },
+                            "httpParamType": "QUERY",
+                            "index": 0,
+                            "modelType": "STRING",
+                            "name": "search",
+                            "optional": false
+                        }
                     ],
+                    "path": "/",
+                    "returnTypes": [
+                        {
+                            "basedOn": [
+                                {
+                                    "basedOn": [
+                                        
+                                    ],
+                                    "modelType": "OBJECT",
+                                    "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Author"
+                                }
+                            ],
+                            "modelType": "ARRAY"
+                        }
+                    ]
                 },
                 {
-                    method: 'POST',
-                    name: 'createAuthor',
-                    params: [
+                    "method": "POST",
+                    "name": "createAuthor",
+                    "params": [
                         {
-                            basedOn: [],
-                            httpParamType: 'BODY',
-                            index: 0,
-                            modelType: 'OBJECT',
-                            optional: false,
-                            type:
-                                'com.ainrif.apiator.test.model.jaxrs.uidev.model.Author',
-                        },
+                            "basedOn": [
+                                
+                            ],
+                            "httpParamType": "BODY",
+                            "index": 0,
+                            "modelType": "OBJECT",
+                            "optional": false,
+                            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Author"
+                        }
                     ],
-                    path: '/',
-                    returnTypes: [
+                    "path": "/",
+                    "returnTypes": [
                         {
-                            basedOn: [],
-                            modelType: 'OBJECT',
-                            type:
-                                'com.ainrif.apiator.test.model.jaxrs.uidev.model.Author',
-                        },
-                    ],
+                            "basedOn": [
+                                
+                            ],
+                            "modelType": "OBJECT",
+                            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Author"
+                        }
+                    ]
                 },
                 {
-                    method: 'DELETE',
-                    name: 'deleteAuthor',
-                    params: [
+                    "method": "DELETE",
+                    "name": "deleteAuthor",
+                    "params": [
                         {
-                            basedOn: [],
-                            httpParamType: 'PATH',
-                            index: 0,
-                            modelType: 'LONG',
-                            name: 'id',
-                            optional: false,
+                            "basedOn": [
+                                
+                            ],
+                            "httpParamType": "PATH",
+                            "index": 0,
+                            "modelType": "LONG",
+                            "name": "id",
+                            "optional": false
                         },
                         {
-                            basedOn: [],
-                            defaultValue: 'false',
-                            httpParamType: 'QUERY',
-                            index: 1,
-                            modelType: 'BOOLEAN',
-                            name: 'with_books',
-                            optional: false,
-                        },
+                            "basedOn": [
+                                
+                            ],
+                            "defaultValue": "false",
+                            "httpParamType": "QUERY",
+                            "index": 1,
+                            "modelType": "BOOLEAN",
+                            "name": "with_books",
+                            "optional": false
+                        }
                     ],
-                    path: '/{id}',
-                    returnTypes: [
+                    "path": "/{id}",
+                    "returnTypes": [
                         {
-                            basedOn: [],
-                            modelType: 'OBJECT',
-                            type:
-                                'com.ainrif.apiator.test.model.jaxrs.uidev.model.Author',
-                        },
-                    ],
+                            "basedOn": [
+                                
+                            ],
+                            "modelType": "OBJECT",
+                            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Author"
+                        }
+                    ]
                 },
                 {
-                    method: 'GET',
-                    name: 'getAuthor',
-                    params: [
+                    "method": "GET",
+                    "name": "getAuthor",
+                    "params": [
                         {
-                            basedOn: [],
-                            httpParamType: 'PATH',
-                            index: 0,
-                            modelType: 'LONG',
-                            name: 'id',
-                            optional: false,
-                        },
+                            "basedOn": [
+                                
+                            ],
+                            "httpParamType": "PATH",
+                            "index": 0,
+                            "modelType": "LONG",
+                            "name": "id",
+                            "optional": false
+                        }
                     ],
-                    path: '/{id}',
-                    returnTypes: [
+                    "path": "/{id}",
+                    "returnTypes": [
                         {
-                            basedOn: [],
-                            modelType: 'OBJECT',
-                            type:
-                                'com.ainrif.apiator.test.model.jaxrs.uidev.model.Author',
-                        },
-                    ],
+                            "basedOn": [
+                                
+                            ],
+                            "modelType": "OBJECT",
+                            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Author"
+                        }
+                    ]
                 },
                 {
-                    method: 'PUT',
-                    name: 'updateAuthor',
-                    params: [
+                    "method": "PUT",
+                    "name": "updateAuthor",
+                    "params": [
                         {
-                            basedOn: [],
-                            httpParamType: 'PATH',
-                            index: 0,
-                            modelType: 'LONG',
-                            name: 'id',
-                            optional: false,
+                            "basedOn": [
+                                
+                            ],
+                            "httpParamType": "PATH",
+                            "index": 0,
+                            "modelType": "LONG",
+                            "name": "id",
+                            "optional": false
                         },
                         {
-                            basedOn: [],
-                            httpParamType: 'BODY',
-                            index: 1,
-                            modelType: 'OBJECT',
-                            optional: false,
-                            type:
-                                'com.ainrif.apiator.test.model.jaxrs.uidev.model.Author',
-                        },
+                            "basedOn": [
+                                
+                            ],
+                            "httpParamType": "BODY",
+                            "index": 1,
+                            "modelType": "OBJECT",
+                            "optional": false,
+                            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Author"
+                        }
                     ],
-                    path: '/{id}',
-                    returnTypes: [
+                    "path": "/{id}",
+                    "returnTypes": [
                         {
-                            basedOn: [],
-                            modelType: 'OBJECT',
-                            type:
-                                'com.ainrif.apiator.test.model.jaxrs.uidev.model.Author',
-                        },
-                    ],
-                },
+                            "basedOn": [
+                                
+                            ],
+                            "modelType": "OBJECT",
+                            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Author"
+                        }
+                    ]
+                }
             ],
-            apiPath: '/authors',
-            name:
-                'com.ainrif.apiator.test.model.jaxrs.uidev.controller.AuthorController',
+            "apiPath": "/authors",
+            "name": "com.ainrif.apiator.test.model.jaxrs.uidev.controller.AuthorController"
         },
         {
-            apiEndpoints: [
+            "apiEndpoints": [
                 {
-                    method: 'GET',
-                    name: 'getBooks',
-                    params: [
+                    "method": "GET",
+                    "name": "getBooks",
+                    "params": [
                         {
-                            basedOn: [],
-                            httpParamType: 'QUERY',
-                            index: 0,
-                            modelType: 'STRING',
-                            name: 'search',
-                            optional: false,
-                        },
-                    ],
-                    path: '/',
-                    returnTypes: [
-                        {
-                            basedOn: [
-                                {
-                                    basedOn: [],
-                                    modelType: 'OBJECT',
-                                    type:
-                                        'com.ainrif.apiator.test.model.jaxrs.uidev.model.Book',
-                                },
+                            "basedOn": [
+                                
                             ],
-                            modelType: 'ARRAY',
-                        },
+                            "httpParamType": "QUERY",
+                            "index": 0,
+                            "modelType": "STRING",
+                            "name": "search",
+                            "optional": false
+                        }
                     ],
+                    "path": "/",
+                    "returnTypes": [
+                        {
+                            "basedOn": [
+                                {
+                                    "basedOn": [
+                                        
+                                    ],
+                                    "modelType": "OBJECT",
+                                    "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Book"
+                                }
+                            ],
+                            "modelType": "ARRAY"
+                        }
+                    ]
                 },
                 {
-                    method: 'POST',
-                    name: 'createBook',
-                    params: [
+                    "method": "POST",
+                    "name": "createBook",
+                    "params": [
                         {
-                            basedOn: [],
-                            httpParamType: 'BODY',
-                            index: 0,
-                            modelType: 'OBJECT',
-                            optional: false,
-                            type:
-                                'com.ainrif.apiator.test.model.jaxrs.uidev.model.Book',
-                        },
+                            "basedOn": [
+                                
+                            ],
+                            "httpParamType": "BODY",
+                            "index": 0,
+                            "modelType": "OBJECT",
+                            "optional": false,
+                            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Book"
+                        }
                     ],
-                    path: '/',
-                    returnTypes: [
+                    "path": "/",
+                    "returnTypes": [
                         {
-                            basedOn: [],
-                            modelType: 'OBJECT',
-                            type:
-                                'com.ainrif.apiator.test.model.jaxrs.uidev.model.Book',
-                        },
-                    ],
+                            "basedOn": [
+                                
+                            ],
+                            "modelType": "OBJECT",
+                            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Book"
+                        }
+                    ]
                 },
                 {
-                    method: 'DELETE',
-                    name: 'deleteBook',
-                    params: [
+                    "method": "DELETE",
+                    "name": "deleteBook",
+                    "params": [
                         {
-                            basedOn: [],
-                            httpParamType: 'PATH',
-                            index: 0,
-                            modelType: 'STRING',
-                            name: 'isbn',
-                            optional: false,
-                        },
+                            "basedOn": [
+                                
+                            ],
+                            "httpParamType": "PATH",
+                            "index": 0,
+                            "modelType": "STRING",
+                            "name": "isbn",
+                            "optional": false
+                        }
                     ],
-                    path: '/{isbn}',
-                    returnTypes: [
+                    "path": "/{isbn}",
+                    "returnTypes": [
                         {
-                            basedOn: [],
-                            modelType: 'OBJECT',
-                            type:
-                                'com.ainrif.apiator.test.model.jaxrs.uidev.model.Book',
-                        },
-                    ],
+                            "basedOn": [
+                                
+                            ],
+                            "modelType": "OBJECT",
+                            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Book"
+                        }
+                    ]
                 },
                 {
-                    method: 'GET',
-                    name: 'getBook',
-                    params: [
+                    "method": "GET",
+                    "name": "getBook",
+                    "params": [
                         {
-                            basedOn: [],
-                            defaultValue: '*',
-                            httpParamType: 'PATH',
-                            index: 0,
-                            modelType: 'STRING',
-                            name: 'isbn',
-                            optional: false,
-                        },
+                            "basedOn": [
+                                
+                            ],
+                            "defaultValue": "*",
+                            "httpParamType": "PATH",
+                            "index": 0,
+                            "modelType": "STRING",
+                            "name": "isbn",
+                            "optional": false
+                        }
                     ],
-                    path: '/{isbn}',
-                    returnTypes: [
+                    "path": "/{isbn}",
+                    "returnTypes": [
                         {
-                            basedOn: [],
-                            modelType: 'OBJECT',
-                            type:
-                                'com.ainrif.apiator.test.model.jaxrs.uidev.model.Book',
-                        },
-                    ],
+                            "basedOn": [
+                                
+                            ],
+                            "modelType": "OBJECT",
+                            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Book"
+                        }
+                    ]
                 },
                 {
-                    method: 'PUT',
-                    name: 'updateBook',
-                    params: [
+                    "method": "PUT",
+                    "name": "updateBook",
+                    "params": [
                         {
-                            basedOn: [],
-                            httpParamType: 'PATH',
-                            index: 0,
-                            modelType: 'STRING',
-                            name: 'isbn',
-                            optional: false,
+                            "basedOn": [
+                                
+                            ],
+                            "httpParamType": "PATH",
+                            "index": 0,
+                            "modelType": "STRING",
+                            "name": "isbn",
+                            "optional": false
                         },
                         {
-                            basedOn: [],
-                            httpParamType: 'BODY',
-                            index: 1,
-                            modelType: 'OBJECT',
-                            optional: false,
-                            type:
-                                'com.ainrif.apiator.test.model.jaxrs.uidev.model.Book',
-                        },
+                            "basedOn": [
+                                
+                            ],
+                            "httpParamType": "BODY",
+                            "index": 1,
+                            "modelType": "OBJECT",
+                            "optional": false,
+                            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Book"
+                        }
                     ],
-                    path: '/{isbn}',
-                    returnTypes: [
+                    "path": "/{isbn}",
+                    "returnTypes": [
                         {
-                            basedOn: [],
-                            modelType: 'OBJECT',
-                            type:
-                                'com.ainrif.apiator.test.model.jaxrs.uidev.model.Book',
-                        },
-                    ],
-                },
+                            "basedOn": [
+                                
+                            ],
+                            "modelType": "OBJECT",
+                            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Book"
+                        }
+                    ]
+                }
             ],
-            apiPath: '/books',
-            name:
-                'com.ainrif.apiator.test.model.jaxrs.uidev.controller.BookController',
+            "apiPath": "/books",
+            "name": "com.ainrif.apiator.test.model.jaxrs.uidev.controller.BookController"
         },
         {
-            apiEndpoints: [
+            "apiEndpoints": [
                 {
-                    method: 'ADMIN',
-                    name: 'adminRequest',
-                    params: [
+                    "method": "ADMIN",
+                    "name": "adminRequest",
+                    "params": [
                         {
-                            basedOn: [],
-                            httpParamType: 'PATH',
-                            index: 0,
-                            modelType: 'STRING',
-                            name: 'token',
-                            optional: false,
-                        },
-                    ],
-                    path: '/admin/{token}',
-                    returnTypes: [
-                        {
-                            basedOn: [],
-                            modelType: 'VOID',
-                        },
-                    ],
-                },
-                {
-                    method: 'GET',
-                    name: 'findAuthors',
-                    params: [
-                        {
-                            basedOn: [],
-                            httpParamType: 'QUERY',
-                            index: 0,
-                            modelType: 'STRING',
-                            name: 'book_title',
-                            optional: false,
-                        },
-                    ],
-                    path: '/authors',
-                    returnTypes: [
-                        {
-                            basedOn: [
-                                {
-                                    basedOn: [],
-                                    modelType: 'OBJECT',
-                                    type:
-                                        'com.ainrif.apiator.test.model.jaxrs.uidev.model.Author',
-                                },
+                            "basedOn": [
+                                
                             ],
-                            modelType: 'ARRAY',
-                        },
+                            "httpParamType": "PATH",
+                            "index": 0,
+                            "modelType": "STRING",
+                            "name": "token",
+                            "optional": false
+                        }
                     ],
-                },
-                {
-                    method: 'GET',
-                    name: 'findBooks',
-                    params: [
+                    "path": "/admin/{token}",
+                    "returnTypes": [
                         {
-                            basedOn: [],
-                            httpParamType: 'QUERY',
-                            index: 0,
-                            modelType: 'ENUMERATION',
-                            name: 'status',
-                            optional: true,
-                            type:
-                                'com.ainrif.apiator.test.model.jaxrs.uidev.model.Book$Status',
-                        },
-                        {
-                            basedOn: [],
-                            httpParamType: 'QUERY',
-                            index: 1,
-                            modelType: 'STRING',
-                            name: 'title',
-                            optional: false,
-                        },
-                    ],
-                    path: '/books',
-                    returnTypes: [
-                        {
-                            basedOn: [
-                                {
-                                    basedOn: [],
-                                    modelType: 'OBJECT',
-                                    type:
-                                        'com.ainrif.apiator.test.model.jaxrs.uidev.model.Book',
-                                },
+                            "basedOn": [
+                                
                             ],
-                            modelType: 'ARRAY',
-                        },
-                    ],
+                            "modelType": "VOID"
+                        }
+                    ]
                 },
                 {
-                    description: 'searches over all items in the library',
-                    method: 'GET',
-                    name: 'findByIsbn',
-                    params: [
+                    "method": "GET",
+                    "name": "findAuthors",
+                    "params": [
                         {
-                            basedOn: [],
-                            description:
-                                '- number, dashes and spaces will be skipped',
-                            httpParamType: 'QUERY',
-                            index: 0,
-                            modelType: 'STRING',
-                            name: 'isbn',
-                            optional: false,
-                        },
-                    ],
-                    path: '/issues',
-                    returnTypes: [
-                        {
-                            basedOn: [],
-                            modelType: 'OBJECT',
-                            type:
-                                'com.ainrif.apiator.test.model.jaxrs.uidev.model.Book',
-                        },
-                        {
-                            basedOn: [],
-                            modelType: 'OBJECT',
-                            type:
-                                'com.ainrif.apiator.test.model.jaxrs.uidev.model.Magazine',
-                        },
-                    ],
-                },
-                {
-                    method: 'GET',
-                    name: 'findMagazines',
-                    params: [
-                        {
-                            basedOn: [],
-                            httpParamType: 'QUERY',
-                            index: 0,
-                            modelType: 'STRING',
-                            name: 'title',
-                            optional: false,
-                        },
-                    ],
-                    path: '/magazines',
-                    returnTypes: [
-                        {
-                            basedOn: [
-                                {
-                                    basedOn: [],
-                                    modelType: 'OBJECT',
-                                    type:
-                                        'com.ainrif.apiator.test.model.jaxrs.uidev.model.Magazine',
-                                },
+                            "basedOn": [
+                                
                             ],
-                            modelType: 'ARRAY',
-                        },
+                            "httpParamType": "QUERY",
+                            "index": 0,
+                            "modelType": "STRING",
+                            "name": "book_title",
+                            "optional": false
+                        }
                     ],
+                    "path": "/authors",
+                    "returnTypes": [
+                        {
+                            "basedOn": [
+                                {
+                                    "basedOn": [
+                                        
+                                    ],
+                                    "modelType": "OBJECT",
+                                    "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Author"
+                                }
+                            ],
+                            "modelType": "ARRAY"
+                        }
+                    ]
                 },
                 {
-                    method: 'GET',
-                    name: 'findPublishers',
-                    params: [
+                    "method": "GET",
+                    "name": "findBooks",
+                    "params": [
                         {
-                            basedOn: [],
-                            httpParamType: 'QUERY',
-                            index: 0,
-                            modelType: 'STRING',
-                            name: 'title',
-                            optional: false,
-                        },
-                    ],
-                    path: '/publishers',
-                    returnTypes: [
-                        {
-                            basedOn: [
-                                {
-                                    basedOn: [],
-                                    modelType: 'OBJECT',
-                                    type:
-                                        'com.ainrif.apiator.test.model.jaxrs.uidev.model.Publisher',
-                                },
+                            "basedOn": [
+                                
                             ],
-                            modelType: 'ARRAY',
+                            "httpParamType": "QUERY",
+                            "index": 0,
+                            "modelType": "ENUMERATION",
+                            "name": "status",
+                            "optional": true,
+                            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Book$Status"
                         },
+                        {
+                            "basedOn": [
+                                
+                            ],
+                            "httpParamType": "QUERY",
+                            "index": 1,
+                            "modelType": "STRING",
+                            "name": "title",
+                            "optional": false
+                        }
                     ],
+                    "path": "/books",
+                    "returnTypes": [
+                        {
+                            "basedOn": [
+                                {
+                                    "basedOn": [
+                                        
+                                    ],
+                                    "modelType": "OBJECT",
+                                    "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Book"
+                                }
+                            ],
+                            "modelType": "ARRAY"
+                        }
+                    ]
                 },
+                {
+                    "description": "searches over all items in the library",
+                    "method": "GET",
+                    "name": "findByIsbn",
+                    "params": [
+                        {
+                            "basedOn": [
+                                
+                            ],
+                            "description": "- number, dashes and spaces will be skipped",
+                            "httpParamType": "QUERY",
+                            "index": 0,
+                            "modelType": "STRING",
+                            "name": "isbn",
+                            "optional": false
+                        }
+                    ],
+                    "path": "/issues",
+                    "returnTypes": [
+                        {
+                            "basedOn": [
+                                
+                            ],
+                            "modelType": "OBJECT",
+                            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Book"
+                        },
+                        {
+                            "basedOn": [
+                                
+                            ],
+                            "modelType": "OBJECT",
+                            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Magazine"
+                        }
+                    ]
+                },
+                {
+                    "method": "GET",
+                    "name": "findMagazines",
+                    "params": [
+                        {
+                            "basedOn": [
+                                
+                            ],
+                            "httpParamType": "QUERY",
+                            "index": 0,
+                            "modelType": "STRING",
+                            "name": "title",
+                            "optional": false
+                        }
+                    ],
+                    "path": "/magazines",
+                    "returnTypes": [
+                        {
+                            "basedOn": [
+                                {
+                                    "basedOn": [
+                                        
+                                    ],
+                                    "modelType": "OBJECT",
+                                    "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Magazine"
+                                }
+                            ],
+                            "modelType": "ARRAY"
+                        }
+                    ]
+                },
+                {
+                    "method": "GET",
+                    "name": "findPublishers",
+                    "params": [
+                        {
+                            "basedOn": [
+                                
+                            ],
+                            "httpParamType": "QUERY",
+                            "index": 0,
+                            "modelType": "STRING",
+                            "name": "title",
+                            "optional": false
+                        }
+                    ],
+                    "path": "/publishers",
+                    "returnTypes": [
+                        {
+                            "basedOn": [
+                                {
+                                    "basedOn": [
+                                        
+                                    ],
+                                    "modelType": "OBJECT",
+                                    "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Publisher"
+                                }
+                            ],
+                            "modelType": "ARRAY"
+                        }
+                    ]
+                }
             ],
-            apiPath: '/library',
-            name:
-                'com.ainrif.apiator.test.model.jaxrs.uidev.controller.LibraryController',
+            "apiPath": "/library",
+            "name": "com.ainrif.apiator.test.model.jaxrs.uidev.controller.LibraryController"
         },
         {
-            apiEndpoints: [
+            "apiEndpoints": [
                 {
-                    method: 'GET',
-                    name: 'getMagazines',
-                    params: [
+                    "method": "GET",
+                    "name": "getMagazines",
+                    "params": [
                         {
-                            basedOn: [],
-                            httpParamType: 'QUERY',
-                            index: 0,
-                            modelType: 'STRING',
-                            name: 'search',
-                            optional: false,
-                        },
-                    ],
-                    path: '/',
-                    returnTypes: [
-                        {
-                            basedOn: [
-                                {
-                                    basedOn: [],
-                                    modelType: 'OBJECT',
-                                    type:
-                                        'com.ainrif.apiator.test.model.jaxrs.uidev.model.Magazine',
-                                },
+                            "basedOn": [
+                                
                             ],
-                            modelType: 'ARRAY',
-                        },
+                            "httpParamType": "QUERY",
+                            "index": 0,
+                            "modelType": "STRING",
+                            "name": "search",
+                            "optional": false
+                        }
                     ],
+                    "path": "/",
+                    "returnTypes": [
+                        {
+                            "basedOn": [
+                                {
+                                    "basedOn": [
+                                        
+                                    ],
+                                    "modelType": "OBJECT",
+                                    "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Magazine"
+                                }
+                            ],
+                            "modelType": "ARRAY"
+                        }
+                    ]
                 },
                 {
-                    method: 'POST',
-                    name: 'createMagazine',
-                    params: [
+                    "method": "POST",
+                    "name": "createMagazine",
+                    "params": [
                         {
-                            basedOn: [],
-                            httpParamType: 'BODY',
-                            index: 0,
-                            modelType: 'OBJECT',
-                            optional: false,
-                            type:
-                                'com.ainrif.apiator.test.model.jaxrs.uidev.model.Magazine',
-                        },
+                            "basedOn": [
+                                
+                            ],
+                            "httpParamType": "BODY",
+                            "index": 0,
+                            "modelType": "OBJECT",
+                            "optional": false,
+                            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Magazine"
+                        }
                     ],
-                    path: '/',
-                    returnTypes: [
+                    "path": "/",
+                    "returnTypes": [
                         {
-                            basedOn: [],
-                            modelType: 'OBJECT',
-                            type:
-                                'com.ainrif.apiator.test.model.jaxrs.uidev.model.Magazine',
-                        },
-                    ],
+                            "basedOn": [
+                                
+                            ],
+                            "modelType": "OBJECT",
+                            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Magazine"
+                        }
+                    ]
                 },
                 {
-                    method: 'DELETE',
-                    name: 'deleteMagazine',
-                    params: [
+                    "method": "DELETE",
+                    "name": "deleteMagazine",
+                    "params": [
                         {
-                            basedOn: [],
-                            httpParamType: 'PATH',
-                            index: 0,
-                            modelType: 'STRING',
-                            name: 'isbn',
-                            optional: false,
-                        },
+                            "basedOn": [
+                                
+                            ],
+                            "httpParamType": "PATH",
+                            "index": 0,
+                            "modelType": "STRING",
+                            "name": "isbn",
+                            "optional": false
+                        }
                     ],
-                    path: '/{isbn}',
-                    returnTypes: [
+                    "path": "/{isbn}",
+                    "returnTypes": [
                         {
-                            basedOn: [],
-                            modelType: 'OBJECT',
-                            type:
-                                'com.ainrif.apiator.test.model.jaxrs.uidev.model.Magazine',
-                        },
-                    ],
+                            "basedOn": [
+                                
+                            ],
+                            "modelType": "OBJECT",
+                            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Magazine"
+                        }
+                    ]
                 },
                 {
-                    method: 'GET',
-                    name: 'getMagazine',
-                    params: [
+                    "method": "GET",
+                    "name": "getMagazine",
+                    "params": [
                         {
-                            basedOn: [],
-                            defaultValue: '*',
-                            httpParamType: 'PATH',
-                            index: 0,
-                            modelType: 'STRING',
-                            name: 'isbn',
-                            optional: false,
-                        },
+                            "basedOn": [
+                                
+                            ],
+                            "defaultValue": "*",
+                            "httpParamType": "PATH",
+                            "index": 0,
+                            "modelType": "STRING",
+                            "name": "isbn",
+                            "optional": false
+                        }
                     ],
-                    path: '/{isbn}',
-                    returnTypes: [
+                    "path": "/{isbn}",
+                    "returnTypes": [
                         {
-                            basedOn: [],
-                            modelType: 'OBJECT',
-                            type:
-                                'com.ainrif.apiator.test.model.jaxrs.uidev.model.Magazine',
-                        },
-                    ],
+                            "basedOn": [
+                                
+                            ],
+                            "modelType": "OBJECT",
+                            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Magazine"
+                        }
+                    ]
                 },
                 {
-                    method: 'PUT',
-                    name: 'updateMagazine',
-                    params: [
+                    "method": "PUT",
+                    "name": "updateMagazine",
+                    "params": [
                         {
-                            basedOn: [],
-                            httpParamType: 'PATH',
-                            index: 0,
-                            modelType: 'STRING',
-                            name: 'isbn',
-                            optional: false,
+                            "basedOn": [
+                                
+                            ],
+                            "httpParamType": "PATH",
+                            "index": 0,
+                            "modelType": "STRING",
+                            "name": "isbn",
+                            "optional": false
                         },
                         {
-                            basedOn: [],
-                            httpParamType: 'BODY',
-                            index: 1,
-                            modelType: 'OBJECT',
-                            optional: false,
-                            type:
-                                'com.ainrif.apiator.test.model.jaxrs.uidev.model.Magazine',
-                        },
+                            "basedOn": [
+                                
+                            ],
+                            "httpParamType": "BODY",
+                            "index": 1,
+                            "modelType": "OBJECT",
+                            "optional": false,
+                            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Magazine"
+                        }
                     ],
-                    path: '/{isbn}',
-                    returnTypes: [
+                    "path": "/{isbn}",
+                    "returnTypes": [
                         {
-                            basedOn: [],
-                            modelType: 'OBJECT',
-                            type:
-                                'com.ainrif.apiator.test.model.jaxrs.uidev.model.Magazine',
-                        },
-                    ],
-                },
+                            "basedOn": [
+                                
+                            ],
+                            "modelType": "OBJECT",
+                            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Magazine"
+                        }
+                    ]
+                }
             ],
-            apiPath: '/magazine',
-            name:
-                'com.ainrif.apiator.test.model.jaxrs.uidev.controller.MagazineController',
-        },
+            "apiPath": "/magazine",
+            "name": "com.ainrif.apiator.test.model.jaxrs.uidev.controller.MagazineController"
+        }
     ],
-    apiatorInfo: {
-        provider: 'JaxRsProvider',
-        renderer: 'CoreJsonRenderer',
-        version: '0.0.0-dev_version',
+    "apiatorInfo": {
+        "provider": "JaxRsProvider",
+        "renderer": "CoreJsonRenderer",
+        "version": "0.0.0-dev_version"
     },
-    clientApiInfo: {
-        basePath: '/api',
-        version: '1.0.0-SNAPSHOT',
+    "clientApiInfo": {
+        "basePath": "/api",
+        "version": "1.0.0-SNAPSHOT"
     },
-    usedApiTypes: [
+    "usedApiTypes": [
         {
-            fields: [
+            "fields": [
                 {
-                    basedOn: [],
-                    modelType: 'LONG',
-                    name: 'id',
-                    optional: false,
-                    readable: true,
-                    writable: false,
-                },
-                {
-                    basedOn: [
-                        {
-                            basedOn: [],
-                            modelType: 'LONG',
-                        },
+                    "basedOn": [
+                        
                     ],
-                    modelType: 'SET',
-                    name: 'publishersUids',
-                    optional: false,
-                    readable: true,
-                    writable: false,
+                    "modelType": "LONG",
+                    "name": "id",
+                    "optional": false,
+                    "readable": true,
+                    "writable": false
                 },
                 {
-                    basedOn: [],
-                    modelType: 'STRING',
-                    name: 'firstName',
-                    optional: false,
-                    readable: true,
-                    writable: true,
-                },
-                {
-                    basedOn: [],
-                    modelType: 'STRING',
-                    name: 'patronymicName',
-                    optional: true,
-                    readable: true,
-                    writable: true,
-                },
-                {
-                    basedOn: [],
-                    modelType: 'STRING',
-                    name: 'lastName',
-                    optional: false,
-                    readable: true,
-                    writable: true,
-                },
-            ],
-            modelType: 'OBJECT',
-            type: 'com.ainrif.apiator.test.model.jaxrs.uidev.model.Author',
-        },
-        {
-            description: 'Common type form library items',
-            fields: [
-                {
-                    basedOn: [],
-                    modelType: 'LONG',
-                    name: 'authorId',
-                    optional: false,
-                    readable: true,
-                    writable: false,
-                },
-                {
-                    basedOn: [],
-                    modelType: 'LONG',
-                    name: 'publisherUid',
-                    optional: false,
-                    readable: true,
-                    writable: false,
-                },
-                {
-                    basedOn: [],
-                    defaultValue: 'DRAFT',
-                    modelType: 'ENUMERATION',
-                    name: 'status',
-                    optional: false,
-                    readable: true,
-                    type:
-                        'com.ainrif.apiator.test.model.jaxrs.uidev.model.Book$Status',
-                    writable: true,
-                },
-                {
-                    basedOn: [],
-                    modelType: 'STRING',
-                    name: 'isbn',
-                    optional: false,
-                    readable: true,
-                    writable: true,
-                },
-                {
-                    basedOn: [],
-                    modelType: 'STRING',
-                    name: 'title',
-                    optional: false,
-                    readable: true,
-                    writable: true,
-                },
-                {
-                    basedOn: [],
-                    modelType: 'ENUMERATION',
-                    name: 'language',
-                    optional: false,
-                    readable: true,
-                    type:
-                        'com.ainrif.apiator.test.model.jaxrs.uidev.model.Language',
-                    writable: true,
-                },
-                {
-                    basedOn: [],
-                    modelType: 'STRING',
-                    name: 'secondTitle',
-                    optional: true,
-                    readable: true,
-                    writable: true,
-                },
-            ],
-            modelType: 'OBJECT',
-            type: 'com.ainrif.apiator.test.model.jaxrs.uidev.model.Book',
-        },
-        {
-            description: 'Periodic publications use the same isbn',
-            fields: [
-                {
-                    basedOn: [],
-                    modelType: 'INTEGER',
-                    name: 'year',
-                    optional: false,
-                    readable: true,
-                    writable: true,
-                },
-                {
-                    basedOn: [],
-                    modelType: 'INTEGER',
-                    name: 'issueNumber',
-                    optional: false,
-                    readable: true,
-                    writable: true,
-                },
-                {
-                    basedOn: [],
-                    modelType: 'STRING',
-                    name: 'isbn',
-                    optional: false,
-                    readable: true,
-                    writable: true,
-                },
-                {
-                    basedOn: [],
-                    modelType: 'STRING',
-                    name: 'title',
-                    optional: false,
-                    readable: true,
-                    writable: true,
-                },
-                {
-                    basedOn: [],
-                    modelType: 'ENUMERATION',
-                    name: 'language',
-                    optional: false,
-                    readable: true,
-                    type:
-                        'com.ainrif.apiator.test.model.jaxrs.uidev.model.Language',
-                    writable: true,
-                },
-                {
-                    basedOn: [],
-                    modelType: 'STRING',
-                    name: 'secondTitle',
-                    optional: true,
-                    readable: true,
-                    writable: true,
-                },
-            ],
-            modelType: 'OBJECT',
-            type: 'com.ainrif.apiator.test.model.jaxrs.uidev.model.Magazine',
-        },
-        {
-            fields: [
-                {
-                    basedOn: [],
-                    description: 'Unique Id across the whole library',
-                    modelType: 'LONG',
-                    name: 'uid',
-                    optional: false,
-                    readable: true,
-                    writable: false,
-                },
-                {
-                    basedOn: [],
-                    modelType: 'STRING',
-                    name: 'title',
-                    optional: false,
-                    readable: true,
-                    writable: true,
-                },
-                {
-                    basedOn: [
+                    "basedOn": [
                         {
-                            basedOn: [],
-                            modelType: 'STRING',
-                        },
+                            "basedOn": [
+                                
+                            ],
+                            "modelType": "LONG"
+                        }
                     ],
-                    description:
-                        'List of ISBN numbers that belong to Publisher',
-                    modelType: 'ARRAY',
-                    name: 'isbns',
-                    optional: false,
-                    readable: true,
-                    writable: true,
+                    "modelType": "SET",
+                    "name": "publishersUids",
+                    "optional": false,
+                    "readable": true,
+                    "writable": false
                 },
+                {
+                    "basedOn": [
+                        
+                    ],
+                    "modelType": "STRING",
+                    "name": "firstName",
+                    "optional": false,
+                    "readable": true,
+                    "writable": true
+                },
+                {
+                    "basedOn": [
+                        
+                    ],
+                    "modelType": "STRING",
+                    "name": "patronymicName",
+                    "optional": true,
+                    "readable": true,
+                    "writable": true
+                },
+                {
+                    "basedOn": [
+                        
+                    ],
+                    "modelType": "STRING",
+                    "name": "lastName",
+                    "optional": false,
+                    "readable": true,
+                    "writable": true
+                }
             ],
-            modelType: 'OBJECT',
-            type: 'com.ainrif.apiator.test.model.jaxrs.uidev.model.Publisher',
-        },
-    ],
-    usedEnumerations: [
-        {
-            description: 'Current stage of book lifecycle',
-            modelType: 'ENUMERATION',
-            type: 'com.ainrif.apiator.test.model.jaxrs.uidev.model.Book$Status',
-            values: ['PUBLISHED', 'DRAFT', 'REPRINT'],
+            "modelType": "OBJECT",
+            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Author"
         },
         {
-            modelType: 'ENUMERATION',
-            type: 'com.ainrif.apiator.test.model.jaxrs.uidev.model.Language',
-            values: [
-                'EN',
-                'ES',
-                'ZH',
-                'PT',
-                'RU',
-                'HI',
-                'AR',
-                'JA',
-                'FR',
-                'DE',
-                'ID',
-                'TR',
-                'IT',
-                'PL',
-                'BE',
-                'UK',
+            "description": "Common type form library items",
+            "fields": [
+                {
+                    "basedOn": [
+                        
+                    ],
+                    "modelType": "LONG",
+                    "name": "authorId",
+                    "optional": false,
+                    "readable": true,
+                    "writable": false
+                },
+                {
+                    "basedOn": [
+                        
+                    ],
+                    "modelType": "LONG",
+                    "name": "publisherUid",
+                    "optional": false,
+                    "readable": true,
+                    "writable": false
+                },
+                {
+                    "basedOn": [
+                        
+                    ],
+                    "defaultValue": "DRAFT",
+                    "modelType": "ENUMERATION",
+                    "name": "status",
+                    "optional": false,
+                    "readable": true,
+                    "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Book$Status",
+                    "writable": true
+                },
+                {
+                    "basedOn": [
+                        
+                    ],
+                    "modelType": "STRING",
+                    "name": "isbn",
+                    "optional": false,
+                    "readable": true,
+                    "writable": true
+                },
+                {
+                    "basedOn": [
+                        
+                    ],
+                    "modelType": "STRING",
+                    "name": "title",
+                    "optional": false,
+                    "readable": true,
+                    "writable": true
+                },
+                {
+                    "basedOn": [
+                        
+                    ],
+                    "modelType": "ENUMERATION",
+                    "name": "language",
+                    "optional": false,
+                    "readable": true,
+                    "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Language",
+                    "writable": true
+                },
+                {
+                    "basedOn": [
+                        
+                    ],
+                    "modelType": "STRING",
+                    "name": "secondTitle",
+                    "optional": true,
+                    "readable": true,
+                    "writable": true
+                }
             ],
+            "modelType": "OBJECT",
+            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Book"
         },
+        {
+            "description": "Periodic publications use the same isbn",
+            "fields": [
+                {
+                    "basedOn": [
+                        
+                    ],
+                    "modelType": "INTEGER",
+                    "name": "year",
+                    "optional": false,
+                    "readable": true,
+                    "writable": true
+                },
+                {
+                    "basedOn": [
+                        
+                    ],
+                    "modelType": "INTEGER",
+                    "name": "issueNumber",
+                    "optional": false,
+                    "readable": true,
+                    "writable": true
+                },
+                {
+                    "basedOn": [
+                        
+                    ],
+                    "modelType": "STRING",
+                    "name": "isbn",
+                    "optional": false,
+                    "readable": true,
+                    "writable": true
+                },
+                {
+                    "basedOn": [
+                        
+                    ],
+                    "modelType": "STRING",
+                    "name": "title",
+                    "optional": false,
+                    "readable": true,
+                    "writable": true
+                },
+                {
+                    "basedOn": [
+                        
+                    ],
+                    "modelType": "ENUMERATION",
+                    "name": "language",
+                    "optional": false,
+                    "readable": true,
+                    "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Language",
+                    "writable": true
+                },
+                {
+                    "basedOn": [
+                        
+                    ],
+                    "modelType": "STRING",
+                    "name": "secondTitle",
+                    "optional": true,
+                    "readable": true,
+                    "writable": true
+                }
+            ],
+            "modelType": "OBJECT",
+            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Magazine"
+        },
+        {
+            "fields": [
+                {
+                    "basedOn": [
+                        
+                    ],
+                    "description": "Unique Id across the whole library",
+                    "modelType": "LONG",
+                    "name": "uid",
+                    "optional": false,
+                    "readable": true,
+                    "writable": false
+                },
+                {
+                    "basedOn": [
+                        
+                    ],
+                    "modelType": "STRING",
+                    "name": "title",
+                    "optional": false,
+                    "readable": true,
+                    "writable": true
+                },
+                {
+                    "basedOn": [
+                        {
+                            "basedOn": [
+                                
+                            ],
+                            "modelType": "STRING"
+                        }
+                    ],
+                    "description": "List of ISBN numbers that belong to Publisher",
+                    "modelType": "ARRAY",
+                    "name": "isbns",
+                    "optional": false,
+                    "readable": true,
+                    "writable": true
+                }
+            ],
+            "modelType": "OBJECT",
+            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Publisher"
+        }
     ],
+    "usedEnumerations": [
+        {
+            "description": "Current stage of book lifecycle",
+            "modelType": "ENUMERATION",
+            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Book$Status",
+            "values": [
+                "PUBLISHED",
+                "DRAFT",
+                "REPRINT"
+            ]
+        },
+        {
+            "modelType": "ENUMERATION",
+            "type": "com.ainrif.apiator.test.model.jaxrs.uidev.model.Language",
+            "values": [
+                "EN",
+                "ES",
+                "ZH",
+                "PT",
+                "RU",
+                "HI",
+                "AR",
+                "JA",
+                "FR",
+                "DE",
+                "ID",
+                "TR",
+                "IT",
+                "PL",
+                "BE",
+                "UK"
+            ]
+        }
+    ]
 };
