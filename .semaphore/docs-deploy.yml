@@ -4,9 +4,22 @@ agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu1804
+
 blocks:
   - name: Deploy
     task:
+      env_vars:
+        - name: JS_HOME
+          value: ./renderer/core-html-renderer/src/main/node/
+      prologue:
+        commands:
+          - checkout
+          - sem-version java 11
+          - sem-version node 8
+          - nvm install v10.16.0
+          - nvm use v10.16.0
+          - npm install -g firebase-tools
+          - 'alias gw=''./gradlew --console=plain --no-daemon'' '
       jobs:
         - name: Firebase Hosting
           commands:
@@ -15,15 +28,5 @@ blocks:
             - firebase use apiator-8fcef
             - firebase target:apply hosting apiator-docs apiator-docs
             - firebase deploy --token "$FIREBASE_TOKEN" --non-interactive
-      prologue:
-        commands:
-          - sem-version java 11
-          - sem-version node 8
-          - nvm install v10.16.0
-          - nvm use v10.16.0
-          - npm install -g firebase-tools
-          - 'alias gw=''./gradlew --console=plain --no-daemon'' '
-          - export JS_HOME=./renderer/core-html-renderer/src/main/node/
-          - checkout
       secrets:
         - name: firebase_ci_token	
