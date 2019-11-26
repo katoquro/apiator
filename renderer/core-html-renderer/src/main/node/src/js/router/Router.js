@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-import _ from 'lodash';
-import $ from 'jquery';
 import { PermalinkV1Parser } from './PermalinkV1Parser';
 import { ZeroParser } from './ZeroParser';
 
@@ -60,65 +58,11 @@ export class Router {
     static __mainPageRouter(parsed) {
         if (!parsed.version()) {
             Router.__fallbackMainPageRouter(parsed.getPageLink());
-        } else {
-            // no-op
         }
     }
 
     static __fallbackMainPageRouter(hash) {
-        if (hash.startsWith('#')) {
-            hash = hash.substr(1);
-        }
-        let parts = hash.split('/');
-
-        let result = '';
-
-        for (let i = parts.length - 1; i > 0; i--) {
-            const idSuffix = `[id$="${_.join(parts, '/')}"]`;
-
-            if ($(idSuffix).length > 0) {
-                result = $(idSuffix)
-                    .eq(0)
-                    .attr('id');
-            }
-            parts = _.slice(parts, i);
-        }
-
-        if (!result) {
-            console.warn(`Unexpected permalink: ${hash}`);
-        } else {
-            location.hash = result;
-        }
-    }
-
-    /**
-     * restores Sidebar state by url
-     * @param {PermalinkV1Parser} parsed
-     */
-    static __sidebarRouter(parsed) {
-        if (!parsed.getPageLink()) {
-            $('.api .api__toggle')
-                .first()
-                .closest('.api')
-                .addClass('api_active');
-        }
-
-        if (!parsed.version()) {
-            // no-op
-        } else if (parsed.version() === 1) {
-            if (parsed.isEndpointLink()) {
-                sidebar.openGroupTitle($('.js_sidebar-title-endpoints'));
-            }
-            if (parsed.isModelLink()) {
-                sidebar.openGroupTitle($('.js_sidebar-title-model'));
-            }
-
-            $(`.sidebar span[data-link="${parsed.getPageLink()}"]`)
-                .closest('.api')
-                .toggleClass('api_active')
-                .get(0)
-                .scrollIntoView(true);
-        }
+        location.hash = '';
     }
 
     /**
@@ -133,7 +77,6 @@ export class Router {
         const parser = Router.__hashParserFactory(urlHash);
 
         Router.__mainPageRouter(parser);
-        // Router.__sidebarRouter(parser);
     }
 }
 

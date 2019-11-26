@@ -7,7 +7,7 @@
     "start": "./node_modules/.bin/parcel index.html",
     "test": "./node_modules/.bin/cypress run",
     "test-ci": "npm start & while ! nc -z localhost 1234; do sleep 1; done; npm run test",
-    "posix-build": "rm -rf ./dist && ./node_modules/.bin/parcel build ./index.html && node posthtml.js",
+    "posix-build": "rm -rf ./dist && ./node_modules/.bin/parcel build ./index.html --no-source-maps --experimental-scope-hoisting && node posthtml.js",
     "purge": "rm -rf ./dist ./node_modules ./.cache",
     "size": "npm run posix-build && size-limit"
   },
@@ -25,11 +25,7 @@
   ],
   "dependencies": {
     "clipboard": "^1.5.5",
-    "g": "^2.0.1",
-    "jquery": "^3.4.0",
-    "lodash": "^4.17.13",
-    "normalize.css": "^8.0.1",
-    "sv": "^0.4.2"
+    "normalize.css": "^8.0.1"
   },
   "devDependencies": {
     "@size-limit/preset-app": "^2.1.6",
@@ -39,7 +35,6 @@
     "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-svelte3": "^2.7.3",
-    "font-awesome": "^4.5.0",
     "husky": "^3.0.9",
     "less": "^3.9.0",
     "lint-staged": "^9.4.2",
