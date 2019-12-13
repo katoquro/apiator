@@ -32,11 +32,9 @@ const modelDataSet = usedApiTypes.map(it => {
             model: it.type,
         },
         payload: {
-            payload: {
-                showAs: 'model',
-                type: it.type,
-                simpleName: it.type.split('.').pop(),
-            },
+            showAs: 'model',
+            type: it.type,
+            simpleName: it.type.split('.').pop(),
         },
     };
 });
@@ -81,7 +79,7 @@ const searcher = new Searcher({})
     .addToDataSet(bangDataSet);
 
 export function search(input) {
-    const query = input.trim();
+    const query = input;
 
     let pattern = query;
 

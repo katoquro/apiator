@@ -9,6 +9,12 @@
     const handleThanksItemClick = () => isModalVisible.set(true);
 </script>
 
+<style>
+    .menu__items-item > .menu__items-item-link {
+        padding-left: 20px;
+    }
+</style>
+
 <ul class="menu__items">
     <li
         on:click={handleWhatsNewItemClick}
@@ -47,6 +53,6 @@
     <li
         on:click|stopPropagation={handleThanksItemClick}
         class="menu__items-item js__menu-item-thanks">
-        <span>Thanks</span>
+        <span class="menu__items-item-link">Thanks</span>
     </li>
 </ul>
