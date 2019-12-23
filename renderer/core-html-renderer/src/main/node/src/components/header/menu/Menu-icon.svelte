@@ -1,6 +1,6 @@
 <script>
     import { isMenuOpen } from '../../../stores/single-store';
-    import Icon from './icon.svg';
+    import Icon from './icons/logo.svg';
 
     export let hasUpdates;
 
