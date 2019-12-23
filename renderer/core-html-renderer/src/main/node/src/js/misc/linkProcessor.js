@@ -52,7 +52,10 @@ function enableDataLinks() {
                 targetTop > viewportTop && elementBottom < viewportBottom;
 
             if (!isWholeVisible) {
-                content.scrollTop = targetTop;
+                content.scrollTo({
+                    top: targetTop,
+                    behavior: 'smooth',
+                });
             }
         }
     });
