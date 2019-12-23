@@ -1,6 +1,6 @@
 <script>
     import { isMenuOpen } from '../../../stores/single-store';
-    import Icon from './bw_favicon.png';
+    import Icon from './icon.svg';
 
     export let hasUpdates;
 
@@ -9,5 +9,5 @@
 
 <div
     on:click={handleClick}
-    style="background-image: url(data:image/png;base64,{Icon})"
+    style="background-image: url({Icon})"
     class="menu__pic {hasUpdates ? 'menu__pic_notification' : ''}" />
