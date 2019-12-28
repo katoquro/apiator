@@ -1,7 +1,12 @@
 {
   "name": "resources",
   "version": "1.0.0",
-  "description": "",
+  "description": "Core Implementation of graphical representation of Apiator Model JSON",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ainrif/apiator.git",
+    "directory": "renderer/core-html-renderer/src/main/node"
+  },
   "main": "index.js",
   "scripts": {
     "start": "./node_modules/.bin/parcel index.html",
@@ -24,27 +29,29 @@
     "last 1 chrome versions"
   ],
   "dependencies": {
-    "clipboard": "^1.5.5",
+    "clipboard": "^2.0.4",
     "normalize.css": "^8.0.1"
   },
   "devDependencies": {
-    "@size-limit/preset-app": "^2.1.6",
+    "@size-limit/preset-app": "^2.2.4",
     "babel-eslint": "^10.0.3",
+    "caniuse-lite": "^1.0.30001017",
     "cypress": "^3.8.1",
-    "eslint": "^6.5.1",
-    "eslint-config-prettier": "^6.4.0",
-    "eslint-plugin-prettier": "^3.1.1",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-svelte3": "^2.7.3",
-    "husky": "^3.0.9",
-    "less": "^3.9.0",
-    "lint-staged": "^9.4.2",
+    "husky": "^3.1.0",
+    "less": "^3.10.3",
+    "lint-staged": "^9.5.0",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-apiator": "file:parcel-plugin-apiator",
-    "parcel-plugin-svelte": "^4.0.4",
+    "parcel-plugin-svelte": "^4.0.5",
     "posthtml-inline-assets": "^3.0.0",
-    "prettier": "^1.18.2",
+    "prettier": "^1.19.1",
     "prettier-plugin-svelte": "^0.7.0",
-    "svelte": "^3.6.11"
+    "serialize-to-js": "^3.0.2",
+    "svelte": "^3.16.7"
   },
   "husky": {
     "hooks": {
@@ -56,5 +63,9 @@
       "prettier --write --plugin-search-dir=.",
       "git add"
     ]
+  },
+  "comments": {
+    "serialize-to-js": "security update of transitive dependency of parcel-bundler@1.12.4",
+    "caniuse-lite": "feature update of transitive dependency of browserslist@4.7.1"
   }
 }
