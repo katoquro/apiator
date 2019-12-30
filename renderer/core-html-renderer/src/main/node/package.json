@@ -52,7 +52,7 @@
     "posthtml-inline-assets": "^3.0.0",
     "prettier": "^1.19.1",
     "prettier-plugin-svelte": "^0.7.0",
-    "serialize-to-js": "^3.0.2",
+    "serialize-to-js": "^3.0.1",
     "svelte": "^3.16.7"
   },
   "husky": {
