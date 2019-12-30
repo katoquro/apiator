@@ -77,7 +77,6 @@ typings/
 dist
 
 # cypress test framework reports and artifacts
-cypress/plugins
 cypress/screenshots
 cypress/support
 cypress/videos

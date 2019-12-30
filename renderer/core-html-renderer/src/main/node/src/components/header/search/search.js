@@ -4,83 +4,73 @@ import {
     getPageLinkToType,
 } from '../../../services/services';
 import Searcher from './searcher';
-import _ from 'lodash';
 
-const endpointDataSet = _.chain(apiatorJson.apiContexts)
-    .flatMap(function(context) {
-        const apiPath = context.apiPath;
+const { apiContexts, usedApiTypes, usedEnumerations } = apiatorJson;
 
-        return _.map(context.apiEndpoints, function(endpoint) {
-            return { apiPath, endpoint };
-        });
-    })
-    .map(function(it) {
-        return {
-            index: {
-                endpoint: it.apiPath + it.endpoint.path,
-            },
-            payload: {
-                showAs: 'endpoint',
-                method: it.endpoint.method,
-                apiPath: it.apiPath,
-                path: it.endpoint.path,
-            },
-        };
-    })
-    .value();
+const endpointDataSet = apiContexts
+    .flatMap(context =>
+        context.apiEndpoints.map(endpoint => ({
+            apiPath: context.apiPath,
+            endpoint,
+        }))
+    )
+    .map(it => ({
+        index: {
+            endpoint: it.apiPath + it.endpoint.path,
+        },
+        payload: {
+            showAs: 'endpoint',
+            method: it.endpoint.method,
+            apiPath: it.apiPath,
+            path: it.endpoint.path,
+        },
+    }));
 
-const modelDataSet = _.chain(apiatorJson.usedApiTypes)
-    .map(function(it) {
-        return {
-            index: {
-                model: it.type,
-            },
-            payload: {
-                showAs: 'model',
-                type: it.type,
-                simpleName: _.last(_.split(_.last(_.split(it.type, '.')), '$')),
-            },
-        };
-    })
-    .value();
+const modelDataSet = usedApiTypes.map(it => {
+    return {
+        index: {
+            model: it.type,
+        },
+        payload: {
+            showAs: 'model',
+            type: it.type,
+            simpleName: it.type.split('.').pop(),
+        },
+    };
+});
 
-const enumDataSet = _.chain(apiatorJson.usedEnumerations)
-    .map(function(it) {
-        const typeNames = _.split(_.last(_.split(it.type, '.')), '$');
+const enumDataSet = usedEnumerations.map(it => {
+    const { type } = it;
+    const typeNames = type.split('.');
 
-        return {
-            index: {
-                enum: it.type,
-                model: it.type,
-            },
-            payload: {
-                showAs: 'enum',
-                type: it.type,
-                simpleName: _.last(typeNames),
-                enclosingType: typeNames.length === 2 ? typeNames[0] : null,
-            },
-        };
-    })
-    .value();
+    return {
+        index: {
+            enum: type,
+            model: type,
+        },
+        payload: {
+            showAs: 'enum',
+            type,
+            simpleName: typeNames.pop(),
+            enclosingType: typeNames.length === 2 ? typeNames.pop() : null,
+        },
+    };
+});
 
-const bangDataSet = _.chain([
+const bangDataSet = [
     ['endpoint', 'Search trough url addresses'],
     ['model', 'Search trough model & enum names'],
-])
-    .map(function(it) {
-        return {
-            index: {
-                bang: `!${it[0]}`,
-            },
-            payload: {
-                showAs: 'bang',
-                bang: `!${it[0]}`,
-                name: it[0],
-                description: it[1],
-            },
-        };
-    })
-    .value();
+].map(it => ({
+    index: {
+        bang: `!${it[0]}`,
+    },
+    payload: {
+        showAs: 'bang',
+        bang: `!${it[0]}`,
+        name: it[0],
+        description: it[1],
+    },
+}));
 
 const searcher = new Searcher({})
     .addToDataSet(endpointDataSet)
@@ -89,7 +79,7 @@ const searcher = new Searcher({})
     .addToDataSet(bangDataSet);
 
 export function search(input) {
-    const query = _.trimStart(input);
+    const query = input;
 
     let pattern = query;
 
@@ -98,9 +88,10 @@ export function search(input) {
     if (query.startsWith('!')) {
         const rawBang = query.match(/^!\w*/g);
 
-        if (_.isEmpty(rawBang)) {
+        if (rawBang.length === 0) {
             return [];
         }
+
         const bang = rawBang[0];
 
         if (!/\s/.test(query)) {

@@ -14,11 +14,17 @@
  * limitations under the License.
  */
 
-module.exports = bundler => {
-    let base64ReaderAsset = require.resolve('./base64-reader-asset.js');
-    bundler.addAssetType('.png', base64ReaderAsset);
-    bundler.addAssetType('.woff', base64ReaderAsset);
+const JSAsset = require('parcel-bundler/src/assets/JSAsset');
+const fs = require('fs');
 
-    let svgInlineAsset = require.resolve('./svg-inline-asset.js');
-    bundler.addAssetType('.svg', svgInlineAsset);
-};
+class Base64Reader extends JSAsset {
+    async load() {
+        const svgContent = fs.readFileSync(this.name, 'utf8');
+
+        return `export default 'data:image/svg+xml;utf8,${escape(
+            svgContent
+        )}';`;
+    }
+}
+
+module.exports = Base64Reader;

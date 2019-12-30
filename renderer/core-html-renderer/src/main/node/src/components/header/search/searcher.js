@@ -14,41 +14,32 @@
  * limitations under the License.
  */
 
-import _ from 'lodash';
-
 const WHITESPACE_REGEXP = /\s/g;
 
 export default function Searcher(_options) {
-    const options = _.extend(
-        {
-            hitsCount: 10,
-        },
-        _options
-    );
+    const options = {
+        hitsCount: 10,
+        ..._options,
+    };
 
     let dataSet = [];
 
     this.search = function(pattern, indexType) {
         pattern = normalizePattern(pattern);
 
-        return _.chain(dataSet)
-            .map(function(item) {
-                return {
-                    item,
-                    score: match(pattern, item.index[indexType]),
-                };
-            })
-            .filter(function(it) {
-                return it.score > 0;
-            })
-            .orderBy(['score'], ['desc'])
+        return dataSet
+            .map(item => ({
+                item,
+                score: match(pattern, item.index[indexType]),
+            }))
+            .filter(it => it.score > 0)
+            .sort((a, b) => b - a)
             .slice(0, options.hitsCount)
-            .map('item')
-            .value();
+            .map(item => item.item);
     };
 
     this.addToDataSet = function(_array) {
-        dataSet = _.concat(dataSet, _array);
+        dataSet = [...dataSet, ..._array];
 
         return this;
     };

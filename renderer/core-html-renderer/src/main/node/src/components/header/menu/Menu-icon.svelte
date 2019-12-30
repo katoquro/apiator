@@ -1,10 +1,8 @@
 <script>
     import { isMenuOpen } from '../../../stores/single-store';
-    import Icon from './bw_favicon.webp';
+    import Icon from './icons/logo.svg';
 
     export let hasUpdates;
-
-    const icon = `data:image/png;base64,${Icon}`;
 
     const handleClick = () => isMenuOpen.set(!$isMenuOpen);
 </script>

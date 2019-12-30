@@ -14,31 +14,7 @@
  * limitations under the License.
  */
 
-import $ from 'jquery';
-import fontAwesomeBase64 from 'font-awesome/fonts/fontawesome-webfont.woff';
-import faviconBase64 from '/bw_favicon.png';
-
-function font(fi) {
-    const html = `
-<style>    
-    @font-face {
-        font-family: 'FontAwesome';
-    
-        src: url('data:application/font-woff;charset=utf-8;base64,${fi}') format('woff');
-    
-        font-weight: normal;
-        font-style: normal;
-    }
-</style>`;
-
-    $('head').append(html);
-}
-
-function favicon(icon) {
-    const html = `<link rel="icon" type="image/png" href="data:image/png;base64,${icon}">`;
-
-    $('head').append(html);
-}
+import favicon from '../../../favicon.png';
 
 function development() {
     if (process.env.NODE_ENV === 'development') {
@@ -48,8 +24,16 @@ function development() {
     }
 }
 
+function insertFavicon(icon) {
+    const html = `<link rel="icon" type="image/png" href="data:image/png;base64,${icon}">`;
+    const element = document.createElement('div');
+
+    element.innerHTML = html;
+
+    document.getElementsByTagName('head')[0].append(element.children[0]);
+}
+
 export default function embed() {
-    font(fontAwesomeBase64);
-    favicon(faviconBase64);
+    insertFavicon(favicon);
     development();
 }
