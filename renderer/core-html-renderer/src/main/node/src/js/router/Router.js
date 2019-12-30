@@ -22,7 +22,7 @@ export class Router {
         this.initialNavigate = true;
     }
 
-    static __hackToScrollToHashOnPageLoad() {
+    __hackToScrollToHashOnPageLoad() {
         if (location.hash) {
             const hash = location.hash;
 
@@ -39,7 +39,7 @@ export class Router {
      * @param {string} urlHash
      * @return {ZeroParser|PermalinkV1Parser}
      */
-    static __hashParserFactory(urlHash) {
+    __hashParserFactory(urlHash) {
         let parsed;
 
         if (/#?1\//.test(urlHash)) {
@@ -55,13 +55,13 @@ export class Router {
      * restores Main page state by url
      * @param {PermalinkV1Parser} parsed
      */
-    static __mainPageRouter(parsed) {
+    __mainPageRouter(parsed) {
         if (!parsed.version()) {
-            Router.__fallbackMainPageRouter(parsed.getPageLink());
+            this.__fallbackMainPageRouter(parsed.getPageLink());
         }
     }
 
-    static __fallbackMainPageRouter(hash) {
+    __fallbackMainPageRouter(hash) {
         location.hash = '';
     }
 
@@ -70,13 +70,13 @@ export class Router {
      */
     navigate(urlHash) {
         if (this.initialNavigate) {
-            Router.__hackToScrollToHashOnPageLoad();
+            this.__hackToScrollToHashOnPageLoad();
             this.initialNavigate = false;
         }
 
-        const parser = Router.__hashParserFactory(urlHash);
+        const parser = this.__hashParserFactory(urlHash);
 
-        Router.__mainPageRouter(parser);
+        this.__mainPageRouter(parser);
     }
 }
 
