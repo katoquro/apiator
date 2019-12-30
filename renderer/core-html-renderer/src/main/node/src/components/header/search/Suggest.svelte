@@ -1,16 +1,18 @@
 <script>
-    import { activeItemIndex } from './stores';
+    import { activeItemIndex, suggestedItems } from './stores';
     import SuggestItem from './Suggest-item.svelte';
 
-    export let items;
+    let items = [];
 
-    const handleMouseOver = index => () => activeItemIndex.set(index);
+    suggestedItems.subscribe(value => {
+        items = value;
+    });
 </script>
 
 <ul class="search__suggest">
-    {#each items as item, index (item.index)}
+    {#each items as item, index (item)}
         <SuggestItem
-            on:mouseOverForward={handleMouseOver(index)}
+            on:mouseOverForward={() => activeItemIndex.set(index)}
             isActive={$activeItemIndex === index}
             item={item.payload} />
     {/each}

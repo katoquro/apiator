@@ -29,10 +29,11 @@
     const isBang = showAs === 'bang';
 
     const handleMouseOver = event => dispatch('mouseOverForward', {});
+    const handleClick = () => onChange(13, item);
 </script>
 
 <li
-    on:click={() => onChange(null, item)}
+    on:click={handleClick}
     on:mouseover={handleMouseOver}
     class="search__suggest-item {isActive ? 'search__suggest-item_active' : ''}">
     {#if isEndpoint}

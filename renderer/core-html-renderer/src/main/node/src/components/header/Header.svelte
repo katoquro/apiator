@@ -20,22 +20,16 @@
         if (!$searchValue) {
             return;
         }
-
-        search($searchValue).forEach((item, index) => {
-            suggestedItems.update(arr => {
-                arr.push(item);
-
-                return arr;
-            });
-        });
     }
+
+    searchValue.subscribe(value => {
+        suggestedItems.set(search(value));
+    });
 
     function handleKeyUp(event) {
         if (KEYS[event.keyCode]) {
             return;
         }
-
-        searchOnInput();
     }
 
     function handleKeyDown(event) {
@@ -96,7 +90,7 @@
                 placeholder="Search or start with '!'"
                 autofocus />
             {#if $suggestedItems.length}
-                <Suggest items={$suggestedItems} />
+                <Suggest />
             {/if}
         </form>
     </div>

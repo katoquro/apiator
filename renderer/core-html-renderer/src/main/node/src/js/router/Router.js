@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-import _ from 'lodash';
-import $ from 'jquery';
 import { PermalinkV1Parser } from './PermalinkV1Parser';
 import { ZeroParser } from './ZeroParser';
 
@@ -24,7 +22,7 @@ export class Router {
         this.initialNavigate = true;
     }
 
-    static __hackToScrollToHashOnPageLoad() {
+    __hackToScrollToHashOnPageLoad() {
         if (location.hash) {
             const hash = location.hash;
 
@@ -41,7 +39,7 @@ export class Router {
      * @param {string} urlHash
      * @return {ZeroParser|PermalinkV1Parser}
      */
-    static __hashParserFactory(urlHash) {
+    __hashParserFactory(urlHash) {
         let parsed;
 
         if (/#?1\//.test(urlHash)) {
@@ -57,68 +55,14 @@ export class Router {
      * restores Main page state by url
      * @param {PermalinkV1Parser} parsed
      */
-    static __mainPageRouter(parsed) {
+    __mainPageRouter(parsed) {
         if (!parsed.version()) {
-            Router.__fallbackMainPageRouter(parsed.getPageLink());
-        } else {
-            // no-op
+            this.__fallbackMainPageRouter(parsed.getPageLink());
         }
     }
 
-    static __fallbackMainPageRouter(hash) {
-        if (hash.startsWith('#')) {
-            hash = hash.substr(1);
-        }
-        let parts = hash.split('/');
-
-        let result = '';
-
-        for (let i = parts.length - 1; i > 0; i--) {
-            const idSuffix = `[id$="${_.join(parts, '/')}"]`;
-
-            if ($(idSuffix).length > 0) {
-                result = $(idSuffix)
-                    .eq(0)
-                    .attr('id');
-            }
-            parts = _.slice(parts, i);
-        }
-
-        if (!result) {
-            console.warn(`Unexpected permalink: ${hash}`);
-        } else {
-            location.hash = result;
-        }
-    }
-
-    /**
-     * restores Sidebar state by url
-     * @param {PermalinkV1Parser} parsed
-     */
-    static __sidebarRouter(parsed) {
-        if (!parsed.getPageLink()) {
-            $('.api .api__toggle')
-                .first()
-                .closest('.api')
-                .addClass('api_active');
-        }
-
-        if (!parsed.version()) {
-            // no-op
-        } else if (parsed.version() === 1) {
-            if (parsed.isEndpointLink()) {
-                sidebar.openGroupTitle($('.js_sidebar-title-endpoints'));
-            }
-            if (parsed.isModelLink()) {
-                sidebar.openGroupTitle($('.js_sidebar-title-model'));
-            }
-
-            $(`.sidebar span[data-link="${parsed.getPageLink()}"]`)
-                .closest('.api')
-                .toggleClass('api_active')
-                .get(0)
-                .scrollIntoView(true);
-        }
+    __fallbackMainPageRouter(hash) {
+        location.hash = '';
     }
 
     /**
@@ -126,14 +70,13 @@ export class Router {
      */
     navigate(urlHash) {
         if (this.initialNavigate) {
-            Router.__hackToScrollToHashOnPageLoad();
+            this.__hackToScrollToHashOnPageLoad();
             this.initialNavigate = false;
         }
 
-        const parser = Router.__hashParserFactory(urlHash);
+        const parser = this.__hashParserFactory(urlHash);
 
-        Router.__mainPageRouter(parser);
-        // Router.__sidebarRouter(parser);
+        this.__mainPageRouter(parser);
     }
 }
 

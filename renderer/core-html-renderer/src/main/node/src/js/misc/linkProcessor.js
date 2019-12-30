@@ -14,53 +14,48 @@
  * limitations under the License.
  */
 
-import $ from 'jquery';
-import _ from 'lodash';
 import Clipboard from 'clipboard';
 
 function enableCopyBtns() {
     const clipboard = new Clipboard('.copy-btn');
 
-    clipboard.on('success', event => {});
     clipboard.on('error', function(event) {
         // todo show input with message 'Press Ctrl+C' (OS related)
     });
 }
 
 function enableDataLinks() {
-    $(document).on('click', '[data-link]', event => {
-        location.hash = $(event.currentTarget).attr('data-link');
+    document.addEventListener('click', event => {
+        if (event.target.getAttribute('data-link')) {
+            location.hash = event.target.getAttribute('data-link');
+        }
     });
 
-    $(window).on('hashchange', event => {
-        const newHash = _.last(event.originalEvent.newURL.split('#'));
+    window.addEventListener('hashchange', event => {
+        const content = document.getElementsByClassName('content')[0];
+        const newHash = event.newURL.split('#').pop();
         const pageLinkTarget = document.querySelector(`[data-id='${newHash}']`);
 
         if (pageLinkTarget) {
-            const content = $('.content');
-            const target = $(pageLinkTarget);
-
-            const heightElementAfterTarget = target.next().outerHeight();
+            const heightElementAfterTarget =
+                pageLinkTarget.nextElementSibling.offsetHeight;
             const heightElementAndTarget =
-                target.outerHeight() + heightElementAfterTarget;
+                heightElementAfterTarget + pageLinkTarget.offsetHeight;
 
             const targetTop = pageLinkTarget.offsetTop;
             const elementBottom = targetTop + heightElementAndTarget;
 
-            const viewportTop = content.scrollTop();
-            const viewportBottom = viewportTop + $(window).height();
+            const viewportTop = content.scrollTop;
+            const viewportBottom = viewportTop + window.outerHeight;
 
             const isWholeVisible =
                 targetTop > viewportTop && elementBottom < viewportBottom;
 
             if (!isWholeVisible) {
-                content.animate(
-                    {
-                        scrollTop: targetTop,
-                    },
-                    700,
-                    'swing'
-                );
+                content.scrollTo({
+                    top: targetTop,
+                    behavior: 'smooth',
+                });
             }
         }
     });
