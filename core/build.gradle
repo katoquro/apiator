@@ -4,7 +4,7 @@ apply from: "$rootDir/gradle/deploy.gradle"
 dependencies {
     compile project(':api')
 
-    compile 'io.github.classgraph:classgraph:4.8.54'
+    compile 'io.github.classgraph:classgraph:4.8.59'
 
     compile "org.slf4j:slf4j-api:${versions.slf4j}"
     compile "org.codehaus.groovy:groovy:${versions.groovy}"
