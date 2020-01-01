@@ -22,7 +22,9 @@ blocks:
       jobs:
         - name: Maven Central
           commands:
+            - gw publishToMavenLocal # todo when Maven Central programmable release will be implemented must be removed
             - gw publish
+            # todo implement programmable release here
             - gw publishPlugins -p ./gradle-plugin/apiator-gradle-plugin -Pgradle.publish.key=${GRADLE_PUBLISH_KEY} -Pgradle.publish.secret=${GRADLE_PUBLISH_SECRET}
             - gw publishGitTag
       secrets:
