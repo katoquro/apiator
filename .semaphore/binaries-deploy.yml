@@ -7,6 +7,9 @@ agent:
 blocks:
   - name: Deploy
     task:
+      env_vars:
+        - name: JS_HOME
+          value: ./renderer/core-html-renderer/src/main/node/
       prologue:
         commands:
           - checkout
@@ -15,6 +18,7 @@ blocks:
           - nvm install v10.16.0
           - nvm use v10.16.0
           - 'alias gw=''./gradlew --console=plain --no-daemon'' '
+          - '(cd ${JS_HOME}; npm ci)'
       jobs:
         - name: Maven Central
           commands:
