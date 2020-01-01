@@ -13,6 +13,11 @@ jar {
     }
 }
 
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveClassifier.set('javadoc')
+    from javadoc
+}
+
 task sourcesJar(type: Jar, dependsOn: classes) {
     archiveClassifier.set('sources')
     from sourceSets.main.allSource
@@ -29,6 +34,7 @@ publishing {
             from components.java
 
             artifact sourcesJar
+            artifact javadocJar
         }
     }
     repositories {
