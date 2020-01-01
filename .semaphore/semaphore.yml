@@ -33,8 +33,8 @@ blocks:
             - gw build apiator -p ./gradle-plugin/test-gradle-plugin -Pjava.build
 
 promotions:
-  - name: Deploy to Bintray
-    pipeline_file: bintray-deploy.yml
+  - name: Deploy binaries
+    pipeline_file: binaries-deploy.yml
     auto_promote:
       when: result = 'passed' and branch =~ '^release\/'
   - name: Docs Deploy

@@ -1,14 +1,15 @@
 buildscript {
     repositories {
         mavenLocal()
-        jcenter()
-
-        maven { url "http://dl.bintray.com/ainrif/maven" }
+        mavenCentral()
     }
     dependencies {
-        classpath "com.ainrif.apiator:apiator-gradle-plugin:+"
+        classpath "com.ainrif.apiator:apiator-gradle-plugin"
     }
 }
+
+apply from: "$rootDir/../../gradle/versions.gradle"
+version = versionHolder.version
 
 apply plugin: 'com.ainrif.apiator'
 
@@ -23,9 +24,7 @@ group = 'com.ainrif.apiator'
 
 repositories {
     mavenLocal()
-    jcenter()
-
-    maven { url "http://dl.bintray.com/ainrif/maven" }
+    mavenCentral()
 }
 
 apiator {

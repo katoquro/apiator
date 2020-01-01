@@ -7,7 +7,6 @@ buildscript {
     }
     dependencies {
         classpath 'org.ajoberstar:grgit:2.2.1'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
     }
 }
 
@@ -41,18 +40,9 @@ allprojects {
     group = 'com.ainrif.apiator'
     version = versionHolder.version
 
-    task publishRelease {
-        onlyIf {
-            versionHolder.release
-        }
-    }
-
     repositories {
         mavenLocal()
         mavenCentral()
-        jcenter()
-
-        maven { url "http://dl.bintray.com/ainrif/maven" }
     }
 
     configurations {
@@ -79,8 +69,6 @@ allprojects {
 }
 
 subprojects {
-    apply plugin: 'maven-publish'
-
     def archiveReportsTask = task archiveReports(type: Zip) {
         from 'build/reports/tests'
         archiveAppendix.set('tests_reports')
@@ -134,8 +122,6 @@ task publishGitTag {
         }
     }
 }
-
-publishRelease.dependsOn publishGitTag
 
 task generate_stub(type: JavaExec) {
     main = 'gradle.GenerateJsonForUiDev'

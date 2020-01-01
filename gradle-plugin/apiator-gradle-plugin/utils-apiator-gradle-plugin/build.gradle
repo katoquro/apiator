@@ -1,9 +1,7 @@
-apply plugin: 'maven-publish'
-apply plugin: 'groovy'
-
+ext.deployParams = [description: 'A set of utils used in gradle plugin']
 apply from: "$rootDir/../../gradle/deploy.gradle"
 
 dependencies {
-    compile "org.codehaus.groovy:groovy:2.5.7"
     compile "com.ainrif.apiator:core:${rootProject.version}"
+    implementation localGroovy()
 }

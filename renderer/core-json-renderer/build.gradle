@@ -1,3 +1,4 @@
+ext.deployParams = [description: 'Renderer of JSON Representation for Apiator. Core Renderer']
 apply from: "$rootDir/gradle/deploy.gradle"
 
 dependencies {

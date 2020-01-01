@@ -1,3 +1,12 @@
+ext.deployParams = [
+        description: 'Renderer of HTML Representation for Apiator',
+        developers : {
+            developer {
+                name 'Evgeniy Zelenkov'
+                email 'zelenkoff.ev@gmail.com'
+            }
+        }
+]
 apply from: "$rootDir/gradle/deploy.gradle"
 
 dependencies {

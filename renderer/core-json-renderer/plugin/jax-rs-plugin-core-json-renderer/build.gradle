@@ -1,3 +1,4 @@
+ext.deployParams = [description: 'Jax-RS specific classes support plugin for Apiator JSON Renderer']
 apply from: "$rootDir/gradle/deploy.gradle"
 
 dependencies {

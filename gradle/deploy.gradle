@@ -1,4 +1,5 @@
-apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
 
 def sharedManifest = manifest {
     attributes 'Implementation-Vendor': group,
@@ -23,41 +24,73 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 publishing {
     publications {
         mavenJava(MavenPublication) {
+            customizePom(pom)
+
             from components.java
 
             artifact sourcesJar
         }
     }
-}
-
-bintray {
-    user = findProperty('bintray_api_user')
-    key = findProperty('bintray_api_key')
-
-    publications = ['mavenJava']
-
-    dryRun = false
-    publish = true
-    pkg {
-        repo = 'maven'
-        userOrg = 'ainrif'
-        name = rootProject.name
-        websiteUrl = 'https://apiator.info'
-        issueTrackerUrl = 'https://github.com/ainrif/apiator/issues'
-        vcsUrl = 'https://github.com/ainrif/apiator.git'
-        licenses = ['Apache-2.0']
-        publicDownloadNumbers = true
-        version {
-            name = project.version
-            vcsTag = project.version
+    repositories {
+        maven {
+            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            credentials {
+                username findProperty('nexus.username')
+                password findProperty('nexus.password')
+            }
         }
     }
 }
 
-bintrayUpload {
-    onlyIf {
-        versionHolder.release
-    }
+signing {
+    required { versionHolder.version && gradle.taskGraph.hasTask("publish") }
+    sign publishing.publications.mavenJava
 }
 
-publishRelease.dependsOn bintrayUpload
+void customizePom(pom) {
+    pom.withXml {
+        def root = asNode()
+
+        root.children().last() + {
+            resolveStrategy = Closure.DELEGATE_FIRST
+
+            name project.name
+            description ext.deployParams['description']
+
+            url 'https://apiator.info/'
+
+            organization {
+                name 'Ainrif'
+                url 'https://github.com/ainrif'
+            }
+            licenses {
+                license {
+                    name 'Apache License 2.0'
+                    url 'https://github.com/ainrif/apiator/blob/develop/LICENSE'
+                    distribution 'repo'
+                }
+            }
+            scm {
+                url 'https://github.com/ainrif/apiator'
+                connection 'scm:git:https://github.com/ainrif/apiator.git'
+                developerConnection 'scm:git:git@github.com:ainrif/apiator.git'
+            }
+            issueManagement {
+                system 'GitHub'
+                url 'https://github.com/ainrif/apiator/issues'
+            }
+            developers {
+                developer {
+                    name 'Andrew Malyhin'
+                    email 'katoquro@gmail.com'
+                }
+
+                def developers = ext.deployParams['developers']
+                if (developers) {
+                    developers.delegate = delegate
+                    developers.call()
+                }
+            }
+        }
+    }
+}

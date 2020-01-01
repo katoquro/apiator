@@ -1,23 +1,12 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
-    }
-}
-
 plugins {
-    id 'groovy'
     id 'java-gradle-plugin'
-    id 'java-library'
-    id 'maven-publish'
+    id 'com.gradle.plugin-publish' version '0.10.1'
 }
 
 apply from: "$rootDir/../../gradle/versions.gradle"
 
 allprojects {
-    apply plugin: 'java'
+    apply plugin: 'groovy'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -25,33 +14,34 @@ allprojects {
     group = 'com.ainrif.apiator'
     version = versionHolder.version
 
-    task publishRelease {
-        onlyIf {
-            versionHolder.release
-        }
-    }
-
     repositories {
         mavenLocal()
         mavenCentral()
-        jcenter()
-
-        maven { url "http://dl.bintray.com/ainrif/maven" }
     }
 }
-
-apply from: "$rootDir/../../gradle/deploy.gradle"
 
 gradlePlugin {
     plugins {
         apiator {
-            id = "com.ainrif.apiator"
-            implementationClass = "com.ainrif.apiator.gradle.ApiatorGradlePlugin"
+            id = 'com.ainrif.apiator'
+            implementationClass = 'com.ainrif.apiator.gradle.ApiatorGradlePlugin'
+        }
+    }
+}
+
+pluginBundle {
+    website = 'https://apiator.info/'
+    vcsUrl = 'https://github.com/ainrif/apiator/'
+    description = 'Provides Apiator support during gradle build'
+    tags = ['documentation', 'api', 'jax-rs', 'micronaut', 'javadoc', 'rest']
+    plugins {
+        apiator {
+            displayName = 'Apiator Gradle Plugin'
         }
     }
 }
 
 dependencies {
-    api project(':utils-apiator-gradle-plugin')
+    compile project(':utils-apiator-gradle-plugin')
     implementation localGroovy()
 }

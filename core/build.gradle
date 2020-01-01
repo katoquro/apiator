@@ -1,3 +1,4 @@
+ext.deployParams = [description: 'Apiator core module']
 apply from: "$rootDir/gradle/deploy.gradle"
 
 dependencies {

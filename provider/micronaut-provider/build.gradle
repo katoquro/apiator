@@ -1,3 +1,4 @@
+ext.deployParams = [description: 'Provider or Micronaut integration for Apiator']
 apply from: "$rootDir/gradle/deploy.gradle"
 
 dependencies {
