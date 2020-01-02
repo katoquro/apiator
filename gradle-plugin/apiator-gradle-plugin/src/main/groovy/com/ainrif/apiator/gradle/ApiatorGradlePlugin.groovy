@@ -15,6 +15,7 @@
  */
 package com.ainrif.apiator.gradle
 
+import apiator.ApiatorGradleRunner
 import com.ainrif.apiator.gradle.internal.ApiatorInternalRunner
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -85,7 +86,7 @@ class ApiatorGradlePlugin implements Plugin<Project> {
     }
 
     private Object configureDependencyConstraints(Project prj) {
-        def apiatorVersion = ApiatorGradlePlugin.package.implementationVersion
+        def apiatorVersion = ApiatorGradleRunner.package.implementationVersion
 
         if (!apiatorVersion) {
             prj.logger.lifecycle("DEV mode detected. Local Maven Repo was added. Version changed to {}", prj.version)
