@@ -1,6 +1,22 @@
 import java.time.Instant
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.21.2"
+    }
+}
+
 apply from: "$rootDir/gradle/versions.gradle"
+
+
+apply plugin: 'io.codearte.nexus-staging'
+nexusStaging {
+    packageGroup = "com.ainrif"
+    delayBetweenRetriesInMillis = 5000
+}
 
 ext.versions = [
         slf4j    : '1.7.26',
