@@ -1,0 +1,53 @@
+== Features overview
+
+. Zero additional code for basic documenting
++
+An annotations configuration of web-frameworks (like jax-rs or micronaut) is quite good basic description of your API.
+We just deliver it in a different way.
++
+
+. Static generation (doesn't affect you production code)
++
+You documentation can be generated during the build and can be deployed separately of your project.
+Or not (up to you)
++
+
+. JSON representation
++
+All parsed API can be represented as reproducible JSON. You can store it in VCS
+(like link://git-scm.com[git])
+and watch the difference between versions
+(go to detailed link:#_core_json_renderer[description]):
++
+
+. HTML representation
++
+In a few moments you API will converted into human friendly page (go to detailed link:#_core_html_renderer[description]):
++
+
+image::main_window.jpg[title="HTML representation",align="center",width="550",window="_blank",link="{imagesdir}/main_window.jpg"]
+
+. JavaDoc processing
++
+Extend you Api information with native JavaDoc support.
+Now you documentation is served directly from you api classes
++
+
+. Single file HTML representation
++
+All images and scripts are incorporated in one file which can be open in any browser of even sent via e-mail
++
+
+. And much more in the future :)
+
+=== Understanding of changelog
+
+The entire list of changes and feature can be found
+in link:https://github.com/ainrif/apiator/blob/develop/CHANGELOG.md[repository]
+
+The semantics of changelog records is:
+
+* new : for the new features
+* fix : for fixed issues
+* update : for changes or extensions of public api and configurations
+* improvement : for internal updated and performance tweaks

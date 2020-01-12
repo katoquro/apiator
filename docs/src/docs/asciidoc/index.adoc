@@ -1,15 +1,19 @@
-= Apiator Documentation (v0.12.x)
+= Apiator Documentation (v0.13.x-draft)
 :toc: left
 :toc-title: Table of Adventures
 :source-highlighter: coderay
 :toclevels: 3
 :imagesdir: /img
-
-Apiator is API Documentation Generator written in http://www.groovy-lang.org/[Groovy].
+:github-dev: https://github.com/ainrif/apiator/blob/develop
+:multiply: *
 
 image::repo_logo.png[Apiator Logo]
 
-Follow us on link:https://github.com/ainrif/apiator[GitHub]
+Apiator is API Documentation Generator which keeps you code clean.
+For Java and http://www.groovy-lang.org/[Groovy] web-frameworks.
+
+Follow us on
+image:https://img.shields.io/github/stars/ainrif/apiator?style=social[GitHub,link=https://github.com/ainrif/apiator]
 
 == Why Apiator?
 
@@ -23,166 +27,16 @@ and spend as little as possible time and lines of code to describe your API.
 Of course it's difficult to predict all of the possible cases of API frameworks configuration so our second goal is high configurability.
 You can override or extends almost every functionality of Аpiator with help of type safe configuration code (not a configuration file)!
 
-== Getting started
+include::feature-list.adoc[]
 
-Apiator is built with JDK 11 so it's minimum required api of build tool-chain to run.
-JDK (not JRE) is required.
-The minimum level for the compiled classes of your project is JDK 8.
-So you can build you project and run apiator with two independent JDK versions.
-
-[#_getting_a_binary]
-=== Getting a binary
-
-Binary artifacts are hosted on Bintray repo https://dl.bintray.com/ainrif/maven
-
-- group: `com.ainrif.apiator`
-- artifact: `core-html-renderer` (depends on your configuration)
-- version: image:https://api.bintray.com/packages/ainrif/maven/apiator/images/download.svg[version,link=https://bintray.com/ainrif/maven/apiator/_latestVersion]
-
-You can use `Set Me Up!` guide from https://bintray.com/ainrif/maven/apiator[Bintray repo]
-
-You can use it in you
-link:https://docs.gradle.org/current/userguide/dependency_management.html#sub:maven_repo[gradle]
-or
-link:https://maven.apache.org/guides/mini/guide-multiple-repositories.html[maven]
-project
-
-=== Configuration
-
-The main class of apiator is `Apiator` 😉 and it can be configured via `ApiatorConfig`
-
-By default `ApiatorConfig` is set up to search for classes annotated with `com.ainrif.apiator.api.annotation.Api`.
-So you must select only type of link:#_providers[web service provider] and type of link:#_renderers[renderer], f.e.:
-
-[source,groovy]
-----
-ApiatorConfig config = new ApiatorConfig();
-config.provider = new JaxRsProvider();
-config.renderer = new CoreHtmlRenderer();
-
-String html = new Apiator(config).render();
-----
-
-The result string will be a `html` which is "all in one" document so you can save it and serve from http server as is.
-
-NOTE: More examples of configuration can be found at corresponding `*SmokeSpec`
-
-=== How to run with ...
-
-Apiator can be used as a library in a classpath of application that you need to document.
-Good choice is to incorporate apiator into your build process to deliver documentation with application together.
-
-==== Gradle plugin
-
-Minimum requirement - Gradle 5.3
-
-The Apiator Gradle plugin is published in the same link:#_getting_a_binary[repo] with apiator.
-So you have to add it to build script classpath in root `build.gradle`:
-
-[source,groovy]
-----
-buildscript {
-    repositories {
-        maven { url "https://dl.bintray.com/ainrif/maven" }
-    }
-
-    dependencies {
-        classpath 'com.ainrif.apiator:apiator-gradle-plugin:<apiator-version>'
-    }
-}
-
-apply plugin: 'com.ainrif.apiator'
-----
-
-After it you can configure Apiator in the required module (which classpath contains all endpoints):
-
-[source,groovy]
-----
-apiator {
-    runnerClass = 'path.to.ApiatorRunner' // <1>
-}
-----
-
-<1> full name of the class which implements `ApiatorGradleRunner` and have default (or zero-arg) constructor
-
-Class which implements `ApiatorGradleRunner` will created and call for documentation generation.
-In implemented method `ApiatorGradleRunner#execute(...)` you have to configure and run Apiator.
-
-NOTE: Complete configuration examples can be found at `testing-gradle-plugin` module in classes
-      `TestingJavaPluginApiatorConfig` for Java and `TestGroovyPluginApiatorConfig` for Groovy
-
-To separate the dependencies of Apiator from project dependencies the additional Gradle SourceSet can be used.
-`apiator` SourceSet have its own classpath which extends `main` can be configured via `apiatorCompile` in gradle.
-See the `build.gradle` file of `testing-gradle-plugin` module.
-
-==== As a library
-
-Apiator can be used as a standard library.
-Everything you need is to download all necessary libraries and run them in the same `classpath` with you endpoint classes.
-
-NOTE: If you need to extend `classpath` at runtime you can do it with incubating functionality `Apiator#setExtraClassPath(URL[])`.
-Extra `classpath` will be available during scanning and javadoc parsing.
-
-== Features overview
-
-. Zero additional code for basic documenting
-+
-An annotations configuration of web-frameworks (like jax-rs or micronaut) is quite good basic description of your API.
-We just deliver it in a different way.
-+
-
-. Static generation (doesn't affect you production code)
-+
-You documentation can be generated during the build and can be deployed separately of your project.
-Or not (up to you)
-+
-
-. JSON representation
-+
-All parsed API can be represented as reproducible JSON. You can store it in VCS
-(like link://git-scm.com[git])
-and watch the difference between versions
-(go to detailed link:#_core_json_renderer[description]):
-+
-
-. HTML representation
-+
-In a few moments you API will converted into human friendly page (go to detailed link:#_core_html_renderer[description]):
-+
-
-image::main_window.jpg[title="HTML representation",align="center",width="550",window="_blank",link="{imagesdir}/main_window.jpg"]
-
-. JavaDoc processing
-+
-Extend you Api information with native JavaDoc support.
-Now you documentation is served directly from you api classes
-+
-
-. Single file HTML representation
-+
-All images and scripts are incorporated in one file which can be open in any browser of even sent via e-mail
-+
-
-. And much more in the future :)
-
-=== Understanding of changelog
-
-The entire list of changes and feature can be found
-in link:https://github.com/ainrif/apiator/blob/develop/CHANGELOG.md2[repository]
-
-The semantics of changelog records is:
-
-* new : for the new features
-* fix : for fixed issues
-* update : for changes or extensions of public api and configurations
-* improvement : for internal updated and performance tweaks
+include::getting-started.adoc[]
 
 include::user-guide.adoc[]
-
-include::how-it-works.adoc[]
 
 include::providers.adoc[]
 
 include::renderers.adoc[]
+
+include::how-it-works.adoc[]
 
 include::development-guide.adoc[]

@@ -9,7 +9,7 @@ v0.13.x - Performance optimizations
 
 v0.12.x
 
-- new: Gradle plugin with dedicated source set for configuration
+- new: Gradle plugin with dedicated SourceSet for configuration
 - new: CONTRIBUTING.md
 - fix: Memoization issue which could lead to hang up during schema rendering
 - improvement: UI stack was moved to Svelte.js

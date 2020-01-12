@@ -1,14 +1,12 @@
-:multiply: *
-
 == Renderers
 
-Renderers describe how does Apiator output should look. 
+Renderers describe how does Apiator output should look.
 In general renderers are transformers from internal Apiator scheme to something like JSON, XML, HTML, etc.
 
 [#_core_json_renderer]
 === Core JSON renderer
 
-This renderer is a JSON representation of internal Apiator Schema. 
+This renderer is a JSON representation of internal Apiator Schema.
 It can be used as input source data for other renderers (like link:#_core_html_renderer[HTML Renderer])
 or for comparison of different api versions. +
 The result output can be customized with link:#_core_json_renderer__plugins[Plugins]
@@ -82,13 +80,13 @@ NOTE: JSON fields with value `null` are omitted in result output. They are prese
             "templateName": null,
             "type": null
           }]
-        },
+        }
         /*...*/
       ],
       "apiPath": "/library", // <6>
       "description": "Some info from JavaDoc",
       "name": "org.example.library.controllers.LibraryController"
-    },
+    }
     /*...*/
   ]
   /*...*/
@@ -105,6 +103,7 @@ NOTE: JSON fields with value `null` are omitted in result output. They are prese
 ===== Used Api Types and Enumerations
 
 Example of JSON representation:
+
 [source,json]
 ----
 {
@@ -122,7 +121,7 @@ Example of JSON representation:
      "name": "firstName",
      "readable": true,
      "writable": true
-   },
+   }
    /*...*/
  ],
  "modelType": "OBJECT",
@@ -133,6 +132,7 @@ Example of JSON representation:
 `readable/writable` mean that server have getters / setters for those fields (or they are public in java terms)
 
 Enumeration is kind of Api type:
+
 [source,json]
 ----
 {
@@ -174,19 +174,19 @@ _Model Types_ are Apiator internal types which exists to classify every processe
 
 | `OBJECT`
 | `org.UserDto` (user-defined class)
-| this model type is used for custom classes which are exposed via API as part of interface. 
-  Such classes will be introspected recursively to determine types of their fields
+| this model type is used for custom classes which are exposed via API as part of interface.
+Such classes will be introspected recursively to determine types of their fields
 
 | `ANY`
 | `java.lang.Object`
-| this type means Apiator cannot get useful info about such class. 
-  It is type for general classes.
+| this type means Apiator cannot get useful info about such class.
+It is type for general classes.
 
 | `SYSTEM`
 | `java.lang.Class` `java.lang.reflect.Field`
-| internal type. 
-  Is used to show that given class shouldn't be introspected. 
-  If such type have appeared in you documentation in most cases it means you API exposes some language dependent internals
+| internal type.
+Is used to show that given class shouldn't be introspected.
+If such type have appeared in you documentation in most cases it means you API exposes some language dependent internals
 
 |===
 
@@ -198,20 +198,20 @@ Plugins are generic mechanism to extend and override link:_core_json_renderer[Co
 All plugins implement `CoreJsonRendererPlugin` interface and can be combined in `CompositePlugin` for ease of use.
 
 NOTE: Plugins with *suffix* `{multiply}CompositePlugin` contain all available plugins with it's *prefix* .
-      I.E.: **JaxRs**CompositePlugin contains JaxRs**ModelTypePlugin**, JaxRs**ParamPlugin**...
+I.E.: **JaxRs**CompositePlugin contains JaxRs**ModelTypePlugin**, JaxRs**ParamPlugin**...
 
 [#_model_type_plugin]
 ===== ModelTypePlugin
 
 These plugins encapsulate the logic of classes to _Model Types_ matching.
-The matching goes while _Model Type_ wouldn't be found or plugins run out. 
+The matching goes while _Model Type_ wouldn't be found or plugins run out.
 From one plugin to another along the chain.
 
-The `ModelTypePlugin` interface contains only one method returning whether `ModelType` or `null`. 
+The `ModelTypePlugin` interface contains only one method returning whether `ModelType` or `null`.
 If plugin returns `null` next plugin will be used.
 
-NOTE: The order of this type of Plugins is important. 
-      So non-default plugins are processed first, i.e. in LIFO order of addition
+NOTE: The order of this type of Plugins is important.
+So non-default plugins are processed first, i.e. in LIFO order of addition
 
 The plugins are *ON* by default `DefaultModelTypeCompositePlugin`:
 
@@ -248,8 +248,8 @@ Available Plugins:
 [#_core_html_renderer]
 === Core HTML renderer
 
-Reference HTML representation of Apiator results. 
-This renderer produces the most complete graphic interface according to core model. 
+Reference HTML representation of Apiator results.
+This renderer produces the most complete graphic interface according to core model.
 Html Render extends configuration from Json Renderer with path to output file.
 
 ==== Interface description

@@ -32,7 +32,7 @@ class DocletConfig {
      */
     String sourcePath
 
-    // TODO katoquro: 23/06/19 thisk about base package from main config usage
+    // TODO katoquro: 23/06/19 think about base package from main config usage
     /**
      * Base packages which will be scanned recursively to collect additional information from doc comments
      * If there are more than 1 package the must be divided via column (:)

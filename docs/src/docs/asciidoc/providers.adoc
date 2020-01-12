@@ -1,22 +1,22 @@
 == Providers
 
-Providers have knowledge about web frameworks and their dsl.
-Providers implement `WebServiceProvider` and return data about methods which represent API endpoints 
+Providers have knowledge about web frameworks and their DSL.
+Providers implement `WebServiceProvider` and return data about methods which represent API endpoints
 
 === JaxRsProvider
 
 JAX-RS specification describes in some details how your REST endpoints should look like.
-This information is stored in many annotations across your application. 
+This information is stored in many annotations across your application.
 We just collect it together and add some data from implementation.
 
-In some cases it's difficult to use only JAX-RS api. 
-F.e. when you return `javax.ws.rs.core.Response` as a result content can be any. 
+In some cases it's difficult to use only JAX-RS api.
+F.e. when you return `javax.ws.rs.core.Response` as a result content can be any.
 To solve such cases we provide Apiator `api` module which can clarify implementation details.
 
 === MicronautProvider
 
-This provider is built as integration with link:http://micronaut.io[Micronaut Framework]. 
+This provider is built as integration with link:http://micronaut.io[Micronaut Framework].
 Micronaut provides api and libraries to build REST-like microservices.
 
-Currently Apiator supports only routing and API declarations built via annotations described in the   
+Currently Apiator supports only routing and API declarations built via annotations described in the
 link:https://docs.micronaut.io/latest/guide/index.html#routing[documentation]
