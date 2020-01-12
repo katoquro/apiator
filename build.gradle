@@ -14,7 +14,8 @@ apply from: "$rootDir/gradle/versions.gradle"
 
 apply plugin: 'io.codearte.nexus-staging'
 nexusStaging {
-    packageGroup = "com.ainrif"
+    packageGroup = 'com.ainrif'
+    stagingProfileId = '679bd25392a70'
     delayBetweenRetriesInMillis = 5000
 }
 
