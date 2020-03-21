@@ -8,7 +8,7 @@ Requirements:
 
 === Core HTML renderer
 
-The `package.json` is located in source root of html renderer view - `renderer/core-html-renderer/src/main/node`.
+The `package.json` is located in source root of html renderer view - `web-client`.
 To run dev version on http://localhost:1234 execute next commands:
 
 [source,sh]
@@ -18,7 +18,7 @@ To run dev version on http://localhost:1234 execute next commands:
 ----
 
 Html renderer is based on Json Renderer so there is a prepared dataset (json) which represents all features available in Apiator.
-It's located at `renderer/core-html-renderer/src/main/node/src/js/apiatorJsonStub.js` and is used by default in dev mode.
+It's located at `web-client/src/js/apiatorJsonStub.js` and is used by default in dev mode.
 There is a task from root gradle project to regenerate this json:
 
 [source,sh]

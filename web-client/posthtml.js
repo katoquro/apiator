@@ -21,27 +21,31 @@ const posthtml = require('posthtml');
 
 let html = fs.readFileSync('./dist/index.html');
 
-posthtml(
-    [
-        require('posthtml-inline-assets')({
-            errors: 'throw',
-            root: './dist',
-            cwd: './dist',
-            transforms: {
-                script: {
-                    transform(node, data) {
-                        delete node.attrs.src;
+posthtml([
+    require('posthtml-inline-assets')({
+        errors: 'throw',
+        root: './dist',
+        cwd: './dist',
+        transforms: {
+            script: {
+                transform(node, data) {
+                    delete node.attrs.src;
 
-                        if ('apiator-json-stub' === node.attrs.id) {
-                            delete node.attrs.id;
-                            node.content = ['<!--apiatorJson placeholder-->']
-                        } else {
-                            node.content = [data.buffer.toString('utf8')];
-                        }
+                    if ('apiator-json-stub' === node.attrs.id) {
+                        delete node.attrs.id;
+                        node.content = ['<!--apiatorJson placeholder-->'];
+                    } else {
+                        node.content = [data.buffer.toString('utf8')];
                     }
-                }
-            }
-        })
-    ])
+                },
+            },
+        },
+    }),
+])
     .process(html)
-    .then(result => fs.writeFileSync('../../../build/resources/main/apiator.min.html', result.html));
+    .then(result =>
+        fs.writeFileSync(
+            '../renderer/core-html-renderer/build/resources/main/apiator.min.html',
+            result.html
+        )
+    );

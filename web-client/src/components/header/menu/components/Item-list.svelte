@@ -18,6 +18,7 @@
         width: 16px;
         height: 16px;
     }
+
     .menu__items-item > .menu__items-item-link {
         padding-left: 15px;
     }
