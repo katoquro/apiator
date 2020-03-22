@@ -1,0 +1,7 @@
+{
+  "name": "apiator-data-prod",
+  "version": "0.0.0",
+  "description": "Production placeholder for apiator data json",
+  "main": "index.js",
+  "license": "Apache-2.0"
+}

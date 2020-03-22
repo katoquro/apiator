@@ -9,7 +9,7 @@ blocks:
     task:
       env_vars:
         - name: JS_HOME
-          value: ./renderer/core-html-renderer/src/main/node/
+          value: ./web-client
       prologue:
         commands:
           - checkout

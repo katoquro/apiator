@@ -1,12 +1,4 @@
-ext.deployParams = [
-        description: 'Renderer of HTML Representation for Apiator',
-        developers : {
-            developer {
-                name 'Evgeniy Zelenkov'
-                email 'zelenkoff.ev@gmail.com'
-            }
-        }
-]
+ext.deployParams = [description: 'Renderer of HTML Representation for Apiator']
 apply from: "$rootDir/gradle/deploy.gradle"
 
 dependencies {
@@ -22,7 +14,7 @@ def buildHtmlTask = tasks.create('buildHtml', Exec) {
     it.dependsOn processResources
 
     def nodeBuildDir = project.buildDir.toPath().resolve('resources').resolve('main')
-    def nodeSrcPath = project.projectDir.toPath().resolve('src').resolve('main').resolve('node')
+    def nodeSrcPath = rootProject.projectDir.toPath().resolve('web-client')
 
     inputs.dir nodeSrcPath
     outputs.file nodeBuildDir.resolve('apiator.min.html')
