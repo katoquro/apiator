@@ -33,25 +33,23 @@
     "normalize.css": "^8.0.1"
   },
   "devDependencies": {
-    "@size-limit/preset-app": "^2.2.4",
-    "babel-eslint": "^10.0.3",
-    "caniuse-lite": "^1.0.30001017",
-    "cypress": "^3.8.1",
+    "@size-limit/preset-app": "^4.4.0",
+    "babel-eslint": "^10.1.0",
+    "cypress": "^4.2.0",
     "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.9.0",
+    "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-svelte3": "^2.7.3",
-    "husky": "^3.1.0",
-    "less": "^3.10.3",
-    "lint-staged": "^9.5.0",
+    "husky": "^4.2.3",
+    "less": "^3.11.1",
+    "lint-staged": "^10.0.8",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-apiator": "file:parcel-plugin-apiator",
-    "parcel-plugin-svelte": "^4.0.5",
-    "posthtml-inline-assets": "^3.0.0",
+    "parcel-plugin-svelte": "^4.0.6",
+    "posthtml-inline-assets": "^3.1.0",
     "prettier": "^1.19.1",
     "prettier-plugin-svelte": "^0.7.0",
-    "serialize-to-js": "^3.0.2",
-    "svelte": "^3.16.7"
+    "svelte": "^3.20.1"
   },
   "husky": {
     "hooks": {
@@ -60,12 +58,8 @@
   },
   "lint-staged": {
     "*.(js|svelte)": [
-      "prettier --write --plugin-search-dir=.",
-      "git add"
+      "prettier --write --plugin-search-dir=."
     ]
   },
-  "comments": {
-    "serialize-to-js": "security update of transitive dependency of parcel-bundler@1.12.4",
-    "caniuse-lite": "feature update of transitive dependency of browserslist@4.7.1"
-  }
+  "comments": {}
 }
