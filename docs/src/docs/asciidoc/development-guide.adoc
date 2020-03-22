@@ -8,7 +8,12 @@ Requirements:
 
 === Core HTML renderer
 
-The `package.json` is located in source root of html renderer view - `web-client`.
+Stack:
+
+- https://parceljs.org/[Parcel.js Bundler]
+- https://svelte.dev/[Svelte Framework]
+
+The source code is located in the folder `web-client`
 To run dev version on http://localhost:1234 execute next commands:
 
 [source,sh]
@@ -17,9 +22,9 @@ To run dev version on http://localhost:1234 execute next commands:
 ; npm start
 ----
 
-Html renderer is based on Json Renderer so there is a prepared dataset (json) which represents all features available in Apiator.
-It's located at `web-client/src/js/apiatorJsonStub.js` and is used by default in dev mode.
-There is a task from root gradle project to regenerate this json:
+Web client is based on Json Renderer data so there is a prepared dataset (json) represents all features available in Apiator.
+It's located at `web-client/apiator-data/dev/index.js` and is used by default in dev mode.
+There is a task from root gradle project to regenerate this json from scratch:
 
 [source,sh]
 ----
@@ -27,7 +32,7 @@ There is a task from root gradle project to regenerate this json:
 ; ./gradlew generate_stub
 ----
 
-The generated stub can be committed into the repo as is without additional formatting to keep history of changes.
+The generated stub can be committed into the repo "as is" and without additional formatting to keep history of changes.
 
 === Documentation
 
