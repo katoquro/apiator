@@ -15,7 +15,7 @@
  */
 
 // prettier-ignore
-window.apiatorJson = {
+module.exports = {
     "apiContexts": [
         {
             "apiEndpoints": [

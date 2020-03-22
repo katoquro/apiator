@@ -1,5 +1,11 @@
 <script>
     import {
+        apiContexts,
+        usedApiTypes,
+        usedEnumerations,
+    } from '../../../js/apiator-data.js';
+
+    import {
         getIdForTargetMarkerOfEndpoint,
         getAbsoluteLinkToEndpoint,
         getAfterLastDot,
@@ -10,8 +16,6 @@
     export let endpoint;
     export let apiPath;
     export let apiName;
-
-    const { apiContexts, usedApiTypes, usedEnumerations } = window.apiatorJson;
 
     const { method, path, description, params, returnTypes } = endpoint;
 

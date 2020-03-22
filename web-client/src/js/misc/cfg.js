@@ -18,8 +18,7 @@
  * @typedef {Object} LocalStoredInfo
  * @property {string} version
  */
-
-const apiatorInfo = apiatorJson.apiatorInfo;
+import { apiatorInfo } from '../apiator-data.js';
 
 /**
  * @method

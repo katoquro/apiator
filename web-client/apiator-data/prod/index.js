@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2019 Ainrif <support@ainrif.com>
+ * Copyright 2014-2020 Ainrif <support@ainrif.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,24 +14,4 @@
  * limitations under the License.
  */
 
-'use strict';
-
-const fs = require('fs');
-const posthtml = require('posthtml');
-
-let html = fs.readFileSync('./dist/index.html');
-
-posthtml([
-    require('posthtml-inline-assets')({
-        errors: 'throw',
-        root: './dist',
-        cwd: './dist',
-    }),
-])
-    .process(html)
-    .then(result =>
-        fs.writeFileSync(
-            '../renderer/core-html-renderer/build/resources/main/apiator.min.html',
-            result.html
-        )
-    );
+module.exports = 'apiator-data-prod-runtime-placeholder';

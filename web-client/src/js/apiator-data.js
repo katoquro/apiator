@@ -14,24 +14,8 @@
  * limitations under the License.
  */
 
-'use strict';
-
-const fs = require('fs');
-const posthtml = require('posthtml');
-
-let html = fs.readFileSync('./dist/index.html');
-
-posthtml([
-    require('posthtml-inline-assets')({
-        errors: 'throw',
-        root: './dist',
-        cwd: './dist',
-    }),
-])
-    .process(html)
-    .then(result =>
-        fs.writeFileSync(
-            '../renderer/core-html-renderer/build/resources/main/apiator.min.html',
-            result.html
-        )
-    );
+if (process.env.NODE_ENV === 'development') {
+    module.exports = require('apiator-data-dev');
+} else {
+    module.exports = require('apiator-data-prod');
+}

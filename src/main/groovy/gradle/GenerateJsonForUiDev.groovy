@@ -31,7 +31,7 @@ import java.time.LocalDate
 class GenerateJsonForUiDev {
     static final String JAXRS_PACKAGE = 'com.ainrif.apiator.test.model.jaxrs.uidev'
     static final String PRETTIER_IGNORE = '// prettier-ignore'
-    static final String JS_PREFIX = 'window.apiatorJson = '
+    static final String JS_PREFIX = 'module.exports = '
     static final String COPYRIGHT = """
         /*
          * Copyright 2014-${LocalDate.now().year} Ainrif <support@ainrif.com>
@@ -51,7 +51,7 @@ class GenerateJsonForUiDev {
         """.stripIndent().trim()
 
     static void main(String[] args) {
-        def path = "${args[0]}/web-client/src/js/apiatorJsonStub.js"
+        def path = "${args[0]}/web-client/apiator-data/dev/index.js"
         def config = new ApiatorConfig(
                 basePackage: JAXRS_PACKAGE,
                 apiClass: Path,
@@ -71,7 +71,8 @@ class GenerateJsonForUiDev {
                         PRETTIER_IGNORE + System.lineSeparator() +
                         JS_PREFIX +
                         JsonOutput.prettyPrint(apiator.render()) +
-                        ';'
+                        ';' +
+                        System.lineSeparator()
                 )
     }
 }

@@ -26,7 +26,7 @@ import java.util.regex.Pattern
 import static java.util.Collections.emptyMap
 
 class CoreHtmlRenderer implements Renderer {
-    private static final String APIATOR_JSON_HTML_PLACEHOLDER = '<!--apiatorJson placeholder-->'
+    private static final String APIATOR_JSON_HTML_PLACEHOLDER = '"apiator-data-prod-runtime-placeholder"'
 
     @Delegate
     final Config config
@@ -53,6 +53,11 @@ class CoreHtmlRenderer implements Renderer {
 
     protected String renderTemplate(String json) {
         def tmpl = resolveResourcePath('/apiator.min.html').text
+
+        if (!tmpl.contains(APIATOR_JSON_HTML_PLACEHOLDER)) {
+            throw new RuntimeException('Cannot find placeholder to inject apiator data into web-client')
+        }
+
         def html = Pattern.compile(APIATOR_JSON_HTML_PLACEHOLDER, Pattern.LITERAL)
                 .matcher(tmpl)
                 .replaceFirst(Matcher.quoteReplacement(json))

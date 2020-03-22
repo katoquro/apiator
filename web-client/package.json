@@ -30,9 +30,11 @@
   ],
   "dependencies": {
     "clipboard": "^2.0.4",
-    "normalize.css": "^8.0.1"
+    "normalize.css": "^8.0.1",
+    "apiator-data-prod": "file:apiator-data/prod"
   },
   "devDependencies": {
+    "apiator-data-dev": "file:apiator-data/dev",
     "@size-limit/preset-app": "^4.4.0",
     "babel-eslint": "^10.1.0",
     "cypress": "^4.2.0",

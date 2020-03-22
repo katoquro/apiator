@@ -5,7 +5,11 @@ import {
 } from '../../../services/services';
 import Searcher from './searcher';
 
-const { apiContexts, usedApiTypes, usedEnumerations } = apiatorJson;
+import {
+    apiContexts,
+    usedApiTypes,
+    usedEnumerations,
+} from '../../../js/apiator-data';
 
 const endpointDataSet = apiContexts
     .flatMap(context =>

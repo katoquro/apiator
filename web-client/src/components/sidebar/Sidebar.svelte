@@ -1,11 +1,15 @@
 <script>
+    import {
+        apiContexts,
+        usedApiTypes,
+        usedEnumerations,
+    } from '../../js/apiator-data';
+
     import ContextsItem from './components/Contexts-item.svelte';
     import TypeItem from './components/Type-item.svelte';
     import EnumItem from './components/Enum-item.svelte';
     import EndpointIcon from './icons/endpoint.svg';
     import ModelIcon from './icons/model.svg';
-
-    const { apiContexts, usedApiTypes, usedEnumerations } = window.apiatorJson;
 
     const handleGroupTitleClick = event => {
         event.currentTarget.nextElementSibling.classList.toggle(
