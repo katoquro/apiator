@@ -7,6 +7,7 @@ apply from: "$rootDir/../../gradle/versions.gradle"
 
 allprojects {
     apply plugin: 'groovy'
+    apply plugin: 'java-library'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -42,6 +43,6 @@ pluginBundle {
 }
 
 dependencies {
-    compile project(':utils-apiator-gradle-plugin')
+    api project(':utils-apiator-gradle-plugin')
     implementation localGroovy()
 }

@@ -3,7 +3,7 @@ apply from: "$rootDir/gradle/deploy.gradle"
 
 dependencies {
     // this plugin extends default behaviour so we need more than spi
-    compile project(':renderer:core-json-renderer')
+    api project(':renderer:core-json-renderer')
 
-    compile "javax.ws.rs:javax.ws.rs-api:2.0.1"
+    api "javax.ws.rs:javax.ws.rs-api:${versions.jaxrsApi}"
 }

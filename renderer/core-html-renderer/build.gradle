@@ -2,12 +2,12 @@ ext.deployParams = [description: 'Renderer of HTML Representation for Apiator']
 apply from: "$rootDir/gradle/deploy.gradle"
 
 dependencies {
-    compile project(':core')
-    compile project(':renderer:core-json-renderer')
+    implementation project(':core')
+    implementation project(':renderer:core-json-renderer')
 
-    compile "org.codehaus.groovy:groovy-nio:${versions.groovy}"
+    implementation "org.codehaus.groovy:groovy-nio:${versions.groovy}"
 
-    testCompile project(':provider:jax-rs-provider')
+    testImplementation project(':provider:jax-rs-provider')
 }
 
 def buildHtmlTask = tasks.create('buildHtml', Exec) {

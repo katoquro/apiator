@@ -46,7 +46,7 @@ class Apiator {
     }
 
     String render() {
-        def scheme = getScheme()
+        def scheme = prepareScheme()
         def stopwatch = StopWatch.createStarted()
 
         def render = config.renderer.render(scheme)
@@ -55,7 +55,7 @@ class Apiator {
         return render
     }
 
-    protected ApiScheme getScheme() {
+    protected ApiScheme prepareScheme() {
         return scheme ?: {
             def stopwatch = StopWatch.createStarted()
             scheme = new ApiScheme(apiatorInfo: info, clientApiInfo: new ClientApiInfo(config))

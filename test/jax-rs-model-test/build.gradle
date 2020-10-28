@@ -1,5 +1,6 @@
 dependencies {
-    compile project(':test:core-model-test')
-    compile project(':api')
-    compile "javax.ws.rs:javax.ws.rs-api:2.0.1"
+    compileOnly project(':api')
+
+    api project(':test:core-model-test')
+    api "javax.ws.rs:javax.ws.rs-api:${versions.jaxrsApi}"
 }

@@ -2,6 +2,9 @@ ext.deployParams = [description: 'Renderer of JSON Representation for Apiator. C
 apply from: "$rootDir/gradle/deploy.gradle"
 
 dependencies {
-    compile project(':core')
-    compile project(':renderer:core-json-renderer:plugin:spi-plugin-core-json-renderer')
+    api project(':renderer:core-json-renderer:plugin:spi-plugin-core-json-renderer')
+
+    implementation project(':core')
+
+    testImplementation "io.github.classgraph:classgraph:${versions.classgraph}"
 }

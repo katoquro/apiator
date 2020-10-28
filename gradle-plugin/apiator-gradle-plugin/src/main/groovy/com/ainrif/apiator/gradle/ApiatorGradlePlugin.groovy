@@ -95,9 +95,9 @@ class ApiatorGradlePlugin implements Plugin<Project> {
         }
 
         prj.repositories.mavenCentral()
-        prj.dependencies.constraints.add('compile', "com.ainrif.apiator:api:${apiatorVersion}")
+        prj.dependencies.constraints.add('implementation', "com.ainrif.apiator:api:${apiatorVersion}")
 
-        prj.configurations.maybeCreate('apiatorCompile').with {
+        prj.configurations.maybeCreate('apiatorImplementation').with {
             def apiatorVersionConstraints = apiatorModules.collect {
                 prj.dependencies.constraints.create(group: 'com.ainrif.apiator', name: it, version: apiatorVersion)
             }

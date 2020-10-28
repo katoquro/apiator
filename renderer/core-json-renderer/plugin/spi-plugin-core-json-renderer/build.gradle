@@ -3,5 +3,5 @@ apply from: "$rootDir/gradle/deploy.gradle"
 
 dependencies {
     // TODO katoquro: 26/04/2018 extract spi from core 
-    compile project(':core')
+    api project(':core')
 }

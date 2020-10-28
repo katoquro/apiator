@@ -35,9 +35,9 @@ class CoreHtmlRenderer implements Renderer {
         String toFile
     }
 
-    CoreHtmlRenderer(@DelegatesTo(Config) Closure configurator) {
+    CoreHtmlRenderer(@DelegatesTo(value = Config, strategy = Closure.DELEGATE_FIRST) Closure configurator) {
         this.config = new Config()
-        this.config.with configurator
+        this.config.tap configurator
     }
 
     CoreHtmlRenderer(Config config) {
