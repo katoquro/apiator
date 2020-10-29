@@ -48,7 +48,7 @@ class CoreHtmlRenderer implements Renderer {
     String render(ApiScheme scheme) {
         def json = new CoreJsonRenderer(config).render(scheme)
 
-        return renderTemplate("var apiatorJson = ${json}")
+        return renderTemplate(json)
     }
 
     protected String renderTemplate(String json) {
