@@ -1,8 +1,8 @@
 v0.14.x - Upgrade
 
+- new: separate web-client module for html view
 - update: to Groovy 3
 - update: to Gradle 6.7
-- update: web-client dependencies
 - update: apiator dependencies
 - improvement: split Gradle dependencies to api and implementation
 
