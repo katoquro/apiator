@@ -29,7 +29,7 @@ class DefaultModelTypeCompositePluginSpec extends Specification {
 
         def corePlugins = new ClassGraph()
                 .enableClassInfo()
-                .whitelistPackages(corePackage)
+                .acceptPackages(corePackage)
                 .scan()
                 .withCloseable {
                     it.getClassesImplementing(ModelTypePlugin.name)

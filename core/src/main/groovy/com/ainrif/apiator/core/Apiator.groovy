@@ -106,8 +106,7 @@ class Apiator {
     protected Set<Class<?>> scanForApi() {
         def scanner = new ClassGraph()
                 .enableAllInfo()
-                .whitelistPackages(config.basePackage)
-
+                .acceptPackages(config.basePackage)
         if (extraClassPath) {
             def additionalClassLoader = new URLClassLoader(extraClassPath, Apiator.classLoader)
             scanner.addClassLoader(additionalClassLoader)
