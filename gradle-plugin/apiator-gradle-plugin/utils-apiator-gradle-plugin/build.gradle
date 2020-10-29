@@ -2,6 +2,6 @@ ext.deployParams = [description: 'A set of utils used in gradle plugin']
 apply from: "$rootDir/../../gradle/deploy.gradle"
 
 dependencies {
-    compile "com.ainrif.apiator:core:${rootProject.version}"
-    implementation localGroovy()
+    implementation "com.ainrif.apiator:core:${rootProject.version}"
+    implementation "org.codehaus.groovy:groovy:3.0.6"
 }

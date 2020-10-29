@@ -20,5 +20,3 @@ include ':test:core-model-test'
 include ':test:micronaut-model-test'
 include ':test:jax-rs-model-test'
 include ':test:demo-model-test'
-
-enableFeaturePreview('STABLE_PUBLISHING')

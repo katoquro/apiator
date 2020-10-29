@@ -34,24 +34,24 @@
     "apiator-data-prod": "file:apiator-data/prod"
   },
   "devDependencies": {
+    "@size-limit/preset-app": "^4.7.0",
     "apiator-data-dev": "file:apiator-data/dev",
-    "@size-limit/preset-app": "^4.4.0",
     "babel-eslint": "^10.1.0",
-    "cypress": "^4.2.0",
+    "cypress": "^4.12.1",
     "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.10.0",
-    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-svelte3": "^2.7.3",
-    "husky": "^4.2.3",
-    "less": "^3.11.1",
-    "lint-staged": "^10.0.8",
+    "husky": "^4.3.0",
+    "less": "^3.12.2",
+    "lint-staged": "^10.5.0",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-apiator": "file:parcel-plugin-apiator",
     "parcel-plugin-svelte": "^4.0.6",
     "posthtml-inline-assets": "^3.1.0",
     "prettier": "^1.19.1",
     "prettier-plugin-svelte": "^0.7.0",
-    "svelte": "^3.20.1"
+    "svelte": "^3.29.4"
   },
   "husky": {
     "hooks": {

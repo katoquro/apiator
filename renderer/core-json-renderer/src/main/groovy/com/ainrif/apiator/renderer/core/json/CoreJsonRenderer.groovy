@@ -60,9 +60,9 @@ class CoreJsonRenderer implements Renderer {
         List<ModelTypePlugin> modelTypePlugins = []
     }
 
-    CoreJsonRenderer(@DelegatesTo(Config) Closure configurator) {
+    CoreJsonRenderer(@DelegatesTo(value = Config, strategy = Closure.DELEGATE_FIRST) Closure configurator) {
         this.config = new Config()
-        this.config.with configurator
+        this.config.tap configurator
         init()
     }
 

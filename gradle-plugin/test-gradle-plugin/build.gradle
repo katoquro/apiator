@@ -17,8 +17,8 @@ if (!project.hasProperty('java.build')) {
     apply plugin: 'groovy'
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 group = 'com.ainrif.apiator'
 
@@ -34,16 +34,15 @@ apiator {
 }
 
 dependencies {
-    apiatorCompile "com.ainrif.apiator:core"
-    apiatorCompile "com.ainrif.apiator:jax-rs-provider"
-    apiatorCompile "com.ainrif.apiator:jax-rs-plugin-core-json-renderer"
-    apiatorCompile "com.ainrif.apiator:core-html-renderer"
+    apiatorImplementation "com.ainrif.apiator:core"
+    apiatorImplementation "com.ainrif.apiator:jax-rs-provider"
+    apiatorImplementation "com.ainrif.apiator:jax-rs-plugin-core-json-renderer"
+    apiatorImplementation "com.ainrif.apiator:core-html-renderer"
 
-
-    compile "com.ainrif.apiator:api"
-    compile "javax.ws.rs:javax.ws.rs-api:2.0.1"
+    implementation "com.ainrif.apiator:api"
+    implementation "javax.ws.rs:javax.ws.rs-api:2.1.1"
 
     if (!project.hasProperty('java.build')) {
-        compile "org.codehaus.groovy:groovy:2.5.7"
+        implementation "org.codehaus.groovy:groovy:3.0.6"
     }
 }

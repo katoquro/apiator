@@ -2,21 +2,18 @@ ext.deployParams = [description: 'Apiator core module']
 apply from: "$rootDir/gradle/deploy.gradle"
 
 dependencies {
-    compile project(':api')
+    api project(':api')
 
-    compile 'io.github.classgraph:classgraph:4.8.59'
+    api "org.slf4j:slf4j-api:${versions.slf4j}"
+    api "com.google.code.findbugs:jsr305:${versions.jsr305}"
 
-    compile "org.slf4j:slf4j-api:${versions.slf4j}"
-    compile "org.codehaus.groovy:groovy:${versions.groovy}"
-    compile "org.codehaus.groovy:groovy-json:${versions.groovy}"
+    api "org.springframework:spring-core:${versions.springCore}" // utils for search annotations
+    api "com.fasterxml.jackson.core:jackson-databind:${versions.jackson}"
 
-    compile "com.google.code.findbugs:jsr305:${versions.jsr305}"
-    compile "javax.servlet:javax.servlet-api:3.1.0"
-
-    compile "org.springframework:spring-core:4.1.6.RELEASE" // utils for search annotations
-    compile "com.fasterxml.jackson.core:jackson-databind:${versions.jackson}"
+    implementation "org.codehaus.groovy:groovy-json:${versions.groovy}"
+    implementation "io.github.classgraph:classgraph:${versions.classgraph}"
 
     //Doclets
-    compile "org.apache.commons:commons-lang3:${versions.lang3}"
+    api "org.apache.commons:commons-lang3:${versions.lang3}"
     //^^^
 }

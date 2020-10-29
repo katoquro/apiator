@@ -2,11 +2,11 @@ ext.deployParams = [description: 'Provider or Micronaut integration for Apiator'
 apply from: "$rootDir/gradle/deploy.gradle"
 
 dependencies {
-    compile project(':core')
-    // TODO katoquro: 2018-11-27 use compileOnly when there will be solution for gradle plugin 
-    compile "io.micronaut:micronaut-http:${versions.micronaut}"
-    compile "io.micronaut:micronaut-aop:${versions.micronaut}"
-    compile "net.bytebuddy:byte-buddy:1.10.1"
+    compileOnly "io.micronaut:micronaut-http:${versions.micronaut}"
+    compileOnly "io.micronaut:micronaut-aop:${versions.micronaut}"
 
-    testCompile project(':test:micronaut-model-test')
+    implementation project(':core')
+    implementation "net.bytebuddy:byte-buddy:${versions.byteBuddy}"
+
+    testImplementation project(':test:micronaut-model-test')
 }
