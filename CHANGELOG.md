@@ -4,6 +4,7 @@ v0.14.x - Upgrade
 - update: to Groovy 3
 - update: to Gradle 6.7
 - update: apiator dependencies
+- improvement: Micronaut API params parser
 - improvement: split Gradle dependencies to api and implementation
 
 v0.13.x - Performance optimizations

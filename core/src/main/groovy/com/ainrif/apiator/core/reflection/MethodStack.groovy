@@ -71,8 +71,8 @@ abstract class MethodStack extends ArrayList<Method> {
      *
      * @return [ < param index > : [inherited annotations] ]
      */
-    protected Map<Integer, List<? extends Annotation>> getParametersAnnotationsLists() {
-        def result = new HashMap<Integer, List<? extends Annotation>>().withDefault { [] }
+    protected Map<Integer, List<Annotation>> getParametersAnnotationsLists() {
+        def result = new HashMap<Integer, List<Annotation>>().withDefault { [] }
         this.each {
             (it.parameterAnnotations as List<Annotation[]>).eachWithIndex { Annotation[] entry, int i ->
                 result[i].addAll(entry as List)

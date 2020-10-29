@@ -25,6 +25,7 @@ import groovy.transform.CompileDynamic
 import io.micronaut.http.HttpHeaders
 import io.micronaut.http.HttpParameters
 import io.micronaut.http.HttpRequest
+import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.*
 import io.micronaut.http.cookie.Cookies
 import io.micronaut.http.uri.UriMatchTemplate
@@ -36,21 +37,36 @@ import org.springframework.core.annotation.AnnotationUtils
 import java.lang.annotation.Annotation
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
+import java.lang.reflect.Parameter
 import java.lang.reflect.Type
+import java.security.Principal
 
 class MicronautMethodStack extends MethodStack {
     private static COMPILE_WITH_PARAMS_MSG = 'Please check method signature and annotations or try to compile with ' +
             '`-parameters` flag for java code or ' +
             '`--parameters` flag for groovy code (since Gradle 6.1.0) '
 
-    List<Class<? extends Annotation>> ENDPOINT_PATH_ANNOTATIONS = [Post,
-                                                                   Get,
-                                                                   Put,
-                                                                   Delete,
-                                                                   Options,
-                                                                   Head,
-                                                                   Patch,
-                                                                   Trace]
+    private static final List<Class<? extends Object>> MICRONAUT_SYSTEM_INJECT_TYPES = [HttpRequest,
+                                                                                        HttpResponse,
+                                                                                        HttpHeaders,
+                                                                                        HttpParameters,
+                                                                                        Principal,
+                                                                                        Cookies]
+
+    private static final List<Class<? extends Annotation>> ENDPOINT_PATH_ANNOTATIONS = [Post,
+                                                                                        Get,
+                                                                                        Put,
+                                                                                        Delete,
+                                                                                        Options,
+                                                                                        Head,
+                                                                                        Patch,
+                                                                                        Trace]
+
+    private static final List<Class<? extends Annotation>> PARAM_ANNOTATIONS = [QueryValue,
+                                                                                PathVariable,
+                                                                                CookieValue,
+                                                                                Header,
+                                                                                Part]
 
     private MicronautContextStack context
 
@@ -68,7 +84,7 @@ class MicronautMethodStack extends MethodStack {
     @Override
     String getPath() {
         Annotation pathOpt = ENDPOINT_PATH_ANNOTATIONS.findResult {
-            AnnotationUtils.findAnnotation(this.last(), it)
+            AnnotationUtils.findAnnotation(this.last(), it as Class<Annotation>)
         }
 
         def value = pathOpt.value() as String
@@ -80,7 +96,7 @@ class MicronautMethodStack extends MethodStack {
     @Override
     String getMethod() {
         Annotation methodOpt = ENDPOINT_PATH_ANNOTATIONS.findResult {
-            AnnotationUtils.findAnnotation(this.last(), it)
+            AnnotationUtils.findAnnotation(this.last(), it as Class<Annotation>)
         }
 
         return methodOpt.annotationType().simpleName.toUpperCase()
@@ -92,74 +108,63 @@ class MicronautMethodStack extends MethodStack {
     @CompileDynamic
     @Override
     List<ApiEndpointParam> getParams() {
-        String rawPath = this.path
-        def querySignIndex = rawPath.indexOf('?')
+        def uriTmpl = UriMatchTemplate.of(this.path)
 
-        def pathPart = rawPath
-        def queryPart = ''
-        if (-1 != querySignIndex) {
-            if (0 != querySignIndex && '{' == rawPath[querySignIndex - 1]) {
-                querySignIndex--
-            }
-
-            pathPart = rawPath.substring(0, querySignIndex)
-            queryPart = rawPath.substring(querySignIndex)
-        }
-
-        def pathTmpl = UriMatchTemplate.of(pathPart)
-        def queryTmpl = UriMatchTemplate.of(queryPart)
-
-        def paramAnnotations = getParametersAnnotationsLists()
-        def methodParams = this.last().parameters
+        Map<Integer, List<Annotation>> paramAnnotations = getParametersAnnotationsLists()
+        Parameter[] methodParams = this.last().parameters
         List<ApiEndpointParam> result = []
 
-        pathTmpl.variables.each { var ->
-            int paramIndex = findIndexOfParam(paramAnnotations, var)
+        uriTmpl.variables
+                .findAll { !it.query }
+                .each { var ->
+                    int paramIndex = findIndexOfParam(paramAnnotations, var)
 
-            result << new ApiEndpointParam(
-                    index: paramIndex,
-                    name: var.name,
-                    type: new ApiType(methodParams[paramIndex].parameterizedType),
-                    httpParamType: ApiEndpointParamType.PATH,
-                    annotations: paramAnnotations[paramIndex]
-            )
-
-            paramAnnotations.remove(paramIndex)
-        }
-
-        queryTmpl.variables.each { var ->
-            int paramIndex = findIndexOfParam(paramAnnotations, var)
-
-            if (var.exploded) {
-                def explodedFields = RUtils.getAllDeclaredDynamicFields(methodParams[paramIndex].type).collect {
-                    def nameAnnotation = paramAnnotations[paramIndex].find { annotation ->
-                        QueryValue.isAssignableFrom(annotation.annotationType())
-                    }
-                    new ApiEndpointParam(
-                            index: -1,
-                            name: nameAnnotation?.value() ?: it.name,
-                            type: new ApiType(it.genericType),
-                            httpParamType: ApiEndpointParamType.QUERY,
-                            annotations: (it.annotations as List<? extends Annotation>) + paramAnnotations[paramIndex]
+                    result << new ApiEndpointParam(
+                            index: paramIndex,
+                            name: var.name,
+                            type: new ApiType(methodParams[paramIndex].parameterizedType),
+                            httpParamType: ApiEndpointParamType.PATH,
+                            annotations: paramAnnotations[paramIndex]
                     )
+
+                    paramAnnotations.remove(paramIndex)
                 }
 
-                result.addAll(explodedFields)
-            } else {
-                def nameAnnotation = paramAnnotations[paramIndex].find { annotation ->
-                    QueryValue.isAssignableFrom(annotation.annotationType())
-                }
-                result << new ApiEndpointParam(
-                        index: paramIndex,
-                        name: nameAnnotation?.value() ?: var.name,
-                        type: new ApiType(methodParams[paramIndex].parameterizedType),
-                        httpParamType: ApiEndpointParamType.QUERY,
-                        annotations: paramAnnotations[paramIndex]
-                )
-            }
+        uriTmpl.variables
+                .findAll { it.query }
+                .each { var ->
+                    int paramIndex = findIndexOfParam(paramAnnotations, var)
 
-            paramAnnotations.remove(paramIndex)
-        }
+                    if (var.exploded) {
+                        def explodedFields = RUtils.getAllDeclaredDynamicFields(methodParams[paramIndex].type).collect {
+                            def nameAnnotation = paramAnnotations[paramIndex].find { annotation ->
+                                QueryValue.isAssignableFrom(annotation.annotationType())
+                            }
+                            new ApiEndpointParam(
+                                    index: -1,
+                                    name: nameAnnotation?.value() ?: it.name,
+                                    type: new ApiType(it.genericType),
+                                    httpParamType: ApiEndpointParamType.QUERY,
+                                    annotations: (it.annotations as List<Annotation>) + paramAnnotations[paramIndex]
+                            )
+                        }
+
+                        result.addAll(explodedFields)
+                    } else {
+                        def nameAnnotation = paramAnnotations[paramIndex].find { annotation ->
+                            QueryValue.isAssignableFrom(annotation.annotationType())
+                        }
+                        result << new ApiEndpointParam(
+                                index: paramIndex,
+                                name: nameAnnotation?.value() ?: var.name,
+                                type: new ApiType(methodParams[paramIndex].parameterizedType),
+                                httpParamType: ApiEndpointParamType.QUERY,
+                                annotations: paramAnnotations[paramIndex]
+                        )
+                    }
+
+                    paramAnnotations.remove(paramIndex)
+                }
 
         Map<Integer, List<String>> parametersNameLists = getParametersNameLists()
 
@@ -168,7 +173,7 @@ class MicronautMethodStack extends MethodStack {
         List<ApiEndpointParam> remainingParamTypes = paramAnnotations
                 .findAll { index, annList ->
                     def paramType = methodParams[index].type
-                    def isMicronautSystemType = [HttpRequest, HttpHeaders, HttpParameters, Cookies].any {
+                    def isMicronautSystemType = MICRONAUT_SYSTEM_INJECT_TYPES.any {
                         it.isAssignableFrom(paramType)
                     }
 
@@ -177,7 +182,7 @@ class MicronautMethodStack extends MethodStack {
                 .collect { index, annList ->
                     def param = methodParams[index]
 
-                    def found = annList.find { [QueryValue, CookieValue, Header, Part].contains(it.annotationType()) }
+                    def found = annList.find { PARAM_ANNOTATIONS.contains(it.annotationType()) }
                     if (found) {
                         return new ApiEndpointParam(
                                 index: index,

@@ -32,6 +32,7 @@ import java.util.function.Predicate
 class MicronautProvider implements WebServiceProvider {
 
     List<Class<? extends Annotation>> wsAnnotations = [Controller,
+                                                       CustomHttpMethod,
                                                        Post,
                                                        Get,
                                                        Put,

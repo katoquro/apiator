@@ -23,6 +23,7 @@ import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Post;
 
 import javax.annotation.Nullable;
+import java.security.Principal;
 
 @Controller("/controller")
 public class MicronautControllerImpl implements MicronautController {
@@ -54,5 +55,17 @@ public class MicronautControllerImpl implements MicronautController {
 
     @Post("/micronaut/expanded-body")
     public void expandedBodyParam(@Body("name") String name) {
+    }
+
+    @Override
+    public void methodWithMicronautSystemTypeWithoutBody(Principal user) {
+    }
+
+    @Override
+    public void methodWithMicronautSystemTypeWithBody(Principal user, Dto01_Plain body) {
+    }
+
+    @Override
+    public void methodWithMicronautSystemTypeWithExplodedBody(Principal user, String explodedBody) {
     }
 }

@@ -33,6 +33,18 @@
           ]
         },
         {
+          "method": "GET",
+          "name": "methodWithMicronautSystemTypeWithoutBody",
+          "params": [],
+          "path": "/get/micronaut-system-type-wo-body",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        },
+        {
           "method": "POST",
           "name": "expandedBodyParam",
           "params": [
@@ -110,6 +122,48 @@
               "basedOn": [],
               "modelType": "OBJECT",
               "type": "com.ainrif.apiator.test.model.core.Dto02_Complex"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "name": "methodWithMicronautSystemTypeWithBody",
+          "params": [
+            {
+              "basedOn": [],
+              "httpParamType": "BODY",
+              "index": 1,
+              "modelType": "OBJECT",
+              "optional": false,
+              "type": "com.ainrif.apiator.test.model.core.Dto01_Plain"
+            }
+          ],
+          "path": "/post/micronaut-system-type-w-body",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "name": "methodWithMicronautSystemTypeWithExplodedBody",
+          "params": [
+            {
+              "basedOn": [],
+              "httpParamType": "BODY",
+              "index": -1,
+              "modelType": "OBJECT",
+              "optional": false,
+              "type": "adhoc_type.MicronautControllerImplMethodWithMicronautSystemTypeWithExplodedBody"
+            }
+          ],
+          "path": "/post/micronaut-system-type-w-exploded-body",
+          "returnTypes": [
+            {
+              "basedOn": [],
+              "modelType": "VOID"
             }
           ]
         },
@@ -200,6 +254,20 @@
       ],
       "modelType": "OBJECT",
       "type": "adhoc_type.MicronautControllerImplExpandedBodyParam"
+    },
+    {
+      "fields": [
+        {
+          "basedOn": [],
+          "modelType": "STRING",
+          "name": "explodedBody",
+          "optional": false,
+          "readable": false,
+          "writable": true
+        }
+      ],
+      "modelType": "OBJECT",
+      "type": "adhoc_type.MicronautControllerImplMethodWithMicronautSystemTypeWithExplodedBody"
     },
     {
       "fields": [
