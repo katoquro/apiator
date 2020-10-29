@@ -83,6 +83,10 @@ allprojects {
         testImplementation "org.slf4j:log4j-over-slf4j:${versions.slf4j}"
         testImplementation "ch.qos.logback:logback-classic:${versions.logback}"
     }
+
+    test {
+        useJUnitPlatform()
+    }
 }
 
 subprojects {
