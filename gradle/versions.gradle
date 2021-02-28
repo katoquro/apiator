@@ -3,7 +3,11 @@ import org.ajoberstar.grgit.operation.OpenOp
 
 buildscript {
     repositories {
-        jcenter()
+        maven {
+            name = 'ajoberstar-backup'
+            url = 'https://ajoberstar.github.io/bintray-backup/'
+        }
+        mavenCentral()
     }
     dependencies {
         classpath 'org.ajoberstar.grgit:grgit-core:4.0.1'

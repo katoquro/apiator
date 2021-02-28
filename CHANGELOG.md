@@ -6,6 +6,7 @@ v0.14.x - Upgrade
 - update: apiator dependencies
 - improvement: Micronaut API params parser
 - improvement: split Gradle dependencies to api and implementation
+- improvement: stop using jCenter and Bintray
 
 v0.13.x - Performance optimizations
 

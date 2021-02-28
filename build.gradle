@@ -141,7 +141,7 @@ task publishGitTag {
                 }
             }
 
-            push(refsOrSpecs: ['refs/tags/' + project.version], dryRun: true)
+            push(refsOrSpecs: ['refs/tags/' + project.version])
         }
     }
 }
