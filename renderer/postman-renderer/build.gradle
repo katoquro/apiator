@@ -1,0 +1,3 @@
+dependencies {
+    implementation project(':renderer:core-json-renderer')
+}

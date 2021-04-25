@@ -10,6 +10,7 @@ include ':provider:micronaut-provider'
 
 include ':renderer:core-html-renderer'
 include ':renderer:core-json-renderer'
+include ':renderer:postman-renderer'
 
 include ':renderer:core-json-renderer:plugin:spi-plugin-core-json-renderer'
 include ':renderer:core-json-renderer:plugin:jakson-plugin-core-json-renderer'

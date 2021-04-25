@@ -263,10 +263,10 @@ class MicronautMethodStack extends MethodStack {
     }
 
     private int findIndexOfParam(Map<Integer, List<? extends Annotation>> annotations,
-                                 UriMatchVariable var) {
+                                 UriMatchVariable variable) {
         for (m in this.reverse(false)) {
             def methodParams = m.parameters
-            def result = methodParams.findIndexOf { it.namePresent && it.name == var.name }
+            def result = methodParams.findIndexOf { it.namePresent && it.name == variable.name }
 
             if (-1 != result) {
                 return result
@@ -275,7 +275,7 @@ class MicronautMethodStack extends MethodStack {
 
         Integer foundIdxFromAnnotations = annotations.findResult { idx, annList ->
             def found = annList.find { ann -> [QueryValue, PathVariable].contains(ann.annotationType()) }
-            if (found && found.asType(QueryValue).value() == var.name) {
+            if (found && found.asType(QueryValue).value() == variable.name) {
                 return idx
             }
 
@@ -284,7 +284,7 @@ class MicronautMethodStack extends MethodStack {
 
         if (null == foundIdxFromAnnotations) {
             throw new RuntimeException('No corresponding query or path params were found for ' +
-                    "variable(${var.name})' in path(${this.path}) of method(${this.last().name}) " +
+                    "variable(${variable.name})' in path(${this.path}) of method(${this.last().name}) " +
                     COMPILE_WITH_PARAMS_MSG)
         }
 
