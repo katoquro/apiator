@@ -31,6 +31,9 @@ class ApiatorConfig {
     Renderer renderer = null
     String basePath = '/api' // TODO katoquro: 27/05/2018 revise usage logic
     String apiVersion = '1.0.0-SNAPSHOT'
+    String apiName
+    String apiProtocol = 'https'
+    String apiHost
 
     /**
      * Marker annotation to detect classes to parse

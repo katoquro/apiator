@@ -20,9 +20,15 @@ import com.ainrif.apiator.core.ApiatorConfig
 class ClientApiInfo {
     String version
     String basePath
+    String apiName
+    String apiProtocol
+    String apiHost
 
     ClientApiInfo(ApiatorConfig config) {
         this.version = config.apiVersion
         this.basePath = config.basePath
+        this.apiName = config.apiName
+        this.apiProtocol = config.apiProtocol
+        this.apiProtocol = config.apiVersion
     }
 }

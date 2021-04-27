@@ -111,6 +111,7 @@ subprojects {
 dependencies {
     implementation project(':api')
     implementation project(':renderer:core-html-renderer')
+    implementation project(':renderer:postman-renderer')
     implementation project(':provider:jax-rs-provider')
     implementation project(':provider:micronaut-provider')
 

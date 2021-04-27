@@ -1,5 +1,7 @@
 package com.ainrif.apiator.renderer.postman.model_2_1.request
 
+import com.ainrif.apiator.renderer.postman.model_2_1.Variable
+
 
 /**
  * If object, contains the complete broken-down URL for this request. If string, contains the literal request URL.
@@ -26,4 +28,23 @@ class Url {
      */
     public List<String> path = []
 
+    /**
+     * The port number present in this URL. An empty value implies 80/443 depending on whether the protocol field contains http/https.
+     */
+    public String port
+
+    /**
+     * An array of QueryParams, which is basically the query string part of the URL, parsed into separate variables
+     */
+    public List<QueryParam> query = []
+
+    /**
+     * Contains the URL fragment (if any). Usually this is not transmitted over the network, but it could be useful to store this in some cases.
+     */
+    public String hash
+
+    /**
+     * Postman supports path variables with the syntax `/path/:variableName/to/somewhere`. These variables are stored in this field.
+     */
+    public List<Variable> variable = []
 }

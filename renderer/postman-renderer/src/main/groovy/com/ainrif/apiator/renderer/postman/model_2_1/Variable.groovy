@@ -1,6 +1,8 @@
 package com.ainrif.apiator.renderer.postman.model_2_1
 
 import com.ainrif.apiator.renderer.postman.model_2_1.common.Description
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonValue
 
 
 /**
@@ -26,7 +28,7 @@ class Variable {
     /**
      * A variable may have multiple types. This field specifies the type of the variable.
      */
-    public Variable.Type type
+    public Type type
 
     /**
      * Variable name
@@ -49,40 +51,21 @@ class Variable {
      * A variable may have multiple types. This field specifies the type of the variable.
      */
     enum Type {
-
         STRING("string"),
         BOOLEAN("boolean"),
         ANY("any"),
         NUMBER("number");
-        private final String value
-        private final static Map<String, Variable.Type> CONSTANTS = [:]
 
-        static {
-            for (Variable.Type c : values()) {
-                CONSTANTS.put(c.value, c)
-            }
-        }
+        @JsonValue
+        final String value
 
         Type(String value) {
             this.value = value
         }
 
-        @Override
-        String toString() {
-            return this.value
-        }
-
-        String value() {
-            return this.value
-        }
-
-        static Variable.Type fromValue(String value) {
-            Variable.Type constant = CONSTANTS.get(value)
-            if (constant == null) {
-                throw new IllegalArgumentException(value)
-            } else {
-                return constant
-            }
+        @JsonCreator
+        static Type fromValue(String value) {
+            return valueOf(value.toUpperCase())
         }
     }
 

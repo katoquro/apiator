@@ -1,6 +1,8 @@
 package com.ainrif.apiator.renderer.postman.model_2_1.request
 
 import com.ainrif.apiator.renderer.postman.model_2_1.UrlEncodedData
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonValue
 
 /**
  * This field contains the data usually contained in the request body.
@@ -35,17 +37,15 @@ class Body {
         URLENCODED("urlencoded"),
         FORMDATA("formdata"),
         FILE("file"),
+
+        @JsonValue
         final String value
 
         Mode(String value) {
             this.value = value
         }
 
-        @Override
-        String toString() {
-            return this.value
-        }
-
+        @JsonCreator
         static Mode fromValue(String value) {
             return valueOf(value.toUpperCase())
         }
