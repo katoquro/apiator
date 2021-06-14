@@ -22,7 +22,6 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.api.tasks.SourceSet
-import org.gradle.internal.cleanup.BuildOutputCleanupRegistry
 
 import static GradleUtils.hint
 import static com.ainrif.apiator.gradle.GradleUtils.assertArg
@@ -58,8 +57,6 @@ class ApiatorGradlePlugin implements Plugin<Project> {
 
             configureDependencyConstraints(prj)
             configureClasspath(prj, javaPluginConvention, apiatorSourceSet)
-
-            prj.getServices().get(BuildOutputCleanupRegistry).registerOutputs(apiatorSourceSet.getOutput())
 
             prj.tasks.register('apiator', ApiatorGradleTask, hint(ApiatorGradleTask) {
                 group = 'documentation'

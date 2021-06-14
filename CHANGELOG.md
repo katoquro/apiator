@@ -1,3 +1,6 @@
+v0.15.x
+- update: to Gradle 7.0
+
 v0.14.x - Upgrade
 
 - new: separate web-client module for html view
