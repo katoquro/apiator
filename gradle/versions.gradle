@@ -5,12 +5,12 @@ buildscript {
     repositories {
         maven {
             name = 'ajoberstar-backup'
-            url = 'https://ajoberstar.github.io/bintray-backup/'
+            url = 'https://ajoberstar.org/bintray-backup/'
         }
         mavenCentral()
     }
     dependencies {
-        classpath 'org.ajoberstar.grgit:grgit-core:4.0.1'
+        classpath 'org.ajoberstar.grgit:grgit-core:4.1.0'
     }
 }
 
