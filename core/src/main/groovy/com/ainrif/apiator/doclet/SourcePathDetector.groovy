@@ -53,7 +53,7 @@ class SourcePathDetector {
 
         def classNamesToFind = classNames.collect { it.split(/\$/).first() }.unique()
         def startDir = System.getProperty('user.dir')
-        def paths = []
+        def paths = new ArrayList<String>()
         for (int i = 0; i < MAX_STEP_OUT; i++) {
             def detectionResult = detectStartingFrom(startDir, classNamesToFind)
             paths += detectionResult.first

@@ -1,5 +1,7 @@
+
 v0.15.x
-- update: to Gradle 7.0
+- update: to Gradle 7.4
+- update: Groovy to 3.0.11 to support JDK17
 
 v0.14.x - Upgrade
 
